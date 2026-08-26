@@ -97,7 +97,7 @@ const HEADER = `
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.24 1z"/></svg>
           <span>0457&nbsp;357&nbsp;085</span>
         </a>
-        <a class="header-call" href="/#quote">Free Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+        <a class="header-call" href="/quote">Free Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
         <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false">
           <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
           <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
@@ -126,7 +126,7 @@ const HEADER = `
         <a href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a>
         <a href="mailto:info@turfandlandscaping.com.au">info@turfandlandscaping.com.au</a>
       </div>
-      <a class="btn btn--primary btn--block" href="/#quote">Request a Quote</a>
+      <a class="btn btn--primary btn--block" href="/quote">Request a Quote</a>
     </nav>
   </header>`;
 
@@ -172,7 +172,7 @@ ${SERVICE_REGIONS.map((r) => `            <li><a href="/#areas">${r.name}</a></l
             <li><a href="mailto:info@turfandlandscaping.com.au">info@turfandlandscaping.com.au</a></li>
             <li>${SERVICE_AREA_STRIP}</li>
             <li>Mon–Fri 7am–5pm · Sat 8am–2pm</li>
-            <li><a href="/#quote">Request a quote</a></li>
+            <li><a href="/quote">Request a quote</a></li>
           </ul>
         </div>
       </div>
@@ -187,7 +187,7 @@ ${SERVICE_REGIONS.map((r) => `            <li><a href="/#areas">${r.name}</a></l
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.24 1z"/></svg>
       Call
     </a>
-    <a class="bar-quote" href="/#quote">
+    <a class="bar-quote" href="/quote">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16v12H7l-3 3z"/></svg>
       Get a quote
     </a>
@@ -199,7 +199,7 @@ ${SERVICE_REGIONS.map((r) => `            <li><a href="/#areas">${r.name}</a></l
 
 function heroActions() {
   return `<div class="page-hero__actions">
-        <a class="btn btn--call" href="/#quote">Request a Quote</a>
+        <a class="btn btn--call" href="/quote">Request a Quote</a>
         <a class="btn btn--ondark" href="tel:${PHONE_TEL}">Call ${PHONE_DISPLAY}</a>
       </div>`;
 }
@@ -210,7 +210,7 @@ function ctaBand() {
         <p>Tell us about your yard and we'll come out, measure up and give you a clear fixed price — no obligation.</p>
         <div class="cta-band__actions">
           <a class="btn btn--call" href="tel:${PHONE_TEL}">Call ${PHONE_DISPLAY}</a>
-          <a class="btn btn--ondark" href="/#quote">Request a quote online</a>
+          <a class="btn btn--ondark" href="/quote">Request a quote online</a>
         </div>
       </div>`;
 }
