@@ -519,7 +519,7 @@ p  { margin: 0 0 1rem; }
 
 /* ---------- Process ---------- */
 .process { position: relative; }
-.process__grid { display: grid; gap: 1.6rem; grid-template-columns: 1fr; position: relative; align-items: start; }
+.process__grid { display: grid; gap: 1.6rem; grid-template-columns: 1fr; position: relative; }
 .process__card {
   background: var(--white-warm); border: 1px solid var(--line); border-radius: var(--r-md);
   box-shadow: var(--shadow-sm); padding: 1rem .95rem .9rem;
@@ -821,26 +821,27 @@ p  { margin: 0 0 1rem; }
   .values { grid-template-columns: repeat(2, 1fr); column-gap: 3rem; }
   .svc-row { grid-template-columns: repeat(3, 1fr); }
   .process__grid { grid-template-columns: repeat(4, 1fr); }
-  /* static track edge-to-edge… */
+  /* Static track through the vertical middle of the cards. Sits behind
+     the solid cards, so only the segments between them are visible. */
   .process__grid::before {
-    content: ""; position: absolute; top: 2.1rem; left: 0; right: 0;
-    height: 3px; border-radius: 999px; z-index: 0;
-    background: linear-gradient(90deg, transparent, #6aab80 8%, #6aab80 92%, transparent);
-    opacity: .55;
+    content: ""; position: absolute; top: 50%; left: 1rem; right: 1rem;
+    height: 2px; margin-top: -1px; border-radius: 999px; z-index: 0;
+    background: #86b697; opacity: .5;
   }
-  /* …plus a glowing pulse that travels start-to-end continuously */
+  /* Soft pulse travelling along the track — small halo so the glow only
+     reads on the exposed line segments, never around the cards. */
   .process__grid::after {
-    content: ""; position: absolute; top: calc(2.1rem - 1.5px); left: 0;
-    width: 140px; height: 6px; border-radius: 999px; z-index: 0;
-    background: radial-gradient(closest-side, #9fdcb2, #5c9a6e 60%, transparent);
-    box-shadow: 0 0 18px 5px rgba(106, 180, 128, .75);
-    animation: process-run 3.2s linear infinite;
+    content: ""; position: absolute; top: 50%; left: 0;
+    width: 90px; height: 4px; margin-top: -2px; border-radius: 999px; z-index: 0;
+    background: radial-gradient(closest-side, #8fcaa4, #6aab80 70%, transparent);
+    box-shadow: 0 0 7px 1px rgba(106, 180, 128, .45);
+    animation: process-run 3.6s linear infinite;
   }
   @keyframes process-run {
-    from { left: -140px; opacity: 0; }
-    8%   { opacity: 1; }
-    92%  { opacity: 1; }
-    to   { left: 100%; opacity: 0; }
+    from { left: 0; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    to   { left: calc(100% - 90px); opacity: 0; }
   }
   @media (prefers-reduced-motion: reduce) { .process__grid::after { display: none; } }
   .region-grid { grid-template-columns: repeat(2, 1fr); }
