@@ -32,17 +32,23 @@ function sign(payload) {
 }
 
 function verify(token) {
-  if (!token || token.indexOf(".") === -1) return null;
+  return verifyDetailed(token).session;
+}
+
+/* Returns {session, reason} so failures can be diagnosed precisely. */
+function verifyDetailed(token) {
+  if (!token) return { session: null, reason: "no_cookie" };
+  if (token.indexOf(".") === -1) return { session: null, reason: "bad_format" };
   const [body, mac] = token.split(".");
   const expect = crypto.createHmac("sha256", secret()).update(body).digest("base64url");
   const a = Buffer.from(mac), b = Buffer.from(expect);
-  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return { session: null, reason: "bad_signature" };
   try {
     const payload = JSON.parse(Buffer.from(body, "base64url").toString());
-    if (!payload.exp || payload.exp < Date.now()) return null;
-    if (allowedEmails().indexOf((payload.email || "").toLowerCase()) === -1) return null;
-    return payload;
-  } catch (e) { return null; }
+    if (!payload.exp || payload.exp < Date.now()) return { session: null, reason: "expired" };
+    if (allowedEmails().indexOf((payload.email || "").toLowerCase()) === -1) return { session: null, reason: "email_not_allowed" };
+    return { session: payload, reason: null };
+  } catch (e) { return { session: null, reason: "parse_error" }; }
 }
 
 /* ---------- cookies ---------- */
@@ -70,6 +76,10 @@ function clearSession(res) {
 
 function getSession(req) {
   return verify(parseCookies(req)[COOKIE]);
+}
+
+function getSessionDebug(req) {
+  return verifyDetailed(parseCookies(req)[COOKIE]);
 }
 
 /* Every data endpoint calls this first. Returns the session or ends the
@@ -115,4 +125,4 @@ function clearFailures(req, email) {
   attempts.delete(rateLimitKey(req, email));
 }
 
-module.exports = { allowedEmails, setSession, clearSession, getSession, requireAuth, checkRateLimit, recordFailure, clearFailures };
+module.exports = { allowedEmails, setSession, clearSession, getSession, getSessionDebug, requireAuth, checkRateLimit, recordFailure, clearFailures };

@@ -55,7 +55,11 @@
     }
     var data = null;
     try { data = await res.json(); } catch (e) {}
-    if (!res.ok) throw new Error((data && data.error) || "Request failed");
+    if (!res.ok) {
+      var msg = (data && data.error) || "Request failed";
+      if (data && data.reason) msg += " [" + data.reason + "]";
+      throw new Error(msg);
+    }
     return data;
   }
 
