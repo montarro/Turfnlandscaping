@@ -30,6 +30,11 @@ module.exports = async (req, res) => {
       body: JSON.stringify({ email: email.trim(), password }),
     });
     if (!r.ok) {
+      let detail = "";
+      try { detail = (await r.json()).error_description || ""; } catch (e) {}
+      if (r.status === 401 || /api key/i.test(detail)) {
+        return json(res, 503, { error: "Auth service key misconfigured — re-paste SUPABASE_ANON_KEY in Vercel [status " + r.status + "]" });
+      }
       recordFailure(req, email);
       return json(res, 401, { error: "Incorrect email or password" });
     }
