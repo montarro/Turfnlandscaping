@@ -20,9 +20,17 @@ module.exports = async (req, res) => {
       return json(res, 403, { error: "This account is not authorised" });
     }
 
-    const url = process.env.SUPABASE_URL;
-    const anon = process.env.SUPABASE_ANON_KEY;
-    if (!url || !anon) return json(res, 503, { error: "Authentication is not configured yet" });
+    /* Supabase's URL and anon key are PUBLIC client values (the anon key
+       ships to every browser in a standard Supabase app), so they live
+       here as defaults. A sanity check heals mangled env-var pastes —
+       a valid-looking env value still overrides. The service-role key
+       and session secret remain env-only secrets. */
+    const DEFAULT_URL = "https://podlutvvrclhxmhgupil.supabase.co";
+    const DEFAULT_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvZGx1dHZ2cmNsaHhtaGd1cGlsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3NTU0MDgsImV4cCI6MjEwMzMzMTQwOH0.myymQ_F_z5ApntC5_R2aqWfAswRmPf2RGoEO8K8faWY";
+    const envUrl = (process.env.SUPABASE_URL || "").trim();
+    const envAnon = (process.env.SUPABASE_ANON_KEY || "").trim();
+    const url = /^https:\/\/[a-z0-9]+\.supabase\.co$/.test(envUrl) ? envUrl : DEFAULT_URL;
+    const anon = (envAnon.startsWith("eyJ") && envAnon.length > 150) ? envAnon : DEFAULT_ANON;
 
     const r = await fetch(url.replace(/\/$/, "") + "/auth/v1/token?grant_type=password", {
       method: "POST",
