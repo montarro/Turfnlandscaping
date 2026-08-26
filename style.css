@@ -182,7 +182,14 @@ p  { margin: 0 0 1rem; }
   padding-inline: 1rem 0.6rem;
 }
 .brand { display: inline-flex; align-items: center; text-decoration: none; margin-right: auto; }
-.brand__logo { height: 46px; width: auto; display: block; }
+.brand__logo { height: 38px; width: auto; display: block; transition: height .2s ease; }
+
+/* Compact header once the page is scrolled */
+.site-header.is-scrolled { padding-top: .45rem; }
+.site-header.is-scrolled .site-header__inner { height: 58px; box-shadow: var(--shadow-sm); }
+.site-header.is-scrolled .brand__logo { height: 32px; }
+.site-header.is-scrolled .header-call { padding-block: .5rem; min-height: 42px; }
+.site-header__inner { transition: height .2s ease, box-shadow .2s ease; }
 
 .primary-nav { display: none; }
 .header-cta { display: flex; align-items: center; gap: .55rem; }
@@ -711,10 +718,16 @@ p  { margin: 0 0 1rem; }
 /* ---------- Responsive ---------- */
 @media (max-width: 819px) {
   .header-call { display: none; }
+  /* Icon-only round call button beside the hamburger */
   .header-phone {
-    background: var(--forest-800); color: #fff; padding: .55rem .85rem;
+    background: var(--forest-800); color: #fff;
+    width: 46px; height: 46px; padding: 0; border-radius: 50%; justify-content: center;
   }
   .header-phone:hover { background: var(--forest-700); color: #fff; }
+  .header-phone span { display: none; }
+  .header-phone svg { width: 1.25rem; height: 1.25rem; }
+  .site-header.is-scrolled .header-phone,
+  .site-header.is-scrolled .nav-toggle { width: 42px; height: 42px; }
 }
 @media (max-width: 559px) {
   .brand__logo { height: 40px; }

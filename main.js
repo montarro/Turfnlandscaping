@@ -153,6 +153,16 @@
     el.addEventListener("pointercancel", function () { dragging = false; });
   }
 
+  /* ---------- Compact header on scroll ---------- */
+  var header = document.querySelector(".site-header");
+  if (header) {
+    var updateHeader = function () {
+      header.classList.toggle("is-scrolled", window.scrollY > 24);
+    };
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    updateHeader();
+  }
+
   /* ---------- Mobile navigation ---------- */
   var toggle = document.querySelector(".nav-toggle");
   var mobileNav = document.getElementById("mobile-nav");
