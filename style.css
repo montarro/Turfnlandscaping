@@ -749,8 +749,12 @@ body { background: #faf8f3; }
 .quote-section .hero__panel { max-width: 34rem; }
 
 /* ---------- Subtle entrance animation ---------- */
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
-.reveal.is-visible { opacity: 1; transform: none; }
+/* Content stays visible by default. The hiding half of this animation only
+   applies once main.js has confirmed it's running (via the .js class on
+   <html>) — so a JS failure never leaves real content (the quote form, the
+   service-area accordion, etc.) permanently invisible. */
+.js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+.js .reveal.is-visible { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
 }

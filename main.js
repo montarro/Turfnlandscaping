@@ -5,6 +5,12 @@
 (function () {
   "use strict";
 
+  /* Marks the page as JS-active so CSS can safely hide .reveal content for
+     animation — set here (not in an inline <head> script) so that if this
+     file fails to load or run for any reason, the class never gets added
+     and .reveal content just stays visible (see .js .reveal in style.css). */
+  document.documentElement.classList.add("js");
+
   /* -------------------------------------------------------------------
      QUOTE FORM WEBHOOK
      Paste the webhook URL supplied by the client between the quotes.
