@@ -332,7 +332,7 @@ p  { margin: 0 0 1rem; }
 .float-card__body { display: flex; flex-direction: column; line-height: 1.15; }
 .float-card__body strong { font-family: var(--font-display); font-weight: 800; color: var(--forest-900); font-size: 1.1rem; }
 .float-card__body span { color: var(--muted); font-size: .78rem; font-weight: 600; white-space: nowrap; }
-.float-card--customers { top: 6%; left: 26%; }
+.float-card--customers { top: 22%; left: 26%; }
 .float-card--turnaround { bottom: -4%; right: 27%; }
 .float-card--areas { bottom: 10%; left: -.4rem; }
 .hero-strip__badge {
