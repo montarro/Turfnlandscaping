@@ -31,9 +31,9 @@
 /* ---------- Tokens ---------- */
 :root {
   /* Surfaces */
-  --cream:      #f6f3ea;   /* page ground */
-  --cream-deep: #efeadd;   /* alt band */
-  --white-warm: #fffdf8;   /* cards */
+  --cream:      #faf8f2;   /* page ground */
+  --cream-deep: #f3efe6;   /* alt band */
+  --white-warm: #ffffff;   /* cards */
   --sage-100:   #e9efdd;   /* pale sage card */
   --sage-200:   #dde6cc;
   --forest-950: #16291d;
@@ -104,6 +104,13 @@ p  { margin: 0 0 1rem; }
 .wrap { width: 100%; max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gutter); }
 .section { padding-block: clamp(3.4rem, 9vw, 6.5rem); }
 .section--tint { background: var(--cream-deep); }
+.section--dark { background: linear-gradient(165deg, var(--forest-800), var(--forest-950)); }
+.section--dark h2, .section--dark h3 { color: #fff; }
+.section--dark .lead { color: #c3d2bd; }
+.section--dark .values { border-top-color: rgba(255,255,255,.16); }
+.section--dark .value { border-bottom-color: rgba(255,255,255,.12); }
+.section--dark .value__num { color: #9db88a; }
+.section--dark .value__body p { color: #b9c9b3; }
 .section__head { max-width: 47rem; margin-bottom: clamp(1.8rem, 4.5vw, 3rem); }
 .section__head--center { margin-inline: auto; text-align: center; }
 .lead { font-size: clamp(1.05rem, 2.3vw, 1.2rem); color: var(--muted); }
