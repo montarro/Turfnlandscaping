@@ -25,12 +25,14 @@ const SLOTS = {
   walls:   "service-retaining-walls",
   soft:    "service-soft-landscaping",
   design:  "service-garden-design",
+  founder: "founder-sebastian-caus",
 };
 
 // slot -> [width, height] so each photo is cropped to the ratio the layout expects
 const SIZES = {
   "hero-landscaping-northwest-melbourne": [1920, 1080],
   "og-turf-and-landscaping": [1200, 630],
+  "founder-sebastian-caus": [960, 1200],   // 4:5 portrait, matches the founder panel
 };
 const SERVICE_SIZE = [1200, 750];
 const GALLERY_SIZE = [1200, 900];
