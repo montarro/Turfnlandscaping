@@ -153,6 +153,21 @@
     el.addEventListener("pointercancel", function () { dragging = false; });
   }
 
+  /* ---------- Hero background video ----------
+     The <video> layers over the hero photo. Remove it (leaving the photo)
+     when the visitor prefers reduced motion or has data-saver on, and if
+     autoplay is blocked let the poster/photo show instead. */
+  var heroVideo = document.querySelector(".hero__video");
+  if (heroVideo) {
+    var saveData = navigator.connection && navigator.connection.saveData;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || saveData) {
+      heroVideo.remove();
+    } else {
+      var p = heroVideo.play();
+      if (p && p.catch) { p.catch(function () { heroVideo.remove(); }); }
+    }
+  }
+
   /* ---------- Compact header on scroll ---------- */
   var header = document.querySelector(".site-header");
   if (header) {
