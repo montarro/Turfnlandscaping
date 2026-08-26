@@ -182,16 +182,6 @@ ${SERVICE_REGIONS.map((r) => `            <li><a href="/#areas">${r.name}</a></l
       </div>
     </div>
   </footer>
-  <nav class="mobile-bar" aria-label="Quick contact">
-    <a class="bar-call" href="tel:${PHONE_TEL}">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.24 1z"/></svg>
-      Call
-    </a>
-    <a class="bar-quote" href="/quote">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16v12H7l-3 3z"/></svg>
-      Get a quote
-    </a>
-  </nav>
   <script src="/main.js" defer></script>
   <script>var y=document.getElementById("year"); if(y) y.textContent=new Date().getFullYear();</script>
 </body>

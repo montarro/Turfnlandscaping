@@ -1,7 +1,10 @@
 /* =====================================================================
    /quote — three-step quote wizard
-   Step 1: pick a service · Step 2: conditional project details +
-   optional add-ons · Step 3: contact details + summary + submit.
+   Step 1: residential/commercial + service · Step 2: pathway-specific
+   project details + optional add-ons · Step 3: contact details +
+   summary + submit.
+   Residential keeps questions to an absolute minimum; the detailed
+   technical questions only appear on the commercial pathway.
    All answers live in `answers` so moving back/forward never loses
    anything. Plain JS, no dependencies.
    ===================================================================== */
@@ -22,6 +25,8 @@
 
   /* ---------------- Config ---------------- */
   var ICONS = {
+    home: '<path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10"/><path d="M10 20v-5h4v5"/>',
+    commercial: '<path d="M3 21h18M5 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M15 9h4a1 1 0 0 1 1 1v11M8 8h1.5M8 12h1.5M8 16h1.5M12 8h.5M12 12h.5M12 16h.5"/>',
     turf: '<path d="M4 20c1-5 2-9 2-14M9 20c1.5-4 2.5-8 2.5-12M15 20c1-3.5 1.8-7 1.8-10M20 20c.7-2.5 1.2-5 1.2-7"/>',
     synthetic: '<path d="M4 20h16M6 20V9M10 20V6M14 20V9M18 20V6"/><path d="M4 4l2 2M20 4l-2 2"/>',
     pavers: '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/>',
@@ -31,6 +36,11 @@
     transform: '<path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="3.5"/>',
     help: '<path d="M4 5h16v11H8l-4 4z"/><path d="M10 9.5a2 2 0 1 1 2.6 1.9c-.5.2-.6.5-.6 1.1M12 14.6h.01"/>'
   };
+
+  var CUSTOMER_TYPES = [
+    { id: "residential", name: "My Home", icon: "home", desc: "Residential turf, landscaping and garden projects." },
+    { id: "commercial", name: "Commercial", icon: "commercial", desc: "For businesses, builders, developers, property managers and body corporates." }
+  ];
 
   var SERVICES = [
     { id: "natural-turf", name: "Natural Turf Installation", icon: "turf", desc: "New natural lawns supplied and laid on properly prepared ground." },
@@ -50,91 +60,100 @@
   function sel(id, label, options, opts) { return Object.assign({ type: "select", id: id, label: label, options: options }, opts || {}); }
   function radio(id, label, options, opts) { return Object.assign({ type: "radio", id: id, label: label, options: options }, opts || {}); }
   function chips(id, label, options, opts) { return Object.assign({ type: "chips", id: id, label: label, options: options }, opts || {}); }
+  function file(id, label, opts) { return Object.assign({ type: "file", id: id, label: label }, opts || {}); }
 
-  var TURF_FIELDS = [
-    num("area_m2", "Approximate area (m²)", { placeholder: "e.g. 45" }),
+  /* ---------------- Residential pathway ---------------- */
+  var RES_CORE = [
+    txt("suburb", "Project suburb or postcode", { required: true, placeholder: "e.g. Werribee or 3030", autocomplete: "address-level2" }),
+    txt("approx_size", "Approximate size, if known", { placeholder: "e.g. about 50 m², or 'small courtyard' — optional" }),
+    area("description", "What would you like us to do?", { placeholder: "e.g. replace the old lawn out the back and tidy up the garden beds." }),
+    sel("timing", "Desired timing (optional)", ["As soon as possible", "Within one month", "Within three months", "Just planning"]),
+    file("photos", "Photos of the area (optional)")
+  ];
+  /* Helpful-but-optional extras, collapsed by default and never required */
+  var RES_MORE = [
+    radio("surface", "Current surface", ["Soil", "Existing lawn", "Concrete", "Gravel", "Garden bed", "Other"]),
+    radio("access", "Site access", ["Easy", "Limited", "Stairs / narrow access", "Unsure"]),
+    txt("material", "Any material or style preferences?", { placeholder: "e.g. bluestone, native plants — or leave blank" })
+  ];
+
+  var RES_ADDONS = {
+    "natural-turf": ["Irrigation System Repairs", "Lawn Mowing", "Turf Repair & Patching", "Weed Control & Spraying"],
+    "synthetic-turf": ["Irrigation System Repairs", "Lawn Mowing", "Turf Repair & Patching", "Weed Control & Spraying"],
+    "retaining-walls": ["Natural or Synthetic Turf", "Plants & Mulch", "Paving"],
+    "pavers": ["Natural or Synthetic Turf", "Garden Beds", "Plants & Mulch"],
+    "hard-landscaping": ["Natural or Synthetic Turf", "Garden Beds", "Plants & Mulch"],
+    "soft-landscaping": ["Garden Care", "Irrigation System Repairs", "Hedge Trimming & Pruning"],
+    "transformation": ["Ongoing Property Maintenance", "Lawn Mowing", "Garden Care"],
+    "help": ["Ongoing Property Maintenance", "Lawn Mowing", "Garden Care"]
+  };
+
+  /* ---------------- Commercial pathway ---------------- */
+  var COM_FIELDS = [
+    txt("business_name", "Business or organisation name", { required: true }),
+    txt("suburb", "Project suburb or postcode", { required: true, placeholder: "e.g. Werribee or 3030", autocomplete: "address-level2" }),
+    sel("org_type", "Type of organisation", ["Business", "Builder", "Developer", "Property Manager", "Body Corporate", "School or Childcare", "Council or Government", "Other"]),
+    sel("site_type", "Site type", ["Office", "Retail", "Industrial", "Apartment or Body Corporate", "New Development", "Public Space", "Education", "Other"]),
+    radio("engagement", "One-off project or ongoing contract?", ["One-off project", "Ongoing contract", "Unsure"]),
+    num("site_count", "Number of properties or sites", { placeholder: "e.g. 1" }),
+    txt("approx_size", "Estimated project area or relevant dimensions", { placeholder: "e.g. 400 m², or 60m of walls" }),
+    chips("required_services", "Required services", ["Natural turf", "Synthetic turf", "Pavers & stepping stones", "Retaining walls", "Hard landscaping", "Soft landscaping & planting", "Garden design", "Other"], { required: true }),
+    area("description", "Project scope or description", { placeholder: "Outline the scope, deliverables and any constraints." }),
+    txt("timing", "Required completion date or project timeline", { placeholder: "e.g. by end of November, or Q1 next year" }),
+    txt("site_access", "Site access and working-hour restrictions", { placeholder: "e.g. induction required, work 9am–3pm only" }),
+    txt("tender_deadline", "Tender or quote deadline (if applicable)", { placeholder: "e.g. quotes close 15th" }),
+    txt("po_requirements", "Purchase-order or supplier requirements (if applicable)", { placeholder: "e.g. PO number required, supplier registration" }),
+    sel("budget", "Indicative budget (optional)", ["Under $5,000", "$5,000 – $15,000", "$15,000 – $30,000", "$30,000+", "Prefer to discuss"]),
+    file("photos", "Supporting files (optional)", { accept: "image/*,.pdf,.doc,.docx", note: "Site photos, plans, scope or tender documents — up to " + MAX_FILES + " files, 10MB each." })
+  ];
+
+  /* Detailed technical questions — commercial pathway only. Shown for each
+     selected required service that has a matching block. */
+  var TURF_ADVANCED = [
     radio("shape", "Lawn shape (optional — helps us calculate)", ["Rectangle / Square", "L-Shape", "Circle", "Irregular"]),
     num("length_m", "Length (metres)", { showIf: { shape: "Rectangle / Square" }, placeholder: "e.g. 9" }),
     num("width_m", "Width (metres)", { showIf: { shape: "Rectangle / Square" }, placeholder: "e.g. 5" }),
     radio("surface", "Current surface", ["Soil", "Existing lawn", "Concrete", "Gravel", "Garden bed", "Other"]),
-    radio("install_type", "What do you need?", ["Supply and install", "Installation only", "Unsure — please advise"]),
+    radio("install_type", "Supply and install, or installation only?", ["Supply and install", "Installation only", "Unsure — please advise"]),
     chips("prep", "Site preparation", ["Ground preparation required", "Old turf or surface removal required"])
   ];
-
-  var STEP2 = {
-    "natural-turf": TURF_FIELDS,
-    "synthetic-turf": TURF_FIELDS,
-    "pavers": [
-      num("area_m2", "Approximate area (m²)", { placeholder: "e.g. 20" }),
-      radio("pv_type", "What are you after?", ["Pavers", "Stepping stones", "Both"]),
-      radio("surface", "Current ground surface", ["Soil", "Existing lawn", "Concrete", "Gravel", "Garden bed", "Other"]),
-      txt("material", "Preferred material or style", { placeholder: "e.g. bluestone, concrete pavers — or 'Unsure'" }),
-      radio("job_type", "Type of job", ["New installation", "Replacement", "Repair"]),
-      chips("extras", "Anything else we should know?", ["Ground preparation required", "Drainage concerns"])
-    ],
-    "retaining-walls": [
+  var COM_ADVANCED = {
+    "Natural turf": { key: "turf", title: "Turf details", fields: TURF_ADVANCED },
+    "Synthetic turf": { key: "turf", title: "Turf details", fields: TURF_ADVANCED },
+    "Pavers & stepping stones": { key: "pavers", title: "Paving details", fields: [
+      radio("pv_type", "Pavers, stepping stones or both?", ["Pavers", "Stepping stones", "Both"]),
+      txt("pv_material", "Preferred material or style", { placeholder: "e.g. bluestone — or 'Unsure'" }),
+      radio("pv_job_type", "Type of job", ["New installation", "Replacement", "Repair"]),
+      chips("pv_extras", "Anything else we should know?", ["Ground preparation required", "Drainage concerns"])
+    ] },
+    "Retaining walls": { key: "walls", title: "Retaining wall details", fields: [
       num("wall_length_m", "Approximate wall length (metres)", { placeholder: "e.g. 12" }),
       num("wall_height_m", "Approximate maximum height (metres)", { placeholder: "e.g. 0.8", step: "0.1" }),
-      radio("job_type", "Type of job", ["New wall", "Replacement", "Repair"]),
-      txt("material", "Preferred material", { placeholder: "e.g. timber sleepers, concrete sleepers, block — or 'Unsure'" }),
-      radio("drainage", "Existing drainage concerns?", ["Yes", "No", "Unsure"]),
+      radio("wall_job_type", "Type of job", ["New wall", "Replacement", "Repair"]),
+      txt("wall_material", "Preferred material", { placeholder: "e.g. concrete sleepers — or 'Unsure'" }),
+      radio("wall_drainage", "Existing drainage concerns?", ["Yes", "No", "Unsure"]),
       radio("machinery", "Machinery access", ["Easy access", "Restricted access"])
-    ],
-    "hard-landscaping": [
-      chips("hl_services", "Services required", ["Paving", "Pathways", "Edging", "Retaining walls", "Garden structures", "Other"], { required: true }),
-      num("area_m2", "Approximate project area (m²)", { placeholder: "e.g. 60" }),
-      radio("surface", "Existing surface", ["Soil", "Existing lawn", "Concrete", "Gravel", "Garden bed", "Other"]),
-      radio("drainage", "Drainage requirements?", ["Yes", "No", "Unsure"]),
-      radio("demolition", "Demolition or removal required?", ["Yes", "No", "Unsure"]),
-      txt("material", "Material preferences", { placeholder: "e.g. bluestone, exposed aggregate — or 'Unsure'" })
-    ],
-    "soft-landscaping": [
-      num("area_m2", "Approximate garden area (m²)", { placeholder: "e.g. 30" }),
-      chips("sl_services", "Services required", ["Planting", "Garden beds", "Mulch", "Soil improvement", "Edging", "Garden redesign"], { required: true }),
-      radio("garden_state", "Existing garden or new garden?", ["Existing garden", "New garden"]),
+    ] },
+    "Hard landscaping": { key: "hardls", title: "Hard landscaping details", fields: [
+      chips("hl_services", "Work required", ["Paving", "Pathways", "Edging", "Retaining walls", "Garden structures", "Other"]),
+      radio("hl_drainage", "Drainage requirements?", ["Yes", "No", "Unsure"]),
+      radio("hl_demolition", "Demolition or removal required?", ["Yes", "No", "Unsure"]),
+      txt("hl_material", "Material preferences", { placeholder: "e.g. exposed aggregate — or 'Unsure'" })
+    ] },
+    "Soft landscaping & planting": { key: "softls", title: "Soft landscaping details", fields: [
+      chips("sl_services", "Work required", ["Planting", "Garden beds", "Mulch", "Soil improvement", "Edging", "Garden redesign"]),
       radio("sun", "Sun conditions", ["Full sun", "Part shade", "Mostly shade", "Unsure"]),
-      txt("style", "Preferred style or colours", { placeholder: "e.g. native, low-maintenance, cottage" }),
       radio("irrigation", "Irrigation currently installed?", ["Yes", "No", "Unsure"])
-    ],
-    "transformation": [
-      chips("components", "What should the project include?", ["Natural turf", "Synthetic turf", "Pavers", "Stepping stones", "Retaining walls", "Garden beds", "Plants", "Mulch", "Irrigation", "Garden maintenance", "Other"], { required: true }),
-      num("area_m2", "Approximate total project area (m²)", { placeholder: "e.g. 120" }),
-      area("outcome", "What's the main outcome you want?", { placeholder: "e.g. a low-maintenance backyard the kids can use all year" }),
-      radio("condition", "Existing property condition", ["Bare / new build", "Tired but usable", "Overgrown", "Partly finished", "Other"]),
-      radio("demolition", "Demolition or removal needed?", ["Yes", "No", "Unsure"]),
-      sel("budget", "Indicative budget (optional)", ["Under $5,000", "$5,000 – $15,000", "$15,000 – $30,000", "$30,000+", "Prefer to discuss"])
-    ],
-    "help": [
-      area("improve", "What would you like to improve about your outdoor space?", { required: true, placeholder: "Tell us what's bothering you about the space, or what you'd love it to become." }),
-      num("area_m2", "Approximate area (m²)", { placeholder: "A rough guess is fine" }),
-      radio("condition", "Current condition", ["Bare / new build", "Tired but usable", "Overgrown", "Partly finished", "Other"]),
-      area("outcome", "Desired outcome", { placeholder: "e.g. somewhere to entertain, easier upkeep, better street appeal" }),
-      sel("call_time", "Preferred time for Sebastian to discuss the project", ["Weekday mornings", "Weekday afternoons", "Saturday", "Any time"])
-    ]
+    ] }
+  };
+  /* Map the step-1 primary service to a default required-services selection */
+  var SERVICE_TO_REQ = {
+    "natural-turf": "Natural turf", "synthetic-turf": "Synthetic turf",
+    "pavers": "Pavers & stepping stones", "retaining-walls": "Retaining walls",
+    "hard-landscaping": "Hard landscaping", "soft-landscaping": "Soft landscaping & planting"
   };
 
-  var COMMON_FIELDS = [
-    txt("suburb", "Project suburb or postcode", { required: true, placeholder: "e.g. Werribee or 3030", autocomplete: "address-level2" }),
-    radio("property_type", "Property type", ["Residential", "Commercial", "Body corporate", "Other"], { required: true }),
-    sel("timing", "Desired project timing", ["As soon as possible", "Within 1–3 months", "3–6 months", "Just planning for now"], { required: true }),
-    radio("access", "Site access", ["Easy", "Limited", "Stairs / narrow access", "Unsure"], { required: true }),
-    area("description", "Short project description", { placeholder: "Anything else that helps us understand the job." }),
-    { type: "file", id: "photos", label: "Photos of the area (optional)" }
-  ];
-
-  var ADDONS = {
-    turf: ["Irrigation System Repairs", "Turf Repair & Patching", "Lawn Mowing", "Weed Control & Spraying", "Ongoing Property Maintenance"],
-    hard: ["Natural or Synthetic Turf", "Plants & Mulch", "Garden Bed Installation", "Irrigation System Repairs", "Ongoing Property Maintenance"],
-    soft: ["Irrigation System Repairs", "Garden Care", "Hedge Trimming & Pruning", "Weed Control & Spraying", "Lawn Mowing"],
-    transform: ["Lawn Mowing", "Garden Care", "Hedge Trimming & Pruning", "Weed Control & Spraying", "Irrigation Maintenance", "Ongoing Property Maintenance"]
-  };
-  function addonsFor(serviceId) {
-    if (serviceId === "natural-turf" || serviceId === "synthetic-turf") return ADDONS.turf;
-    if (serviceId === "pavers" || serviceId === "retaining-walls" || serviceId === "hard-landscaping") return ADDONS.hard;
-    if (serviceId === "soft-landscaping") return ADDONS.soft;
-    if (serviceId === "transformation" || serviceId === "help") return ADDONS.transform;
-    return [];
-  }
+  var COM_ADDONS = ["Scheduled Lawn Mowing", "Property Maintenance", "Garden Care", "Irrigation System Repairs", "Weed Control and Spraying", "Hedge Trimming and Pruning", "Turf Repair and Patching"];
 
   /* ---------------- State ---------------- */
   var answers = { addons: [] };
@@ -151,6 +170,7 @@
   function svgIcon(name) {
     return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">' + ICONS[name] + "</svg>";
   }
+  function isRes() { return answers.customer_type === "residential"; }
 
   /* ---------------- Progress ---------------- */
   function renderProgress() {
@@ -184,42 +204,55 @@
     }
   }
 
-  /* ---------------- Step 1 ---------------- */
+  function cardHtml(groupName, item, checked) {
+    return '<label class="qcard">' +
+      '<input type="radio" name="' + groupName + '" value="' + item.id + '"' + (checked ? " checked" : "") + ' />' +
+      '<span class="qcard__icon">' + svgIcon(item.icon) + "</span>" +
+      '<span class="qcard__name">' + esc(item.name) + "</span>" +
+      '<span class="qcard__desc">' + esc(item.desc) + "</span>" +
+      '<span class="qcard__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg></span>' +
+      "</label>";
+  }
+
+  /* ---------------- Step 1: customer type, then service ---------------- */
   function renderStep1() {
-    var html = '<h2 class="qstep__title">What can we help you with?</h2>' +
+    var html = '<h2 class="qstep__title">Is this for your home or a commercial property?</h2>' +
+      '<div class="qcards qcards--type" role="radiogroup" aria-label="Project type">';
+    CUSTOMER_TYPES.forEach(function (t) { html += cardHtml("ctype", t, answers.customer_type === t.id); });
+    html += "</div>" +
+      '<div class="qservices" id="q-services"' + (answers.customer_type ? "" : " hidden") + ">" +
+      '<h2 class="qstep__title">What can we help you with?</h2>' +
       '<p class="qstep__sub">Choose the service that best matches your project. Not sure? Select ‘Help Me Choose’ and tell us what you want to achieve.</p>' +
       '<div class="qcards" role="radiogroup" aria-label="Service">';
-    SERVICES.forEach(function (s) {
-      html += '<label class="qcard">' +
-        '<input type="radio" name="service" value="' + s.id + '"' + (answers.service === s.id ? " checked" : "") + ' />' +
-        '<span class="qcard__icon">' + svgIcon(s.icon) + "</span>" +
-        '<span class="qcard__name">' + esc(s.name) + "</span>" +
-        '<span class="qcard__desc">' + esc(s.desc) + "</span>" +
-        '<span class="qcard__check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12l5 5 9-10"/></svg></span>' +
-        "</label>";
-    });
-    html += "</div>" +
+    SERVICES.forEach(function (s) { html += cardHtml("service", s, answers.service === s.id); });
+    html += "</div></div>" +
       '<p class="qerror" role="alert" hidden></p>' +
       '<div class="qnav"><span></span><button class="btn btn--primary btn--lg" type="button" data-next>Next: Project Details <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></button></div>';
     stepsEl.innerHTML = html;
 
-    stepsEl.querySelectorAll('input[name="service"]').forEach(function (input) {
+    var servicesBox = document.getElementById("q-services");
+    stepsEl.querySelectorAll('input[name="ctype"]').forEach(function (input) {
       input.addEventListener("change", function () {
-        if (answers.service !== input.value) {
-          /* new service — clear old service-specific answers but keep common ones */
-          var keep = ["suburb", "property_type", "timing", "access", "description"];
-          var next = { addons: [] };
-          keep.forEach(function (k) { if (answers[k]) next[k] = answers[k]; });
-          next.service = input.value;
-          answers = next;
+        answers.customer_type = input.value;
+        if (servicesBox.hidden) {
+          servicesBox.hidden = false;
+          servicesBox.classList.add("qreveal");
         }
         setError("");
       });
     });
+    stepsEl.querySelectorAll('input[name="service"]').forEach(function (input) {
+      input.addEventListener("change", function () { answers.service = input.value; setError(""); });
+    });
     stepsEl.querySelector("[data-next]").addEventListener("click", function () {
-      var chosen = stepsEl.querySelector('input[name="service"]:checked');
-      if (!chosen) { setError("Please choose a service to continue."); return; }
-      answers.service = chosen.value;
+      if (!answers.customer_type) { setError("Please tell us whether this is for your home or a commercial property."); return; }
+      if (!answers.service) { setError("Please choose a service to continue."); return; }
+      /* Commercial: make sure the primary service is pre-selected in required services */
+      if (!isRes()) {
+        var req = SERVICE_TO_REQ[answers.service];
+        answers.required_services = answers.required_services || [];
+        if (req && answers.required_services.indexOf(req) === -1) answers.required_services.push(req);
+      }
       goTo(2);
     });
   }
@@ -228,7 +261,7 @@
   function fieldHtml(f) {
     var req = f.required ? ' <span class="req" aria-hidden="true">*</span>' : "";
     var val = answers[f.id];
-    var h = '<div class="qfield" data-field="' + f.id + '"' + (f.showIf ? ' data-showif="' + esc(JSON.stringify(f.showIf)) + '"' : "") + ">";
+    var h = '<div class="qfield" data-field="' + f.id + '"' + (f.showIf ? ' data-showif="1"' : "") + ">";
     h += '<span class="qfield__label" id="lbl-' + f.id + '">' + esc(f.label) + req + "</span>";
 
     if (f.type === "number" || f.type === "text") {
@@ -256,8 +289,8 @@
       });
       h += "</div>";
     } else if (f.type === "file") {
-      h += '<input class="field__file" type="file" id="qf-photos" accept="image/*" multiple aria-labelledby="lbl-' + f.id + '" />' +
-        '<p class="field__note">Up to ' + MAX_FILES + " photos, 10MB each. A couple of quick snaps helps us quote accurately.</p>" +
+      h += '<input class="field__file" type="file" id="qf-photos" accept="' + (f.accept || "image/*") + '" multiple aria-labelledby="lbl-' + f.id + '" />' +
+        '<p class="field__note">' + esc(f.note || ("Up to " + MAX_FILES + " photos, 10MB each. A couple of quick snaps helps us quote accurately.")) + "</p>" +
         '<ul class="filelist" id="q-photo-list"></ul>';
     }
     h += "</div>";
@@ -267,7 +300,7 @@
   function collectField(f) {
     if (f.type === "radio") {
       var r = stepsEl.querySelector('input[name="qf-' + f.id + '"]:checked');
-      answers[f.id] = r ? r.value : undefined;
+      if (r) answers[f.id] = r.value;
     } else if (f.type === "chips") {
       var vals = [];
       stepsEl.querySelectorAll('input[name="qf-' + f.id + '"]:checked').forEach(function (c) { vals.push(c.value); });
@@ -306,29 +339,76 @@
     });
   }
 
+  function bindPhotoInput() {
+    var photoInput = document.getElementById("qf-photos");
+    if (!photoInput) return;
+    photoInput.addEventListener("change", function () {
+      var files = Array.prototype.slice.call(photoInput.files);
+      var problem = "";
+      if (files.length > MAX_FILES) problem = "Please choose no more than " + MAX_FILES + " files.";
+      files.forEach(function (fl) {
+        if (fl.size > MAX_BYTES) problem = '"' + fl.name + '" is too large — please keep files under 10MB.';
+      });
+      if (problem) { setError(problem); photoInput.value = ""; return; }
+      setError("");
+      photoFiles = files;
+      renderPhotoList();
+    });
+    renderPhotoList();
+  }
+
   /* ---------------- Step 2 ---------------- */
+  function step2Fields() {
+    if (isRes()) return RES_CORE.concat(RES_MORE);
+    var fields = COM_FIELDS.slice();
+    var seen = {};
+    (answers.required_services || []).forEach(function (name) {
+      var block = COM_ADVANCED[name];
+      if (block && !seen[block.key]) { seen[block.key] = true; fields = fields.concat(block.fields); }
+    });
+    return fields;
+  }
+
   function renderStep2() {
     var svc = serviceById(answers.service);
-    var fields = STEP2[answers.service] || [];
-    var addons = addonsFor(answers.service);
+    var html;
 
-    var html = '<h2 class="qstep__title">Tell us about your ' + esc(svc ? svc.name.toLowerCase().replace(" installation", "") : "project") + " project</h2>" +
-      '<p class="qstep__sub">A rough idea is fine — we confirm everything on-site.</p>' +
-      '<div class="qgroup">';
-    fields.forEach(function (f) { html += fieldHtml(f); });
-    html += "</div>" +
-      '<h3 class="qgroup__title">About the site</h3><div class="qgroup">';
-    COMMON_FIELDS.forEach(function (f) { html += fieldHtml(f); });
-    html += "</div>";
+    if (isRes()) {
+      html = '<h2 class="qstep__title">Tell us a little about your project</h2>' +
+        '<p class="qstep__sub">A rough idea is all we need — no exact measurements or technical details required.</p>' +
+        '<div class="qgroup">';
+      RES_CORE.forEach(function (f) { html += fieldHtml(f); });
+      html += "</div>";
+      html += '<details class="qmore"><summary>Know a few more details? <span>Optional</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="qgroup qmore__body">';
+      RES_MORE.forEach(function (f) { html += fieldHtml(f); });
+      html += "</div></details>";
+      html += '<p class="qreassure">Not sure about the details? That’s completely fine — Sebastian can confirm everything with you.</p>';
 
-    if (addons.length) {
-      html += '<h3 class="qgroup__title">Would you like help with anything else?</h3>' +
-        '<p class="qstep__sub">Add any ongoing care or related work you would like included in the conversation.</p>' +
-        '<div class="qpills qpills--addons" role="group" aria-label="Optional add-ons">';
-      addons.forEach(function (o) {
+      var addons = RES_ADDONS[answers.service] || [];
+      if (addons.length) {
+        html += '<h3 class="qgroup__title">Would you like help with anything else?</h3>' +
+          '<p class="qstep__sub">Add any ongoing care or related work you would like included in the conversation.</p>' +
+          '<div class="qpills qpills--addons" role="group" aria-label="Optional add-ons">';
+        addons.forEach(function (o) {
+          html += '<label class="qpill"><input type="checkbox" name="qf-addons" value="' + esc(o) + '"' + (answers.addons.indexOf(o) !== -1 ? " checked" : "") + ' /><span>' + esc(o) + "</span></label>";
+        });
+        html += "</div>";
+      }
+    } else {
+      html = '<h2 class="qstep__title">Tell us about the commercial project</h2>' +
+        '<p class="qstep__sub">Provide the available scope and site information so we can assess the project accurately.</p>' +
+        '<div class="qgroup" id="q-com-fields">';
+      COM_FIELDS.forEach(function (f) { html += fieldHtml(f); });
+      html += "</div>";
+      html += '<div id="q-com-advanced"></div>';
+
+      html += '<h3 class="qgroup__title">Additional services required</h3>' +
+        '<div class="qpills qpills--addons" role="group" aria-label="Additional services">';
+      COM_ADDONS.forEach(function (o) {
         html += '<label class="qpill"><input type="checkbox" name="qf-addons" value="' + esc(o) + '"' + (answers.addons.indexOf(o) !== -1 ? " checked" : "") + ' /><span>' + esc(o) + "</span></label>";
       });
       html += "</div>";
+      html += fieldHtml(radio("maintenance_program", "Would you like to discuss an ongoing maintenance program?", ["Yes", "No", "Unsure"]));
     }
 
     html += '<p class="qerror" role="alert" hidden></p>' +
@@ -338,65 +418,77 @@
       "</div>";
     stepsEl.innerHTML = html;
 
-    var all = fields.concat(COMMON_FIELDS);
+    if (!isRes()) renderComAdvanced();
+    var all = currentFields();
     refreshConditionals(all);
 
-    /* live conditional + auto-area behaviour */
-    stepsEl.addEventListener("change", function (e) {
-      var t = e.target;
-      all.forEach(function (f) {
-        if ("qf-" + f.id === t.name || "qf-" + f.id === t.id) collectField(f);
-      });
-      refreshConditionals(all);
-      /* rectangle calculator: auto-fill the area from length x width (+10%) */
-      if (t.id === "qf-length_m" || t.id === "qf-width_m" || t.name === "qf-shape") {
-        var l = parseFloat((document.getElementById("qf-length_m") || {}).value);
-        var w = parseFloat((document.getElementById("qf-width_m") || {}).value);
-        var areaEl = document.getElementById("qf-area_m2");
-        if (areaEl && l > 0 && w > 0 && answers.shape === "Rectangle / Square") {
-          areaEl.value = Math.round(l * w * 1.1);
-        }
-      }
-    });
+    stepsEl.addEventListener("change", onStep2Change);
+    bindPhotoInput();
 
-    var photoInput = document.getElementById("qf-photos");
-    if (photoInput) {
-      photoInput.addEventListener("change", function () {
-        var files = Array.prototype.slice.call(photoInput.files);
-        var problem = "";
-        if (files.length + 0 > MAX_FILES) problem = "Please choose no more than " + MAX_FILES + " photos.";
-        files.forEach(function (fl) {
-          if (fl.type && fl.type.indexOf("image/") !== 0) problem = '"' + fl.name + "\" isn't an image file.";
-          if (fl.size > MAX_BYTES) problem = '"' + fl.name + '" is too large — please keep photos under 10MB.';
-        });
-        if (problem) { setError(problem); photoInput.value = ""; return; }
-        setError("");
-        photoFiles = files;
-        renderPhotoList();
-      });
-      renderPhotoList();
-    }
-
-    stepsEl.querySelector("[data-back]").addEventListener("click", function () { saveStep2(all); goTo(1); });
+    stepsEl.querySelector("[data-back]").addEventListener("click", function () { saveStep2(); goTo(1); });
     stepsEl.querySelector("[data-next]").addEventListener("click", function () {
-      saveStep2(all);
-      var missing = validateStep2(all);
+      saveStep2();
+      var missing = validateStep2();
       if (missing) { setError(missing); return; }
       goTo(3);
     });
   }
 
-  function saveStep2(all) {
-    all.forEach(collectField);
+  function currentFields() {
+    var fields = step2Fields();
+    if (!isRes()) fields = fields.concat([radio("maintenance_program", "Would you like to discuss an ongoing maintenance program?", ["Yes", "No", "Unsure"])]);
+    return fields;
+  }
+
+  /* Commercial: advanced blocks follow the selected required services */
+  function renderComAdvanced() {
+    var box = document.getElementById("q-com-advanced");
+    if (!box) return;
+    var html = "", seen = {};
+    (answers.required_services || []).forEach(function (name) {
+      var block = COM_ADVANCED[name];
+      if (block && !seen[block.key]) {
+        seen[block.key] = true;
+        html += '<h3 class="qgroup__title">' + esc(block.title) + '</h3><div class="qgroup">';
+        block.fields.forEach(function (f) { html += fieldHtml(f); });
+        html += "</div>";
+      }
+    });
+    box.innerHTML = html;
+  }
+
+  function onStep2Change(e) {
+    var t = e.target;
+    var all = currentFields();
+    all.forEach(function (f) {
+      if ("qf-" + f.id === t.name || "qf-" + f.id === t.id) collectField(f);
+    });
+    if (t.name === "qf-required_services") renderComAdvanced();
+    refreshConditionals(all);
+    /* rectangle calculator (commercial turf block) */
+    if (t.id === "qf-length_m" || t.id === "qf-width_m" || t.name === "qf-shape") {
+      var l = parseFloat((document.getElementById("qf-length_m") || {}).value);
+      var w = parseFloat((document.getElementById("qf-width_m") || {}).value);
+      var areaEl = document.getElementById("qf-approx_size");
+      if (areaEl && l > 0 && w > 0 && answers.shape === "Rectangle / Square" && !areaEl.value) {
+        areaEl.value = Math.round(l * w * 1.1) + " m²";
+        answers.approx_size = areaEl.value;
+      }
+    }
+  }
+
+  function saveStep2() {
+    currentFields().forEach(collectField);
     var picked = [];
     stepsEl.querySelectorAll('input[name="qf-addons"]:checked').forEach(function (c) { picked.push(c.value); });
     answers.addons = picked;
+    stepsEl.removeEventListener("change", onStep2Change);
   }
 
-  function validateStep2(all) {
+  function validateStep2() {
     var firstBad = null, label = null;
     stepsEl.querySelectorAll(".is-invalid").forEach(function (el) { el.classList.remove("is-invalid"); });
-    all.forEach(function (f) {
+    currentFields().forEach(function (f) {
       if (firstBad || !f.required || !fieldVisible(f)) return;
       var v = answers[f.id];
       var empty = f.type === "chips" ? !(v && v.length) : !v;
@@ -413,33 +505,42 @@
   }
 
   /* ---------------- Step 3 ---------------- */
-  var CONTACT_FIELDS = [
-    txt("name", "Full name", { required: true, autocomplete: "name" }),
-    txt("mobile", "Mobile number", { required: true, autocomplete: "tel" }),
-    txt("email", "Email address", { required: true, autocomplete: "email" }),
-    txt("address", "Street address", { autocomplete: "street-address" }),
-    txt("contact_suburb", "Suburb", { autocomplete: "address-level2" }),
-    txt("postcode", "Postcode", { autocomplete: "postal-code" }),
-    radio("contact_method", "Preferred contact method", ["Phone", "SMS", "Email"], { required: true }),
-    sel("contact_time", "Best time to contact", ["Morning", "Afternoon", "Evening", "Any time"]),
-    area("notes", "Additional notes", { placeholder: "Anything else you'd like us to know." })
-  ];
+  function contactFields() {
+    if (isRes()) {
+      return [
+        txt("name", "Full name", { required: true, autocomplete: "name" }),
+        txt("mobile", "Mobile number", { required: true, autocomplete: "tel" }),
+        txt("email", "Email address", { required: true, autocomplete: "email" }),
+        radio("contact_method", "Preferred contact method", ["Phone", "SMS", "Email"], { required: true }),
+        sel("contact_time", "Best time to contact", ["Morning", "Afternoon", "Evening", "Any time"]),
+        area("notes", "Anything else? (optional)", { placeholder: "A final note if there's anything we've missed." })
+      ];
+    }
+    return [
+      txt("name", "Contact name", { required: true, autocomplete: "name" }),
+      txt("position", "Position or role", { placeholder: "e.g. Facilities Manager" }),
+      txt("business_name", "Business name", { required: true }),
+      txt("mobile", "Mobile number", { required: true, autocomplete: "tel" }),
+      txt("email", "Business email", { required: true, autocomplete: "email" }),
+      radio("contact_method", "Preferred contact method", ["Phone", "SMS", "Email"], { required: true }),
+      sel("contact_time", "Best time to contact", ["Morning", "Afternoon", "Evening", "Any time"]),
+      area("notes", "Anything else? (optional)", { placeholder: "A final note if there's anything we've missed." })
+    ];
+  }
 
   function summaryRows() {
-    var rows = [];
     var svc = serviceById(answers.service);
-    rows.push(["Service", svc ? svc.name : "—", 1]);
-    var skip = { service: 1, addons: 1, name: 1, mobile: 1, email: 1, address: 1, contact_suburb: 1, postcode: 1, contact_method: 1, contact_time: 1, notes: 1, consent: 1 };
-    var labels = {};
-    (STEP2[answers.service] || []).concat(COMMON_FIELDS).forEach(function (f) { labels[f.id] = f.label; });
-    Object.keys(answers).forEach(function (k) {
-      if (skip[k]) return;
-      var v = answers[k];
-      if (v == null || v === "" || (Array.isArray(v) && !v.length)) return;
-      rows.push([labels[k] || k, Array.isArray(v) ? v.join(", ") : v, 2]);
-    });
-    if (answers.addons.length) rows.push(["Also interested in", answers.addons.join(", "), 2]);
-    if (photoFiles.length) rows.push(["Photos", photoFiles.length + " attached", 2]);
+    var rows = [
+      ["Enquiry type", isRes() ? "Residential" : "Commercial", 1],
+      ["Primary service", svc ? svc.name : "—", 1]
+    ];
+    if (!isRes() && answers.required_services && answers.required_services.length) {
+      rows.push(["Required services", answers.required_services.join(", "), 2]);
+    }
+    if (answers.addons.length) rows.push(["Additional services", answers.addons.join(", "), 2]);
+    if (answers.suburb) rows.push(["Location", answers.suburb, 2]);
+    if (answers.timing) rows.push(["Timing", answers.timing, 2]);
+    if (photoFiles.length) rows.push(["Files", photoFiles.length + " attached", 2]);
     return rows;
   }
 
@@ -447,7 +548,7 @@
     var html = '<h2 class="qstep__title">Your details</h2>' +
       '<p class="qstep__sub">We’ll use these to confirm your free quote — nothing else.</p>' +
       '<div class="qgroup qgroup--contact">';
-    CONTACT_FIELDS.forEach(function (f) { html += fieldHtml(f); });
+    contactFields().forEach(function (f) { html += fieldHtml(f); });
     html += "</div>";
 
     html += '<h3 class="qgroup__title">Your request</h3><div class="qsummary">';
@@ -474,14 +575,15 @@
   }
 
   function saveStep3() {
-    CONTACT_FIELDS.forEach(collectField);
+    contactFields().forEach(collectField);
     var c = document.getElementById("qf-consent");
     if (c) answers.consent = c.checked;
   }
 
   function validateStep3() {
     stepsEl.querySelectorAll(".is-invalid").forEach(function (el) { el.classList.remove("is-invalid"); });
-    var required = [["name", "Full name"], ["mobile", "Mobile number"], ["email", "Email address"], ["contact_method", "Preferred contact method"]];
+    var required = [["name", isRes() ? "Full name" : "Contact name"], ["mobile", "Mobile number"], ["email", isRes() ? "Email address" : "Business email"], ["contact_method", "Preferred contact method"]];
+    if (!isRes()) required.splice(1, 0, ["business_name", "Business name"]);
     for (var i = 0; i < required.length; i++) {
       if (!answers[required[i][0]]) {
         var el = stepsEl.querySelector('[data-field="' + required[i][0] + '"]');
