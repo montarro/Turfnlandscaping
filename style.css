@@ -911,6 +911,14 @@ p  { margin: 0 0 1rem; }
 .qprogress__item.is-active .qprogress__dot { background: var(--forest-800); border-color: var(--forest-800); color: #fff; }
 .qprogress__item.is-done { color: var(--forest-700); }
 .qprogress__item.is-done .qprogress__dot { background: var(--sage-200); border-color: var(--sage-200); color: var(--forest-900); }
+@media (max-width: 700px) {
+  .qprogress { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; align-items: start; }
+  .qprogress__item {
+    flex-direction: column; text-align: center; gap: .45rem;
+    font-size: .8rem; line-height: 1.25; min-width: 0;
+  }
+  .qprogress__item:not(:last-child)::after { display: none; }
+}
 
 /* Step content */
 .qstep__title { font-size: clamp(1.5rem, 3.6vw, 2.1rem); margin-bottom: .4rem; }

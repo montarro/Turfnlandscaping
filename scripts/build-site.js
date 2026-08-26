@@ -26,17 +26,23 @@ fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
 
 // Static, hand-written files
-["index.html", "quote.html", "style.css", "service-pages.css", "projects.css", "projects.js", "main.js", "quote.js", "robots.txt", "sitemap.xml"].forEach(copy);
+["index.html", "quote.html", "404.html", "style.css", "service-pages.css", "projects.css", "projects.js", "main.js", "quote.js", "robots.txt", "sitemap.xml"].forEach(copy);
 
 // Whole assets/ tree (logos, favicon, photography) — copying the directory
 // rather than a hand-maintained list means any new asset ships automatically.
+// Raw-source folders that must never ship to the public CDN: assets/photos is
+// the input to apply-photos.js (pages only ever reference the generated WebP),
+// and the ALL-CAPS folders are unprocessed photo drops from the client.
+const SKIP_DIRS = new Set(["photos", "IMAGES OF FINISHED JOBS", "BEFORE AND AFTERS", "VIDEOS"]);
 function copyDir(relDir) {
   const src = path.join(ROOT, relDir);
   if (!fs.existsSync(src)) return;
   for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
     const rel = path.join(relDir, entry.name);
-    if (entry.isDirectory()) copyDir(rel);
-    else copy(rel);
+    if (entry.isDirectory()) {
+      if (relDir.startsWith("assets") && SKIP_DIRS.has(entry.name)) continue;
+      copyDir(rel);
+    } else copy(rel);
   }
 }
 copyDir("assets");

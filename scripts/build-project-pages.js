@@ -62,7 +62,7 @@ const HEADER = `
         <span class="mobile-nav__label">Services</span>
         <a href="/services/turf-installation">Turf Installation</a>
         <a href="/services/retaining-walls">Retaining Walls</a>
-        <a href="/services/paving-stepping-stones">Paving &amp; Stepping Stones</a>
+        <a href="/services/paving">Paving &amp; Stepping Stones</a>
         <a href="/services/soft-landscaping">Soft Landscaping</a>
         <a href="/services/property-maintenance">Property Maintenance</a>
       </div>
@@ -91,7 +91,7 @@ const FOOTER = `
           <ul>
             <li><a href="/services/turf-installation">Turf Installation</a></li>
             <li><a href="/services/retaining-walls">Retaining Walls</a></li>
-            <li><a href="/services/paving-stepping-stones">Paving &amp; Stepping Stones</a></li>
+            <li><a href="/services/paving">Paving &amp; Stepping Stones</a></li>
             <li><a href="/services/soft-landscaping">Soft Landscaping</a></li>
             <li><a href="/services/property-maintenance">Property Maintenance</a></li>
           </ul>
