@@ -157,6 +157,26 @@ p  { margin: 0 0 1rem; }
 .btn--lg { padding: 1.1rem 2rem; font-size: 1.06rem; min-height: 56px; }
 .btn--block { width: 100%; }
 .btn svg { width: 1.1em; height: 1.1em; flex: none; }
+
+/* Circular up-right arrow chip inside quote buttons (Gibsons-style) */
+.btn__arrow {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.75em; height: 1.75em; border-radius: 50%; flex: none;
+  background: rgba(255,255,255,.18); color: currentColor; margin: 0 -.35em 0 .2em;
+  transition: background .18s ease, transform .18s ease;
+}
+.btn__arrow svg { width: .85em; height: .85em; }
+.btn:hover .btn__arrow { background: rgba(255,255,255,.3); transform: translate(1px, -1px); }
+.btn--ondark .btn__arrow { background: var(--sage-200); color: var(--forest-900); }
+.btn--ondark:hover .btn__arrow { background: var(--sage-100); }
+
+/* Hero primary quote button — dark green, larger than the CTA beside it */
+.btn--quote {
+  background: var(--forest-800); color: #fff;
+  border-color: rgba(255,255,255,.28); box-shadow: var(--shadow-md);
+}
+.btn--quote:hover { background: var(--forest-700); color: #fff; box-shadow: var(--shadow-lg); }
+.btn--xl { padding: 1.2rem 1.7rem 1.2rem 2.1rem; font-size: 1.13rem; min-height: 64px; }
 /* legacy aliases used by generated pages */
 .btn--call { background: var(--forest-800); color: #fff; }
 .btn--call:hover { background: var(--forest-700); color: #fff; }
