@@ -38,7 +38,7 @@
   };
 
   var CUSTOMER_TYPES = [
-    { id: "residential", name: "My Home", icon: "home", desc: "Residential turf, landscaping and garden projects." },
+    { id: "residential", name: "Residential", icon: "home", desc: "Residential turf, landscaping and garden projects." },
     { id: "commercial", name: "Commercial", icon: "commercial", desc: "For businesses, builders, developers, property managers and body corporates." }
   ];
 
@@ -93,59 +93,14 @@
     txt("business_name", "Business or organisation name", { required: true }),
     txt("suburb", "Project suburb or postcode", { required: true, placeholder: "e.g. Werribee or 3030", autocomplete: "address-level2" }),
     sel("org_type", "Type of organisation", ["Business", "Builder", "Developer", "Property Manager", "Body Corporate", "School or Childcare", "Council or Government", "Other"]),
-    sel("site_type", "Site type", ["Office", "Retail", "Industrial", "Apartment or Body Corporate", "New Development", "Public Space", "Education", "Other"]),
     radio("engagement", "One-off project or ongoing contract?", ["One-off project", "Ongoing contract", "Unsure"]),
-    num("site_count", "Number of properties or sites", { placeholder: "e.g. 1" }),
-    txt("approx_size", "Estimated project area or relevant dimensions", { placeholder: "e.g. 400 m², or 60m of walls" }),
     chips("required_services", "Required services", ["Natural turf", "Synthetic turf", "Pavers & stepping stones", "Retaining walls", "Hard landscaping", "Soft landscaping & planting", "Garden design", "Other"], { required: true }),
+    txt("approx_size", "Estimated project area or relevant dimensions", { placeholder: "e.g. 400 m\u00b2, or 60m of walls" }),
     area("description", "Project scope or description", { placeholder: "Outline the scope, deliverables and any constraints." }),
     txt("timing", "Required completion date or project timeline", { placeholder: "e.g. by end of November, or Q1 next year" }),
-    txt("site_access", "Site access and working-hour restrictions", { placeholder: "e.g. induction required, work 9am–3pm only" }),
-    txt("tender_deadline", "Tender or quote deadline (if applicable)", { placeholder: "e.g. quotes close 15th" }),
-    txt("po_requirements", "Purchase-order or supplier requirements (if applicable)", { placeholder: "e.g. PO number required, supplier registration" }),
-    sel("budget", "Indicative budget (optional)", ["Under $5,000", "$5,000 – $15,000", "$15,000 – $30,000", "$30,000+", "Prefer to discuss"]),
-    file("photos", "Supporting files (optional)", { accept: "image/*,.pdf,.doc,.docx", note: "Site photos, plans, scope or tender documents — up to " + MAX_FILES + " files, 10MB each." })
+    file("photos", "Supporting files (optional)", { accept: "image/*,.pdf,.doc,.docx", note: "Site photos, plans or scope documents \u2014 up to " + MAX_FILES + " files, 10MB each." })
   ];
 
-  /* Detailed technical questions — commercial pathway only. Shown for each
-     selected required service that has a matching block. */
-  var TURF_ADVANCED = [
-    radio("shape", "Lawn shape (optional — helps us calculate)", ["Rectangle / Square", "L-Shape", "Circle", "Irregular"]),
-    num("length_m", "Length (metres)", { showIf: { shape: "Rectangle / Square" }, placeholder: "e.g. 9" }),
-    num("width_m", "Width (metres)", { showIf: { shape: "Rectangle / Square" }, placeholder: "e.g. 5" }),
-    radio("surface", "Current surface", ["Soil", "Existing lawn", "Concrete", "Gravel", "Garden bed", "Other"]),
-    radio("install_type", "Supply and install, or installation only?", ["Supply and install", "Installation only", "Unsure — please advise"]),
-    chips("prep", "Site preparation", ["Ground preparation required", "Old turf or surface removal required"])
-  ];
-  var COM_ADVANCED = {
-    "Natural turf": { key: "turf", title: "Turf details", fields: TURF_ADVANCED },
-    "Synthetic turf": { key: "turf", title: "Turf details", fields: TURF_ADVANCED },
-    "Pavers & stepping stones": { key: "pavers", title: "Paving details", fields: [
-      radio("pv_type", "Pavers, stepping stones or both?", ["Pavers", "Stepping stones", "Both"]),
-      txt("pv_material", "Preferred material or style", { placeholder: "e.g. bluestone — or 'Unsure'" }),
-      radio("pv_job_type", "Type of job", ["New installation", "Replacement", "Repair"]),
-      chips("pv_extras", "Anything else we should know?", ["Ground preparation required", "Drainage concerns"])
-    ] },
-    "Retaining walls": { key: "walls", title: "Retaining wall details", fields: [
-      num("wall_length_m", "Approximate wall length (metres)", { placeholder: "e.g. 12" }),
-      num("wall_height_m", "Approximate maximum height (metres)", { placeholder: "e.g. 0.8", step: "0.1" }),
-      radio("wall_job_type", "Type of job", ["New wall", "Replacement", "Repair"]),
-      txt("wall_material", "Preferred material", { placeholder: "e.g. concrete sleepers — or 'Unsure'" }),
-      radio("wall_drainage", "Existing drainage concerns?", ["Yes", "No", "Unsure"]),
-      radio("machinery", "Machinery access", ["Easy access", "Restricted access"])
-    ] },
-    "Hard landscaping": { key: "hardls", title: "Hard landscaping details", fields: [
-      chips("hl_services", "Work required", ["Paving", "Pathways", "Edging", "Retaining walls", "Garden structures", "Other"]),
-      radio("hl_drainage", "Drainage requirements?", ["Yes", "No", "Unsure"]),
-      radio("hl_demolition", "Demolition or removal required?", ["Yes", "No", "Unsure"]),
-      txt("hl_material", "Material preferences", { placeholder: "e.g. exposed aggregate — or 'Unsure'" })
-    ] },
-    "Soft landscaping & planting": { key: "softls", title: "Soft landscaping details", fields: [
-      chips("sl_services", "Work required", ["Planting", "Garden beds", "Mulch", "Soil improvement", "Edging", "Garden redesign"]),
-      radio("sun", "Sun conditions", ["Full sun", "Part shade", "Mostly shade", "Unsure"]),
-      radio("irrigation", "Irrigation currently installed?", ["Yes", "No", "Unsure"])
-    ] }
-  };
   /* Map the step-1 primary service to a default required-services selection */
   var SERVICE_TO_REQ = {
     "natural-turf": "Natural turf", "synthetic-turf": "Synthetic turf",
@@ -360,13 +315,7 @@
   /* ---------------- Step 2 ---------------- */
   function step2Fields() {
     if (isRes()) return RES_CORE.concat(RES_MORE);
-    var fields = COM_FIELDS.slice();
-    var seen = {};
-    (answers.required_services || []).forEach(function (name) {
-      var block = COM_ADVANCED[name];
-      if (block && !seen[block.key]) { seen[block.key] = true; fields = fields.concat(block.fields); }
-    });
-    return fields;
+    return COM_FIELDS.slice();
   }
 
   function renderStep2() {
@@ -400,7 +349,6 @@
         '<div class="qgroup" id="q-com-fields">';
       COM_FIELDS.forEach(function (f) { html += fieldHtml(f); });
       html += "</div>";
-      html += '<div id="q-com-advanced"></div>';
 
       html += '<h3 class="qgroup__title">Additional services required</h3>' +
         '<div class="qpills qpills--addons" role="group" aria-label="Additional services">';
@@ -418,7 +366,6 @@
       "</div>";
     stepsEl.innerHTML = html;
 
-    if (!isRes()) renderComAdvanced();
     var all = currentFields();
     refreshConditionals(all);
 
@@ -440,22 +387,6 @@
     return fields;
   }
 
-  /* Commercial: advanced blocks follow the selected required services */
-  function renderComAdvanced() {
-    var box = document.getElementById("q-com-advanced");
-    if (!box) return;
-    var html = "", seen = {};
-    (answers.required_services || []).forEach(function (name) {
-      var block = COM_ADVANCED[name];
-      if (block && !seen[block.key]) {
-        seen[block.key] = true;
-        html += '<h3 class="qgroup__title">' + esc(block.title) + '</h3><div class="qgroup">';
-        block.fields.forEach(function (f) { html += fieldHtml(f); });
-        html += "</div>";
-      }
-    });
-    box.innerHTML = html;
-  }
 
   function onStep2Change(e) {
     var t = e.target;
@@ -463,18 +394,7 @@
     all.forEach(function (f) {
       if ("qf-" + f.id === t.name || "qf-" + f.id === t.id) collectField(f);
     });
-    if (t.name === "qf-required_services") renderComAdvanced();
     refreshConditionals(all);
-    /* rectangle calculator (commercial turf block) */
-    if (t.id === "qf-length_m" || t.id === "qf-width_m" || t.name === "qf-shape") {
-      var l = parseFloat((document.getElementById("qf-length_m") || {}).value);
-      var w = parseFloat((document.getElementById("qf-width_m") || {}).value);
-      var areaEl = document.getElementById("qf-approx_size");
-      if (areaEl && l > 0 && w > 0 && answers.shape === "Rectangle / Square" && !areaEl.value) {
-        areaEl.value = Math.round(l * w * 1.1) + " m²";
-        answers.approx_size = areaEl.value;
-      }
-    }
   }
 
   function saveStep2() {
