@@ -320,8 +320,22 @@ p  { margin: 0 0 1rem; }
   display: inline-flex; align-items: center; gap: .5rem; white-space: nowrap;
   font-family: var(--font-display); font-weight: 700; font-size: .95rem; color: var(--forest-900);
 }
-.hero-strip__badge .stars { color: var(--gold); letter-spacing: .04em; }
-.hero-strip__badge span:last-child { font-weight: 600; color: var(--muted); font-size: .85rem; }
+.hero-strip__badge--promo svg { width: 1.15rem; height: 1.15rem; color: var(--forest-600); flex: none; }
+.hero-strip__badge--promo .promo__text {
+  text-transform: uppercase; letter-spacing: .06em; font-size: .88rem; font-weight: 700;
+}
+.hero-strip__badge--promo .promo__sub {
+  font-weight: 600; color: var(--muted); font-size: .8rem;
+  border-left: 1px solid var(--line); padding-left: .6rem;
+}
+.promo__short { display: none; }
+@media (max-width: 559px) {
+  .promo__long { display: none; }
+  .promo__short { display: inline; }
+  .hero-strip__badge--promo .promo__text { font-size: .74rem; letter-spacing: .04em; }
+  .hero-strip__badge--promo .promo__sub { font-size: .7rem; padding-left: .45rem; }
+  .hero-strip__badge--promo svg { width: .95rem; height: .95rem; }
+}
 
 /* ---------- Quote section ---------- */
 .quote-section__inner { display: grid; gap: 2.4rem; align-items: start; }
@@ -761,8 +775,7 @@ p  { margin: 0 0 1rem; }
   .brand__logo { height: 40px; }
   .site-header__inner { gap: .5rem; }
   .hero-strip__grid figure { border-width: 2px; border-radius: 14px; }
-  .hero-strip__badge { padding: .45rem .9rem; font-size: .85rem; top: -1rem; }
-  .hero-strip__badge span:last-child { display: none; }
+  .hero-strip__badge { padding: .45rem .8rem; top: -1rem; }
 }
 
 @media (min-width: 560px) {
