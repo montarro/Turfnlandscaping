@@ -26,7 +26,7 @@ fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
 
 // Static, hand-written files
-["index.html", "quote.html", "style.css", "main.js", "quote.js", "robots.txt", "sitemap.xml"].forEach(copy);
+["index.html", "quote.html", "style.css", "service-pages.css", "main.js", "quote.js", "robots.txt", "sitemap.xml"].forEach(copy);
 
 // Whole assets/ tree (logos, favicon, photography) — copying the directory
 // rather than a hand-maintained list means any new asset ships automatically.
@@ -44,6 +44,9 @@ copyDir("assets");
 // Generated pages + images, written straight into dist
 const env = { ...process.env, OUTDIR: DIST };
 execFileSync("node", [path.join(__dirname, "build-pages.js")], { stdio: "inherit", env });
+// Individual service pages — runs after build-pages.js so its versions of
+// overlapping routes (retaining-walls, soft-landscaping) win.
+execFileSync("node", [path.join(__dirname, "build-service-pages.js")], { stdio: "inherit", env });
 execFileSync("node", [path.join(__dirname, "gen-images.js")], { stdio: "inherit", env });
 
 // Real photography wins over generated placeholders.
