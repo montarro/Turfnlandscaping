@@ -165,7 +165,7 @@ ${SERVICE_REGIONS.map((r) => `            <li><a href="/#areas">${r.name}</a></l
         </div>
       </div>
       <div class="footer__bottom">
-        <span>© <span id="year">2026</span> Turf and Landscaping · ABN 00 000 000 000</span>
+        <span>© <span id="year">2026</span> Turf and Landscaping</span>
         <span>${SERVICE_AREA_STRIP} · Fully insured</span>
       </div>
     </div>
