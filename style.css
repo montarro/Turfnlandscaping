@@ -757,3 +757,47 @@ body { background: #faf8f3; }
   .hero__badges { grid-template-columns: repeat(4, 1fr); max-width: none; }
   .quote-section__inner { grid-template-columns: 1fr 1.1fr; gap: 3rem; }
 }
+
+/* =====================================================================
+   SERVICE HIERARCHY + SERVICE AREAS
+   ===================================================================== */
+
+/* ---------- Flagship turf card (two pathways: natural / synthetic) ---------- */
+.card--flagship { border-color: var(--green-500); }
+.card__link-row { display: flex; flex-wrap: wrap; gap: 0; border-top: 1px solid var(--line); margin-top: auto; padding-top: .9rem; }
+.card__link-row .card__link { flex: 1 1 auto; border-top: 0; padding-top: 0; justify-content: flex-start; }
+
+/* ---------- Property maintenance & aftercare: compact, secondary weight ---------- */
+.maintenance-band {
+  margin-top: clamp(2rem, 5vw, 3rem); padding-top: clamp(1.6rem, 4vw, 2.2rem);
+  border-top: 1px solid var(--line);
+  display: grid; gap: 1rem;
+}
+.maintenance-band__head h3 { font-size: 1.05rem; margin-bottom: .2rem; }
+.maintenance-band__head p { color: var(--slate); margin: 0; font-size: .95rem; }
+.maintenance-band__list { display: flex; flex-wrap: wrap; gap: .5rem; }
+.maintenance-band .chip { background: #fff; }
+
+/* ---------- Service areas: regional accordion ---------- */
+.region-grid { display: grid; gap: .8rem; grid-template-columns: 1fr; }
+.region {
+  border: 1px solid var(--line); border-radius: 12px; background: #fff; overflow: hidden;
+}
+.region[open] { border-color: var(--green-500); }
+.region summary {
+  list-style: none; cursor: pointer; padding: 1.1rem 1.25rem;
+  display: flex; align-items: center; gap: .8rem;
+}
+.region summary::-webkit-details-marker { display: none; }
+.region__name { font-family: var(--font-display); font-weight: 700; color: var(--green-900); font-size: 1.05rem; }
+.region__count { color: var(--mist); font-size: .85rem; margin-right: auto; }
+.region summary .chev { flex: none; width: 1.2rem; height: 1.2rem; color: var(--green-600); transition: transform .2s ease; }
+.region[open] summary .chev { transform: rotate(180deg); }
+.region__list { padding: 0 1.25rem 1.2rem; display: flex; flex-wrap: wrap; gap: .5rem; }
+.chip--static { cursor: default; }
+.chip--static:hover { border-color: var(--line); color: var(--green-900); }
+.areas__note { margin: 1.6rem 0 0; text-align: center; color: var(--slate); }
+
+@media (min-width: 820px) {
+  .region-grid { grid-template-columns: repeat(2, 1fr); }
+}

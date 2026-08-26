@@ -17,8 +17,35 @@ const PHONE_DISPLAY = "0457 357 085";
 const PHONE_TEL = "+61457357085";
 const OG = SITE + "/assets/images/og-turf-and-landscaping.webp";
 
-const SUBURBS = ["Craigieburn", "Mickleham", "Sunbury", "Point Cook", "Melton", "Werribee"];
 const slug = (s) => s.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+/* ---------- Service area (authoritative, client-verified) ----------
+   Craigieburn / Mickleham / Sunbury / Melton / Point Cook are no longer
+   confirmed service areas and must not appear as claimed coverage
+   anywhere on the site unless separately re-verified by the client. */
+const SERVICE_AREA_STATEMENT =
+  "Serving Melbourne's western suburbs and selected inner-city, northern, eastern and bayside areas.";
+const SERVICE_AREA_STRIP =
+  "Melbourne's West • Inner City • Inner North • Inner East & Bayside";
+const SERVICE_REGIONS = [
+  {
+    name: "Melbourne's West",
+    suburbs: ["Hoppers Crossing", "Werribee", "Altona Meadows", "Altona", "Newport", "Williamstown", "Yarraville", "Seddon", "Sunshine", "Caroline Springs", "Footscray", "Kingsville", "Maribyrnong", "Maidstone", "Spotswood", "Brooklyn"],
+  },
+  {
+    name: "Inner Melbourne",
+    suburbs: ["Docklands", "West Melbourne", "North Melbourne", "South Melbourne", "Port Melbourne", "East Melbourne", "Kensington", "Flemington", "Carlton"],
+  },
+  {
+    name: "Inner North",
+    suburbs: ["Brunswick", "Fitzroy", "Collingwood", "Abbotsford", "Clifton Hill"],
+  },
+  {
+    name: "Inner East, South and Bayside",
+    suburbs: ["Richmond", "Cremorne", "South Yarra", "Toorak", "Prahran", "Kew", "Brighton"],
+  },
+];
+const AREA_SUBURBS = SERVICE_REGIONS.flatMap((r) => r.suburbs);
 
 /* ---------- Shared chrome ---------- */
 function head({ title, desc, canonical, image = OG }) {
@@ -60,9 +87,9 @@ const HEADER = `
       </a>
       <nav class="primary-nav" aria-label="Primary">
         <a href="/#who-we-are">Who We Are</a>
-        <a href="/#services">What We Do</a>
-        <a href="/#areas">Who We Service</a>
-        <a href="/#work">Our Work</a>
+        <a href="/#services">Our Services</a>
+        <a href="/#areas">Service Areas</a>
+        <a href="/#work">Our Projects</a>
         <a href="/#faq">FAQ</a>
       </nav>
       <div class="header-cta">
@@ -71,7 +98,7 @@ const HEADER = `
           <span>0457&nbsp;357&nbsp;085</span>
         </a>
         <a class="header-call" href="/#quote">
-          <span class="header-call__num">Get a free quote</span>
+          <span class="header-call__num">Request a Quote</span>
         </a>
         <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false">
           <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -81,13 +108,13 @@ const HEADER = `
     </div>
     <nav class="mobile-nav" id="mobile-nav" data-open="false" aria-label="Mobile">
       <a href="/#who-we-are">Who We Are</a>
-      <a href="/#services">What We Do</a>
-      <a href="/#areas">Who We Service</a>
+      <a href="/#services">Our Services</a>
+      <a href="/#areas">Service Areas</a>
       <a href="/#how">How We Work</a>
-      <a href="/#work">Our Work</a>
+      <a href="/#work">Our Projects</a>
       <a href="/#reviews">Reviews</a>
       <a href="/#faq">FAQ</a>
-      <a class="btn btn--call btn--block" href="/#quote">Get a free quote</a>
+      <a class="btn btn--call btn--block" href="/#quote">Request a Quote</a>
     </nav>
   </header>`;
 
@@ -100,7 +127,7 @@ const FOOTER = `
             <img class="brand__logo" src="/assets/logo-turf-and-landscaping-white.png"
                  alt="Turf and Landscaping" width="918" height="381" />
           </a>
-          <p style="margin-top:1rem;max-width:22rem;color:#9db8a4;">Turf, paving, retaining walls and garden design for homeowners across Melbourne's north-west.</p>
+          <p style="margin-top:1rem;max-width:22rem;color:#9db8a4;">Turf, landscape construction and property care across Melbourne's west and inner suburbs.</p>
           <div class="footer__socials">
             <a href="https://www.instagram.com/turfandlandscaping" target="_blank" rel="noopener" aria-label="Turf and Landscaping on Instagram">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.06 1.8.25 2.2.42.6.2 1 .46 1.4.86.4.4.66.8.86 1.4.17.4.36 1 .42 2.2.07 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.06 1.2-.25 1.8-.42 2.2a3.8 3.8 0 0 1-.86 1.4c-.4.4-.8.66-1.4.86-.4.17-1 .36-2.2.42-1.3.07-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.06-1.8-.25-2.2-.42a3.8 3.8 0 0 1-1.4-.86 3.8 3.8 0 0 1-.86-1.4c-.17-.4-.36-1-.42-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.06-1.2.25-1.8.42-2.2.2-.6.46-1 .86-1.4.4-.4.8-.66 1.4-.86.4-.17 1-.36 2.2-.42C8.4 2.2 8.8 2.2 12 2.2z"/></svg>
@@ -121,9 +148,9 @@ const FOOTER = `
           </ul>
         </div>
         <div>
-          <h4>Areas we serve</h4>
+          <h4>Service areas</h4>
           <ul>
-${SUBURBS.map((s) => `            <li><a href="/suburbs/${slug(s)}">${s}</a></li>`).join("\n")}
+${SERVICE_REGIONS.map((r) => `            <li><a href="/#areas">${r.name}</a></li>`).join("\n")}
           </ul>
         </div>
         <div>
@@ -131,15 +158,15 @@ ${SUBURBS.map((s) => `            <li><a href="/suburbs/${slug(s)}">${s}</a></li
           <ul>
             <li><a href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a></li>
             <li><a href="mailto:info@turfandlandscaping.com.au">info@turfandlandscaping.com.au</a></li>
-            <li>Servicing north-west Melbourne, VIC</li>
+            <li>${SERVICE_AREA_STRIP}</li>
             <li>Mon–Fri 7am–5pm · Sat 8am–2pm</li>
-            <li><a href="/#quote">Get a free quote</a></li>
+            <li><a href="/#quote">Request a quote</a></li>
           </ul>
         </div>
       </div>
       <div class="footer__bottom">
         <span>© <span id="year">2026</span> Turf and Landscaping · ABN 00 000 000 000</span>
-        <span>North-west Melbourne, Victoria · Fully insured</span>
+        <span>${SERVICE_AREA_STRIP} · Fully insured</span>
       </div>
     </div>
   </footer>
@@ -160,8 +187,8 @@ ${SUBURBS.map((s) => `            <li><a href="/suburbs/${slug(s)}">${s}</a></li
 
 function heroActions() {
   return `<div class="page-hero__actions">
-        <a class="btn btn--call" href="tel:${PHONE_TEL}">Call ${PHONE_DISPLAY}</a>
-        <a class="btn btn--ondark" href="/#quote">Get a free quote</a>
+        <a class="btn btn--call" href="/#quote">Request a Quote</a>
+        <a class="btn btn--ondark" href="tel:${PHONE_TEL}">Call ${PHONE_DISPLAY}</a>
       </div>`;
 }
 
@@ -184,7 +211,7 @@ const SERVICES = [
     imageAlt: "Roll of fresh natural turf being laid over prepared soil",
     tagline: "Fresh, hard-wearing lawns supplied and laid to suit your soil, sun and lifestyle.",
     desc:
-      "New natural turf supplied and laid across Melbourne's north-west. Proper soil prep, warm-season varieties and a lawn that lasts. Free on-site quotes — call 0457 357 085.",
+      "New natural turf supplied and laid across Melbourne's west and inner suburbs. Proper soil prep, warm-season varieties and a lawn that lasts. Free on-site quotes — call 0457 357 085.",
     intro:
       "A healthy lawn is the fastest way to lift the look of a whole property — and the biggest disappointment if it's laid over poor ground. We supply and lay quality natural turf on soil that's been properly prepared, graded and drained, so your new lawn takes quickly and holds up to Melbourne summers, kids and pets.",
     included: [
@@ -203,7 +230,7 @@ const SERVICES = [
     imageAlt: "Bluestone paving laid level across an outdoor patio area",
     tagline: "Patios, paths and pool surrounds laid dead level and built to last.",
     desc:
-      "Paving and stepping-stone paths across north-west Melbourne — bluestone, concrete and clay pavers on a proper base with correct drainage. Free on-site quotes: call 0457 357 085.",
+      "Paving and stepping-stone paths across Melbourne's west and inner suburbs — bluestone, concrete and clay pavers on a proper base with correct drainage. Free on-site quotes: call 0457 357 085.",
     intro:
       "Good paving is all in the base you don't see. We excavate, compact and lay a proper sub-base so your patio, path or pool surround stays flat and true for years — no rocking pavers, no puddles, no weeds pushing through the joints.",
     included: [
@@ -222,7 +249,7 @@ const SERVICES = [
     imageAlt: "Concrete sleeper retaining wall holding back a garden bed",
     tagline: "Structural walls that hold back slopes and carve out usable, level yard.",
     desc:
-      "Retaining walls across north-west Melbourne — timber and concrete sleepers, besser block and rock walls, built with proper drainage. Free on-site quotes: call 0457 357 085.",
+      "Retaining walls across Melbourne's west and inner suburbs — timber and concrete sleepers, besser block and rock walls, built with proper drainage. Free on-site quotes: call 0457 357 085.",
     intro:
       "A retaining wall does real structural work, so it has to be built right. We set posts to the correct depth, use the right materials for the load, and put ag-drain and backfill behind every wall so water has somewhere to go instead of pushing the wall over.",
     included: [
@@ -233,7 +260,7 @@ const SERVICES = [
       "Levelling and terracing of sloping blocks",
     ],
     body:
-      "Whether you're levelling a sloping backyard for a lawn, terracing a garden into usable beds, or holding back a driveway cut, we'll recommend the right wall type and height for the job. On new estates across the north-west we build plenty of boundary and split-level walls, and we'll let you know if a job needs engineering or council sign-off before we start.",
+      "Whether you're levelling a sloping backyard for a lawn, terracing a garden into usable beds, or holding back a driveway cut, we'll recommend the right wall type and height for the job. We build plenty of boundary and split-level walls across our service area, and we'll let you know if a job needs engineering or council sign-off before we start.",
   },
   {
     name: "Soft Landscaping",
@@ -241,7 +268,7 @@ const SERVICES = [
     imageAlt: "Freshly mulched garden bed planted with native shrubs",
     tagline: "Garden beds, mulch and planting that make the whole yard feel finished.",
     desc:
-      "Soft landscaping across north-west Melbourne — garden beds, planting, quality soil, mulch and edging. Low-maintenance gardens done right. Free on-site quotes: call 0457 357 085.",
+      "Soft landscaping across Melbourne's west and inner suburbs — garden beds, planting, quality soil, mulch and edging. Low-maintenance gardens done right. Free on-site quotes: call 0457 357 085.",
     intro:
       "Soft landscaping is what turns a bare block into a garden. We build up good soil, choose plants that suit the spot and your appetite for maintenance, and finish with clean edges and quality mulch so beds look sharp and stay that way.",
     included: [
@@ -260,7 +287,7 @@ const SERVICES = [
     imageAlt: "Hand-drawn garden design plan showing a landscaped courtyard layout",
     tagline: "A clear plan for your outdoor space, costed and ready to build.",
     desc:
-      "Garden design across north-west Melbourne — concept plans, planting schedules and staged build options that you can actually afford to build. Free on-site quotes: call 0457 357 085.",
+      "Garden design across Melbourne's west and inner suburbs — concept plans, planting schedules and staged build options that you can actually afford to build. Free on-site quotes: call 0457 357 085.",
     intro:
       "A good design saves money by getting the decisions right before anyone picks up a shovel. We map out how your space should flow — lawn, paving, beds, screening and features — and give you a plan you can build in one go or stage over time.",
     included: [
@@ -271,7 +298,7 @@ const SERVICES = [
       "The option to have us build the whole thing",
     ],
     body:
-      "Because we design and build, our plans are realistic and buildable — no drawings full of features you'll never afford. We'll balance the look you're after with your budget and how the space needs to work day to day, then hand you a clear plan. When you're ready to build, the same local crew can bring it to life.",
+      "Because we design and build, our plans are realistic and buildable — no drawings full of features you'll never afford. We'll balance the look you're after with your budget and how the space needs to work day to day, then hand you a clear plan. When you're ready to build, our team can bring it to life.",
   },
 ];
 
@@ -285,13 +312,13 @@ function serviceJsonLd(s, canonical) {
         "serviceType": s.name,
         "description": s.tagline,
         "url": canonical,
-        "areaServed": SUBURBS.map((n) => ({ "@type": "City", name: n })),
+        "areaServed": AREA_SUBURBS.map((n) => ({ "@type": "City", name: n })),
         "provider": {
           "@type": "HomeAndConstructionBusiness",
           "name": "Turf and Landscaping",
           "telephone": PHONE_TEL,
           "url": SITE + "/",
-          "areaServed": "North-West Melbourne, VIC",
+          "areaServed": "Melbourne's west and inner suburbs, VIC",
         },
       },
       {
@@ -309,7 +336,7 @@ function serviceJsonLd(s, canonical) {
 function servicePage(s) {
   const sl = slug(s.name);
   const canonical = `${SITE}/services/${sl}`;
-  const title = `${s.name.replace(/&/g, "&amp;")} — North-West Melbourne | Turf and Landscaping`;
+  const title = `${s.name.replace(/&/g, "&amp;")} — Melbourne's West &amp; Inner Suburbs | Turf and Landscaping`;
   const others = SERVICES.filter((x) => x.name !== s.name);
   return `${head({ title, desc: s.desc, canonical, image: SITE + "/assets/images/" + s.image })}
   <script type="application/ld+json">
@@ -325,7 +352,7 @@ ${HEADER}
       </div>
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/#services">Services</a><span>/</span>${s.name.replace(/&/g, "&amp;")}</nav>
-        <h1>${s.name.replace(/&/g, "&amp;")} in Melbourne's north-west</h1>
+        <h1>${s.name.replace(/&/g, "&amp;")} across Melbourne's west &amp; inner suburbs</h1>
         <p>${s.tagline}</p>
         ${heroActions()}
       </div>
@@ -341,11 +368,8 @@ ${s.included.map((i) => `            <li>${i}</li>`).join("\n")}
           </ul>
           <h2>Local, reliable and built to last</h2>
           <p>${s.body}</p>
-          <h2>Available across the north-west</h2>
-          <p>We provide ${s.name.toLowerCase().replace(/&/g, "and")} to homeowners right across the region:</p>
-          <div class="chip-row">
-${SUBURBS.map((n) => `            <a class="chip" href="/suburbs/${slug(n)}">${n}</a>`).join("\n")}
-          </div>
+          <h2>Where we work</h2>
+          <p>We provide ${s.name.toLowerCase().replace(/&/g, "and")} across Melbourne's west and selected inner-city, northern, eastern and bayside areas. <a href="/#areas">See our full service area</a> or get in touch to confirm your suburb.</p>
         </div>
 
         <div class="prose" style="margin-top:2.4rem;">
@@ -364,125 +388,22 @@ ${others.map((o) => `            <a class="chip" href="/services/${slug(o.name)}
 ${FOOTER}`;
 }
 
-/* ---------- Suburb pages ---------- */
-const SUBURB_INTRO = {
-  Craigieburn:
-    "Craigieburn's mix of established homes and fast-growing new estates keeps us busy — from turfing bare blocks on handover to rebuilding tired backyards for families who've been here for years.",
-  Mickleham:
-    "Mickleham is one of the north's newest growth areas, and most homes here start with a blank canvas. We turn bare builder's blocks into finished yards with turf, paving, walls and gardens.",
-  Sunbury:
-    "Sunbury's larger blocks and gently sloping streets are perfect for what we do — levelling yards with retaining walls, laying big lawns and building paved entertaining areas.",
-  "Point Cook":
-    "Point Cook homes are typically newer with compact, well-designed yards that reward a considered layout. We help owners make the most of the space with smart paving, planting and lawn.",
-  Melton:
-    "Melton and the surrounding estates are growing quickly, and we do a lot of complete yard set-ups here — turf, paths, walls and garden beds that take a new house from bare to finished.",
-  Werribee:
-    "Werribee's established gardens and newer estates both keep us busy, whether it's refreshing an older backyard or landscaping a brand-new home from the ground up.",
-};
-
-function suburbNearby(name) {
-  return SUBURBS.filter((s) => s !== name);
-}
-
-function suburbJsonLd(name, canonical) {
-  return {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "HomeAndConstructionBusiness",
-        "name": "Turf and Landscaping",
-        "description": `Turf, paving, retaining walls and garden design serving ${name}, Victoria.`,
-        "url": canonical,
-        "telephone": PHONE_TEL,
-        "image": OG,
-        "areaServed": { "@type": "City", name: name + ", Victoria" },
-        "aggregateRating": { "@type": "AggregateRating", ratingValue: "4.8", reviewCount: "17", bestRating: "5" },
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
-          { "@type": "ListItem", position: 2, name: "Areas we serve", item: SITE + "/#areas" },
-          { "@type": "ListItem", position: 3, name: name, item: canonical },
-        ],
-      },
-    ],
-  };
-}
-
-function suburbPage(name) {
-  const sl = slug(name);
-  const canonical = `${SITE}/suburbs/${sl}`;
-  const title = `Landscaping &amp; Turf ${name} | Turf and Landscaping`;
-  const desc = `Turf laying, paving, retaining walls and garden design in ${name}, north-west Melbourne. Local, fully insured, 4.8-star rated. Free on-site quotes — call ${PHONE_DISPLAY}.`;
-  return `${head({ title, desc, canonical })}
-  <script type="application/ld+json">
-  ${JSON.stringify(suburbJsonLd(name, canonical), null, 2)}
-  </script>
-</head>
-<body>
-${HEADER}
-  <main id="main">
-    <section class="page-hero">
-      <div class="page-hero__media">
-        <img src="/assets/images/hero-landscaping-northwest-melbourne.webp" alt="Landscaped backyard with new turf, paving and garden beds in ${name}, north-west Melbourne" width="1920" height="1080" fetchpriority="high" />
-      </div>
-      <div class="wrap page-hero__inner">
-        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/#areas">Areas</a><span>/</span>${name}</nav>
-        <h1>Turf &amp; landscaping in ${name}</h1>
-        <p>Your local crew for lawns, paving, retaining walls and gardens in ${name} and across Melbourne's north-west.</p>
-        ${heroActions()}
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="wrap">
-        <div class="prose">
-          <p class="lead">${SUBURB_INTRO[name]}</p>
-          <p>We're a local business, so a job in ${name} isn't a long drive across town for us — it's our patch. That means quick quotes, familiar soils and conditions, and a crew that treats your street like its own. Every job comes with a free on-site quote and a clear fixed price before we start.</p>
-
-          <h2>What we do in ${name}</h2>
-          <ul>
-            <li><a href="/services/natural-turf-solutions">Natural turf supply and laying</a> — new lawns prepared and laid to last</li>
-            <li><a href="/services/paving-and-stepping-stones">Paving and stepping stones</a> — patios, paths and pool surrounds</li>
-            <li><a href="/services/retaining-walls">Retaining walls</a> — sleeper, block and rock walls to level your yard</li>
-            <li><a href="/services/soft-landscaping">Soft landscaping</a> — garden beds, planting, soil and mulch</li>
-            <li><a href="/services/garden-design">Garden design</a> — a costed plan you can build in stages</li>
-          </ul>
-
-          <h2>Why ${name} homeowners choose us</h2>
-          <p>We're fully insured, rated 4.8 across 17 Google reviews, and Victorian owned and operated. We turn up when we say we will, keep the site tidy, and hand over a finished job you'll be proud to show off. No call centres, no vague estimates — just straight answers and quality work.</p>
-
-          <h2>Nearby suburbs we service</h2>
-          <div class="chip-row">
-${suburbNearby(name).map((n) => `            <a class="chip" href="/suburbs/${slug(n)}">${n}</a>`).join("\n")}
-          </div>
-        </div>
-
-        <div style="margin-top:2.4rem;">
-          ${ctaBand()}
-        </div>
-      </div>
-    </section>
-  </main>
-${FOOTER}`;
-}
+/* ---------- Suburb pages: retired ----------
+   Per-suburb pages were thin, templated stubs with no genuinely unique
+   content per suburb, and half the suburbs they covered are no longer
+   verified service areas. Coverage is now presented on the homepage via
+   the regional Service Areas section instead of one page per suburb.
+   Re-introduce a suburb page only when it can carry real, location-
+   specific content (e.g. completed local projects). */
 
 /* ---------- Write files ---------- */
 fs.mkdirSync(path.join(OUTDIR, "services"), { recursive: true });
-fs.mkdirSync(path.join(OUTDIR, "suburbs"), { recursive: true });
 
 let count = 0;
 for (const s of SERVICES) {
   const file = path.join(OUTDIR, "services", `${slug(s.name)}.html`);
   fs.writeFileSync(file, servicePage(s));
   console.log("wrote services/" + slug(s.name) + ".html");
-  count++;
-}
-for (const name of SUBURBS) {
-  const file = path.join(OUTDIR, "suburbs", `${slug(name)}.html`);
-  fs.writeFileSync(file, suburbPage(name));
-  console.log("wrote suburbs/" + slug(name) + ".html");
   count++;
 }
 console.log("Done:", count, "pages");

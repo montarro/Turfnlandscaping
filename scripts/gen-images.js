@@ -85,7 +85,7 @@ const IMAGES = [
 
   // Labelled — standalone card, nothing overlaid.
   { file: "og-turf-and-landscaping.webp", w: 1200, h: 630, grad: "b", icon: "hero",
-    lines: ["Turf & Landscaping", "North-West Melbourne"], eyebrow: "FREE ON-SITE QUOTES" },
+    lines: ["Turf & Landscaping", "Melbourne West & Inner Suburbs"], eyebrow: "FREE ON-SITE QUOTES" },
 
   { file: "new-turf-lawn-craigieburn-backyard.webp", w: 1200, h: 900, grad: "c", icon: "turf",
     lines: ["New turf lawn", "Craigieburn"] },
