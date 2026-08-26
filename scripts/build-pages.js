@@ -105,12 +105,27 @@ const HEADER = `
       </div>
     </div>
     <nav class="mobile-nav" id="mobile-nav" data-open="false" aria-label="Mobile">
-      <a href="/#who-we-are">Who We Are</a>
-      <a href="/#services">Our Services</a>
-      <a href="/#areas">Service Areas</a>
-      <a href="/#how">How We Work</a>
-      <a href="/#work">Our Projects</a>
-      <a href="/#faq">FAQ</a>
+      <div class="mobile-nav__group">
+        <span class="mobile-nav__label">Menu</span>
+        <a href="/#who-we-are">Who We Are</a>
+        <a href="/#work">Our Projects</a>
+        <a href="/#how">How We Work</a>
+        <a href="/#areas">Service Areas</a>
+        <a href="/#faq">FAQ</a>
+      </div>
+      <div class="mobile-nav__group">
+        <span class="mobile-nav__label">Services</span>
+        <a href="/services/natural-turf-solutions">Turf Solutions</a>
+        <a href="/services/retaining-walls">Landscape Construction</a>
+        <a href="/services/paving-and-stepping-stones">Hard Landscaping</a>
+        <a href="/services/soft-landscaping">Soft Landscaping &amp; Planting</a>
+        <a href="/services/garden-design">Garden Design</a>
+      </div>
+      <div class="mobile-nav__group">
+        <span class="mobile-nav__label">Get in touch</span>
+        <a href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a>
+        <a href="mailto:info@turfandlandscaping.com.au">info@turfandlandscaping.com.au</a>
+      </div>
       <a class="btn btn--primary btn--block" href="/#quote">Request a Quote</a>
     </nav>
   </header>`;

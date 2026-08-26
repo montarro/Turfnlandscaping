@@ -32,8 +32,9 @@ const SLOTS = {
 const SIZES = {
   "hero-landscaping-northwest-melbourne": [1920, 1080],
   "og-turf-and-landscaping": [1200, 630],
-  "founder-sebastian-caus": [960, 1200],   // 4:5 portrait, matches the founder panel
 };
+// slots resized by width only, keeping the photo's own aspect ratio uncropped
+const NO_CROP = { "founder-sebastian-caus": 960 };
 const SERVICE_SIZE = [1200, 750];
 const GALLERY_SIZE = [1200, 900];
 
@@ -50,6 +51,17 @@ const OK = [".jpg", ".jpeg", ".png", ".webp"];
 
     const key = path.basename(file, path.extname(file)).toLowerCase();
     const target = SLOTS[key] || key;                 // unknown names pass through
+
+    if (NO_CROP[target]) {
+      await sharp(path.join(SRC, file))
+        .resize(NO_CROP[target])
+        .webp({ quality: 80 })
+        .toFile(path.join(OUT, target + ".webp"));
+      console.log(`photo: ${file} -> ${target}.webp (w${NO_CROP[target]}, uncropped)`);
+      n++;
+      continue;
+    }
+
     const size = SIZES[target] || (target.startsWith("service-") ? SERVICE_SIZE : GALLERY_SIZE);
 
     await sharp(path.join(SRC, file))
