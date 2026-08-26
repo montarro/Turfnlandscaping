@@ -264,6 +264,15 @@
 
             <!-- Step 1 — contact first, so a drop-off still leaves us a lead -->
             <div class="form__step" data-step="1">
+              <div class="form__row">
+                <div class="field">
+                  <span class="field__label-text" id="ctype-label">Is this for your home or a commercial property? <span class="req" aria-hidden="true">*</span></span>
+                  <div class="qpills" role="radiogroup" aria-labelledby="ctype-label">
+                    <label class="qpill"><input type="radio" name="customer_type" value="Residential" required /><span>My Home</span></label>
+                    <label class="qpill"><input type="radio" name="customer_type" value="Commercial" required /><span>Commercial</span></label>
+                  </div>
+                </div>
+              </div>
               <div class="form__row form__row--2">
                 <div class="field">
                   <label for="name">Name <span class="req" aria-hidden="true">*</span></label>

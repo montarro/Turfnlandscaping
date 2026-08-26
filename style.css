@@ -354,7 +354,7 @@ p  { margin: 0 0 1rem; }
 .form__title { color: var(--forest-900); font-size: 1.35rem; margin-bottom: .9rem; }
 .form__row { display: grid; gap: 1rem; grid-template-columns: 1fr; margin-bottom: 1rem; }
 .field { display: flex; flex-direction: column; gap: .35rem; }
-.field label { font-weight: 600; color: var(--forest-900); font-size: .95rem; font-family: var(--font-display); }
+.field label, .field__label-text { font-weight: 600; color: var(--forest-900); font-size: .95rem; font-family: var(--font-display); }
 .field .req { color: var(--error); }
 .field input, .field select, .field textarea {
   font: inherit; color: var(--ink); background: #fff;
