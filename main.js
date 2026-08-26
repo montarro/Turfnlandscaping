@@ -45,6 +45,114 @@
     revealEls.forEach(function (el) { el.classList.add("is-visible"); });
   }
 
+  /* -------------------------------------------------------------------
+     BEFORE / AFTER TRANSFORMATIONS
+     Populate with REAL project pairs only — matching before and after
+     photos of the same job. The section stays hidden until at least one
+     entry exists here, so nothing fabricated ever renders.
+
+     Drop photo pairs into assets/photos/ (they pass through the build to
+     /assets/images/<name>.webp) and add entries like:
+       { before: "/assets/images/job1-before.webp",
+         after:  "/assets/images/job1-after.webp",
+         title:  "Backyard turf & paving",
+         suburb: "Werribee",
+         services: "Natural turf · Paving · Garden beds" }
+     ------------------------------------------------------------------- */
+  var TRANSFORMATIONS = [];
+
+  (function initTransformations() {
+    var section = document.getElementById("transformations");
+    if (!section || !TRANSFORMATIONS.length) return;
+    section.hidden = false;
+
+    var track = document.getElementById("tf-track");
+    var dots = document.getElementById("tf-dots");
+    var current = 0;
+
+    TRANSFORMATIONS.forEach(function (t, i) {
+      var slide = document.createElement("div");
+      slide.className = "tf__slide";
+      slide.innerHTML =
+        '<div class="ba">' +
+        '<img class="ba__before" src="' + t.before + '" alt="Before: ' + t.title + '" loading="lazy" />' +
+        '<img class="ba__after" src="' + t.after + '" alt="After: ' + t.title + '" loading="lazy" />' +
+        '<span class="ba__label ba__label--after">After</span>' +
+        '<span class="ba__label ba__label--before">Before</span>' +
+        '<div class="ba__divider"></div>' +
+        '<div class="ba__handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6l-4 6 4 6M16 6l4 6-4 6"/></svg></div>' +
+        "</div>" +
+        '<div class="tf__meta"><h3>' + t.title + "</h3><p>" + t.suburb + " · " + t.services + "</p></div>";
+      track.appendChild(slide);
+
+      var dot = document.createElement("button");
+      dot.className = "tf__dot";
+      dot.type = "button";
+      dot.setAttribute("aria-label", "Go to project " + (i + 1));
+      dot.addEventListener("click", function () { go(i); });
+      dots.appendChild(dot);
+
+      initBASlider(slide.querySelector(".ba"));
+    });
+
+    function go(i) {
+      current = (i + TRANSFORMATIONS.length) % TRANSFORMATIONS.length;
+      track.style.transform = "translateX(-" + current * 100 + "%)";
+      Array.prototype.forEach.call(dots.children, function (d, j) {
+        if (j === current) { d.setAttribute("aria-current", "true"); }
+        else { d.removeAttribute("aria-current"); }
+      });
+    }
+
+    var prev = section.querySelector("[data-tf-prev]");
+    var next = section.querySelector("[data-tf-next]");
+    if (prev) prev.addEventListener("click", function () { go(current - 1); });
+    if (next) next.addEventListener("click", function () { go(current + 1); });
+
+    // Horizontal swipe between projects (ignores drags that start on the slider itself)
+    var startX = null;
+    track.addEventListener("pointerdown", function (e) {
+      if (e.target.closest(".ba")) return;
+      startX = e.clientX;
+    });
+    track.addEventListener("pointerup", function (e) {
+      if (startX === null) return;
+      var dx = e.clientX - startX;
+      startX = null;
+      if (dx > 48) go(current - 1);
+      else if (dx < -48) go(current + 1);
+    });
+
+    go(0);
+  })();
+
+  /* Draggable before/after divider: pointer position sets the clip on the
+     "after" image, so dragging right reveals more of the finished job. */
+  function initBASlider(el) {
+    if (!el) return;
+    var after = el.querySelector(".ba__after");
+    var divider = el.querySelector(".ba__divider");
+    var handle = el.querySelector(".ba__handle");
+    var dragging = false;
+
+    function setPos(clientX) {
+      var rect = el.getBoundingClientRect();
+      var pct = Math.min(96, Math.max(4, ((clientX - rect.left) / rect.width) * 100));
+      after.style.clipPath = "inset(0 " + (100 - pct) + "% 0 0)";
+      divider.style.left = pct + "%";
+      handle.style.left = pct + "%";
+    }
+
+    el.addEventListener("pointerdown", function (e) {
+      dragging = true;
+      el.setPointerCapture(e.pointerId);
+      setPos(e.clientX);
+    });
+    el.addEventListener("pointermove", function (e) { if (dragging) setPos(e.clientX); });
+    el.addEventListener("pointerup", function () { dragging = false; });
+    el.addEventListener("pointercancel", function () { dragging = false; });
+  }
+
   /* ---------- Mobile navigation ---------- */
   var toggle = document.querySelector(".nav-toggle");
   var mobileNav = document.getElementById("mobile-nav");

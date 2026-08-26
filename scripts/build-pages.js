@@ -80,7 +80,7 @@ function head({ title, desc, canonical, image = OG }) {
 const HEADER = `
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="wrap site-header__inner">
+    <div class="site-header__inner">
       <a class="brand" href="/" aria-label="Turf and Landscaping — home">
         <img class="brand__logo" src="/assets/logo-turf-and-landscaping.png"
              alt="Turf and Landscaping" width="918" height="381" />
@@ -97,9 +97,7 @@ const HEADER = `
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.24 1z"/></svg>
           <span>0457&nbsp;357&nbsp;085</span>
         </a>
-        <a class="header-call" href="/#quote">
-          <span class="header-call__num">Request a Quote</span>
-        </a>
+        <a class="header-call" href="/#quote">Request a Quote</a>
         <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false">
           <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
           <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
@@ -112,9 +110,8 @@ const HEADER = `
       <a href="/#areas">Service Areas</a>
       <a href="/#how">How We Work</a>
       <a href="/#work">Our Projects</a>
-      <a href="/#reviews">Reviews</a>
       <a href="/#faq">FAQ</a>
-      <a class="btn btn--call btn--block" href="/#quote">Request a Quote</a>
+      <a class="btn btn--primary btn--block" href="/#quote">Request a Quote</a>
     </nav>
   </header>`;
 
@@ -127,7 +124,7 @@ const FOOTER = `
             <img class="brand__logo" src="/assets/logo-turf-and-landscaping-white.png"
                  alt="Turf and Landscaping" width="918" height="381" />
           </a>
-          <p style="margin-top:1rem;max-width:22rem;color:#9db8a4;">Turf, landscape construction and property care across Melbourne's west and inner suburbs.</p>
+          <p style="margin-top:1rem;max-width:22rem;">Turf, landscape construction and property care across Melbourne's west and inner suburbs.</p>
           <div class="footer__socials">
             <a href="https://www.instagram.com/turfandlandscaping" target="_blank" rel="noopener" aria-label="Turf and Landscaping on Instagram">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.06 1.8.25 2.2.42.6.2 1 .46 1.4.86.4.4.66.8.86 1.4.17.4.36 1 .42 2.2.07 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.06 1.2-.25 1.8-.42 2.2a3.8 3.8 0 0 1-.86 1.4c-.4.4-.8.66-1.4.86-.4.17-1 .36-2.2.42-1.3.07-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.06-1.8-.25-2.2-.42a3.8 3.8 0 0 1-1.4-.86 3.8 3.8 0 0 1-.86-1.4c-.17-.4-.36-1-.42-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.06-1.2.25-1.8.42-2.2.2-.6.46-1 .86-1.4.4-.4.8-.66 1.4-.86.4-.17 1-.36 2.2-.42C8.4 2.2 8.8 2.2 12 2.2z"/></svg>
@@ -140,10 +137,10 @@ const FOOTER = `
         <div>
           <h4>Services</h4>
           <ul>
-            <li><a href="/services/natural-turf-solutions">Natural Turf Solutions</a></li>
-            <li><a href="/services/paving-and-stepping-stones">Paving &amp; Stepping Stones</a></li>
-            <li><a href="/services/retaining-walls">Retaining Walls</a></li>
-            <li><a href="/services/soft-landscaping">Soft Landscaping</a></li>
+            <li><a href="/services/natural-turf-solutions">Turf Solutions</a></li>
+            <li><a href="/services/retaining-walls">Landscape Construction</a></li>
+            <li><a href="/services/paving-and-stepping-stones">Hard Landscaping</a></li>
+            <li><a href="/services/soft-landscaping">Soft Landscaping &amp; Planting</a></li>
             <li><a href="/services/garden-design">Garden Design</a></li>
           </ul>
         </div>
