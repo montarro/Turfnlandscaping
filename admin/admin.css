@@ -158,3 +158,30 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 .empty { color: var(--muted); text-align: center; padding: 2rem 1rem; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* ---------- Job board ---------- */
+.stat--needs.has-jobs { background: var(--forest-900); border-color: var(--forest-800); }
+.stat--needs.has-jobs strong { color: #fff; }
+.stat--needs.has-jobs span { color: #f0d48a; font-weight: 700; }
+.jobtabs { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.jobtab {
+  font: inherit; font-weight: 600; font-size: .88rem; cursor: pointer;
+  background: var(--cream); color: var(--muted);
+  border: 1.5px solid var(--line); border-radius: 999px; padding: .45rem .9rem; min-height: 40px;
+}
+.jobtab.active { background: var(--forest-800); border-color: var(--forest-800); color: #fff; }
+.job-card {
+  display: flex; gap: 1rem; align-items: flex-start; justify-content: space-between;
+  border: 1px solid var(--line); border-radius: var(--r-md); background: #fff;
+  padding: .9rem 1rem; margin-bottom: .7rem;
+}
+.job-card__main { min-width: 0; }
+.job-card__main strong { font-size: 1rem; color: var(--forest-900); }
+.job-card__actions { display: flex; flex-direction: column; gap: .4rem; flex: none; }
+.job-card__actions .btn { min-height: 40px; white-space: nowrap; }
+.job-days { background: #f8e3e1; color: var(--error); border-radius: 999px; padding: .1rem .55rem; font-size: .75rem; font-weight: 700; }
+@media (max-width: 560px) {
+  .job-card { flex-direction: column; }
+  .job-card__actions { flex-direction: row; width: 100%; }
+  .job-card__actions .btn { flex: 1; }
+}
