@@ -49,12 +49,12 @@
       opts.headers = Object.assign({ "Content-Type": "application/json" }, opts.headers);
     }
     var res = await fetch(path, opts);
-    if (res.status === 401) {
-      if (location.pathname !== "/admin/login") nav("/admin/login");
-      throw new Error("Not signed in");
-    }
     var data = null;
     try { data = await res.json(); } catch (e) {}
+    if (res.status === 401) {
+      if (location.pathname !== "/admin/login") nav("/admin/login");
+      throw new Error("Not signed in" + (data && data.reason ? " [" + data.reason + "]" : ""));
+    }
     if (!res.ok) {
       var msg = (data && data.error) || "Request failed";
       if (data && data.reason) msg += " [" + data.reason + "]";
@@ -124,8 +124,8 @@
         await api("/api/auth/me");
         nav("/admin/invoices");
       } catch (ex) {
-        err.textContent = ex.message === "Not signed in"
-          ? "Signed in, but the session cookie didn't persist — tell Claude exactly this."
+        err.textContent = ex.message.indexOf("Not signed in") === 0
+          ? "Signed in, but the session didn't persist: " + ex.message
           : ex.message;
       } finally {
         if (btn.textContent !== "Signed in ✓" || err.textContent) { btn.disabled = false; btn.textContent = "Sign in"; }
