@@ -40,6 +40,7 @@ function copyDir(relDir) {
   }
 }
 copyDir("assets");
+copyDir("admin");
 
 // Generated pages + images, written straight into dist
 const env = { ...process.env, OUTDIR: DIST };
