@@ -1,39 +1,40 @@
 /* =====================================================================
-   Generator for the individual service pages (17 routes).
-   Fully self-contained: it duplicates the site header/footer markup
-   rather than importing from build-pages.js, and its pages load a
-   scoped stylesheet (service-pages.css) on top of the global one, so
-   nothing here can alter the homepage or /quote.
-
-   Runs after build-pages.js in the build, so where a route overlaps a
-   legacy stub (retaining-walls, soft-landscaping) this version wins.
-
-     node scripts/build-service-pages.js
+   Generator for the /services hub + all individual service pages.
+   Content comes from scripts/services-data.js. Self-contained chrome;
+   loads scoped stylesheets only (service-pages.css + projects.css for
+   the shared gallery/before-after components) — no global changes.
+   Runs after build-pages.js so its richer versions of overlapping
+   routes win.
    ===================================================================== */
 const fs = require("fs");
 const path = require("path");
+const DATA = require("./services-data.js");
 
 const ROOT = path.join(__dirname, "..");
 const OUTDIR = process.env.OUTDIR || ROOT;
 const SITE = "https://turfandlandscaping.com.au";
 const PHONE_DISPLAY = "0457 357 085";
 const PHONE_TEL = "+61457357085";
-const OG = SITE + "/assets/images/og-turf-and-landscaping.webp";
 
-/* ---------- Site chrome (duplicated, not imported — see header note) ---------- */
+const ALL = [...DATA.primary, ...DATA.secondary, ...DATA.extra];
+const bySlug = {};
+ALL.forEach((s) => { bySlug[s.slug] = s; });
+const img = (name) => `/assets/images/${name}.webp`;
+const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+/* ---------- shared chrome ---------- */
 const HEADER = `
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="site-header__inner">
       <a class="brand" href="/" aria-label="Turf and Landscaping — home">
-        <img class="brand__logo" src="/assets/logo-turf-and-landscaping.png"
-             alt="Turf and Landscaping" width="918" height="381" />
+        <img class="brand__logo" src="/assets/logo-turf-and-landscaping.png" alt="Turf and Landscaping" width="918" height="381" />
       </a>
       <nav class="primary-nav" aria-label="Primary">
         <a href="/#who-we-are">Who We Are</a>
-        <a href="/#services">Our Services</a>
+        <a href="/services">Our Services</a>
         <a href="/#areas">Service Areas</a>
-        <a href="/#work">Our Projects</a>
+        <a href="/projects">Our Projects</a>
         <a href="/#faq">FAQ</a>
       </nav>
       <div class="header-cta">
@@ -52,17 +53,17 @@ const HEADER = `
       <div class="mobile-nav__group">
         <span class="mobile-nav__label">Menu</span>
         <a href="/#who-we-are">Who We Are</a>
-        <a href="/#work">Our Projects</a>
-        <a href="/#how">How We Work</a>
+        <a href="/services">Our Services</a>
+        <a href="/projects">Our Projects</a>
         <a href="/#areas">Service Areas</a>
         <a href="/#faq">FAQ</a>
       </div>
       <div class="mobile-nav__group">
         <span class="mobile-nav__label">Services</span>
-        <a href="/services/turf-installation">Turf Installation</a>
+        <a href="/services/natural-turf-installation">Natural Turf</a>
+        <a href="/services/synthetic-turf-installation">Synthetic Turf</a>
         <a href="/services/retaining-walls">Retaining Walls</a>
-        <a href="/services/paving-stepping-stones">Paving &amp; Stepping Stones</a>
-        <a href="/services/soft-landscaping">Soft Landscaping</a>
+        <a href="/services/paving">Paving</a>
         <a href="/services/property-maintenance">Property Maintenance</a>
       </div>
       <div class="mobile-nav__group">
@@ -80,22 +81,19 @@ const FOOTER = `
       <div class="footer__grid">
         <div class="footer__brand">
           <a class="brand brand--footer" href="/" aria-label="Turf and Landscaping — home">
-            <img class="brand__logo" src="/assets/logo-turf-and-landscaping-white.png"
-                 alt="Turf and Landscaping" width="918" height="381" />
+            <img class="brand__logo" src="/assets/logo-turf-and-landscaping-white.png" alt="Turf and Landscaping" width="918" height="381" />
           </a>
           <p style="margin-top:1rem;max-width:22rem;">Turf, landscape construction and property care across Melbourne's west and inner suburbs.</p>
-          <div class="footer__cta">
-            <a class="btn btn--ondark" href="/quote">Request a Quote</a>
-          </div>
+          <div class="footer__cta"><a class="btn btn--ondark" href="/quote">Request a Quote</a></div>
         </div>
         <div>
           <h4>Services</h4>
           <ul>
-            <li><a href="/services/turf-installation">Turf Installation</a></li>
+            <li><a href="/services/natural-turf-installation">Natural Turf</a></li>
+            <li><a href="/services/synthetic-turf-installation">Synthetic Turf</a></li>
             <li><a href="/services/retaining-walls">Retaining Walls</a></li>
-            <li><a href="/services/paving-stepping-stones">Paving &amp; Stepping Stones</a></li>
-            <li><a href="/services/soft-landscaping">Soft Landscaping</a></li>
-            <li><a href="/services/property-maintenance">Property Maintenance</a></li>
+            <li><a href="/services/paving">Paving</a></li>
+            <li><a href="/services">All Services</a></li>
           </ul>
         </div>
         <div>
@@ -124,233 +122,12 @@ const FOOTER = `
     </div>
   </footer>
   <script src="/main.js" defer></script>
+  <script src="/projects.js" defer></script>
   <script>var y=document.getElementById("year"); if(y) y.textContent=new Date().getFullYear();</script>
 </body>
 </html>`;
 
-/* ---------- Service data ---------- */
-const IMG = {
-  turf: "service-natural-turf-solutions.webp",
-  turfProject: "project-turf-stepping-stones.webp",
-  lawn: "project-lawn-rocks.webp",
-  paving: "service-paving-and-stepping-stones.webp",
-  walls: "service-retaining-walls.webp",
-  soft: "service-soft-landscaping.webp",
-  garden: "project-garden-path.webp",
-  hero: "hero-landscaping-northwest-melbourne.webp",
-};
-
-const SERVICES = [
-  {
-    slug: "turf-installation",
-    name: "Turf Installation",
-    tagline: "Natural and synthetic lawns supplied and installed on properly prepared ground.",
-    image: IMG.turf,
-    intro: "A new lawn transforms a property faster than any other single job — but only if the ground underneath is done right. We handle the full installation: clearing, levelling, base preparation and laying, for both natural and synthetic turf.",
-    included: ["Site clearing and old surface removal", "Soil preparation, grading and levelling", "Natural turf supply and laying", "Synthetic turf installation", "Watering-in and simple aftercare advice"],
-    body: "Not sure whether natural or synthetic suits you better? It usually comes down to sun, traffic and how much upkeep you want. We'll talk it through on-site and recommend what genuinely fits your yard and budget — see our dedicated natural and synthetic pages for more detail on each.",
-    related: ["natural-turf-installation", "synthetic-turf-installation", "turf-repair-patching", "lawn-mowing"],
-  },
-  {
-    slug: "natural-turf-installation",
-    name: "Natural Turf Installation",
-    tagline: "Fresh, hard-wearing natural lawns laid to suit your soil, sun and lifestyle.",
-    image: IMG.turfProject,
-    intro: "Nothing beats real grass underfoot. We supply and lay quality natural turf over properly prepared, graded and drained ground, so your new lawn takes quickly and holds up to Melbourne summers, kids and pets.",
-    included: ["Help choosing the right variety for your aspect", "Site clearing, weed removal and soil preparation", "Grading and levelling for an even finish", "Careful laying, rolling and joint alignment", "Watering-in guidance for the first weeks"],
-    body: "Variety matters: a tougher couch or kikuyu for full sun and heavy traffic, or a soft-leaf buffalo where you want shade tolerance and a plush feel. We'll recommend what suits the spot rather than what's easiest to supply.",
-    related: ["synthetic-turf-installation", "turf-installation", "lawn-mowing", "irrigation-repairs"],
-  },
-  {
-    slug: "synthetic-turf-installation",
-    name: "Synthetic Turf Installation",
-    tagline: "Low-maintenance synthetic lawns that stay green all year round.",
-    image: IMG.turf,
-    intro: "For shaded courtyards, high-traffic areas, or anyone done with mowing, quality synthetic turf is a genuinely good answer. Installed properly — compacted base, correct drainage, secured edges — it looks sharp year-round with almost no upkeep.",
-    included: ["Excavation and compacted base preparation", "Drainage layer done properly", "Quality synthetic turf supply and installation", "Secured, tidy edges and joins", "Infill and final grooming"],
-    body: "The difference between synthetic turf that looks premium and turf that looks fake is nearly all in the preparation and the product grade. We'll show you the options and be straight about where synthetic makes sense — and where real grass would serve you better.",
-    related: ["natural-turf-installation", "turf-installation", "hard-landscaping", "garden-planting"],
-  },
-  {
-    slug: "turf-repair-patching",
-    name: "Turf Repair & Patching",
-    tagline: "Bring a tired, patchy lawn back to life without replacing the lot.",
-    image: IMG.lawn,
-    intro: "Dead patches, worn tracks, dog damage or a lawn that never recovered from summer — often the fix is repair, not replacement. We patch, level and re-establish problem areas so the whole lawn reads as one again.",
-    included: ["Assessment of what's actually causing the damage", "Removal and replacement of dead sections", "Levelling of sunken or worn areas", "Matching turf variety to your existing lawn", "Advice to stop the problem recurring"],
-    body: "If the lawn is past saving we'll say so and quote a proper reinstallation instead — but plenty of lawns just need targeted repair and better conditions to come good.",
-    related: ["turf-installation", "lawn-mowing", "weed-control-spraying", "irrigation-repairs"],
-  },
-  {
-    slug: "paving-stepping-stones",
-    name: "Paving & Stepping Stones",
-    tagline: "Patios, paths and stepping stones laid dead level on a proper base.",
-    image: IMG.paving,
-    intro: "Good paving is all in the base you don't see. We excavate, compact and lay a proper sub-base so your patio, path or stepping-stone walk stays flat and true for years — no rocking pavers, no puddles, no weeds pushing through.",
-    included: ["Excavation and compacted road-base preparation", "Bluestone, concrete, clay and porcelain pavers", "Stepping-stone paths and garden walkways", "Correct falls for drainage away from the house", "Clean cuts, tight joints and a swept finish"],
-    body: "From an entertaining area off the back door to a neat stepping-stone path through the garden, we lay to a string line and a level so the finish looks sharp and drains the way it should.",
-    related: ["hard-landscaping", "retaining-walls", "turf-installation", "garden-planting"],
-  },
-  {
-    slug: "retaining-walls",
-    name: "Retaining Walls",
-    tagline: "Structural walls that hold back slopes and carve out usable, level yard.",
-    image: IMG.walls,
-    intro: "A retaining wall does real structural work, so it has to be built right. We set posts to the correct depth, use the right materials for the load, and put ag-drain and backfill behind every wall so water has somewhere to go instead of pushing the wall over.",
-    included: ["Timber and concrete sleeper walls", "Besser block and rock walls", "Ag-drain, aggregate and correct backfill", "Levelling and terracing of sloping blocks", "Advice on engineering or permits where needed"],
-    body: "Whether you're levelling a sloping backyard for a lawn, terracing a garden into usable beds, or holding back a driveway cut, we'll recommend the right wall type and height for the job — and tell you up front if it needs engineering or council sign-off.",
-    related: ["hard-landscaping", "paving-stepping-stones", "complete-landscape-transformations", "turf-installation"],
-  },
-  {
-    slug: "hard-landscaping",
-    name: "Hard Landscaping",
-    tagline: "Paving, pathways, edging and the structural work that shapes a yard.",
-    image: IMG.paving,
-    intro: "Hard landscaping is the skeleton of a good outdoor space — the paths, edges, walls and surfaces everything else hangs off. We build it level, drained and made to last, so the soft planting on top has something worth sitting on.",
-    included: ["Paving and pathways", "Garden edging in timber, steel or masonry", "Retaining walls and terracing", "Drainage built into the job, not bolted on", "Demolition and removal of old surfaces"],
-    body: "We're happy quoting a single element or the whole structural stage of a bigger project. Either way the same rule applies: preparation first, because that's what decides whether it still looks right in ten years.",
-    related: ["paving-stepping-stones", "retaining-walls", "complete-landscape-transformations", "soft-landscaping"],
-  },
-  {
-    slug: "soft-landscaping",
-    name: "Soft Landscaping",
-    tagline: "Garden beds, planting and mulch that make the whole yard feel finished.",
-    image: IMG.soft,
-    intro: "Soft landscaping is what turns a bare block into a garden. We build up good soil, choose plants that suit the spot and your appetite for maintenance, and finish with clean edges and quality mulch so beds look sharp and stay that way.",
-    included: ["Garden bed shaping and soil improvement", "Plant selection and planting", "Quality mulch, compost and feature stone", "Timber, steel or masonry garden edging", "Low-maintenance and water-wise planting plans"],
-    body: "Tell us how much time you actually want to spend gardening and we'll plan beds to match — from a low-care front garden to a lush, layered backyard.",
-    related: ["garden-planting", "mulching", "garden-care", "hedge-trimming-pruning"],
-  },
-  {
-    slug: "garden-planting",
-    name: "Garden Planting",
-    tagline: "The right plants, in the right spots, planted to establish properly.",
-    image: IMG.garden,
-    intro: "Plants fail when they're wrong for the position — too much sun, too little, wrong soil, wrong water. We select and plant for your actual conditions, so the garden establishes quickly and keeps looking better each season instead of worse.",
-    included: ["Plant selection for your soil, sun and style", "Natives and exotics suited to Melbourne conditions", "Proper soil preparation and planting technique", "Layout and spacing planned for mature size", "Establishment watering and care advice"],
-    body: "We're big on hardy, water-wise plants that look good with minimal fuss — and honest about which favourites are high-maintenance choices before you commit to them.",
-    related: ["soft-landscaping", "mulching", "garden-care", "irrigation-repairs"],
-  },
-  {
-    slug: "mulching",
-    name: "Mulching",
-    tagline: "Quality mulch, properly laid — better beds, fewer weeds, less watering.",
-    image: IMG.soft,
-    intro: "Mulch is the cheapest improvement a garden can get: it holds moisture, suppresses weeds, feeds the soil as it breaks down and instantly tidies the look of every bed. We supply and spread quality mulch at the right depth, with clean edges.",
-    included: ["Supply of quality organic and decorative mulches", "Bed preparation and weed removal first", "Spreading at the correct depth", "Clean, defined edges around beds and trees", "Advice on the right mulch for each area"],
-    body: "Happy to do a single top-up or mulch an entire property. Combined with planting or garden care it's the fastest way to lift how the whole garden presents.",
-    related: ["soft-landscaping", "garden-planting", "garden-care", "weed-control-spraying"],
-  },
-  {
-    slug: "complete-landscape-transformations",
-    name: "Complete Landscape Transformations",
-    tagline: "Full outdoor makeovers — turf, paving, walls and gardens under one team.",
-    image: IMG.hero,
-    intro: "Some yards need more than one trade. A complete transformation brings turf, paving, retaining walls, garden beds and planting together under one team and one plan, so each stage is built in the right order and everything lines up at the end.",
-    included: ["One plan covering the whole space", "Demolition and site clearing", "Retaining walls, paving and structural work first", "Turf, garden beds and planting to finish", "Staged builds available to suit your budget"],
-    body: "Because one team runs the whole job, you don't get the usual gaps between trades — the levels match, the drainage works as one system, and there's a single person accountable for the finish.",
-    related: ["hard-landscaping", "turf-installation", "soft-landscaping", "retaining-walls"],
-  },
-  {
-    slug: "lawn-mowing",
-    name: "Lawn Mowing",
-    tagline: "Regular, reliable mowing that keeps your lawn healthy and sharp.",
-    image: IMG.lawn,
-    intro: "A good lawn is made by consistent care. We mow at the right height for your grass type — scalping a lawn to stretch out visits is how lawns die — edge it cleanly, and leave the site tidy every time.",
-    included: ["Mowing at the correct height for your grass", "Clean edges along paths, beds and fences", "Clippings caught and removed", "Regular schedules or one-off tidy-ups", "Homes and commercial properties"],
-    body: "Pair mowing with seasonal feeding and weed control and the lawn doesn't just stay neat — it steadily improves.",
-    related: ["turf-repair-patching", "weed-control-spraying", "garden-care", "property-maintenance"],
-  },
-  {
-    slug: "property-maintenance",
-    name: "Property Maintenance",
-    tagline: "Ongoing care that keeps a property looking the way it was handed over.",
-    image: IMG.hero,
-    intro: "Whether it's your home, a rental, or a commercial site, regular maintenance protects what the landscaping cost to build. We keep lawns, gardens, hedges and surfaces presentable on a schedule that suits the property.",
-    included: ["Lawn mowing and edging", "Garden bed care and seasonal tidy-ups", "Hedge and shrub maintenance", "Weed management", "Flexible schedules for homes and businesses"],
-    body: "One reliable team that already knows your property beats juggling separate trades. We'll shape a maintenance schedule around what the site actually needs, not a one-size-fits-all package.",
-    related: ["lawn-mowing", "garden-care", "hedge-trimming-pruning", "irrigation-repairs"],
-  },
-  {
-    slug: "garden-care",
-    name: "Garden Care",
-    tagline: "Seasonal care that keeps garden beds healthy, tidy and thriving.",
-    image: IMG.soft,
-    intro: "Gardens are living things — they need feeding, pruning, weeding and the occasional hard word. Our garden care keeps beds healthy and presentable through the seasons, so the garden improves year on year instead of slowly going backwards.",
-    included: ["Weeding and bed tidy-ups", "Pruning and deadheading", "Soil improvement and feeding", "Mulch top-ups", "Seasonal planting refreshes"],
-    body: "We can visit on a regular schedule or do periodic seasonal blitzes — whatever keeps your garden at the standard you want without you spending every weekend on it.",
-    related: ["garden-planting", "mulching", "hedge-trimming-pruning", "property-maintenance"],
-  },
-  {
-    slug: "irrigation-repairs",
-    name: "Irrigation Repairs",
-    tagline: "Get broken irrigation running properly again — and watering what it should.",
-    image: IMG.turf,
-    intro: "Broken heads, leaking lines, dead zones, controllers nobody remembers how to program — irrigation problems waste water and quietly kill the lawn and garden it was meant to protect. We find the fault and fix it properly.",
-    included: ["Fault-finding on existing systems", "Replacing broken heads, valves and fittings", "Repairing damaged lines", "Controller setup and programming", "Adjusting coverage so water lands where it should"],
-    body: "If the system's beyond economic repair we'll tell you straight and lay out the options, rather than billing endless small fixes on a system that needs replacing.",
-    related: ["turf-repair-patching", "lawn-mowing", "garden-care", "property-maintenance"],
-  },
-  {
-    slug: "weed-control-spraying",
-    name: "Weed Control & Spraying",
-    tagline: "Targeted weed control that deals with the problem, not just the symptoms.",
-    image: IMG.lawn,
-    intro: "Weeds are a symptom — of thin turf, bare soil, or beds without mulch. We knock down the existing problem with targeted spraying and hand removal, then fix the conditions that let weeds take hold in the first place.",
-    included: ["Broadleaf weed control in lawns", "Path, paving and gravel area spraying", "Garden bed weeding and treatment", "Safe, targeted product selection", "Follow-up treatments where needed"],
-    body: "One-off blitz before a sale or event, or scheduled control through the growing season — we'll recommend what the property actually needs.",
-    related: ["lawn-mowing", "mulching", "garden-care", "turf-repair-patching"],
-  },
-  {
-    slug: "hedge-trimming-pruning",
-    name: "Hedge Trimming & Pruning",
-    tagline: "Clean, healthy hedges and shrubs shaped at the right time of year.",
-    image: IMG.garden,
-    intro: "A sharp hedge lifts a whole property; a butchered one takes years to recover. We trim and prune for shape and plant health — at the right time of year for the species — and clean up everything before we leave.",
-    included: ["Formal hedge trimming and shaping", "Shrub and small tree pruning", "Rejuvenation pruning for overgrown plants", "Timing advice per species", "Full green-waste removal"],
-    body: "Regular light trims beat occasional heavy cuts — the hedge stays denser, healthier and easier to keep. We can put your hedges on a schedule so they always look their best.",
-    related: ["garden-care", "garden-planting", "property-maintenance", "soft-landscaping"],
-  },
-];
-
-const byId = {};
-SERVICES.forEach((s) => { byId[s.slug] = s; });
-
-function jsonLd(s, canonical) {
-  return {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Service",
-        "name": s.name,
-        "serviceType": s.name,
-        "description": s.tagline,
-        "url": canonical,
-        "provider": {
-          "@type": "HomeAndConstructionBusiness",
-          "name": "Turf and Landscaping",
-          "telephone": PHONE_TEL,
-          "url": SITE + "/",
-          "areaServed": "Melbourne's west and inner suburbs, VIC",
-        },
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
-          { "@type": "ListItem", position: 2, name: "Services", item: SITE + "/#services" },
-          { "@type": "ListItem", position: 3, name: s.name, item: canonical },
-        ],
-      },
-    ],
-  };
-}
-
-function page(s) {
-  const canonical = `${SITE}/services/${s.slug}`;
-  const title = `${s.name} Melbourne | Turf and Landscaping`;
-  const desc = `${s.tagline} Serving Melbourne's west and inner suburbs. Free, no-obligation quotes — call ${PHONE_DISPLAY}.`;
-  const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+function head({ title, desc, canonical, image, ld }) {
   return `<!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -366,26 +143,125 @@ function page(s) {
   <meta property="og:title" content="${title}" />
   <meta property="og:description" content="${desc}" />
   <meta property="og:url" content="${canonical}" />
-  <meta property="og:image" content="${SITE}/assets/images/${s.image}" />
+  <meta property="og:image" content="${SITE}${image}" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="/assets/favicon.svg" />
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/service-pages.css" />
+  <link rel="stylesheet" href="/projects.css" />
   <script type="application/ld+json">
-  ${JSON.stringify(jsonLd(s, canonical), null, 2)}
+  ${JSON.stringify(ld, null, 2)}
   </script>
 </head>
-<body>
+<body>`;
+}
+
+function ctaBand(title) {
+  return `<section class="section section--tint">
+      <div class="wrap">
+        <div class="cta-band">
+          <h2>${title || "Ready to get started?"}</h2>
+          <p>Free on-site quotes across Melbourne's west and inner suburbs — a clear fixed price, no obligation.</p>
+          <div class="cta-band__actions">
+            <a class="btn btn--ondark" href="/quote">Request a Quote</a>
+            <a class="btn btn--outline-light" href="tel:${PHONE_TEL}">Call ${PHONE_DISPLAY}</a>
+          </div>
+        </div>
+      </div>
+    </section>`;
+}
+
+/* ---------- service page ---------- */
+function servicePage(s) {
+  const canonical = `${SITE}/services/${s.slug}`;
+  const title = `${s.name.replace(/&/g, "&amp;")} Melbourne | Turf and Landscaping`;
+  const desc = `${s.tagline} Serving Melbourne's west and inner suburbs. Free, no-obligation quotes — call ${PHONE_DISPLAY}.`;
+  const graph = [
+    { "@type": "Service", name: s.name, serviceType: s.name, description: s.tagline, url: canonical,
+      provider: { "@type": "HomeAndConstructionBusiness", name: "Turf and Landscaping", telephone: PHONE_TEL, url: SITE + "/",
+        areaServed: "Melbourne's west and inner suburbs, VIC" } },
+    { "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
+      { "@type": "ListItem", position: 2, name: "Services", item: SITE + "/services" },
+      { "@type": "ListItem", position: 3, name: s.name, item: canonical },
+    ] },
+  ];
+  if (s.faqs && s.faqs.length) {
+    graph.push({ "@type": "FAQPage", mainEntity: s.faqs.map(([q, a]) => ({
+      "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) });
+  }
+  const ld = { "@context": "https://schema.org", "@graph": graph };
+
+  const chev = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+  const m = s.maintenance;
+
+  let body = "";
+  body += `<div class="prose"><p class="lead">${s.intro}</p>`;
+  if (s.whoFor) body += `<h2>Who this service suits</h2><p>${s.whoFor}</p>`;
+  if (s.problems) body += `<h2>Problems we solve</h2><ul>${s.problems.map((p) => `<li>${p}</li>`).join("")}</ul>`;
+  body += `<h2>What's included</h2></div>
+  <ul class="sp-checklist">${(s.included || []).map((i) => `<li>${i}</li>`).join("")}</ul>`;
+
+  if (s.options) {
+    body += `<div class="prose"><h2>Options &amp; materials</h2></div>
+    <div class="sp-options">${s.options.map(([t, d]) => `<div class="sp-option"><h3>${t}</h3><p>${d}</p></div>`).join("")}</div>`;
+  }
+  if (s.process) {
+    body += `<div class="prose"><h2>How the work is completed</h2></div>
+    <ol class="sp-steps">${s.process.map((p) => `<li>${p}</li>`).join("")}</ol>`;
+  }
+  if (s.prepDrainage) body += `<div class="prose"><h2>Preparation &amp; drainage</h2><p>${s.prepDrainage}</p></div>`;
+  if (s.resiCom) body += `<div class="prose"><h2>Residential &amp; commercial</h2><p>${s.resiCom}</p></div>`;
+
+  if (m) {
+    body += `<div class="prose"><h2>One-off or ongoing — how it works</h2>
+    <p><strong>One-off visits.</strong> ${m.oneOff}</p>
+    <p><strong>Recurring schedules.</strong> ${m.recurring}</p>
+    <p><strong>At home.</strong> ${m.resi}</p>
+    <p><strong>Commercial &amp; body corporate.</strong> ${m.com}</p>
+    <p><strong>A scope built for you.</strong> ${m.custom}</p></div>`;
+  }
+
+  if (s.beforeAfter) {
+    const ba = s.beforeAfter;
+    body += `<div class="prose"><h2>Before &amp; after</h2>
+    <p>${ba.note} <a href="${ba.link}">View the full project</a>.</p></div>
+    <div class="ba" data-ba tabindex="0" role="slider" aria-label="Before and after comparison. Use arrow keys to move the divider." aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+      <img class="ba__before" src="${img(ba.before.img)}" alt="${ba.before.alt}" loading="lazy" width="1200" height="900" />
+      <img class="ba__after" src="${img(ba.after.img)}" alt="${ba.after.alt}" loading="lazy" width="1200" height="900" />
+      <span class="ba__label ba__label--after">After</span>
+      <span class="ba__label ba__label--before">Before</span>
+      <div class="ba__divider"></div>
+      <div class="ba__handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6l-4 6 4 6M16 6l4 6-4 6"/></svg></div>
+    </div>`;
+  }
+
+  if (s.gallery) {
+    body += `<div class="prose"><h2>From our recent work</h2></div>
+    <div class="pj-gallery">${s.gallery.map((g) => `<figure><img src="${img(g.img)}" alt="${g.alt}" loading="lazy" width="1200" height="900" /></figure>`).join("")}</div>`;
+  }
+
+  if (s.faqs) {
+    body += `<div class="prose"><h2>Common questions</h2></div>
+    <div class="faq">${s.faqs.map(([q, a]) => `<details><summary>${q} ${chev}</summary><div class="faq__answer"><p>${a}</p></div></details>`).join("")}</div>`;
+  }
+
+  body += `<div class="prose"><h2>Where we work</h2>
+  <p>We provide ${s.name.toLowerCase().replace(/&/g, "and")} across Melbourne's west and selected inner-city, northern, eastern and bayside areas. <a href="/#areas">See our full service area</a>, or get in touch to confirm your suburb.</p>
+  <h2>Related services</h2></div>
+  <div class="sp-related">${(s.related || []).map((slug) => {
+    const r = bySlug[slug];
+    return r ? `<a href="/services/${r.slug}">${r.name.replace(/&/g, "&amp;")} ${arrow}</a>` : "";
+  }).join("")}</div>`;
+
+  return head({ title, desc, canonical, image: img(s.image), ld }) + `
 ${HEADER}
   <main id="main">
     <section class="page-hero">
-      <div class="page-hero__media">
-        <img src="/assets/images/${s.image}" alt="${s.name} — Turf and Landscaping" width="1200" height="750" fetchpriority="high" />
-      </div>
+      <div class="page-hero__media"><img src="${img(s.image)}" alt="" width="1200" height="900" fetchpriority="high" /></div>
       <div class="wrap page-hero__inner">
-        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/#services">Services</a><span>/</span>${s.name}</nav>
-        <h1>${s.name}</h1>
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/services">Services</a><span>/</span>${s.name.replace(/&/g, "&amp;")}</nav>
+        <h1>${s.name.replace(/&/g, "&amp;")}</h1>
         <p>${s.tagline}</p>
         <div class="page-hero__actions">
           <a class="btn btn--ondark" href="/quote">Request a Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
@@ -396,25 +272,7 @@ ${HEADER}
 
     <section class="section">
       <div class="wrap sp-layout">
-        <div>
-          <div class="prose">
-            <p class="lead">${s.intro}</p>
-            <h2>What's included</h2>
-          </div>
-          <ul class="sp-checklist">
-${s.included.map((i) => `            <li>${i}</li>`).join("\n")}
-          </ul>
-          <div class="prose">
-            <p>${s.body}</p>
-            <h2>Where we work</h2>
-            <p>We provide ${s.name.toLowerCase()} across Melbourne's west and selected inner-city, northern, eastern and bayside areas. <a href="/#areas">See our full service area</a>, or get in touch to confirm your suburb.</p>
-            <h2>Related services</h2>
-          </div>
-          <div class="sp-related">
-${s.related.map((r) => `            <a href="/services/${r}">${byId[r].name} ${arrow}</a>`).join("\n")}
-          </div>
-        </div>
-
+        <div>${body}</div>
         <aside class="sp-side">
           <div class="sp-side__card">
             <h2>Free, no-obligation quote</h2>
@@ -433,29 +291,94 @@ ${s.related.map((r) => `            <a href="/services/${r}">${byId[r].name} ${a
         </aside>
       </div>
     </section>
-
-    <section class="section section--tint">
-      <div class="wrap">
-        <div class="cta-band">
-          <h2>Ready to get started?</h2>
-          <p>Free on-site quotes across Melbourne's west and inner suburbs — a clear fixed price, no obligation.</p>
-          <div class="cta-band__actions">
-            <a class="btn btn--ondark" href="/quote">Request a Quote</a>
-            <a class="btn btn--outline-light" href="tel:${PHONE_TEL}">Call ${PHONE_DISPLAY}</a>
-          </div>
-        </div>
-      </div>
-    </section>
+${ctaBand()}
   </main>
 ${FOOTER}`;
 }
 
-/* ---------- Write files ---------- */
+/* ---------- services hub ---------- */
+function hubCard(s) {
+  return `<a class="pj-card sp-hubcard" href="/services/${s.slug}">
+    <span class="pj-card__media"><img src="${img(s.image)}" alt="" loading="lazy" width="1200" height="900" /></span>
+    <span class="pj-card__body">
+      <h3>${s.name.replace(/&/g, "&amp;")}</h3>
+      <p>${s.tagline}</p>
+      <span class="pj-card__link">Explore ${arrow}</span>
+    </span>
+  </a>`;
+}
+
+function hubPage() {
+  const canonical = `${SITE}/services`;
+  const ld = {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "CollectionPage", name: "Services — Turf and Landscaping", url: canonical,
+        description: "Turf, landscape construction and property care services across Melbourne's west and inner suburbs." },
+      { "@type": "BreadcrumbList", itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
+        { "@type": "ListItem", position: 2, name: "Services", item: canonical },
+      ] },
+    ],
+  };
+  return head({
+    title: "Turf & Landscaping Services Melbourne | Turf and Landscaping",
+    desc: "Every service under one team: natural and synthetic turf, retaining walls, paving, garden design, planting, mulch and full property maintenance across Melbourne's west and inner suburbs.",
+    canonical, image: img("hero-landscaping-northwest-melbourne"), ld,
+  }) + `
+${HEADER}
+  <main id="main">
+    <section class="page-hero">
+      <div class="page-hero__media"><img src="${img("hero-landscaping-northwest-melbourne")}" alt="" width="1920" height="1080" fetchpriority="high" /></div>
+      <div class="wrap page-hero__inner">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Services</nav>
+        <h1>Our Services</h1>
+        <p>Turf, landscape construction and property care — every service delivered by one accountable team, across Melbourne's west and inner suburbs.</p>
+        <div class="page-hero__actions">
+          <a class="btn btn--ondark" href="/quote">Request a Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+          <a class="btn btn--outline-light" href="tel:${PHONE_TEL}">Call ${PHONE_DISPLAY}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="section__head">
+          <span class="eyebrow">Build &amp; transform</span>
+          <h2>Turf &amp; landscape construction</h2>
+          <p class="lead">The flagship services that build and transform outdoor spaces.</p>
+        </div>
+        <div class="pj-grid">
+          ${DATA.primary.map(hubCard).join("\n          ")}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tint">
+      <div class="wrap">
+        <div class="section__head">
+          <span class="eyebrow">Care &amp; maintain</span>
+          <h2>Property care &amp; maintenance</h2>
+          <p class="lead">Ongoing care that protects the landscaping you've invested in.</p>
+        </div>
+        <div class="pj-grid">
+          ${DATA.secondary.map(hubCard).join("\n          ")}
+        </div>
+      </div>
+    </section>
+${ctaBand("Not sure which service you need?")}
+  </main>
+${FOOTER}`;
+}
+
+/* ---------- write ---------- */
 fs.mkdirSync(path.join(OUTDIR, "services"), { recursive: true });
-let count = 0;
-for (const s of SERVICES) {
-  fs.writeFileSync(path.join(OUTDIR, "services", `${s.slug}.html`), page(s));
+fs.writeFileSync(path.join(OUTDIR, "services.html"), hubPage());
+console.log("wrote services.html (hub)");
+let count = 1;
+ALL.forEach((s) => {
+  fs.writeFileSync(path.join(OUTDIR, "services", `${s.slug}.html`), servicePage(s));
   console.log("wrote services/" + s.slug + ".html");
   count++;
-}
+});
 console.log("Done:", count, "service pages");

@@ -63,3 +63,24 @@
   .sp-layout { grid-template-columns: 1.7fr 1fr; gap: 3rem; }
   .sp-side { position: sticky; top: calc(var(--header-h) + 1.6rem); }
 }
+
+/* ---------- Rich service-page components ---------- */
+.sp-options { display: grid; gap: .8rem; grid-template-columns: 1fr; margin-bottom: 1.8rem; }
+.sp-option {
+  background: var(--white-warm); border: 1px solid var(--line); border-radius: 14px;
+  padding: 1rem 1.1rem;
+}
+.sp-option h3 { font-size: 1rem; margin-bottom: .25rem; }
+.sp-option p { color: var(--muted); font-size: .93rem; margin: 0; }
+.sp-steps { list-style: none; margin: 0 0 1.8rem; padding: 0; counter-reset: spstep; display: grid; gap: .6rem; }
+.sp-steps li {
+  counter-increment: spstep; position: relative; padding: .8rem 1rem .8rem 3.2rem;
+  background: var(--white-warm); border: 1px solid var(--line); border-radius: 14px; font-size: .97rem;
+}
+.sp-steps li::before {
+  content: counter(spstep, decimal-leading-zero); position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-display); font-weight: 800; color: var(--forest-700); font-size: .95rem;
+}
+.sp-hubcard { text-decoration: none; color: inherit; }
+.sp-hubcard h3 { color: var(--forest-900); }
+@media (min-width: 560px) { .sp-options { grid-template-columns: 1fr 1fr; } }
