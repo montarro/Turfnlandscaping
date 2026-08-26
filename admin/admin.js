@@ -49,7 +49,10 @@
       opts.headers = Object.assign({ "Content-Type": "application/json" }, opts.headers);
     }
     var res = await fetch(path, opts);
-    if (res.status === 401) { nav("/admin/login"); throw new Error("Not signed in"); }
+    if (res.status === 401) {
+      if (location.pathname !== "/admin/login") nav("/admin/login");
+      throw new Error("Not signed in");
+    }
     var data = null;
     try { data = await res.json(); } catch (e) {}
     if (!res.ok) throw new Error((data && data.error) || "Request failed");
@@ -103,15 +106,26 @@
     document.getElementById("login-form").addEventListener("submit", async function (e) {
       e.preventDefault();
       var err = document.getElementById("li-err");
+      var btn = e.target.querySelector("button[type=submit]");
       err.textContent = "";
+      btn.disabled = true; btn.textContent = "Signing in…";
       try {
         var out = await api("/api/auth/login", { method: "POST", body: {
           email: document.getElementById("li-email").value,
           password: document.getElementById("li-pass").value,
         } });
         state.email = out.email;
+        btn.textContent = "Signed in ✓";
+        /* prove the cookie round-trips before leaving the login screen */
+        await api("/api/auth/me");
         nav("/admin/invoices");
-      } catch (ex) { err.textContent = ex.message; }
+      } catch (ex) {
+        err.textContent = ex.message === "Not signed in"
+          ? "Signed in, but the session cookie didn't persist — tell Claude exactly this."
+          : ex.message;
+      } finally {
+        if (btn.textContent !== "Signed in ✓" || err.textContent) { btn.disabled = false; btn.textContent = "Sign in"; }
+      }
     });
   }
 
@@ -137,7 +151,7 @@
     if (filters.to) qs.set("to", filters.to);
     var data;
     try { data = await api("/api/invoices?" + qs.toString()); }
-    catch (e) { document.getElementById("view").innerHTML = "<p class=\"error-text\">" + esc(e.message) + "</p>"; return; }
+    catch (e) { var v = document.getElementById("view"); if (v) v.innerHTML = "<p class=\"error-text\">" + esc(e.message) + "</p>"; return; }
 
     var counts = { draft: 0, issued: 0, part_paid: 0, paid: 0, overdue: 0, void: 0 };
     data.invoices.forEach(function (r) { counts[r.status] = (counts[r.status] || 0) + 1; if (r.overdue) counts.overdue++; });
@@ -284,7 +298,7 @@
     if (id === "new") inv = blankInvoice(state.settings);
     else {
       try { inv = await api("/api/invoices/" + id); }
-      catch (e) { document.getElementById("view").innerHTML = "<p class=\"error-text\">" + esc(e.message) + "</p>"; return; }
+      catch (e) { var v = document.getElementById("view"); if (v) v.innerHTML = "<p class=\"error-text\">" + esc(e.message) + "</p>"; return; }
       inv.items = inv.items || [];
       inv.scope_sections = (inv.scope_sections || []).map(function (s) {
         return Object.assign(s, { bullets: s.bullets || [], inclusions: s.inclusions || [], exclusions: s.exclusions || [] });
