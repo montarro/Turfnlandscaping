@@ -630,9 +630,10 @@
       if (!box) return;
       var b = [];
       if (editable) {
-        b.push('<button class="btn btn--primary" id="act-save">Save Draft</button>');
+        b.push('<button class="btn btn--primary" id="act-save">Save</button>');
         if (inv.id) {
-          b.push('<a class="btn btn--soft" href="/api/invoices/pdf?id=' + inv.id + '" target="_blank" rel="noopener">Preview PDF</a>');
+          b.push('<button class="btn btn--soft" id="act-preview">Preview PDF</button>');
+          b.push('<button class="btn btn--soft" id="act-download">Download PDF</button>');
           b.push('<button class="btn btn--ghost" id="act-issue">Issue Invoice</button>');
           b.push('<button class="btn btn--soft" id="act-dup">Duplicate</button>');
           b.push('<button class="btn btn--danger" id="act-archive">Archive draft</button>');
@@ -650,6 +651,12 @@
 
       var on = function (id2, fn) { var el = document.getElementById(id2); if (el) el.addEventListener("click", fn); };
       on("act-save", function () { saveDraft(); });
+      on("act-preview", async function () {
+        if (await saveDraft(true)) window.open("/api/invoices/pdf?id=" + inv.id, "_blank");
+      });
+      on("act-download", async function () {
+        if (await saveDraft(true)) window.location.href = "/api/invoices/pdf?id=" + inv.id + "&download=1";
+      });
       on("act-issue", async function () {
         collect();
         var problems = validateForIssue();
