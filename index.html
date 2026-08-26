@@ -106,18 +106,18 @@
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- ============ HEADER ============ -->
-  <header class="site-header">
+  <header class="site-header site-header--dark">
     <div class="wrap site-header__inner">
       <a class="brand" href="/" aria-label="Turf and Landscaping — home">
-        <img class="brand__logo" src="/assets/logo-turf-and-landscaping.png"
+        <img class="brand__logo" src="/assets/logo-turf-and-landscaping-white.png"
              alt="Turf and Landscaping" width="918" height="381" />
       </a>
 
       <nav class="primary-nav" aria-label="Primary">
         <a href="#who-we-are">Who We Are</a>
-        <a href="#services">What We Do</a>
-        <a href="#areas">Who We Service</a>
-        <a href="#work">Our Work</a>
+        <a href="#services">Our Services</a>
+        <a href="#areas">Service Areas</a>
+        <a href="#work">Our Projects</a>
         <a href="#faq">FAQ</a>
       </nav>
 
@@ -127,7 +127,7 @@
           <span>0457&nbsp;357&nbsp;085</span>
         </a>
         <a class="header-call" href="#quote">
-          <span class="header-call__num">Get a free quote</span>
+          <span class="header-call__num">Request a Quote</span>
         </a>
         <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false">
           <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -137,41 +137,69 @@
     </div>
     <nav class="mobile-nav" id="mobile-nav" data-open="false" aria-label="Mobile">
       <a href="#who-we-are">Who We Are</a>
-      <a href="#services">What We Do</a>
-      <a href="#areas">Who We Service</a>
+      <a href="#services">Our Services</a>
+      <a href="#areas">Service Areas</a>
       <a href="#how">How We Work</a>
-      <a href="#work">Our Work</a>
+      <a href="#work">Our Projects</a>
       <a href="#reviews">Reviews</a>
       <a href="#faq">FAQ</a>
-      <a class="btn btn--call btn--block" href="#quote">Get a free quote</a>
+      <a class="btn btn--call btn--block" href="#quote">Request a Quote</a>
     </nav>
   </header>
 
   <main id="main">
     <!-- ============ HERO ============ -->
-    <section class="hero" aria-label="Introduction">
+    <section class="hero hero--full" aria-label="Introduction">
       <div class="hero__media">
         <img src="/assets/images/hero-landscaping-northwest-melbourne.webp?v=2"
              alt="Landscaped backyard in Melbourne's north-west with freshly laid turf, paving and planted garden beds"
              width="1920" height="1080" fetchpriority="high" />
       </div>
       <div class="wrap hero__inner">
-        <div class="hero__copy">
-          <h1>Landscaping and turf, done properly across Melbourne Suburbs</h1>
-          <p class="hero__sub">Fresh lawns, paving, retaining walls and full garden makeovers — built by a local crew, fully insured, and finished on time. Book your free on-site quote today.</p>
-          <!-- One CTA only: the quote form is already in the hero, so a
-               "get a quote" button here would just be a dead click. -->
-          <div class="hero__actions">
-            <a class="btn btn--lime btn--lg" href="tel:+61457357085">
-              Call 0457 357 085
-            </a>
+        <div class="hero__copy reveal is-visible">
+          <p class="hero__eyebrow">North-West Melbourne Landscaping Specialists</p>
+          <h1>Landscaping and turf built to a standard that lasts.</h1>
+          <p class="hero__sub">Fresh lawns, paving, retaining walls and full garden makeovers — completed by a local, fully insured crew who finish on time and clean up properly.</p>
+
+          <ul class="hero__badges">
+            <li><strong>[YEARS IN BUSINESS]</strong><span>Years in Business</span></li>
+            <li><strong>[PROJECTS COMPLETED]</strong><span>Projects Completed</span></li>
+            <li><strong>4.8★ · 17</strong><span>Google Reviews</span></li>
+            <li><strong>Fully Insured</strong><span>VIC Owned &amp; Operated</span></li>
+          </ul>
+
+          <div class="hero__ctas">
+            <a class="btn btn--lime btn--lg" href="#quote">Request a Quote</a>
+            <a class="btn btn--outline-light btn--lg" href="#work">View Our Projects</a>
           </div>
-          <p class="hero__rating"><span class="stars" aria-hidden="true">★★★★★</span> <span>Rated 4.8 from 17 Google reviews</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GET A QUOTE ============ -->
+    <section class="section quote-section" id="quote" aria-labelledby="quote-h">
+      <div class="wrap quote-section__inner">
+        <div class="quote-section__intro reveal">
+          <span class="eyebrow">Free on-site quote</span>
+          <h2 id="quote-h">Tell us about your project</h2>
+          <p class="lead">Send a few details and we'll come out, measure up and give you a clear fixed price — no obligation.</p>
+          <ul class="hero__trust">
+            <li>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/></svg>
+              Fully insured
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5zM2 12l10 5 10-5M2 17l10 5 10-5"/></svg>
+              Victorian owned &amp; operated
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+              Free on-site quotes
+            </li>
+          </ul>
         </div>
 
-        <!-- Quote form sits in the hero, directly under the two CTAs -->
-        <div class="hero__panel" id="quote">
-
+        <div class="hero__panel reveal">
           <form class="form" id="quote-form" novalidate>
             <h2 class="form__title">Get your free quote</h2>
 
@@ -264,21 +292,6 @@
 
             <p class="form__status" role="status" aria-live="polite"></p>
           </form>
-
-          <ul class="hero__trust">
-            <li>
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/></svg>
-              Fully insured
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5zM2 12l10 5 10-5M2 17l10 5 10-5"/></svg>
-              Victorian owned &amp; operated
-            </li>
-            <li>
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-              Free on-site quotes
-            </li>
-          </ul>
         </div>
       </div>
     </section>
@@ -286,7 +299,7 @@
     <!-- ============ WHO WE ARE ============ -->
     <section class="section" id="who-we-are" aria-labelledby="who-h">
       <div class="wrap">
-        <div class="section__head">
+        <div class="section__head reveal">
           <span class="eyebrow">Who we are</span>
           <h2 id="who-h">A local crew that treats your yard like our own</h2>
           <p class="lead">Turf and Landscaping is a small, hands-on team working across Melbourne's north-west. We're not a franchise or a call centre — when you ring, you speak to the people who'll be doing the work, and the same crew sees your job through from the first measure-up to the final clean-up.</p>
@@ -323,7 +336,7 @@
     <!-- ============ WHAT WE DO ============ -->
     <section class="section section--tint" id="services" aria-labelledby="services-h">
       <div class="wrap">
-        <div class="section__head">
+        <div class="section__head reveal">
           <span class="eyebrow">What we do</span>
           <h2 id="services-h">Everything your yard needs, from one local team</h2>
           <p class="lead">Whether it's a single lawn or a whole backyard rebuild, we handle it end to end — the prep, the build and the clean-up.</p>
@@ -421,7 +434,7 @@
     <!-- ============ HOW WE WORK ============ -->
     <section class="section" id="how" aria-labelledby="how-h">
       <div class="wrap">
-        <div class="section__head section__head--center">
+        <div class="section__head section__head--center reveal">
           <span class="eyebrow">How we work</span>
           <h2 id="how-h">From first call to finished job</h2>
           <p class="lead">A simple, no-pressure process — you always know what's happening and what it costs.</p>
@@ -454,7 +467,7 @@
     <!-- ============ REVIEWS ============ -->
     <section class="section section--tint" id="reviews" aria-labelledby="reviews-h">
       <div class="wrap">
-        <div class="section__head section__head--center">
+        <div class="section__head section__head--center reveal">
           <span class="eyebrow">Reviews</span>
           <h2 id="reviews-h">What local homeowners say</h2>
           <p class="lead">A 4.8-star average across 17 Google reviews.</p>
@@ -478,8 +491,7 @@
           </blockquote>
         </div>
         <div class="reviews__cta">
-          <!-- TODO: point this at the real Google Business Profile / reviews link before publishing. -->
-          <a class="btn btn--ghost" href="https://www.google.com/search?q=Turf+and+Landscaping+north-west+Melbourne+reviews" target="_blank" rel="noopener">Read all our Google reviews</a>
+          <a class="btn btn--ghost" href="https://www.google.com/maps/place/Turf+And+Landscaping/@-37.7205191,144.8823457,10z/data=!4m8!3m7!1s0x6ac0798ccb3a92f1:0xd24aee4a9f550228!8m2!3d-37.7205191!4d144.8823457!9m1!1b1!16s%2Fg%2F11x6yqvljl?hl=en-GB" target="_blank" rel="noopener">Read all our Google reviews</a>
         </div>
       </div>
     </section>
@@ -487,7 +499,7 @@
     <!-- ============ RECENT WORK ============ -->
     <section class="section" id="work" aria-labelledby="work-h">
       <div class="wrap">
-        <div class="section__head">
+        <div class="section__head reveal">
           <span class="eyebrow">Recent work</span>
           <h2 id="work-h">A look at some recent jobs</h2>
           <p class="lead">Lawns, paving, walls and gardens completed across the north-west.</p>
@@ -509,7 +521,7 @@
     <!-- ============ AREAS ============ -->
     <section class="section section--tint" id="areas" aria-labelledby="areas-h">
       <div class="wrap">
-        <div class="section__head">
+        <div class="section__head reveal">
           <span class="eyebrow">Who we service</span>
           <h2 id="areas-h">Proudly working across Melbourne's north-west</h2>
           <p class="lead">Tap your suburb for local turf and landscaping information. Not listed? Give us a call — we cover the surrounding areas too.</p>
@@ -528,7 +540,7 @@
     <!-- ============ FAQ ============ -->
     <section class="section" id="faq" aria-labelledby="faq-h">
       <div class="wrap">
-        <div class="section__head">
+        <div class="section__head reveal">
           <span class="eyebrow">FAQ</span>
           <h2 id="faq-h">Questions homeowners ask us</h2>
         </div>
