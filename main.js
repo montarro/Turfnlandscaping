@@ -163,10 +163,63 @@
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || saveData) {
       heroVideo.remove();
     } else {
-      var p = heroVideo.play();
-      if (p && p.catch) { p.catch(function () { heroVideo.remove(); }); }
+      /* Low Power Mode / autoplay policies can reject the first play();
+         keep the video (poster shows) and retry on the first interaction. */
+      var tryPlay = function () {
+        var p = heroVideo.play();
+        if (p && p.catch) { p.catch(function () {}); }
+      };
+      tryPlay();
+      ["pointerdown", "touchstart", "scroll", "keydown"].forEach(function (evt) {
+        window.addEventListener(evt, tryPlay, { once: true, passive: true });
+      });
     }
   }
+
+  /* ---------- September promo popup ----------
+     Shown once per browser (localStorage) on first arrival, skipped on
+     /quote where the visitor is already converting. */
+  (function promoPopup() {
+    var KEY = "promo-seen-sept2026";
+    if (window.location.pathname.indexOf("/quote") === 0) return;
+    try { if (localStorage.getItem(KEY)) return; } catch (e) { return; }
+
+    var overlay = document.createElement("div");
+    overlay.className = "promo-modal";
+    overlay.innerHTML =
+      '<div class="promo-modal__card" role="dialog" aria-modal="true" aria-labelledby="promo-h">' +
+      '<button class="promo-modal__close" type="button" aria-label="Close">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
+      '<span class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" style="width:1rem;height:1rem;"><path d="M5 20C5 11 10 5 20 4c0 10-5 15-13 15"/><path d="M5 20c2-5 6-9 11-11"/></svg> Spring Sale</span>' +
+      '<h2 id="promo-h">20% Off This September</h2>' +
+      "<p>Book in September and take 20% off your project \u2014 plus the usual $150 call-out fee is waived. September only.</p>" +
+      '<div class="promo-modal__actions">' +
+      '<a class="btn btn--primary" href="/quote">Get Your Free Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>' +
+      '<button class="btn btn--ghost" type="button" data-promo-dismiss>Maybe later</button>' +
+      "</div></div>";
+
+    function dismiss() {
+      try { localStorage.setItem(KEY, "1"); } catch (e) {}
+      overlay.classList.remove("is-open");
+      setTimeout(function () { overlay.remove(); }, 250);
+      document.removeEventListener("keydown", onKey);
+    }
+    function onKey(e) { if (e.key === "Escape") dismiss(); }
+
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay || e.target.closest(".promo-modal__close") || e.target.closest("[data-promo-dismiss]")) dismiss();
+    });
+    overlay.querySelector(".btn--primary").addEventListener("click", function () {
+      try { localStorage.setItem(KEY, "1"); } catch (e) {}
+    });
+    document.addEventListener("keydown", onKey);
+
+    setTimeout(function () {
+      document.body.appendChild(overlay);
+      requestAnimationFrame(function () { overlay.classList.add("is-open"); });
+      overlay.querySelector(".promo-modal__close").focus();
+    }, 1200);
+  })();
 
   /* ---------- Compact header on scroll ---------- */
   var header = document.querySelector(".site-header");
