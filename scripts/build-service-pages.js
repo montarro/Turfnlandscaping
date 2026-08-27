@@ -23,104 +23,10 @@ const img = (name) => `/assets/images/${name}.webp`;
 const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
 /* ---------- shared chrome ---------- */
-const HEADER = `
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="site-header__inner">
-      <a class="brand" href="/" aria-label="Turf and Landscaping — home">
-        <img class="brand__logo" src="/assets/logo-turf-and-landscaping.png" alt="Turf and Landscaping" width="918" height="381" />
-      </a>
-      <nav class="primary-nav" aria-label="Primary">
-        <a href="/#who-we-are">Who We Are</a>
-        <a href="/services">Our Services</a>
-        <a href="/#areas">Service Areas</a>
-        <a href="/projects">Our Projects</a>
-        <a href="/#faq">FAQ</a>
-      </nav>
-      <div class="header-cta">
-        <a class="header-phone" href="tel:${PHONE_TEL}">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.24 1z"/></svg>
-          <span>0457&nbsp;357&nbsp;085</span>
-        </a>
-        <a class="header-call" href="/quote">Free Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
-        <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false">
-          <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-          <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-        </button>
-      </div>
-    </div>
-    <nav class="mobile-nav" id="mobile-nav" data-open="false" aria-label="Mobile">
-      <div class="mobile-nav__group">
-        <span class="mobile-nav__label">Menu</span>
-        <a href="/#who-we-are">Who We Are</a>
-        <a href="/services">Our Services</a>
-        <a href="/projects">Our Projects</a>
-        <a href="/#areas">Service Areas</a>
-        <a href="/#faq">FAQ</a>
-      </div>
-      <div class="mobile-nav__group">
-        <span class="mobile-nav__label">Services</span>
-        <a href="/services/natural-turf-installation">Natural Turf</a>
-        <a href="/services/synthetic-turf-installation">Synthetic Turf</a>
-        <a href="/services/retaining-walls">Retaining Walls</a>
-        <a href="/services/paving">Paving</a>
-        <a href="/services/property-maintenance">Property Maintenance</a>
-      </div>
-      <div class="mobile-nav__group">
-        <span class="mobile-nav__label">Get in touch</span>
-        <a href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a>
-        <a href="mailto:info@turfandlandscaping.com.au">info@turfandlandscaping.com.au</a>
-      </div>
-      <a class="btn btn--primary btn--block" href="/quote">Request a Quote</a>
-    </nav>
-  </header>`;
+const CHROME = require("./chrome.js");
+const HEADER = CHROME.HEADER;
 
-const FOOTER = `
-  <footer class="site-footer">
-    <div class="wrap">
-      <div class="footer__grid">
-        <div class="footer__brand">
-          <a class="brand brand--footer" href="/" aria-label="Turf and Landscaping — home">
-            <img class="brand__logo" src="/assets/logo-turf-and-landscaping-white.png" alt="Turf and Landscaping" width="918" height="381" />
-          </a>
-          <p style="margin-top:1rem;max-width:22rem;">Turf, landscape construction and property care across Melbourne's west and inner suburbs.</p>
-          <div class="footer__cta"><a class="btn btn--ondark" href="/quote">Request a Quote</a></div>
-        </div>
-        <div>
-          <h4>Services</h4>
-          <ul>
-            <li><a href="/services/natural-turf-installation">Natural Turf</a></li>
-            <li><a href="/services/synthetic-turf-installation">Synthetic Turf</a></li>
-            <li><a href="/services/retaining-walls">Retaining Walls</a></li>
-            <li><a href="/services/paving">Paving</a></li>
-            <li><a href="/services">All Services</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Service areas</h4>
-          <ul>
-            <li><a href="/#areas">Melbourne's West</a></li>
-            <li><a href="/#areas">Inner Melbourne</a></li>
-            <li><a href="/#areas">Inner North</a></li>
-            <li><a href="/#areas">Inner East, South &amp; Bayside</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Get in touch</h4>
-          <ul>
-            <li><a href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a></li>
-            <li><a href="mailto:info@turfandlandscaping.com.au">info@turfandlandscaping.com.au</a></li>
-            <li>Melbourne's West • Inner City • Inner North • Inner East &amp; Bayside</li>
-            <li>Mon–Fri 7am–5pm · Sat 8am–2pm</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer__bottom">
-        <span>© <span id="year">2026</span> Turf and Landscaping</span>
-        <span>Melbourne's West • Inner City • Inner North • Inner East &amp; Bayside · Fully insured</span>
-      </div>
-    </div>
-  </footer>
+const FOOTER = CHROME.FOOTER + `
   <script src="/main.js" defer></script>
   <script src="/projects.js" defer></script>
   <script>var y=document.getElementById("year"); if(y) y.textContent=new Date().getFullYear();</script>

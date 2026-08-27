@@ -1,17 +1,63 @@
-<!DOCTYPE html>
-<html lang="en-AU">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Page Not Found | Turf and Landscaping</title>
-  <meta name="description" content="That page doesn't exist — but our turf, landscaping and property care services are one click away." />
-  <meta name="theme-color" content="#1d3527" />
-  <meta name="robots" content="noindex, follow" />
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="/style.css" />
-</head>
-<body>
+/* =====================================================================
+   Shared page chrome (header + footer) for every GENERATED page.
+   index.html and 404.html carry hand-written copies of the same markup —
+   if you change the nav or footer here, mirror it there.
+   ===================================================================== */
+const PHONE_DISPLAY = "0457 357 085";
+const PHONE_TEL = "+61457357085";
 
+const chev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+
+/* One source of truth for the services menu (desktop dropdown + mobile
+   accordion). Every href must be a live route under /services/. */
+const SERVICE_GROUPS = [
+  {
+    label: "Turf",
+    links: [
+      ["/services/natural-turf-installation", "Natural Turf"],
+      ["/services/synthetic-turf-installation", "Synthetic Turf"],
+      ["/services/turf-repair-patching", "Turf Repair &amp; Patching"],
+    ],
+  },
+  {
+    label: "Landscape Construction",
+    links: [
+      ["/services/complete-landscape-transformations", "Custom Landscaping"],
+      ["/services/paving", "Pavers &amp; Stepping Stones"],
+      ["/services/retaining-walls", "Retaining Walls"],
+      ["/services/hard-landscaping", "Hard Landscaping"],
+      ["/services/soft-landscaping", "Soft Landscaping"],
+    ],
+  },
+  {
+    label: "Gardens &amp; Property Care",
+    links: [
+      ["/services/plants-garden-beds-mulch", "Plants &amp; Mulch"],
+      ["/services/lawn-mowing", "Lawn Mowing"],
+      ["/services/property-maintenance", "Property Maintenance"],
+      ["/services/garden-care", "Garden Care"],
+      ["/services/irrigation-repairs", "Irrigation Repairs"],
+      ["/services/weed-control-spraying", "Weed Control &amp; Spraying"],
+      ["/services/hedge-trimming-pruning", "Hedge Trimming &amp; Pruning"],
+    ],
+  },
+];
+
+const dropColumns = SERVICE_GROUPS.map(
+  (g) => `        <div class="nav-drop__col">
+          <span class="nav-drop__label">${g.label}</span>
+${g.links.map(([href, name]) => `          <a href="${href}">${name}</a>`).join("\n")}
+        </div>`
+).join("\n");
+
+const mobileAccordions = SERVICE_GROUPS.map(
+  (g) => `      <details class="mobile-nav__acc">
+        <summary>${g.label} ${chev}</summary>
+${g.links.map(([href, name]) => `        <a href="${href}">${name}</a>`).join("\n")}
+      </details>`
+).join("\n");
+
+const HEADER = `
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="site-header__inner">
@@ -22,32 +68,9 @@
         <a href="/#who-we-are">Who We Are</a>
         <div class="nav-drop" data-navdrop>
           <a href="/services">Our Services</a>
-          <button class="nav-drop__toggle" type="button" aria-expanded="false" aria-controls="services-menu" aria-label="Browse services"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+          <button class="nav-drop__toggle" type="button" aria-expanded="false" aria-controls="services-menu" aria-label="Browse services">${chev}</button>
           <div class="nav-drop__menu" id="services-menu">
-        <div class="nav-drop__col">
-          <span class="nav-drop__label">Turf</span>
-          <a href="/services/natural-turf-installation">Natural Turf</a>
-          <a href="/services/synthetic-turf-installation">Synthetic Turf</a>
-          <a href="/services/turf-repair-patching">Turf Repair &amp; Patching</a>
-        </div>
-        <div class="nav-drop__col">
-          <span class="nav-drop__label">Landscape Construction</span>
-          <a href="/services/complete-landscape-transformations">Custom Landscaping</a>
-          <a href="/services/paving">Pavers &amp; Stepping Stones</a>
-          <a href="/services/retaining-walls">Retaining Walls</a>
-          <a href="/services/hard-landscaping">Hard Landscaping</a>
-          <a href="/services/soft-landscaping">Soft Landscaping</a>
-        </div>
-        <div class="nav-drop__col">
-          <span class="nav-drop__label">Gardens &amp; Property Care</span>
-          <a href="/services/plants-garden-beds-mulch">Plants &amp; Mulch</a>
-          <a href="/services/lawn-mowing">Lawn Mowing</a>
-          <a href="/services/property-maintenance">Property Maintenance</a>
-          <a href="/services/garden-care">Garden Care</a>
-          <a href="/services/irrigation-repairs">Irrigation Repairs</a>
-          <a href="/services/weed-control-spraying">Weed Control &amp; Spraying</a>
-          <a href="/services/hedge-trimming-pruning">Hedge Trimming &amp; Pruning</a>
-        </div>
+${dropColumns}
             <a class="nav-drop__all" href="/services">View All Services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           </div>
         </div>
@@ -56,7 +79,7 @@
         <a href="/#faq">FAQ</a>
       </nav>
       <div class="header-cta">
-        <a class="header-phone" href="tel:+61457357085">
+        <a class="header-phone" href="tel:${PHONE_TEL}">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.24 1z"/></svg>
           <span>0457&nbsp;357&nbsp;085</span>
         </a>
@@ -78,57 +101,18 @@
       </div>
       <div class="mobile-nav__group">
         <span class="mobile-nav__label">Services</span>
-      <details class="mobile-nav__acc">
-        <summary>Turf <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <a href="/services/natural-turf-installation">Natural Turf</a>
-        <a href="/services/synthetic-turf-installation">Synthetic Turf</a>
-        <a href="/services/turf-repair-patching">Turf Repair &amp; Patching</a>
-      </details>
-      <details class="mobile-nav__acc">
-        <summary>Landscape Construction <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <a href="/services/complete-landscape-transformations">Custom Landscaping</a>
-        <a href="/services/paving">Pavers &amp; Stepping Stones</a>
-        <a href="/services/retaining-walls">Retaining Walls</a>
-        <a href="/services/hard-landscaping">Hard Landscaping</a>
-        <a href="/services/soft-landscaping">Soft Landscaping</a>
-      </details>
-      <details class="mobile-nav__acc">
-        <summary>Gardens &amp; Property Care <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-        <a href="/services/plants-garden-beds-mulch">Plants &amp; Mulch</a>
-        <a href="/services/lawn-mowing">Lawn Mowing</a>
-        <a href="/services/property-maintenance">Property Maintenance</a>
-        <a href="/services/garden-care">Garden Care</a>
-        <a href="/services/irrigation-repairs">Irrigation Repairs</a>
-        <a href="/services/weed-control-spraying">Weed Control &amp; Spraying</a>
-        <a href="/services/hedge-trimming-pruning">Hedge Trimming &amp; Pruning</a>
-      </details>
+${mobileAccordions}
       </div>
       <div class="mobile-nav__group">
         <span class="mobile-nav__label">Get in touch</span>
-        <a href="tel:+61457357085">0457 357 085</a>
+        <a href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a>
         <a href="mailto:info@turfandlandscaping.com.au">info@turfandlandscaping.com.au</a>
       </div>
       <a class="btn btn--primary btn--block" href="/quote">Request a Quote</a>
     </nav>
-  </header>
+  </header>`;
 
-  <main id="main">
-    <section class="section" style="min-height:60vh;display:flex;align-items:center;">
-      <div class="wrap" style="text-align:center;max-width:44rem;">
-        <span class="eyebrow">404 — Page Not Found</span>
-        <h1 style="margin:.6rem 0 1rem;">Looks Like This Patch Hasn't Been Laid Yet.</h1>
-        <p class="lead" style="margin:0 auto 1.8rem;">The page you're after doesn't exist or has moved. Everything we do is still right here:</p>
-        <div style="display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;">
-          <a class="btn btn--primary" href="/">Back to Home</a>
-          <a class="btn btn--ghost" href="/services">Browse Our Services</a>
-          <a class="btn btn--ghost" href="/projects">See Our Projects</a>
-          <a class="btn btn--ghost" href="/quote">Get a Free Quote</a>
-        </div>
-        <p style="margin-top:2rem;color:var(--muted);">Prefer to talk? Call <a href="tel:+61457357085">0457 357 085</a>.</p>
-      </div>
-    </section>
-  </main>
-
+const FOOTER = `
   <footer class="site-footer">
     <div class="wrap">
       <div class="footer__grid">
@@ -171,7 +155,7 @@
         <div>
           <h4>Get in touch</h4>
           <ul>
-            <li><a href="tel:+61457357085">0457 357 085</a></li>
+            <li><a href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a></li>
             <li><a href="mailto:info@turfandlandscaping.com.au">info@turfandlandscaping.com.au</a></li>
             <li>Melbourne's West • Inner City • Inner North • Inner East &amp; Bayside</li>
             <li>Mon–Fri 7am–5pm · Sat 8am–2pm</li>
@@ -183,8 +167,10 @@
         <span>Melbourne's West • Inner City • Inner North • Inner East &amp; Bayside</span>
       </div>
     </div>
-  </footer>
+  </footer>`;
 
+const FOOTER_SCRIPTS = `
   <script src="/main.js" defer></script>
-</body>
-</html>
+  <script>var y=document.getElementById("year"); if(y) y.textContent=new Date().getFullYear();</script>`;
+
+module.exports = { HEADER, FOOTER, FOOTER_SCRIPTS, PHONE_DISPLAY, PHONE_TEL };

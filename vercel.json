@@ -50,6 +50,18 @@
       ]
     }
   ],
+  "redirects": [
+    {
+      "source": "/services/natural-turf-solutions",
+      "destination": "/services/natural-turf-installation",
+      "permanent": true
+    },
+    {
+      "source": "/services/paving-and-stepping-stones",
+      "destination": "/services/paving",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/admin",

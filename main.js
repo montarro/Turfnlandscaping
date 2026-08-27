@@ -421,3 +421,41 @@
       });
   });
 })();
+
+/* ---------- Desktop services dropdown ---------- */
+(function () {
+  "use strict";
+  document.querySelectorAll("[data-navdrop]").forEach(function (drop) {
+    var toggle = drop.querySelector(".nav-drop__toggle");
+    var menu = drop.querySelector(".nav-drop__menu");
+    if (!toggle || !menu) return;
+    var hoverTimer;
+    function setOpen(open) {
+      clearTimeout(hoverTimer);
+      drop.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+    toggle.addEventListener("click", function () {
+      setOpen(!drop.classList.contains("is-open"));
+    });
+    drop.addEventListener("mouseenter", function () {
+      clearTimeout(hoverTimer);
+      setOpen(true);
+    });
+    drop.addEventListener("mouseleave", function () {
+      hoverTimer = setTimeout(function () { setOpen(false); }, 160);
+    });
+    drop.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && drop.classList.contains("is-open")) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    document.addEventListener("click", function (e) {
+      if (!drop.contains(e.target)) setOpen(false);
+    });
+    menu.addEventListener("click", function (e) {
+      if (e.target.closest("a")) setOpen(false);
+    });
+  });
+})();
