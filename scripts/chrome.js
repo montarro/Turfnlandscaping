@@ -171,6 +171,8 @@ const FOOTER = `
 
 const FOOTER_SCRIPTS = `
   <script src="/main.js" defer></script>
-  <script>var y=document.getElementById("year"); if(y) y.textContent=new Date().getFullYear();</script>`;
+  <script>var y=document.getElementById("year"); if(y) y.textContent=new Date().getFullYear();</script>
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>`;
 
 module.exports = { HEADER, FOOTER, FOOTER_SCRIPTS, PHONE_DISPLAY, PHONE_TEL };

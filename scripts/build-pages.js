@@ -83,6 +83,8 @@ const HEADER = CHROME.HEADER;
 const FOOTER = CHROME.FOOTER + `
   <script src="/main.js" defer></script>
   <script>var y=document.getElementById("year"); if(y) y.textContent=new Date().getFullYear();</script>
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>`;
 
