@@ -1281,8 +1281,10 @@ p  { margin: 0 0 1rem; }
   }
   .home .hero__inner { min-height: min(78vh, 44rem); padding-inline: max(var(--gutter), 16px); }
   .home .hero h1 { font-size: clamp(2.2rem, 9.5vw, 2.9rem); }
-  .home .hero__ctas { width: 100%; }
-  .home .hero__ctas .btn { width: 100%; justify-content: center; }
+  .home .hero__ctas { width: auto; }
+  .home .hero__ctas .btn { width: auto; padding: .62rem 1.25rem; font-size: .92rem; min-height: 0; }
+  .home .hero__ctas .btn--xl { padding: .62rem .95rem .62rem 1.35rem; }
+  .home .hero__ctas .btn__arrow { width: 1.7rem; height: 1.7rem; }
 }
 
 /* --- Homepage: transparent header over the hero, capsule appears on scroll --- */
