@@ -1176,7 +1176,7 @@ p  { margin: 0 0 1rem; }
 /* =====================================================================
    Image-led service cards
    ===================================================================== */
-.svc-cards { display: grid; gap: 1rem; grid-template-columns: 1fr; margin-bottom: 2rem; }
+.svc-cards { display: grid; gap: .75rem; grid-template-columns: repeat(2, 1fr); margin-bottom: 2rem; }
 .svc-card {
   display: flex; flex-direction: column; text-decoration: none; color: inherit;
   background: var(--white-warm); border: 1px solid var(--line); border-radius: var(--r-lg);
@@ -1196,7 +1196,13 @@ p  { margin: 0 0 1rem; }
 }
 .svc-card__link svg { width: 1rem; height: 1rem; transition: transform .18s ease; }
 .svc-card:hover .svc-card__link svg { transform: translateX(3px); }
-@media (min-width: 560px) { .svc-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 559px) {
+  .svc-card__body { padding: .8rem .85rem .95rem; gap: .3rem; }
+  .svc-card__body h3 { font-size: .98rem; }
+  .svc-card__body p { font-size: .82rem; }
+  .svc-card__link { font-size: .82rem; }
+}
+@media (min-width: 560px) { .svc-cards { gap: 1rem; } }
 @media (min-width: 920px) { .svc-cards { grid-template-columns: repeat(3, 1fr); gap: 1.2rem; } }
 
 
