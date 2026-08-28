@@ -1407,3 +1407,38 @@ p  { margin: 0 0 1rem; }
   .sol-comm__media { order: 2; }
   .sol-comm__media img { aspect-ratio: auto; }
 }
+
+/* =====================================================================
+   Who We Are — owner-led editorial split + open value columns
+   ===================================================================== */
+.wwa__top { display: grid; gap: 2rem; align-items: center; margin-bottom: clamp(2.2rem, 5vw, 3.4rem); }
+.wwa__copy h2 { max-width: 20ch; }
+.wwa__copy .lead { color: #c9d6c3; max-width: 38rem; }
+.sol-link--light { color: var(--leaf); margin-top: .9rem; }
+.sol-link--light:hover { color: #fff; }
+.wwa__media { margin: 0; max-width: 26rem; }
+.wwa__media img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover; display: block;
+  border-radius: var(--r-lg);
+}
+.wwa__media figcaption { margin-top: .7rem; line-height: 1.4; }
+.wwa__media figcaption strong { display: block; color: #fff; font-family: var(--font-display); font-weight: 700; }
+.wwa__media figcaption span { color: #9fb598; font-size: .88rem; }
+@media (min-width: 920px) {
+  .wwa__top { grid-template-columns: 58fr 42fr; gap: clamp(2.5rem, 5vw, 4.5rem); }
+  .wwa__media { justify-self: end; width: 100%; }
+}
+
+/* Open value columns — thin top dividers, big leaf numbers, no cards */
+.wwa .values { display: grid; gap: 1.4rem; border-top: 0; margin-top: 0; grid-template-columns: 1fr; }
+.wwa .value {
+  display: block; border-bottom: 0; padding: 1.15rem 0 0;
+  border-top: 1px solid rgba(255, 255, 255, .18);
+}
+.wwa .value__num {
+  font-family: "Playfair Display", Georgia, serif; font-weight: 600;
+  font-size: 1.9rem; line-height: 1; color: var(--leaf); display: block; margin-bottom: .55rem;
+}
+.wwa .value__body h3 { font-size: 1.05rem; margin-bottom: .35rem; color: #fff; }
+.wwa .value__body p { color: #c3d2bd; font-size: .93rem; line-height: 1.6; margin: 0; }
+@media (min-width: 820px) { .wwa .values { grid-template-columns: repeat(4, 1fr); gap: 2rem; } }
