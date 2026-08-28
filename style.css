@@ -1284,3 +1284,23 @@ p  { margin: 0 0 1rem; }
   .home .hero__ctas { width: 100%; }
   .home .hero__ctas .btn { width: 100%; justify-content: center; }
 }
+
+/* --- Homepage: transparent header over the hero, capsule appears on scroll --- */
+.brand__logo--light { display: none; }
+.site-header__inner { transition: height .2s ease, box-shadow .2s ease, background-color .25s ease, border-color .25s ease; }
+.home .site-header:not(.is-scrolled) .site-header__inner {
+  background: transparent; border-color: transparent; box-shadow: none;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.home .site-header:not(.is-scrolled) .brand__logo--dark { display: none; }
+.home .site-header:not(.is-scrolled) .brand__logo--light { display: block; }
+.home .site-header:not(.is-scrolled) .primary-nav { background: transparent; }
+.home .site-header:not(.is-scrolled) .primary-nav a { color: #fff; }
+.home .site-header:not(.is-scrolled) .primary-nav a:hover,
+.home .site-header:not(.is-scrolled) .primary-nav a:focus-visible { background: rgba(255,255,255,.14); color: #fff; box-shadow: none; }
+.home .site-header:not(.is-scrolled) .nav-drop__toggle { color: #fff; }
+.home .site-header:not(.is-scrolled) .nav-drop__toggle:hover,
+.home .site-header:not(.is-scrolled) .nav-drop__toggle:focus-visible { background: rgba(255,255,255,.14); box-shadow: none; }
+.home .site-header:not(.is-scrolled) .header-phone { color: #fff; }
+.home .site-header:not(.is-scrolled) .header-phone:hover { background: rgba(255,255,255,.14); color: #fff; }
+.home .site-header:not(.is-scrolled) .nav-drop__menu a { color: var(--forest-900); }

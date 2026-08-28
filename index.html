@@ -28,7 +28,7 @@
 
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/assets/favicon.svg" />
-  <link rel="preload" as="image" href="/assets/images/hero-landscaping-northwest-melbourne.webp?v=3" fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/images/hero-video-poster.webp" fetchpriority="high" />
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-800.woff2" crossorigin />
   <link rel="stylesheet" href="/style.css" />
 
@@ -138,7 +138,8 @@
   <header class="site-header">
     <div class="site-header__inner">
       <a class="brand" href="/" aria-label="Turf and Landscaping — home">
-        <img class="brand__logo" src="/assets/logo-turf-and-landscaping.png" alt="Turf and Landscaping" width="918" height="381" />
+        <img class="brand__logo brand__logo--dark" src="/assets/logo-turf-and-landscaping.png" alt="Turf and Landscaping" width="918" height="381" />
+        <img class="brand__logo brand__logo--light" src="/assets/logo-turf-and-landscaping-white.png" alt="" aria-hidden="true" width="918" height="381" />
       </a>
       <nav class="primary-nav" aria-label="Primary">
         <a href="/#who-we-are">Who We Are</a>
@@ -238,12 +239,12 @@
     <!-- ============ HERO ============ -->
     <section class="hero" aria-label="Introduction">
       <div class="hero__media">
-        <img src="/assets/images/hero-landscaping-northwest-melbourne.webp?v=3"
-             alt="Completed front-yard transformation with fresh lawn, stepping-stone path, mulched garden beds and feature rocks"
+        <img src="/assets/images/hero-video-poster.webp"
+             alt="Backyard landscaping with paving and fresh turf"
              width="1920" height="1080" fetchpriority="high" />
         <!-- Sits on top of the photo; if it can't load or autoplay, the photo shows. -->
         <video class="hero__video" autoplay muted loop playsinline preload="auto"
-               poster="/assets/images/hero-landscaping-northwest-melbourne.webp?v=3" aria-hidden="true" tabindex="-1">
+               poster="/assets/images/hero-video-poster.webp" aria-hidden="true" tabindex="-1">
           <source src="/assets/videos/hero-background.mp4" type="video/mp4" />
         </video>
       </div>
