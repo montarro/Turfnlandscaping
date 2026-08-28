@@ -1442,3 +1442,48 @@ p  { margin: 0 0 1rem; }
 .wwa .value__body h3 { font-size: 1.05rem; margin-bottom: .35rem; color: #fff; }
 .wwa .value__body p { color: #c3d2bd; font-size: .93rem; line-height: 1.6; margin: 0; }
 @media (min-width: 820px) { .wwa .values { grid-template-columns: repeat(4, 1fr); gap: 2rem; } }
+
+/* =====================================================================
+   Meet the Owner — editorial 44/56 split
+   ===================================================================== */
+.about { padding-block: clamp(2.6rem, 6vw, 4.6rem); }
+.about__inner { display: grid; gap: 2.2rem; align-items: center; }
+.about__media { margin: 0; position: relative; max-width: 27rem; }
+.about__media::before {
+  content: ""; position: absolute; inset: -1rem -1rem 30% 24%;
+  background: linear-gradient(165deg, var(--forest-800), var(--forest-950));
+  border-radius: 18px; z-index: -1;
+}
+.about__media img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: top; display: block;
+  border-radius: 18px; box-shadow: 0 12px 30px rgba(18, 32, 23, .14);
+}
+.about__media figcaption { margin-top: .75rem; line-height: 1.4; }
+.about__media figcaption strong { display: block; font-family: var(--font-display); font-weight: 700; color: var(--forest-900); }
+.about__media figcaption span { color: var(--muted); font-size: .88rem; }
+.about__copy h2 { max-width: 18ch; }
+.about__copy > p { color: var(--muted); max-width: 36rem; line-height: 1.7; }
+.about__facts {
+  list-style: none; display: flex; flex-wrap: wrap; margin: 1.4rem 0; padding: 0;
+  font-family: var(--font-display); font-weight: 600; color: var(--forest-900); font-size: .95rem;
+}
+.about__facts li { padding-right: 1.1rem; margin-right: 1.1rem; border-right: 1px solid var(--sage-200); }
+.about__facts li:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
+.about__contact-line { color: var(--muted); max-width: 32rem; }
+.about__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.6rem; margin-top: 1.1rem; }
+.about__head h2 { max-width: 18ch; }
+@media (min-width: 920px) {
+  .about__inner {
+    grid-template-columns: 44fr 56fr; gap: 1rem clamp(2.6rem, 5vw, 4.5rem);
+    grid-template-areas: "media head" "media copy"; align-items: center;
+  }
+  .about__head { grid-area: head; align-self: end; }
+  .about__media { grid-area: media; justify-self: start; width: 100%; }
+  .about__copy { grid-area: copy; align-self: start; }
+}
+@media (max-width: 919px) {
+  .about__ctas .btn { width: 100%; justify-content: center; }
+  .about__facts { flex-direction: column; gap: .55rem; }
+  .about__facts li { border-right: 0; margin: 0; padding: 0 0 .55rem; border-bottom: 1px solid var(--sage-200); }
+  .about__facts li:last-child { border-bottom: 0; padding-bottom: 0; }
+}
