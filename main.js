@@ -173,6 +173,15 @@
       ["pointerdown", "touchstart", "scroll", "keydown"].forEach(function (evt) {
         window.addEventListener(evt, tryPlay, { once: true, passive: true });
       });
+      /* The loop attribute handles looping, but Safari and Low Power Mode
+         can stall at the final frame — restart explicitly if that happens. */
+      heroVideo.addEventListener("ended", function () {
+        heroVideo.currentTime = 0;
+        tryPlay();
+      });
+      document.addEventListener("visibilitychange", function () {
+        if (!document.hidden && heroVideo.paused && !heroVideo.ended) tryPlay();
+      });
     }
   }
 
