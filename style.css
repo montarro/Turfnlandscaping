@@ -752,7 +752,6 @@ p  { margin: 0 0 1rem; }
 @media (min-width: 820px) {
   .primary-nav {
     display: flex; align-items: center; gap: .2rem;
-    background: var(--cream-deep); border-radius: 999px; padding: .35rem;
   }
   .primary-nav a {
     text-decoration: none; color: var(--forest-900);
@@ -1288,14 +1287,12 @@ p  { margin: 0 0 1rem; }
 }
 
 /* --- Homepage: transparent header over the hero, capsule appears on scroll --- */
-.brand__logo--light { display: none; }
 .site-header__inner { transition: height .2s ease, box-shadow .2s ease, background-color .25s ease, border-color .25s ease; }
 .home .site-header:not(.is-scrolled) .site-header__inner {
   background: transparent; border-color: transparent; box-shadow: none;
   -webkit-backdrop-filter: none; backdrop-filter: none;
 }
-.home .site-header:not(.is-scrolled) .brand__logo--dark { display: none; }
-.home .site-header:not(.is-scrolled) .brand__logo--light { display: block; }
+.home .site-header:not(.is-scrolled) .brand__logo { filter: drop-shadow(0 1px 10px rgba(255,255,255,.35)) drop-shadow(0 1px 3px rgba(255,255,255,.25)); }
 .home .site-header:not(.is-scrolled) .primary-nav { background: transparent; }
 .home .site-header:not(.is-scrolled) .primary-nav a { color: #fff; }
 .home .site-header:not(.is-scrolled) .primary-nav a:hover,
