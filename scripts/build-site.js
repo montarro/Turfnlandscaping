@@ -34,6 +34,7 @@ fs.mkdirSync(DIST, { recursive: true });
 // the input to apply-photos.js (pages only ever reference the generated WebP),
 // and the ALL-CAPS folders are unprocessed photo drops from the client.
 const SKIP_DIRS = new Set(["photos", "IMAGES OF FINISHED JOBS", "BEFORE AND AFTERS", "VIDEOS"]);
+const SKIP_FILES = new Set(["homepage rebuild inspo.png"]);
 function copyDir(relDir) {
   const src = path.join(ROOT, relDir);
   if (!fs.existsSync(src)) return;
@@ -42,7 +43,7 @@ function copyDir(relDir) {
     if (entry.isDirectory()) {
       if (relDir.startsWith("assets") && SKIP_DIRS.has(entry.name)) continue;
       copyDir(rel);
-    } else copy(rel);
+    } else if (!SKIP_FILES.has(entry.name)) copy(rel);
   }
 }
 copyDir("assets");
@@ -65,6 +66,7 @@ const DEST_IMG = path.join(DIST, "assets", "images");
 if (fs.existsSync(SRC_IMG)) {
   fs.mkdirSync(DEST_IMG, { recursive: true });
   for (const f of fs.readdirSync(SRC_IMG)) {
+    if (SKIP_FILES.has(f)) continue;
     if (fs.statSync(path.join(SRC_IMG, f)).isFile()) {
       fs.copyFileSync(path.join(SRC_IMG, f), path.join(DEST_IMG, f));
       console.log("used real asset", f);
