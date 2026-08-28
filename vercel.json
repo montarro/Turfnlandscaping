@@ -24,20 +24,7 @@
       ]
     },
     {
-      "source": "/admin",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    },
-    {
-      "source": "/admin/(.*)",
+      "source": "/admin/:path*",
       "headers": [
         {
           "key": "X-Robots-Tag",
@@ -68,7 +55,7 @@
       "destination": "/admin/index.html"
     },
     {
-      "source": "/admin/(.*)",
+      "source": "/admin/:path*",
       "destination": "/admin/index.html"
     }
   ]
