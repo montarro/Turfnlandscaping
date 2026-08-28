@@ -33,7 +33,7 @@ fs.mkdirSync(DIST, { recursive: true });
 // Raw-source folders that must never ship to the public CDN: assets/photos is
 // the input to apply-photos.js (pages only ever reference the generated WebP),
 // and the ALL-CAPS folders are unprocessed photo drops from the client.
-const SKIP_DIRS = new Set(["photos", "IMAGES OF FINISHED JOBS", "BEFORE AND AFTERS", "VIDEOS"]);
+const SKIP_DIRS = new Set(["photos", "IMAGES OF FINISHED JOBS", "BEFORE AND AFTERS", "VIDEOS", "WEBSITE IMAGES"]);
 const SKIP_FILES = new Set(["homepage rebuild inspo.png", "video hero.mp4", "new website vid hero.mp4"]);
 function copyDir(relDir) {
   const src = path.join(ROOT, relDir);
