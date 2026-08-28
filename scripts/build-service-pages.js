@@ -59,7 +59,7 @@ function head({ title, desc, canonical, image, ld }) {
   ${JSON.stringify(ld, null, 2)}
   </script>
 </head>
-<body>`;
+<body class="editorial">`;
 }
 
 function ctaBand(title) {
@@ -238,7 +238,7 @@ ${HEADER}
       <div class="page-hero__media"><img src="${img("hero-landscaping-northwest-melbourne")}" alt="" width="1920" height="1080" fetchpriority="high" /></div>
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Services</nav>
-        <h1>Our Services</h1>
+        <h1>Our <em class="accent-i">Services.</em></h1>
         <p>Turf, landscape construction and property care — every service delivered by one accountable team, across Melbourne's west and inner suburbs.</p>
         <div class="page-hero__actions">
           <a class="btn btn--ondark" href="/quote">Request a Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>

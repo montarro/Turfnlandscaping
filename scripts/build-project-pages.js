@@ -59,7 +59,7 @@ function head({ title, desc, canonical, image, ld }) {
   ${JSON.stringify(ld, null, 2)}
   </script>
 </head>
-<body>`;
+<body class="editorial">`;
 }
 
 const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
@@ -118,7 +118,7 @@ ${HEADER}
       <div class="page-hero__media"><img src="${img(PROJECTS[0].hero)}" alt="" width="1200" height="900" fetchpriority="high" /></div>
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Projects</nav>
-        <h1>Real Projects. Built Properly.</h1>
+        <h1>Real Projects. <em class="accent-i">Built Properly.</em></h1>
         <p>Completed turf, landscaping and garden transformations from real homes across Melbourne's west and inner suburbs.</p>
         <div class="page-hero__actions">
           <a class="btn btn--ondark" href="/quote">Request a Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
@@ -299,7 +299,7 @@ ${HEADER}
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Before &amp; After</nav>
         <span class="eyebrow eyebrow--light">Real Transformations</span>
-        <h1>Landscaping Before &amp; After Transformations</h1>
+        <h1>Landscaping <em class="accent-i">Before &amp; After</em> Transformations</h1>
         <p>Genuine completed turf and landscaping projects from across Melbourne's west and inner suburbs — drag the divider to see the difference for yourself.</p>
         <div class="page-hero__actions">
           <a class="btn btn--ondark" href="/quote">Request a Free Quote</a>

@@ -1206,7 +1206,7 @@ p  { margin: 0 0 1rem; }
   font-style: italic; font-weight: 600; font-display: swap;
   src: url("/assets/fonts/playfair-600-italic.woff2") format("woff2");
 }
-.home { --leaf: #a8c66c; }
+:root { --leaf: #a8c66c; }
 
 /* --- Hero: copy left, cinematic gradient, editorial type --- */
 .home .hero::after {
@@ -1292,7 +1292,6 @@ p  { margin: 0 0 1rem; }
   background: transparent; border-color: transparent; box-shadow: none;
   -webkit-backdrop-filter: none; backdrop-filter: none;
 }
-.home .site-header:not(.is-scrolled) .brand__logo { filter: drop-shadow(0 1px 10px rgba(255,255,255,.35)) drop-shadow(0 1px 3px rgba(255,255,255,.25)); }
 .home .site-header:not(.is-scrolled) .primary-nav { background: transparent; }
 .home .site-header:not(.is-scrolled) .primary-nav a { color: #fff; }
 .home .site-header:not(.is-scrolled) .primary-nav a:hover,
@@ -1303,3 +1302,40 @@ p  { margin: 0 0 1rem; }
 .home .site-header:not(.is-scrolled) .header-phone { color: #fff; }
 .home .site-header:not(.is-scrolled) .header-phone:hover { background: rgba(255,255,255,.14); color: #fff; }
 .home .site-header:not(.is-scrolled) .nav-drop__menu a { color: var(--forest-900); }
+
+/* =====================================================================
+   Editorial design language extension (scoped to body.editorial).
+   Applied to every public page EXCEPT the quote page, which keeps the
+   original system untouched.
+   ===================================================================== */
+.accent-i {
+  font-family: "Playfair Display", Georgia, serif;
+  font-style: italic; font-weight: 600; color: var(--leaf);
+}
+.editorial h1,
+.editorial main h2 {
+  font-family: "Playfair Display", Georgia, serif; font-weight: 600;
+  letter-spacing: -.01em;
+}
+.editorial .form h2, .editorial .form__title { font-family: var(--font-display); letter-spacing: 0; }
+
+/* Eyebrows become plain editorial kickers - no pill, no dot */
+.editorial .eyebrow {
+  background: none; border: 0; box-shadow: none; padding: 0;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  color: var(--forest-600); letter-spacing: .2em; text-transform: uppercase;
+  font-size: .8rem; font-weight: 700;
+}
+.editorial .eyebrow::before { display: none; }
+.editorial .section--dark .eyebrow,
+.editorial .closing .eyebrow,
+.editorial .page-hero .eyebrow,
+.editorial .eyebrow--light { color: var(--leaf); background: none; border: 0; }
+
+/* Page heroes: cinematic left gradient + editorial headline scale */
+.editorial .page-hero::after {
+  background:
+    linear-gradient(92deg, rgba(13,24,17,.9) 0%, rgba(13,24,17,.68) 36%, rgba(13,24,17,.32) 66%, rgba(13,24,17,.24) 100%),
+    linear-gradient(180deg, rgba(13,24,17,.16), rgba(13,24,17,.38));
+}
+.editorial .page-hero h1 { font-size: clamp(2.3rem, 5vw, 3.5rem); line-height: 1.1; text-wrap: balance; }

@@ -244,7 +244,7 @@ function servicePage(s) {
   ${JSON.stringify(serviceJsonLd(s, canonical), null, 2)}
   </script>
 </head>
-<body>
+<body class="editorial">
 ${HEADER}
   <main id="main">
     <section class="page-hero">
