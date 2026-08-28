@@ -53,6 +53,7 @@ function head({ title, desc, canonical, image, ld }) {
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/service-pages.css" />
   <link rel="stylesheet" href="/projects.css" />
   <script type="application/ld+json">
   ${JSON.stringify(ld, null, 2)}
@@ -284,6 +285,7 @@ function beforeAfterPage() {
   <meta property="og:image" content="${SITE}${img(pairs[0] ? pairs[0].after.img : PROJECTS[0].hero)}" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/service-pages.css" />
   <link rel="stylesheet" href="/projects.css" />
   <script type="application/ld+json">
   ${JSON.stringify(ld, null, 2)}
