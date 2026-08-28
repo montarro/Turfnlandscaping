@@ -158,7 +158,7 @@ const FOOTER = `
             <li><a href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a></li>
             <li><a href="mailto:info@turfandlandscaping.com.au">info@turfandlandscaping.com.au</a></li>
             <li>Melbourne's West • Inner City • Inner North • Inner East &amp; Bayside</li>
-            <li>Mon–Fri 7am–5pm · Sat 8am–2pm</li>
+            <li>Mon–Fri 7am–7pm · Sat–Sun 8am–5pm</li>
           </ul>
         </div>
       </div>

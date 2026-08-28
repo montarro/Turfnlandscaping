@@ -188,7 +188,7 @@ ${HEADER}
           <div class="sp-side__card">
             <h2>Prefer to call?</h2>
             <a class="sp-side__phone" href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a>
-            <p>Mon–Fri 7am–5pm · Sat 8am–2pm</p>
+            <p>Mon–Fri 7am–7pm · Sat–Sun 8am–5pm</p>
           </div>
           <div class="sp-side__card sp-side__card--promo">
             <h2>Spring Sale</h2>
