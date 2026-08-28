@@ -1220,8 +1220,15 @@ p  { margin: 0 0 1rem; }
   align-items: flex-start; text-align: left;
   min-height: min(86vh, 56rem);
   justify-content: center;
-  padding-block: clamp(3rem, 7vw, 5rem);
+  /* larger bottom padding floats the copy block higher in the frame */
+  padding-block: clamp(2rem, 4vw, 3rem) clamp(8rem, 16vw, 13rem);
 }
+.home .hero__ctas .btn {
+  padding: .8rem 1.5rem; font-size: .95rem; min-height: 0;
+}
+.home .hero__ctas .btn--xl { padding: .8rem 1.1rem .8rem 1.6rem; }
+.home .hero__ctas .btn__arrow { width: 1.9rem; height: 1.9rem; }
+.home .hero__ctas .btn__arrow svg { width: .95rem; height: .95rem; }
 .home .hero__location {
   font-family: var(--font-display); font-weight: 700;
   color: var(--leaf); letter-spacing: .22em; font-size: clamp(.82rem, 1.6vw, .95rem);
