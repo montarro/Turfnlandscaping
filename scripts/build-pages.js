@@ -72,8 +72,8 @@ function head({ title, desc, canonical, image = OG }) {
   <meta name="twitter:title" content="${title}" />
   <meta name="twitter:description" content="${desc}" />
   <meta name="twitter:image" content="${image}" />
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="/assets/favicon.svg" />
+  <link rel="icon" href="/assets/favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/favicon.png" />
   <link rel="stylesheet" href="/style.css" />`;
 }
 

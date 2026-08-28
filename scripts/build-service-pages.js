@@ -51,7 +51,7 @@ function head({ title, desc, canonical, image, ld }) {
   <meta property="og:url" content="${canonical}" />
   <meta property="og:image" content="${SITE}${image}" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/assets/favicon.png" type="image/png" />
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/service-pages.css" />
   <link rel="stylesheet" href="/projects.css" />
