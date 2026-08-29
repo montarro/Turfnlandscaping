@@ -1495,3 +1495,11 @@ p  { margin: 0 0 1rem; }
   .about__facts li { border-right: 0; margin: 0; padding: 0 0 .55rem; border-bottom: 1px solid var(--sage-200); }
   .about__facts li:last-child { border-bottom: 0; padding-bottom: 0; }
 }
+
+/* Who We Are — company variant: landscape project photo, asymmetric split */
+.wwa__body { color: #c9d6c3; max-width: 38rem; }
+.wwa__media--wide { max-width: none; align-self: center; }
+.wwa__media--wide img { aspect-ratio: 16 / 11; border-radius: 16px; }
+@media (min-width: 920px) {
+  .wwa .wwa__top { grid-template-columns: 55fr 45fr; align-items: center; }
+}
