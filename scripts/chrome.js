@@ -110,7 +110,12 @@ ${mobileAccordions}
       </div>
       <a class="btn btn--primary btn--block" href="/quote">Request a Quote</a>
     </nav>
-  </header>`;
+  </header>
+
+  <div class="announce" role="region" aria-label="September offer">
+    <p class="announce__msg">Spring offer — <strong class="announce__hl">20% off</strong> projects booked in September + free call-out</p>
+    <a class="announce__link" href="/quote">Get a Free Quote <span aria-hidden="true">&rarr;</span></a>
+  </div>`;
 
 const FOOTER = `
   <footer class="site-footer">
