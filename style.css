@@ -1504,3 +1504,9 @@ p  { margin: 0 0 1rem; }
 @media (min-width: 920px) {
   .wwa .wwa__top { grid-template-columns: 55fr 45fr; align-items: center; }
 }
+
+/* Homepage transparent-header logo: white-wordmark version over the hero,
+   green version once the capsule appears on scroll */
+.brand__logo--light { display: none; }
+.home .site-header:not(.is-scrolled) .brand__logo--dark { display: none; }
+.home .site-header:not(.is-scrolled) .brand__logo--light { display: block; height: 44px; }
