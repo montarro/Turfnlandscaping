@@ -34,7 +34,7 @@ fs.mkdirSync(DIST, { recursive: true });
 // the input to apply-photos.js (pages only ever reference the generated WebP),
 // and the ALL-CAPS folders are unprocessed photo drops from the client.
 const SKIP_DIRS = new Set(["photos", "IMAGES OF FINISHED JOBS", "BEFORE AND AFTERS", "VIDEOS", "WEBSITE IMAGES"]);
-const SKIP_FILES = new Set(["homepage rebuild inspo.png", "video hero.mp4", "new website vid hero.mp4", "Turf_Landscaping.ai (6).png", "Turf_Landscaping.ai (7).png"]);
+const SKIP_FILES = new Set(["homepage rebuild inspo.png", "video hero.mp4", "new website vid hero.mp4", "Turf_Landscaping.ai (6).png", "Turf_Landscaping.ai (7).png", "Turf_Landscaping.ai (8).png", "Untitled"]);
 function copyDir(relDir) {
   const src = path.join(ROOT, relDir);
   if (!fs.existsSync(src)) return;

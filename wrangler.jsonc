@@ -1,0 +1,13 @@
+// Cloudflare Workers static-assets deploy of the prebuilt site (dist/).
+// Preview/backup hosting only — the live site stays on Vercel, and the
+// /api serverless functions are Vercel-only, so /admin login does not
+// work on this copy. Deploy: npm run build && npx wrangler deploy
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "turfnlandscaping",
+  "compatibility_date": "2026-08-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
