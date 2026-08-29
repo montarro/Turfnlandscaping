@@ -164,7 +164,7 @@ const FOOTER = `
       </div>
       <div class="footer__bottom">
         <span>© <span id="year">2026</span> Turf and Landscaping</span>
-        <span>Melbourne's West • Inner City • Inner North • Inner East &amp; Bayside</span>
+        <span>Melbourne's West • Inner City • Inner North • Inner East &amp; Bayside · <a class="footer__admin" href="/admin">Admin</a></span>
       </div>
     </div>
   </footer>`;

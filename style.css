@@ -1510,3 +1510,7 @@ p  { margin: 0 0 1rem; }
 .brand__logo--light { display: none; }
 .home .site-header:not(.is-scrolled) .brand__logo--dark { display: none; }
 .home .site-header:not(.is-scrolled) .brand__logo--light { display: block; height: 44px; }
+
+/* Discreet admin link in the footer bottom row */
+.footer__admin { color: inherit; opacity: .75; font-size: .95em; }
+.footer__admin:hover { opacity: 1; color: #fff; }
