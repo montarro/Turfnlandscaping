@@ -31,7 +31,8 @@
   function fmtDate(d) {
     if (!d) return "—";
     var p = d.slice(0, 10).split("-");
-    return p[2] + "/" + p[1] + "/" + p[0];
+    var M = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return parseInt(p[2], 10) + " " + M[parseInt(p[1], 10) - 1] + " " + p[0];
   }
   function toast(msg, isError) {
     var t = document.getElementById("toast");
@@ -75,7 +76,7 @@
     app.innerHTML =
       '<div class="frame">' +
       '<header class="topbar">' +
-      '<span class="topbar__brand"><img src="/assets/logo-turf-and-landscaping-white.png" alt="" /><strong>Invoices</strong></span>' +
+      '<span class="topbar__brand"><img src="/assets/logo-turf-and-landscaping-white.png" alt="" /><strong>Turf &amp; Landscaping Admin</strong></span>' +
       "<nav>" +
       navLink("/admin/jobs", "Jobs", active === "jobs") +
       navLink("/admin/invoices", "Invoices", active === "invoices") +
@@ -83,10 +84,25 @@
       navLink("/admin/pricing", "Pricing", active === "pricing") +
       navLink("/admin/settings", "Settings", active === "settings") +
       "</nav>" +
-      '<span class="topbar__user">' + esc(state.email || "") +
-      ' <button class="btn btn--sm btn--soft" id="logout">Sign out</button></span>' +
+      '<div class="acct">' +
+      '<button class="acct__btn" id="acct-btn" aria-haspopup="true" aria-expanded="false">Account <span aria-hidden="true">▾</span></button>' +
+      '<div class="acct__menu" id="acct-menu" hidden>' +
+      '<div class="acct__email">' + esc(state.email || "") + "</div>" +
+      '<button class="acct__item" id="logout">Sign out</button>' +
+      "</div></div>" +
       "</header>" +
       '<main class="main" id="view">' + inner + "</main></div>";
+    var acctBtn = document.getElementById("acct-btn");
+    var acctMenu = document.getElementById("acct-menu");
+    function closeAcct() { acctMenu.hidden = true; acctBtn.setAttribute("aria-expanded", "false"); }
+    acctBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var open = acctMenu.hidden;
+      acctMenu.hidden = !open;
+      acctBtn.setAttribute("aria-expanded", String(open));
+    });
+    document.addEventListener("click", function (e) { if (!acctMenu.hidden && !acctMenu.contains(e.target)) closeAcct(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeAcct(); });
     document.getElementById("logout").addEventListener("click", async function () {
       await api("/api/auth/logout", { method: "POST" });
       nav("/admin/login");
@@ -897,72 +913,92 @@
     try { jobs = await api("/api/jobs" + (q ? "?q=" + encodeURIComponent(q) : "")); }
     catch (e) { var v0 = document.getElementById("view"); if (v0) v0.innerHTML = '<p class="error-text">' + esc(e.message) + "</p>"; return; }
 
-    var tab = state.jobTab || "scheduled";
-    var counts = {};
+    var tab = state.jobTab || "all";
+    var sort = state.jobSort || "scheduled";
+    var counts = { all: jobs.length };
     JOB_STATUSES.forEach(function (st) { counts[st] = jobs.filter(function (j) { return j.status === st; }).length; });
 
-    var html = '<div class="btnrow" style="justify-content:space-between;margin-bottom:1rem;"><h1 style="margin:0">Jobs</h1>' +
+    var TABS = ["all"].concat(JOB_STATUSES);
+    var TAB_LABELS = Object.assign({ all: "All" }, JOB_LABELS);
+
+    var html = '<div class="pagehead">' +
+      '<div><h1>Jobs</h1><p class="hint">Manage current work from booking through to payment.</p></div>' +
       '<button class="btn btn--primary" id="job-new">+ Add Job</button></div>';
 
-    html += '<div class="stats">' +
-      '<div class="stat" data-tab="scheduled"><strong>' + counts.scheduled + "</strong><span>Scheduled</span></div>" +
-      '<div class="stat" data-tab="in_progress"><strong>' + counts.in_progress + "</strong><span>In Progress</span></div>" +
-      '<div class="stat stat--needs' + (counts.needs_invoice ? " has-jobs" : "") + '" data-tab="needs_invoice"><strong>' + counts.needs_invoice + "</strong><span>Needs Invoice</span></div>" +
-      '<div class="stat" data-tab="invoiced"><strong>' + counts.invoiced + "</strong><span>Awaiting Payment</span></div>" +
-      "</div>";
-
     html += '<div class="card">' +
-      '<div class="btnrow" style="margin-bottom:.8rem;">' +
-      '<input type="text" id="job-q" placeholder="Search client, phone, address or job…" style="max-width:320px" value="' + esc(q) + '" />' +
-      '<button class="btn btn--soft btn--sm" id="job-search">Search</button></div>' +
+      '<div class="toolbar">' +
+      '<input type="text" id="job-q" placeholder="Search client, phone, address or job…" value="' + esc(q) + '" />' +
+      '<button class="btn btn--soft btn--sm" id="job-search">Search</button>' +
       '<div class="jobtabs" role="tablist">' +
-      JOB_STATUSES.map(function (st) {
+      TABS.map(function (st) {
         return '<button role="tab" aria-selected="' + (tab === st) + '" class="jobtab' + (tab === st ? " active" : "") + '" data-tab="' + st + '">' +
-          JOB_LABELS[st] + " (" + counts[st] + ")</button>";
+          TAB_LABELS[st] + " (" + counts[st] + ")</button>";
       }).join("") + "</div>" +
+      '<select id="job-sort" aria-label="Sort jobs">' +
+      '<option value="scheduled"' + (sort === "scheduled" ? " selected" : "") + ">Scheduled date</option>" +
+      '<option value="newest"' + (sort === "newest" ? " selected" : "") + ">Newest first</option>" +
+      '<option value="client"' + (sort === "client" ? " selected" : "") + ">Client name</option>" +
+      "</select>" +
+      "</div>" +
       '<div id="job-form"></div><div id="job-list"></div></div>';
 
     document.getElementById("view").innerHTML = html;
 
+    function paymentLabel(j) {
+      if (j.status === "paid") return "Paid";
+      if (j.status === "invoiced") return "Awaiting payment";
+      return "—";
+    }
+
     function renderList() {
-      var list = jobs.filter(function (j) { return j.status === tab; });
+      var list = tab === "all" ? jobs.slice() : jobs.filter(function (j) { return j.status === tab; });
+      if (sort === "newest") list.sort(function (a, b) { return (b.created_at || "").localeCompare(a.created_at || ""); });
+      else if (sort === "client") list.sort(function (a, b) { return (a.client_name || "").localeCompare(b.client_name || ""); });
+      else list.sort(function (a, b) { return (a.scheduled_date || "9999").localeCompare(b.scheduled_date || "9999"); });
       if (tab === "needs_invoice") {
-        list.sort(function (a, b) { return (a.completed_date || a.updated_at).localeCompare(b.completed_date || b.updated_at); });
+        list.sort(function (a, b) { return (a.completed_date || a.updated_at || "").localeCompare(b.completed_date || b.updated_at || ""); });
       }
       var box = document.getElementById("job-list");
       if (!list.length) {
-        box.innerHTML = '<p class="empty">' + (tab === "needs_invoice" ? "All completed jobs have been invoiced." : "No " + JOB_LABELS[tab].toLowerCase() + " jobs.") + "</p>";
+        box.innerHTML = '<p class="empty">' +
+          (q ? "No jobs match your search." :
+            tab === "needs_invoice" ? "All completed jobs have been invoiced." :
+            tab === "all" ? "No jobs yet — add the first one." :
+            "No " + JOB_LABELS[tab].toLowerCase() + " jobs.") + "</p>";
         return;
       }
-      box.innerHTML = list.map(function (j) {
-        var act = JOB_ACTIONS[j.status];
-        var days = "";
-        if (j.status === "needs_invoice") {
-          var since = j.completed_date || (j.updated_at || "").slice(0, 10);
-          if (since) {
-            var d = Math.max(0, Math.round((Date.now() - new Date(since).getTime()) / 86400000));
-            days = '<span class="job-days">' + d + " day" + (d === 1 ? "" : "s") + " waiting</span>";
+      box.innerHTML = '<div class="tablewrap"><table class="jobs-table"><thead><tr>' +
+        "<th>Client</th><th>Service</th><th>Location</th><th>Scheduled</th><th>Status</th><th>Payment</th><th>Actions</th>" +
+        "</tr></thead><tbody>" +
+        list.map(function (j) {
+          var act = JOB_ACTIONS[j.status];
+          var days = "";
+          if (j.status === "needs_invoice") {
+            var since = j.completed_date || (j.updated_at || "").slice(0, 10);
+            if (since) {
+              var d = Math.max(0, Math.round((Date.now() - new Date(since).getTime()) / 86400000));
+              days = ' <span class="job-days">' + d + "d waiting</span>";
+            }
           }
-        }
-        return '<div class="job-card" data-id="' + j.id + '">' +
-          '<div class="job-card__main">' +
-          "<strong>" + esc(j.client_name) + "</strong> " + days +
-          (j.phone ? ' · <a href="tel:' + esc(j.phone.replace(/\s/g, "")) + '">' + esc(j.phone) + "</a>" : "") +
-          '<div class="hint">' + esc(j.address || "") + "</div>" +
-          "<div>" + esc(j.description || "") + "</div>" +
-          '<div class="hint">' +
-          (j.status === "needs_invoice" && j.completed_date ? "Completed " + fmtDate(j.completed_date) : (j.scheduled_date ? "Scheduled " + fmtDate(j.scheduled_date) : "")) +
-          (j.price_cents != null ? " · " + money(j.price_cents) : "") + "</div></div>" +
-          '<div class="job-card__actions">' +
-          '<button class="btn btn--primary btn--sm" data-act="next">' + act.label + "</button>" +
-          '<button class="btn btn--soft btn--sm" data-act="edit">Edit</button>' +
-          "</div></div>";
-      }).join("");
+          return '<tr data-id="' + j.id + '">' +
+            '<td data-th="Client"><strong>' + esc(j.client_name) + "</strong>" +
+            (j.phone ? '<div class="hint"><a href="tel:' + esc(j.phone.replace(/\s/g, "")) + '">' + esc(j.phone) + "</a></div>" : "") + "</td>" +
+            '<td data-th="Service">' + esc(j.description || "—") +
+            (j.price_cents != null ? '<div class="hint">' + money(j.price_cents) + "</div>" : "") + "</td>" +
+            '<td data-th="Location">' + esc(j.address || "—") + "</td>" +
+            '<td data-th="Scheduled">' + fmtDate(j.scheduled_date) + "</td>" +
+            '<td data-th="Status"><span class="jlabel jlabel--' + j.status + '">' + JOB_LABELS[j.status] + "</span>" + days + "</td>" +
+            '<td data-th="Payment">' + paymentLabel(j) + "</td>" +
+            '<td data-th="Actions" class="jobs-actions">' +
+            '<button class="btn btn--primary btn--sm" data-act="next">' + act.label + "</button>" +
+            '<button class="btn btn--quiet btn--sm" data-act="edit">Edit</button>' +
+            "</td></tr>";
+        }).join("") + "</tbody></table></div>";
 
-      box.querySelectorAll(".job-card").forEach(function (card) {
-        var job = jobs.filter(function (j) { return j.id === card.dataset.id; })[0];
-        card.querySelector('[data-act="edit"]').addEventListener("click", function () { jobForm(job); });
-        card.querySelector('[data-act="next"]').addEventListener("click", async function () {
+      box.querySelectorAll("tr[data-id]").forEach(function (row) {
+        var job = jobs.filter(function (j) { return j.id === row.dataset.id; })[0];
+        row.querySelector('[data-act="edit"]').addEventListener("click", function () { jobForm(job); });
+        row.querySelector('[data-act="next"]').addEventListener("click", async function () {
           if (job.status === "needs_invoice") { nav("/admin/invoices/new?job=" + job.id); return; }
           if (job.status === "paid") { jobForm(job); return; }
           if (job.status === "invoiced" && job.invoice_id) {
@@ -978,8 +1014,11 @@
     }
     renderList();
 
-    document.querySelectorAll("[data-tab]").forEach(function (el) {
+    document.querySelectorAll(".jobtab").forEach(function (el) {
       el.addEventListener("click", function () { state.jobTab = el.dataset.tab; viewJobs(); });
+    });
+    document.getElementById("job-sort").addEventListener("change", function () {
+      state.jobSort = this.value; viewJobs();
     });
     var doSearch = function () { state.jobQ = document.getElementById("job-q").value.trim(); viewJobs(); };
     document.getElementById("job-search").addEventListener("click", doSearch);
