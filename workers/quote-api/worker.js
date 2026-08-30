@@ -333,10 +333,29 @@ async function handleQuote(request, env, origin) {
     report.push("workflow skipped: GHL_WORKFLOW_ID not set");
   }
 
+  /* 7. Steps 3-6 are caught individually so a partial failure still
+     captures the lead — but that means they fail silently behind a 200.
+     Surface any real degradation inside GHL, where it gets seen, rather
+     than only in Cloudflare logs. Informational notes (unmapped answers,
+     missing custom fields) are deliberately excluded so the tag stays
+     meaningful. */
+  const failures = report.filter((r) => /failed|skipped/i.test(r));
+  if (failures.length) {
+    try { await ghl.post(`/contacts/${contactId}/tags`, { tags: ["sync-incomplete"] }); }
+    catch (e) { report.push("sync-incomplete tag failed: " + trim(e)); }
+    try {
+      await ghl.post(`/contacts/${contactId}/notes`, {
+        body: "AUTOMATED DELIVERY REPORT\n\nThis enquiry reached GHL but some steps did not "
+          + "complete. The contact details above are correct; what follows may be missing:\n\n"
+          + failures.map((f) => "- " + f).join("\n"),
+      });
+    } catch (e) { report.push("delivery-report note failed: " + trim(e)); }
+  }
+
   log("info", {
     event: "quote_submitted", type, service: a.service, contactId,
     files: files.length, uploaded: uploadedCount,
-    opportunity: opportunityOk, report,
+    opportunity: opportunityOk, degraded: failures.length > 0, report,
   });
   return json(200, { ok: true }, cors);
 }
