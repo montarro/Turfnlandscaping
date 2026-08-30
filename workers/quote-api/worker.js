@@ -321,7 +321,10 @@ async function handleQuote(request, env, origin) {
   /* 6. workflow — only after contact + opportunity succeeded */
   if (env.GHL_WORKFLOW_ID) {
     if (opportunityOk) {
-      try { await ghl.post(`/contacts/${contactId}/workflow/${env.GHL_WORKFLOW_ID}`, { eventStartTime: new Date().toISOString() }); }
+      /* GHL rejects the "Z" suffix with 422 — it wants an explicit
+         numeric offset (ex: 2021-06-23T03:30:00+01:00) and no millis. */
+      const eventStartTime = new Date().toISOString().replace(/\.\d{3}Z$/, "+00:00");
+      try { await ghl.post(`/contacts/${contactId}/workflow/${env.GHL_WORKFLOW_ID}`, { eventStartTime }); }
       catch (e) { report.push("workflow failed: " + trim(e)); }
     } else {
       report.push("workflow skipped: opportunity was not created");
