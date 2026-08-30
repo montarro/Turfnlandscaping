@@ -1044,46 +1044,6 @@ p  { margin: 0 0 1rem; }
 .qreassure { color: var(--muted); font-size: .95rem; margin: 0 0 1.6rem; }
 
 
-/* ---------- Announcement strip (September offer) ----------
-   Static band directly below the floating nav; scrolls away with the
-   page. Opaque so the homepage hero video passes cleanly behind it. */
-.announce {
-  position: relative; z-index: 50;
-  display: flex; align-items: center; justify-content: center;
-  flex-wrap: wrap; gap: .2rem 1.6rem;
-  min-height: 46px; padding: .6rem var(--gutter);
-  background: var(--forest-900);
-  border-block: 1px solid rgba(255, 255, 255, .1);
-  text-align: center;
-}
-/* The homepage hero pulls itself up behind the floating nav, so there the
-   strip overlays the top of the hero instead of taking flow height —
-   otherwise it would push the video out from behind the transparent header. */
-.home .announce {
-  position: absolute; left: 0; right: 0;
-  top: calc(var(--header-h) + .9rem);
-}
-.announce__msg, .announce__link {
-  font-size: .72rem; font-weight: 600;
-  letter-spacing: .14em; text-transform: uppercase;
-}
-.announce__msg { margin: 0; color: var(--cream); }
-.announce__hl { color: var(--leaf); font-weight: 700; }
-.announce__link {
-  color: #fff; text-decoration: underline;
-  text-decoration-thickness: 1px; text-underline-offset: 4px;
-  white-space: nowrap; padding: .15rem 0;
-}
-.announce__link:hover { color: var(--leaf); }
-.announce__link:focus-visible { outline: 2px solid var(--leaf); outline-offset: 3px; border-radius: 2px; }
-@media (min-width: 820px) {
-  .announce { justify-content: space-between; text-align: left; }
-}
-@media (max-width: 480px) {
-  .announce { padding: .5rem 1rem; gap: .15rem 1rem; }
-  .announce__msg, .announce__link { font-size: .66rem; letter-spacing: .1em; }
-}
-
 /* =====================================================================
    Hero location line
    ===================================================================== */
