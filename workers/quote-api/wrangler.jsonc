@@ -9,6 +9,11 @@
   "compatibility_date": "2026-08-01",
   "keep_vars": true,
   "observability": { "enabled": true },
-  // Non-secret GHL config. The token and location id stay dashboard-managed.
-  "vars": { "GHL_WORKFLOW_ID": "8a6c1d39-1d80-4c27-902a-6307dface40b" }
+  // Non-secret GHL config, pinned here so dashboard re-typing can't corrupt
+  // it (the location id has a zero in "Z0D" — it has been mis-entered with
+  // a letter O before). Only the token stays dashboard-managed.
+  "vars": {
+    "GHL_WORKFLOW_ID": "8a6c1d39-1d80-4c27-902a-6307dface40b",
+    "GHL_LOCATION_ID": "XJsmwGCxZ0DEmJ5wA74d"
+  }
 }

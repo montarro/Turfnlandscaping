@@ -62,7 +62,7 @@ const HEADER = `
   <header class="site-header">
     <div class="site-header__inner">
       <a class="brand" href="/" aria-label="Turf and Landscaping — home">
-        <img class="brand__logo" src="/assets/logo-turf-and-landscaping.png" alt="Turf and Landscaping" width="918" height="381" />
+        <img class="brand__logo" src="/assets/logo-turf-and-landscaping.png?v=2" alt="Bastiano Landscaping" width="659" height="298" />
       </a>
       <nav class="primary-nav" aria-label="Primary">
         <a href="/#who-we-are">Who We Are</a>
@@ -118,7 +118,7 @@ const FOOTER = `
       <div class="footer__grid">
         <div class="footer__brand">
           <a class="brand brand--footer" href="/" aria-label="Turf and Landscaping — home">
-            <img class="brand__logo" src="/assets/logo-turf-and-landscaping-white.png" alt="Turf and Landscaping" width="918" height="381" />
+            <img class="brand__logo" src="/assets/logo-turf-and-landscaping-white.png?v=2" alt="Bastiano Landscaping" width="659" height="298" />
           </a>
           <p style="margin-top:1rem;max-width:22rem;">Turf, landscape construction and property care across Melbourne's west and inner suburbs.</p>
           <div class="footer__socials">

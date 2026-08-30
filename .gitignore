@@ -19,3 +19,5 @@ assets/images/Turf_Landscaping.ai (7).png
 .dev.vars
 **/.dev.vars
 .env
+.vercel
+.env*
