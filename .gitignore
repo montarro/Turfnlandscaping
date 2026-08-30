@@ -21,3 +21,6 @@ assets/images/Turf_Landscaping.ai (7).png
 .env
 .vercel
 .env*
+
+# Personal Claude Code settings
+.claude/settings.local.json

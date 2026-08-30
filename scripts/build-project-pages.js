@@ -47,7 +47,7 @@ function head({ title, desc, canonical, image, ld }) {
   <meta name="theme-color" content="#1d3527" />
   <meta name="robots" content="index, follow" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Turf and Landscaping" />
+  <meta property="og:site_name" content="Bastiano Landscaping" />
   <meta property="og:title" content="${title}" />
   <meta property="og:description" content="${desc}" />
   <meta property="og:url" content="${canonical}" />
@@ -101,7 +101,7 @@ function hubPage() {
   const ld = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "CollectionPage", name: "Projects — Turf and Landscaping", url: canonical,
+      { "@type": "CollectionPage", name: "Projects — Bastiano Landscaping", url: canonical,
         description: "Completed turf and landscaping projects across Melbourne's west and inner suburbs." },
       { "@type": "BreadcrumbList", itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
@@ -110,7 +110,7 @@ function hubPage() {
     ],
   };
   return head({
-    title: "Completed Landscaping Projects Melbourne | Turf and Landscaping",
+    title: "Completed Landscaping Projects Melbourne | Bastiano Landscaping",
     desc: "Real completed projects: turf installation, retaining walls, planters and garden transformations across Melbourne's west and inner suburbs. See the work for yourself.",
     canonical, image: img(PROJECTS[0].hero), ld,
   }) + `
@@ -153,8 +153,8 @@ function detailPage(p, prev, next) {
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "Article", headline: p.title, description: p.summary, image: SITE + img(p.hero),
-        author: { "@type": "Organization", name: "Turf and Landscaping" },
-        publisher: { "@type": "Organization", name: "Turf and Landscaping", logo: { "@type": "ImageObject", url: SITE + "/assets/logo-turf-and-landscaping.png" } },
+        author: { "@type": "Organization", name: "Bastiano Landscaping" },
+        publisher: { "@type": "Organization", name: "Bastiano Landscaping", logo: { "@type": "ImageObject", url: SITE + "/assets/logo-turf-and-landscaping.png" } },
         mainEntityOfPage: canonical },
       { "@type": "BreadcrumbList", itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
@@ -165,7 +165,7 @@ function detailPage(p, prev, next) {
   };
   const hasPair = p.before && p.after;
   return head({
-    title: `${p.title} | Turf and Landscaping`,
+    title: `${p.title} | Bastiano Landscaping`,
     desc: p.summary,
     canonical, image: img(p.hero), ld,
   }) + `
@@ -275,13 +275,13 @@ function beforeAfterPage() {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Landscaping Before &amp; After Transformations | Turf and Landscaping Victoria</title>
+  <title>Landscaping Before &amp; After Transformations | Bastiano Landscaping</title>
   <meta name="description" content="See genuine before-and-after turf, paving, retaining-wall and garden transformations completed across Melbourne's west and inner suburbs." />
   <link rel="canonical" href="${canonical}" />
   <meta name="theme-color" content="#1d3527" />
   <meta name="robots" content="${published ? "index, follow" : "noindex, follow"}" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Landscaping Before &amp; After Transformations | Turf and Landscaping Victoria" />
+  <meta property="og:title" content="Landscaping Before &amp; After Transformations | Bastiano Landscaping" />
   <meta property="og:description" content="Genuine before-and-after landscaping transformations from Melbourne's west and inner suburbs." />
   <meta property="og:url" content="${canonical}" />
   <meta property="og:image" content="${SITE}${img(pairs[0] ? pairs[0].after.img : PROJECTS[0].hero)}" />

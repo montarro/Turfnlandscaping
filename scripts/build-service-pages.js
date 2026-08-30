@@ -47,7 +47,7 @@ function head({ title, desc, canonical, image, ld }) {
   <meta name="theme-color" content="#1d3527" />
   <meta name="robots" content="index, follow" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Turf and Landscaping" />
+  <meta property="og:site_name" content="Bastiano Landscaping" />
   <meta property="og:title" content="${title}" />
   <meta property="og:description" content="${desc}" />
   <meta property="og:url" content="${canonical}" />
@@ -82,11 +82,11 @@ function ctaBand(title) {
 /* ---------- service page ---------- */
 function servicePage(s) {
   const canonical = `${SITE}/services/${s.slug}`;
-  const title = `${s.name.replace(/&/g, "&amp;")} Melbourne | Turf and Landscaping`;
+  const title = `${s.name.replace(/&/g, "&amp;")} Melbourne | Bastiano Landscaping`;
   const desc = `${s.tagline} Serving Melbourne's west and inner suburbs. Free, no-obligation quotes — call ${PHONE_DISPLAY}.`;
   const graph = [
     { "@type": "Service", name: s.name, serviceType: s.name, description: s.tagline, url: canonical,
-      provider: { "@type": "HomeAndConstructionBusiness", name: "Turf and Landscaping", telephone: PHONE_TEL, url: SITE + "/",
+      provider: { "@type": "HomeAndConstructionBusiness", name: "Bastiano Landscaping", telephone: PHONE_TEL, url: SITE + "/",
         areaServed: "Melbourne's west and inner suburbs, VIC" } },
     { "@type": "BreadcrumbList", itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
@@ -221,7 +221,7 @@ function hubPage() {
   const ld = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "CollectionPage", name: "Services — Turf and Landscaping", url: canonical,
+      { "@type": "CollectionPage", name: "Services — Bastiano Landscaping", url: canonical,
         description: "Turf, landscape construction and property care services across Melbourne's west and inner suburbs." },
       { "@type": "BreadcrumbList", itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
@@ -230,7 +230,7 @@ function hubPage() {
     ],
   };
   return head({
-    title: "Turf & Landscaping Services Melbourne | Turf and Landscaping",
+    title: "Bastiano Landscaping Services Melbourne | Bastiano Landscaping",
     desc: "Every service under one team: natural and synthetic turf, retaining walls, paving, garden design, planting, mulch and full property maintenance across Melbourne's west and inner suburbs.",
     canonical, image: img("hero-landscaping-northwest-melbourne"), ld,
   }) + `

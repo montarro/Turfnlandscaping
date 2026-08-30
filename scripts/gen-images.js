@@ -1,5 +1,5 @@
 /* =====================================================================
-   Placeholder image generator for Turf and Landscaping.
+   Placeholder image generator for Bastiano Landscaping.
    Renders branded WebP placeholders with descriptive filenames so the
    site ships valid WebP assets. Each placeholder names the shot it
    stands in for — see PHOTOGRAPHY.md for the full photo brief.
@@ -85,7 +85,7 @@ const IMAGES = [
 
   // Labelled — standalone card, nothing overlaid.
   { file: "og-turf-and-landscaping.webp", w: 1200, h: 630, grad: "b", icon: "hero",
-    lines: ["Turf & Landscaping", "Melbourne West & Inner Suburbs"], eyebrow: "FREE ON-SITE QUOTES" },
+    lines: ["Bastiano Landscaping", "Melbourne West & Inner Suburbs"], eyebrow: "FREE ON-SITE QUOTES" },
 
   { file: "new-turf-lawn-craigieburn-backyard.webp", w: 1200, h: 900, grad: "c", icon: "turf",
     lines: ["New turf lawn", "Craigieburn"] },

@@ -1,5 +1,5 @@
 /* =====================================================================
-   Turf and Landscaping Victoria — private invoice app (SPA).
+   Bastiano Landscaping — private invoice app (SPA).
    Plain JS, history-API routing under /admin. All data flows through
    the authenticated /api endpoints via HTTP-only session cookies —
    nothing sensitive lives in localStorage.
@@ -76,7 +76,7 @@
     app.innerHTML =
       '<div class="frame">' +
       '<header class="topbar">' +
-      '<span class="topbar__brand"><img src="/assets/logo-turf-and-landscaping-white.png" alt="" /><strong>Turf &amp; Landscaping Admin</strong></span>' +
+      '<span class="topbar__brand"><img src="/assets/logo-turf-and-landscaping-white.png" alt="" /><strong>Bastiano Landscaping Admin</strong></span>' +
       "<nav>" +
       navLink("/admin/jobs", "Jobs", active === "jobs") +
       navLink("/admin/invoices", "Invoices", active === "invoices") +
@@ -116,7 +116,7 @@
   function viewLogin() {
     app.innerHTML =
       '<div class="login-wrap"><div class="login-card">' +
-      '<img src="/assets/logo-turf-and-landscaping.png" alt="Turf and Landscaping" />' +
+      '<img src="/assets/logo-turf-and-landscaping.png" alt="Bastiano Landscaping" />' +
       "<h1>Sign in</h1><p class=\"hint\">Private area for authorised users only.</p>" +
       '<form id="login-form">' +
       '<label class="f"><span>Email</span><input type="email" id="li-email" autocomplete="username" required /></label>' +

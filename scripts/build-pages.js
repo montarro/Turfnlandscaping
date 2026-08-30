@@ -60,7 +60,7 @@ function head({ title, desc, canonical, image = OG }) {
   <meta name="theme-color" content="#0e3b23" />
   <meta name="robots" content="index, follow" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Turf and Landscaping" />
+  <meta property="og:site_name" content="Bastiano Landscaping" />
   <meta property="og:title" content="${title}" />
   <meta property="og:description" content="${desc}" />
   <meta property="og:url" content="${canonical}" />
@@ -218,7 +218,7 @@ function serviceJsonLd(s, canonical) {
         "areaServed": AREA_SUBURBS.map((n) => ({ "@type": "City", name: n })),
         "provider": {
           "@type": "HomeAndConstructionBusiness",
-          "name": "Turf and Landscaping",
+          "name": "Bastiano Landscaping",
           "telephone": PHONE_TEL,
           "url": SITE + "/",
           "areaServed": "Melbourne's west and inner suburbs, VIC",
@@ -239,7 +239,7 @@ function serviceJsonLd(s, canonical) {
 function servicePage(s) {
   const sl = slug(s.name);
   const canonical = `${SITE}/services/${sl}`;
-  const title = `${s.name.replace(/&/g, "&amp;")} — Melbourne's West &amp; Inner Suburbs | Turf and Landscaping`;
+  const title = `${s.name.replace(/&/g, "&amp;")} — Melbourne's West &amp; Inner Suburbs | Bastiano Landscaping`;
   const others = SERVICES.filter((x) => x.name !== s.name);
   return `${head({ title, desc: s.desc, canonical, image: SITE + "/assets/images/" + s.image })}
   <script type="application/ld+json">

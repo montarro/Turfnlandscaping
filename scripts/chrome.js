@@ -61,7 +61,7 @@ const HEADER = `
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="site-header__inner">
-      <a class="brand" href="/" aria-label="Turf and Landscaping — home">
+      <a class="brand" href="/" aria-label="Bastiano Landscaping — home">
         <img class="brand__logo" src="/assets/logo-turf-and-landscaping.png?v=2" alt="Bastiano Landscaping" width="659" height="298" />
       </a>
       <nav class="primary-nav" aria-label="Primary">
@@ -117,15 +117,15 @@ const FOOTER = `
     <div class="wrap">
       <div class="footer__grid">
         <div class="footer__brand">
-          <a class="brand brand--footer" href="/" aria-label="Turf and Landscaping — home">
+          <a class="brand brand--footer" href="/" aria-label="Bastiano Landscaping — home">
             <img class="brand__logo" src="/assets/logo-turf-and-landscaping-white.png?v=2" alt="Bastiano Landscaping" width="659" height="298" />
           </a>
           <p style="margin-top:1rem;max-width:22rem;">Turf, landscape construction and property care across Melbourne's west and inner suburbs.</p>
           <div class="footer__socials">
-            <a href="https://www.instagram.com/turfandlandscaping" target="_blank" rel="noopener" aria-label="Turf and Landscaping on Instagram">
+            <a href="https://www.instagram.com/turfandlandscaping" target="_blank" rel="noopener" aria-label="Bastiano Landscaping on Instagram">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.06 1.8.25 2.2.42.6.2 1 .46 1.4.86.4.4.66.8.86 1.4.17.4.36 1 .42 2.2.07 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.06 1.2-.25 1.8-.42 2.2a3.8 3.8 0 0 1-.86 1.4c-.4.4-.8.66-1.4.86-.4.17-1 .36-2.2.42-1.3.07-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.06-1.8-.25-2.2-.42a3.8 3.8 0 0 1-1.4-.86 3.8 3.8 0 0 1-.86-1.4c-.17-.4-.36-1-.42-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.06-1.2.25-1.8.42-2.2.2-.6.46-1 .86-1.4.4-.4.8-.66 1.4-.86.4-.17 1-.36 2.2-.42C8.4 2.2 8.8 2.2 12 2.2zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8zm0 8a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2zm5.1-8.3a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3z"/></svg>
             </a>
-            <a href="https://www.facebook.com/turfandlandscaping" target="_blank" rel="noopener" aria-label="Turf and Landscaping on Facebook">
+            <a href="https://www.facebook.com/turfandlandscaping" target="_blank" rel="noopener" aria-label="Bastiano Landscaping on Facebook">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.75-1.6 1.5V12h2.7l-.43 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg>
             </a>
           </div>
@@ -163,7 +163,7 @@ const FOOTER = `
         </div>
       </div>
       <div class="footer__bottom">
-        <span>© <span id="year">2026</span> Turf and Landscaping</span>
+        <span>© <span id="year">2026</span> Bastiano Landscaping</span>
         <span>Melbourne's West • Inner City • Inner North • Inner East &amp; Bayside · <a class="footer__admin" href="/admin">Admin</a></span>
       </div>
     </div>

@@ -1,5 +1,5 @@
 /* =====================================================================
-   Turf and Landscaping — site behaviour
+   Bastiano Landscaping — site behaviour
    Plain JS, no dependencies.
    ===================================================================== */
 (function () {
