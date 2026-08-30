@@ -1,0 +1,12 @@
+// Quote-form API — deploys to the EXISTING bastiano-quote-api Worker.
+// keep_vars preserves the dashboard-managed GHL_* variables and the
+// GHL_PRIVATE_TOKEN secret across deploys. Deploy:
+//   npx wrangler deploy -c workers/quote-api/wrangler.jsonc
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "bastiano-quote-api",
+  "main": "worker.js",
+  "compatibility_date": "2026-08-01",
+  "keep_vars": true,
+  "observability": { "enabled": true }
+}

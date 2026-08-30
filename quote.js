@@ -15,10 +15,9 @@
   var progressEl = document.getElementById("qprogress");
   if (!stepsEl || !progressEl) return;
 
-  /* Same destination as the homepage form (see main.js). While empty the
-     form validates and shows a clear call-us message instead of pretending
-     to send. */
-  var WEBHOOK_URL = "";
+  /* Submissions go to the bastiano-quote-api Cloudflare Worker, which
+     validates server-side and forwards into GoHighLevel. */
+  var WEBHOOK_URL = "https://bastiano-quote-api.turfnlandscaping.workers.dev/quote";
   var MAX_FILES = 5;
   var MAX_BYTES = 10 * 1024 * 1024;
   var PHONE_DISPLAY = "0457 357 085";
@@ -480,6 +479,9 @@
 
     html += '<label class="qconsent"><input type="checkbox" id="qf-consent"' + (answers.consent ? " checked" : "") + ' /> <span>I’m happy for Turf and Landscaping to contact me about this quote. <span class="req" aria-hidden="true">*</span></span></label>';
 
+    /* Spam honeypot — offscreen, never shown, must stay empty. */
+    html += '<div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true"><label>Leave this field empty<input type="text" id="qf-hp" name="company_website" tabindex="-1" autocomplete="off" /></label></div>';
+
     html += '<p class="qerror" role="alert" hidden></p>' +
       '<div class="qnav">' +
       '<button class="btn btn--ghost" type="button" data-back>Back</button>' +
@@ -545,17 +547,23 @@
     photoFiles.forEach(function (fl) { body.append("photos", fl, fl.name); });
     body.append("source_page", window.location.pathname);
     body.append("submitted_at", new Date().toISOString());
+    var hp = document.getElementById("qf-hp");
+    body.append("company_website", hp ? hp.value : "");
 
     fetch(WEBHOOK_URL, { method: "POST", body: body })
       .then(function (res) {
-        if (!res.ok) throw new Error("Bad response " + res.status);
-        renderConfirmation();
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (res.ok && data.ok) { renderConfirmation(); return; }
+          /* The worker returns short customer-safe messages for
+             validation problems; anything else gets the generic copy. */
+          throw new Error(res.status >= 400 && res.status < 500 && data.error ? data.error : "");
+        });
       })
-      .catch(function () {
+      .catch(function (err) {
         submitting = false;
         btn.disabled = false;
         btn.innerHTML = 'Request My Free Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>';
-        setError("Sorry, something went wrong sending your request — your answers are still here. Please try again, or call us on " + PHONE_DISPLAY + ".");
+        setError((err && err.message) || ("Sorry, something went wrong sending your request — your answers are still here. Please try again, or call us on " + PHONE_DISPLAY + "."));
       });
   }
 

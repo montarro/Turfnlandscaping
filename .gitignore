@@ -14,3 +14,8 @@ assets/images/Turf_Landscaping.ai (7).png
 
 # Wrangler local state
 .wrangler/
+
+# Worker local secrets — never commit
+.dev.vars
+**/.dev.vars
+.env
