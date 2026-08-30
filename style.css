@@ -1217,13 +1217,15 @@ p  { margin: 0 0 1rem; }
   margin: 0 0 1.1rem; text-transform: uppercase;
 }
 .home .hero h1 {
-  font-family: "Playfair Display", Georgia, serif; font-weight: 600;
-  font-size: clamp(2.5rem, 6.2vw, 4.6rem); line-height: 1.08;
-  letter-spacing: -.01em; max-width: 15ch; margin-inline: 0;
+  /* Bold sans heading restored from the pre-editorial design:
+     Poppins 800, -.015em tracking, 1.12 line height. */
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2.5rem, 6.2vw, 4.6rem); line-height: 1.12;
+  letter-spacing: -.015em; max-width: 15ch; margin-inline: 0;
   text-wrap: balance;
 }
 .home .hero__accent {
-  font-style: italic; color: var(--leaf); font-weight: 600;
+  font-style: normal; color: var(--leaf); font-weight: 800;
 }
 .home .hero__sub {
   margin-inline: 0; max-width: 30rem; text-align: left;
