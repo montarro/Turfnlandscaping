@@ -20,13 +20,13 @@ const SERVICE_GROUPS = [
     ],
   },
   {
-    label: "Landscape Construction",
+    label: "Custom Landscaping",
     links: [
-      ["/services/complete-landscape-transformations", "Custom Landscaping"],
       ["/services/paving", "Pavers &amp; Stepping Stones"],
       ["/services/retaining-walls", "Retaining Walls"],
-      ["/services/hard-landscaping", "Hard Landscaping"],
-      ["/services/soft-landscaping", "Soft Landscaping"],
+      ["/services/timber-decking", "Timber &amp; Decking"],
+      ["/services/garden-design", "Garden Design"],
+      ["/services/landscaping-features", "Landscaping Features"],
     ],
   },
   {

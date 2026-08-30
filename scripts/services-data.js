@@ -551,6 +551,60 @@ module.exports = {
   ],
 
   secondary: [
+    /* ================= TIMBER & DECKING ================= */
+    {
+      slug: "timber-decking",
+      name: "Timber & Decking",
+      short: "Timber & Decking",
+      tagline: "Decks, sleeper work and timber structures built square, level and made to last outdoors.",
+      image: P.sleeper,
+      intro: "Timber brings warmth to an outdoor space that stone and concrete can't — but only when it's built properly. We construct decks, sleeper retaining and planter boxes, timber edging and screens with the right footings, fixings and finishes for Melbourne conditions.",
+      included: [
+        "Timber decking construction and repairs",
+        "Sleeper retaining walls and raised planter boxes",
+        "Timber garden edging and borders",
+        "Privacy screens and feature battens",
+        "Staining, oiling and finishing",
+      ],
+      faqs: [
+        ["What timber do you recommend for decking?", "It depends on budget and look — treated pine is economical and reliable, hardwoods like merbau or spotted gum wear beautifully. We'll talk through the trade-offs on site rather than pushing one answer."],
+        ["Do decks need much maintenance?", "A clean and re-oil every year or two keeps timber looking its best. We build so water drains and air circulates, which is most of the battle against rot."],
+        ["Can you repair an existing deck?", "Often, yes — replacing boards, refixing loose sections and refinishing. If the subframe has gone, we'll tell you honestly whether repair or rebuild is the better spend."],
+      ],
+      gallery: [
+        { img: P.sleeper, alt: "Raised timber sleeper planter beds with fresh turf" },
+        { img: P.sleeper2, alt: "Timber sleeper garden bed with clean pebble edging" },
+      ],
+      related: ["retaining-walls", "hard-landscaping", "landscaping-features", "garden-design"],
+    },
+
+    /* ================= LANDSCAPING FEATURES ================= */
+    {
+      slug: "landscaping-features",
+      name: "Landscaping Features",
+      short: "Features",
+      tagline: "The custom finishing touches — lighting, water, borders and features — that turn a tidy yard into a standout one.",
+      image: P.litpath,
+      intro: "Features are what make a landscape feel designed rather than just installed. From garden lighting that makes the space work after dark to water features, defined borders and one-off custom elements, we build the details that finish a yard properly.",
+      included: [
+        "Water features",
+        "Outdoor and garden lighting",
+        "Garden borders and edging",
+        "Decorative landscape features",
+        "Custom outdoor additions built to your brief",
+      ],
+      faqs: [
+        ["Can features be added to an existing garden?", "Yes — most feature work goes into established yards. Lighting, borders and water features can all be retrofitted with minimal disruption."],
+        ["Do you handle the electrical side of garden lighting?", "We design and install the landscape side and work in low-voltage systems; anything requiring mains work is done with a licensed electrician."],
+        ["I have an idea that isn't listed — can you build it?", "Tell us what you're picturing. If it can be built safely and well, we'll quote it; if we're not the right trade for it, we'll say so."],
+      ],
+      gallery: [
+        { img: P.litpath, alt: "Garden path lit with low-level landscape lighting at dusk" },
+        { img: P.litpath2, alt: "Stepping-stone path with garden lighting and border planting" },
+      ],
+      related: ["garden-design", "timber-decking", "hard-landscaping", "soft-landscaping"],
+    },
+
     /* ================= 11. PROPERTY MAINTENANCE ================= */
     {
       slug: "property-maintenance",

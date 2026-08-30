@@ -409,10 +409,10 @@
     drop.addEventListener("mouseleave", function () {
       hoverTimer = setTimeout(function () { setOpen(false); }, 160);
     });
-    drop.addEventListener("keydown", function (e) {
+    document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && drop.classList.contains("is-open")) {
         setOpen(false);
-        toggle.focus();
+        if (drop.contains(document.activeElement)) toggle.focus();
       }
     });
     document.addEventListener("click", function (e) {
