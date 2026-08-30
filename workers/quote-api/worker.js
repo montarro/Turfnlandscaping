@@ -62,32 +62,37 @@ const SERVICE_NAMES = {
   "help": "Help Me Choose",
 };
 
-/* answers key → [candidate GHL custom-field names], matched after
+/* answers key → candidate GHL custom-field names, matched after
    lowercasing and stripping non-alphanumerics, against both the field
-   name and its fieldKey. */
-const FIELD_CANDIDATES = {
-  customer_type: ["Enquiry Type", "enquiry_type"],
-  service: ["Primary Service", "primary_service"],
-  addons: ["Additional Services", "additional_services"],
-  contact_method: ["Preferred Contact Method", "preferred_contact_method"],
-  contact_time: ["Best Time To Contact", "best_time_to_contact"],
-  notes: ["Additional Notes", "additional_notes"],
-  consent: ["Consent", "quote_consent"],
-  source_page: ["Submission Source", "submission_source"],
-  suburb: ["Project Suburb", "Project Suburb Or Postcode", "project_suburb"],
-  approx_size: ["Approximate Size", "Estimated Project Area", "approximate_size"],
-  description: ["Project Description", "Project Scope", "project_description"],
-  timing: ["Desired Timing", "Project Timeline", "desired_timing"],
-  surface: ["Current Surface", "current_surface"],
-  access: ["Site Access", "site_access"],
-  material: ["Material Preferences", "material_preferences"],
-  business_name: ["Business Name", "Business Or Organisation Name", "business_name"],
-  position: ["Position", "Position Or Role", "position_role"],
-  org_type: ["Organisation Type", "Type Of Organisation", "organisation_type"],
-  engagement: ["Engagement Type", "One Off Or Ongoing", "engagement_type"],
-  required_services: ["Required Services", "required_services"],
-  maintenance_program: ["Maintenance Interest", "Ongoing Maintenance Interest", "maintenance_interest"],
-};
+   name and its fieldKey. `res`/`com` restrict a mapping to one pathway
+   (the wizard reuses answer keys across pathways but they land in
+   pathway-specific GHL fields). Contact name/mobile/email/company use
+   GHL's standard contact fields, not custom fields. */
+const FIELD_MAP = [
+  { key: "customer_type", names: ["Enquiry Type"] },
+  { key: "service", names: ["Primary Service"] },
+  { key: "addons", names: ["Additional Services"] },
+  { key: "contact_method", names: ["Preferred Contact Method"] },
+  { key: "contact_time", names: ["Best Time to Contact"] },
+  { key: "notes", names: ["Additional Notes"] },
+  { key: "consent", names: ["Consent"] },
+  { key: "source_page", names: ["Submission Source"] },
+  { key: "suburb", names: ["Project Suburb or Postcode", "Project Suburb"] },
+  { key: "approx_size", res: true, names: ["Approximate Size"] },
+  { key: "approx_size", com: true, names: ["Estimated Project Area or Dimensions"] },
+  { key: "description", res: true, names: ["Residential Project Description"] },
+  { key: "description", com: true, names: ["Commercial Project Scope"] },
+  { key: "timing", res: true, names: ["Desired Timing"] },
+  { key: "timing", com: true, names: ["Required Completion Timeline"] },
+  { key: "surface", res: true, names: ["Current Surface"] },
+  { key: "access", res: true, names: ["Site Access"] },
+  { key: "material", res: true, names: ["Material Preferences"] },
+  { key: "position", com: true, names: ["Position or Role"] },
+  { key: "org_type", com: true, names: ["Organisation Type"] },
+  { key: "engagement", com: true, names: ["Engagement Type"] },
+  { key: "required_services", com: true, names: ["Required Services"] },
+  { key: "maintenance_program", com: true, names: ["Maintenance Interest"] },
+];
 const FILE_FIELD_CANDIDATES = {
   residential: ["Project Photos", "project_photos"],
   commercial: ["Supporting Files", "supporting_files", "Project Photos", "project_photos"],
@@ -470,20 +475,27 @@ function mapCustomFields(a, fieldIndex, isRes) {
   const customFields = [];
   const unmappedAnswers = [];
   const missingFields = [];
-  const resOnly = ["surface", "access", "material"];
-  const comOnly = ["business_name", "position", "org_type", "engagement", "required_services", "maintenance_program"];
 
-  for (const [key, candidates] of Object.entries(FIELD_CANDIDATES)) {
-    if (isRes && comOnly.includes(key)) continue;
-    if (!isRes && resOnly.includes(key)) continue;
-    const value = valueFor(key, a);
+  for (const entry of FIELD_MAP) {
+    if (entry.res && !isRes) continue;
+    if (entry.com && isRes) continue;
+    const value = valueFor(entry.key, a);
     if (value == null) continue;
     let hit = null;
     if (fieldIndex) {
-      for (const c of candidates) { hit = fieldIndex.get(normKey(c)); if (hit) break; }
+      for (const c of entry.names) { hit = fieldIndex.get(normKey(c)); if (hit) break; }
     }
     if (hit) customFields.push({ id: hit.id, value });
-    else { missingFields.push(candidates[0]); unmappedAnswers.push([candidates[0], value]); }
+    else { missingFields.push(entry.names[0]); unmappedAnswers.push([entry.names[0], value]); }
+  }
+
+  /* Answers that have no dedicated GHL field are preserved in the
+     Service-Specific Details large-text field (plus the note). */
+  if (unmappedAnswers.length && fieldIndex) {
+    const catchAll = fieldIndex.get(normKey("Service-Specific Details"));
+    if (catchAll) {
+      customFields.push({ id: catchAll.id, value: unmappedAnswers.map(([l, v]) => `${l}: ${v}`).join("\n") });
+    }
   }
   return { customFields, unmappedAnswers, missingFields };
 }
@@ -506,7 +518,10 @@ async function resolvePipeline(ghl, env) {
   if (pipelineCache && pipelineCache.at > Date.now() - 10 * 60 * 1000) return pipelineCache.value;
   const data = await ghl.get(`/opportunities/pipelines?locationId=${env.GHL_LOCATION_ID}`);
   const pipelines = (data && data.pipelines) || [];
-  const byName = pipelines.find((p) => normKey(p.name) === normKey("Website Quote Requests"));
+  /* Preference order: explicit env id → "Website Quote Requests" by
+     name → the location's only pipeline when exactly one exists. */
+  const byName = pipelines.find((p) => normKey(p.name) === normKey("Website Quote Requests"))
+    || (pipelines.length === 1 ? pipelines[0] : null);
   const pipe = env.GHL_PIPELINE_ID ? pipelines.find((p) => p.id === env.GHL_PIPELINE_ID) : byName;
   if (!pipe) { pipelineCache = { at: Date.now(), value: null }; return null; }
   const stage = env.GHL_PIPELINE_STAGE_ID
@@ -519,7 +534,11 @@ async function resolvePipeline(ghl, env) {
 
 function buildSummary(a, isRes, files, unmappedAnswers) {
   const line = (label, v) => (v == null || v === "" || (Array.isArray(v) && !v.length)) ? "" : `${label}: ${Array.isArray(v) ? v.join(", ") : v}\n`;
-  let s = `WEBSITE QUOTE REQUEST — ${isRes ? "RESIDENTIAL" : "COMMERCIAL"}\n`;
+  let s = `WEBSITE QUOTE SUBMISSION — ${isRes ? "RESIDENTIAL" : "COMMERCIAL"}\n`;
+  s += line("Submitted", new Date().toISOString());
+  s += line("Name", a.name);
+  s += line("Mobile", a.mobile);
+  s += line("Email", a.email);
   s += line("Primary service", SERVICE_NAMES[a.service] || a.service);
   if (!isRes) {
     s += line("Business", a.business_name);
@@ -543,7 +562,7 @@ function buildSummary(a, isRes, files, unmappedAnswers) {
   s += line("Preferred contact", a.contact_method);
   s += line("Best time", a.contact_time);
   s += line("Notes", a.notes);
-  s += line("Files attached", files.length ? String(files.length) : "");
+  s += line("Files attached", files.length ? files.map((f) => f.name).join(", ") : "");
   if (unmappedAnswers.length) {
     s += "\n[Answers without a matching GHL custom field — create these fields to capture them structurally]\n";
     for (const [label, v] of unmappedAnswers) s += `${label}: ${v}\n`;
