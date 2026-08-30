@@ -8,5 +8,7 @@
   "main": "worker.js",
   "compatibility_date": "2026-08-01",
   "keep_vars": true,
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  // Non-secret GHL config. The token and location id stay dashboard-managed.
+  "vars": { "GHL_WORKFLOW_ID": "8a6c1d39-1d80-4c27-902a-6307dface40b" }
 }
