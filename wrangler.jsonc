@@ -1,7 +1,8 @@
-// Cloudflare Workers static-assets deploy of the prebuilt site (dist/),
-// live on bastianolandscaping.com.au via a Workers custom domain.
-// The /api serverless functions are Vercel-only, so /admin login does
-// not work on this copy. Deploy: npm run build && npx wrangler deploy
+// Cloudflare Workers static-assets deploy of the prebuilt site (dist/).
+// SUPERSEDED at go-live (30 Aug 2026): the site now serves from Vercel on
+// bastianolandscaping.com.au, and nothing points at this worker. Kept only
+// as a spare static copy; the /api functions are Vercel-only, so /admin
+// never worked here. Deploy: npm run build && npx wrangler deploy
 {
   "$schema": "https://unpkg.com/wrangler/config-schema.json",
   "name": "bastiano-landscaping",

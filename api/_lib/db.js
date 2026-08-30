@@ -6,14 +6,24 @@
    ===================================================================== */
 
 function config() {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
-    const err = new Error("Supabase is not configured (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY)");
+  /* The project URL is a public value and is already inlined in
+     api/auth/[action].js, so a default heals a mangled env-var paste —
+     a valid-looking env value still wins. The service-role key stays
+     env-only: it bypasses RLS and must never live in the repo. */
+  const DEFAULT_URL = "https://podlutvvrclhxmhgupil.supabase.co";
+  const envUrl = (process.env.SUPABASE_URL || "").trim();
+  const url = /^https:\/\/[a-z0-9]+\.supabase\.co$/.test(envUrl) ? envUrl : DEFAULT_URL;
+
+  const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
+  if (!key || !key.startsWith("eyJ") || key.length < 150) {
+    const err = new Error(
+      "SUPABASE_SERVICE_ROLE_KEY is missing or truncated on this deployment — " +
+      "re-paste it in Vercel (Settings -> Environment Variables) with Production ticked, then redeploy"
+    );
     err.statusCode = 503;
     throw err;
   }
-  return { url: url.replace(/\/$/, ""), key };
+  return { url, key };
 }
 
 async function rest(method, path, body, headers) {
