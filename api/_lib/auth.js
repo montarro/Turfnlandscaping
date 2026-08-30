@@ -20,7 +20,7 @@ function secret() {
 }
 
 function allowedEmails() {
-  return (process.env.ADMIN_EMAILS || "info@turfandlandscaping.com.au,turfnlandscaping@outlook.com")
+  return (process.env.ADMIN_EMAILS || "sebastian@bastianolandscaping.com.au,turfnlandscaping@outlook.com")
     .split(",").map((e) => e.trim().toLowerCase()).filter(Boolean);
 }
 
