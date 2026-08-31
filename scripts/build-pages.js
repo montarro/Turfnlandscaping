@@ -15,7 +15,7 @@ const OUTDIR = process.env.OUTDIR || ROOT;
 const SITE = "https://bastianolandscaping.com.au";
 const PHONE_DISPLAY = "0457 357 085";
 const PHONE_TEL = "+61457357085";
-const OG = SITE + "/assets/images/og-turf-and-landscaping.webp";
+const OG = SITE + "/assets/images/og-bastiano-landscaping.jpg";
 
 const slug = (s) => s.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 

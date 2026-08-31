@@ -794,7 +794,10 @@ p  { margin: 0 0 1rem; }
     white-space: nowrap; padding: .5rem .95rem; border-radius: 999px;
     transition: background .18s ease, color .18s ease;
   }
-  .primary-nav a:hover, .primary-nav a:focus-visible { background: var(--white-warm); color: var(--forest-800); box-shadow: var(--shadow-sm); }
+  /* top-level links only (incl. the dropdown trigger) — mega-menu links
+     style their own hover */
+  .primary-nav > a:hover, .primary-nav > a:focus-visible,
+  .primary-nav .nav-drop > a:hover, .primary-nav .nav-drop > a:focus-visible { background: var(--white-warm); color: var(--forest-800); box-shadow: var(--shadow-sm); }
   .nav-toggle { display: none; }
   body { padding-bottom: 0; }
   .brand__logo { height: 38px; }
@@ -1283,9 +1286,12 @@ p  { margin: 0 0 1rem; }
   -webkit-backdrop-filter: none; backdrop-filter: none;
 }
 .home .site-header:not(.is-scrolled) .primary-nav { background: transparent; }
-.home .site-header:not(.is-scrolled) .primary-nav a { color: #fff; }
-.home .site-header:not(.is-scrolled) .primary-nav a:hover,
-.home .site-header:not(.is-scrolled) .primary-nav a:focus-visible { background: rgba(255,255,255,.14); color: #fff; box-shadow: none; }
+.home .site-header:not(.is-scrolled) .primary-nav > a,
+.home .site-header:not(.is-scrolled) .primary-nav .nav-drop > a { color: #fff; }
+.home .site-header:not(.is-scrolled) .primary-nav > a:hover,
+.home .site-header:not(.is-scrolled) .primary-nav > a:focus-visible,
+.home .site-header:not(.is-scrolled) .primary-nav .nav-drop > a:hover,
+.home .site-header:not(.is-scrolled) .primary-nav .nav-drop > a:focus-visible { background: rgba(255,255,255,.14); color: #fff; box-shadow: none; }
 .home .site-header:not(.is-scrolled) .nav-drop__toggle { color: #fff; }
 .home .site-header:not(.is-scrolled) .nav-drop__toggle:hover,
 .home .site-header:not(.is-scrolled) .nav-drop__toggle:focus-visible { background: rgba(255,255,255,.14); box-shadow: none; }
