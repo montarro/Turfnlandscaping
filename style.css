@@ -784,7 +784,19 @@ p  { margin: 0 0 1rem; }
   .mosaic { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (min-width: 820px) {
+/* ---------- Desktop navigation ----------
+   Measured, the capsule needs 1175px to lay out the logo (97), the six nav
+   items (681) and the phone + Free Quote group (330) with its own padding and
+   gaps. The capsule is `viewport - 64` wide (capped at --wrap), so 1175px of
+   content only exists from about 1264px up; below that the flex row compresses
+   and the items collide — at 1140px they are 99px over.
+
+   Hence 1280px, the first round width with real breathing room (41px spare).
+   Everything below it uses the hamburger, which carries the same links.
+
+   This used to switch at 820px, where the row was ~400px over: the header
+   pushed every page into horizontal overflow from 820px to ~1016px. */
+@media (min-width: 1280px) {
   .primary-nav {
     display: flex; align-items: center; gap: .2rem;
   }
@@ -800,6 +812,9 @@ p  { margin: 0 0 1rem; }
   .primary-nav .nav-drop > a:hover, .primary-nav .nav-drop > a:focus-visible { background: var(--white-warm); color: var(--forest-800); box-shadow: var(--shadow-sm); }
   .nav-toggle { display: none; }
   body { padding-bottom: 0; }
+}
+
+@media (min-width: 820px) {
   .brand__logo { height: 38px; }
 
   .quote-section__inner { grid-template-columns: 1fr 1.1fr; gap: 3rem; }

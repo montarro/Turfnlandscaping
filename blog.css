@@ -1,0 +1,238 @@
+/* =====================================================================
+   Scoped styles for /blog and /blog/<slug> ONLY. Loaded exclusively by
+   those generated pages, so nothing here can affect the homepage, /quote,
+   /services or /projects. Reuses the global tokens and the .editorial
+   type language (Playfair 600 headings, Poppins for CTAs and labels).
+   ===================================================================== */
+
+/* ---------- Index: intro ----------
+   The blog index deliberately has no photographic page-hero. Every article
+   already leads with a project photo, and stacking another hero on top of
+   the featured image made the page read as two competing banners. Instead
+   the index opens on the cream ground, like the opening of a magazine. */
+.bl-intro {
+  padding-top: calc(var(--header-h) + clamp(1.6rem, 4vw, 2.6rem));
+  padding-bottom: clamp(1.6rem, 4vw, 2.6rem);
+}
+.bl-intro h1 { font-size: clamp(2.4rem, 6.5vw, 4rem); margin-bottom: .5rem; }
+.bl-intro__lead {
+  max-width: 40rem; color: var(--muted);
+  font-size: clamp(1.05rem, 2.3vw, 1.2rem); margin: 0;
+}
+
+/* Breadcrumbs sit on cream here, not over a dark hero */
+.breadcrumb--onlight { color: var(--muted); }
+.breadcrumb--onlight a { color: var(--forest-700); }
+
+/* ---------- Index: featured article ----------
+   An editorial split rather than an oversized card: the photo runs to the
+   panel edge and the copy sits on the deep forest ground, which gives the
+   lead article clear hierarchy over the grid below without a "hero" band. */
+/* no bottom padding — the filters section below brings its own generous top */
+.bl-featured-band { padding-bottom: 0; }
+.bl-featured {
+  display: grid; grid-template-columns: 1fr;
+  background: linear-gradient(165deg, var(--forest-800), var(--forest-950));
+  border-radius: var(--r-lg); overflow: hidden;
+}
+.bl-featured__media { display: block; background: var(--forest-900); }
+.bl-featured__media img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 3 / 2; }
+.bl-featured__body {
+  padding: clamp(1.6rem, 4vw, 3rem);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.bl-kicker {
+  font-family: var(--font-display); font-weight: 700; font-size: .78rem;
+  letter-spacing: .2em; text-transform: uppercase; color: var(--leaf);
+  margin-bottom: .8rem;
+}
+.bl-featured__body h2 {
+  color: #fff; font-size: clamp(1.55rem, 3.4vw, 2.3rem);
+  line-height: 1.15; margin-bottom: .7rem; text-wrap: balance;
+}
+.bl-featured__body h2 a { color: inherit; text-decoration: none; }
+.bl-featured__body h2 a:hover { color: var(--leaf); }
+.bl-featured__body > p {
+  color: #c3d2bd; margin-bottom: 1.1rem;
+  /* the standfirst is a full opening paragraph — clamp it so the panel keeps
+     its proportions whichever article is featured */
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+}
+.bl-more {
+  align-self: flex-start; font-family: var(--font-display); font-weight: 600;
+  color: #fff; text-decoration: none; display: inline-flex; align-items: center; gap: .45rem;
+  border-bottom: 1.5px solid rgba(255,255,255,.35); padding-bottom: .2rem;
+  transition: gap .18s ease, border-color .18s ease;
+}
+.bl-more:hover { color: #fff; gap: .7rem; border-color: var(--leaf); }
+.bl-more svg { width: 1em; height: 1em; }
+
+/* ---------- Index: filters + grid ---------- */
+.bl-filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.8rem; }
+.bl-filter {
+  font: inherit; font-family: var(--font-display); font-weight: 600; font-size: .9rem;
+  background: var(--white-warm); color: var(--forest-900); cursor: pointer;
+  border: 1.5px solid var(--line); border-radius: 999px; padding: .55rem 1.1rem; min-height: 44px;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.bl-filter:hover { border-color: var(--forest-600); }
+.bl-filter.active { background: var(--forest-800); border-color: var(--forest-800); color: #fff; }
+
+.bl-grid { display: grid; gap: clamp(1.6rem, 4vw, 2.6rem) 1.4rem; grid-template-columns: 1fr; }
+
+/* Cards are deliberately borderless — photo, hairline, type. A page of
+   twelve bordered boxes reads as a directory rather than a reading list. */
+.bl-card { display: flex; flex-direction: column; }
+.bl-card[hidden] { display: none; }
+.bl-card__media {
+  display: block; border-radius: var(--r-md); overflow: hidden;
+  background: var(--sage-100); aspect-ratio: 4 / 3;
+}
+.bl-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+.bl-card:hover .bl-card__media img { transform: scale(1.035); }
+.bl-card__body { padding-top: 1rem; display: flex; flex-direction: column; flex: 1; }
+.bl-card__topic {
+  font-family: var(--font-display); font-weight: 700; font-size: .74rem;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--leaf-deep);
+  margin-bottom: .5rem;
+}
+.bl-card__body h3 { font-size: 1.22rem; line-height: 1.25; margin-bottom: .45rem; text-wrap: balance; }
+.bl-card__body h3 a { color: var(--forest-900); text-decoration: none; }
+.bl-card__body h3 a:hover { color: var(--forest-700); text-decoration: underline; text-underline-offset: .18em; }
+.bl-card__body > p {
+  color: var(--muted); font-size: .95rem; margin-bottom: .9rem;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.bl-meta {
+  margin-top: auto; padding-top: .7rem; border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: .35rem .9rem;
+  font-size: .82rem; color: var(--muted);
+}
+.bl-featured .bl-meta { border-top-color: var(--line-on-dark); color: #b9c9b3; margin-top: 0; margin-bottom: 1.1rem; }
+.bl-empty { color: var(--muted); text-align: center; padding: 2rem; }
+
+/* ---------- Article: masthead ---------- */
+.bl-head {
+  padding-top: calc(var(--header-h) + clamp(2rem, 5vw, 3.2rem));
+  padding-bottom: clamp(1.4rem, 3.5vw, 2.2rem);
+}
+.bl-head__inner > * { max-width: 46rem; }
+.bl-head h1 {
+  font-size: clamp(2rem, 4.6vw, 3.1rem); line-height: 1.12;
+  margin-bottom: .7rem; text-wrap: balance;
+}
+.bl-standfirst {
+  font-size: clamp(1.08rem, 2.3vw, 1.28rem); line-height: 1.6;
+  color: var(--muted); margin-bottom: 1.4rem;
+}
+.bl-byline {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem 1rem;
+  padding-block: .9rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.bl-byline__author { font-family: var(--font-display); font-weight: 600; color: var(--forest-900); }
+.bl-byline__dates { color: var(--muted); font-size: .87rem; }
+
+/* Shown only on unpublished articles. They are noindex and unlinked, but the
+   URL still resolves, so anyone who reaches one should know what they are
+   looking at rather than mistake a draft for live advice. */
+.bl-draftnote {
+  margin-top: 1.1rem; padding: .85rem 1.05rem;
+  background: #fdf3d6; border: 1px solid #e6d08a; border-radius: var(--r-sm);
+  color: #5c4708; font-size: .9rem; line-height: 1.6;
+}
+.bl-draftnote strong { color: #4a3a06; }
+.bl-draftnote code {
+  background: rgba(0,0,0,.06); border-radius: 4px; padding: .1em .35em;
+  font-size: .93em; word-break: break-word;
+}
+
+/* ---------- Article: hero photo ---------- */
+.bl-hero { margin: 0 0 clamp(2rem, 5vw, 3.2rem); }
+.bl-hero img {
+  width: 100%; border-radius: var(--r-lg); background: var(--sage-100);
+  aspect-ratio: 3 / 2; object-fit: cover;
+}
+.bl-hero figcaption {
+  margin-top: .7rem; color: var(--muted); font-size: .85rem;
+  max-width: 44rem;
+}
+
+/* ---------- Article: layout ---------- */
+.bl-layout { display: grid; gap: 2.4rem; align-items: start; padding-bottom: clamp(3rem, 7vw, 5rem); }
+.bl-body { min-width: 0; }
+
+/* Reading column: a little larger and looser than the site default. The
+   measure is set by the grid column at the desktop breakpoint, so the width
+   cap here only applies before the two-column layout kicks in. */
+.bl-prose { max-width: 40rem; font-size: 1.09rem; line-height: 1.75; }
+.bl-prose h2 {
+  font-size: clamp(1.4rem, 3vw, 1.85rem); line-height: 1.22;
+  margin-top: 2.4rem; margin-bottom: .6rem; text-wrap: balance;
+}
+.bl-prose h3 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 1.1rem; margin-top: 1.7rem; margin-bottom: .45rem;
+}
+.bl-prose p { margin-bottom: 1.15rem; }
+.bl-prose a { color: var(--forest-700); text-decoration: underline; text-underline-offset: .17em; }
+.bl-prose a:hover { color: var(--forest-600); }
+.bl-prose .bl-list { margin: 0 0 1.3rem; padding-left: 1.35rem; }
+.bl-prose .bl-list li { margin-bottom: .55rem; padding-left: .2rem; }
+.bl-prose ul.bl-list li::marker { color: var(--leaf-deep); }
+.bl-prose ol.bl-list li::marker { color: var(--leaf-deep); font-family: var(--font-display); font-weight: 700; }
+
+/* ---------- Article: end-of-article CTA ----------
+   One restrained panel at the end of the piece — no CTAs between sections. */
+.bl-endcta {
+  max-width: 40rem; margin-top: clamp(2.4rem, 5vw, 3.4rem);
+  background: var(--sage-100); border: 1px solid var(--sage-200);
+  border-radius: var(--r-lg); padding: clamp(1.4rem, 3.5vw, 2rem);
+}
+.bl-endcta h2 { font-size: 1.35rem; margin-bottom: .5rem; }
+.bl-endcta p { color: var(--ink); margin-bottom: 1.1rem; }
+.bl-endcta__phone {
+  display: inline-block; margin-left: 1rem;
+  font-family: var(--font-display); font-weight: 600; color: var(--forest-800);
+}
+@media (max-width: 479px) {
+  .bl-endcta .btn { width: 100%; justify-content: center; }
+  .bl-endcta__phone { margin-left: 0; margin-top: .8rem; }
+}
+
+.bl-side { display: grid; gap: 1.1rem; }
+/* service-pages.css puts .sp-related in two columns from 560px up. In a
+   20rem sidebar that squeezes a name like "Turf Repair and Patching" onto
+   four lines, so keep one chip per row here. */
+.bl-side .sp-related { grid-template-columns: 1fr; }
+
+/* ---------- Article: related reading ---------- */
+.bl-related h2 { margin-bottom: clamp(1.4rem, 3.5vw, 2rem); }
+
+/* ---------- Breakpoints ---------- */
+/* Seven wrapped pills push the first article most of a screen down the page
+   on a phone, so below the two-column grid they become one scrollable row. */
+@media (max-width: 559px) {
+  .bl-filters {
+    flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    /* bleed to the screen edges so the row reads as scrollable */
+    margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter);
+    padding-bottom: .35rem;
+  }
+  .bl-filters::-webkit-scrollbar { display: none; }
+  .bl-filter { flex: none; scroll-snap-align: start; }
+}
+
+@media (min-width: 560px) {
+  .bl-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 900px) {
+  .bl-featured { grid-template-columns: 1.05fr 1fr; }
+  .bl-featured__media img { height: 100%; aspect-ratio: auto; min-height: 22rem; }
+  .bl-grid { grid-template-columns: repeat(3, 1fr); }
+  /* Fixed measure for the reading column rather than a fraction, so the text
+     fills its column instead of leaving a ragged gap before the sidebar. */
+  .bl-layout { grid-template-columns: minmax(0, 40rem) 20rem; justify-content: space-between; gap: 3.2rem; }
+  .bl-prose, .bl-endcta { max-width: none; }
+  .bl-side { position: sticky; top: calc(var(--header-h) + 1.6rem); }
+}

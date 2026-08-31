@@ -26,7 +26,7 @@ fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
 
 // Static, hand-written files
-["index.html", "quote.html", "404.html", "style.css", "service-pages.css", "projects.css", "projects.js", "main.js", "quote.js", "robots.txt", "sitemap.xml"].forEach(copy);
+["index.html", "quote.html", "404.html", "style.css", "service-pages.css", "projects.css", "projects.js", "blog.css", "blog.js", "main.js", "quote.js", "robots.txt", "sitemap.xml"].forEach(copy);
 
 // Whole assets/ tree (logos, favicon, photography) — copying the directory
 // rather than a hand-maintained list means any new asset ships automatically.
@@ -56,6 +56,9 @@ execFileSync("node", [path.join(__dirname, "build-pages.js")], { stdio: "inherit
 // overlapping routes (retaining-walls, soft-landscaping) win.
 execFileSync("node", [path.join(__dirname, "build-service-pages.js")], { stdio: "inherit", env });
 execFileSync("node", [path.join(__dirname, "build-project-pages.js")], { stdio: "inherit", env });
+// Blog last of the page generators: it checks every internal link in the
+// drafts against the routes the generators above have just written.
+execFileSync("node", [path.join(__dirname, "build-blog.js")], { stdio: "inherit", env });
 execFileSync("node", [path.join(__dirname, "gen-images.js")], { stdio: "inherit", env });
 
 // Real photography wins over generated placeholders.

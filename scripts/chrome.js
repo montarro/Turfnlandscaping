@@ -76,6 +76,7 @@ ${dropColumns}
         </div>
         <a href="/#areas">Service Areas</a>
         <a href="/projects">Our Projects</a>
+        <a href="/blog">Advice</a>
         <a href="/#faq">FAQ</a>
       </nav>
       <div class="header-cta">
@@ -96,6 +97,7 @@ ${dropColumns}
         <a href="/#who-we-are">Who We Are</a>
         <a href="/services">Our Services</a>
         <a href="/projects">Our Projects</a>
+        <a href="/blog">Advice</a>
         <a href="/#areas">Service Areas</a>
         <a href="/#faq">FAQ</a>
       </div>
@@ -147,6 +149,7 @@ const FOOTER = `
             <li><a href="/">Home</a></li>
             <li><a href="/#who-we-are">Who We Are</a></li>
             <li><a href="/projects">Our Projects</a></li>
+            <li><a href="/blog">Advice</a></li>
             <li><a href="/#areas">Service Areas</a></li>
             <li><a href="/#faq">FAQ</a></li>
             <li><a href="/quote">Request a quote</a></li>
