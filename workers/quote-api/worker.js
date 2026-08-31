@@ -101,7 +101,7 @@ const FILE_FIELD_CANDIDATES = {
 /* ------------------------------------------------------------------ */
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const origin = request.headers.get("Origin") || "";
     const allowed = allowedOrigins(env);
@@ -135,7 +135,7 @@ export default {
     }
 
     try {
-      return await handleQuote(request, env, origin);
+      return await handleQuote(request, env, origin, ctx);
     } catch (e) {
       log("error", { reason: "unhandled", message: String(e && e.message).slice(0, 300) });
       return json(500, { ok: false, error: "Sorry, something went wrong on our side. Please try again or call us." }, corsHeaders(origin));
@@ -148,7 +148,7 @@ export default {
 const rateBucket = new Map(); // ip -> [timestamps]  (best-effort, per isolate)
 const recentSubmissions = new Map(); // dedupe hash -> expiry ms
 
-async function handleQuote(request, env, origin) {
+async function handleQuote(request, env, origin, ctx) {
   const cors = corsHeaders(origin);
   const fail = (status, msg) => json(status, { ok: false, error: msg }, cors);
 
@@ -241,10 +241,16 @@ async function handleQuote(request, env, origin) {
   const ghl = ghlClient(env);
   const report = []; // redacted diagnostics for logs
 
-  /* 1. resolve custom fields */
+  /* 1. resolve custom fields (cached per isolate — they rarely change) */
   let fieldIndex = null;
-  try { fieldIndex = await resolveCustomFields(ghl, env.GHL_LOCATION_ID); }
-  catch (e) { report.push("custom-field lookup failed: " + trim(e)); }
+  if (fieldIndexCache && fieldIndexCache.at > Date.now() - 10 * 60 * 1000) {
+    fieldIndex = fieldIndexCache.value;
+  } else {
+    try {
+      fieldIndex = await resolveCustomFields(ghl, env.GHL_LOCATION_ID);
+      fieldIndexCache = { at: Date.now(), value: fieldIndex };
+    } catch (e) { report.push("custom-field lookup failed: " + trim(e)); }
+  }
 
   const { customFields, unmappedAnswers, missingFields } = mapCustomFields(a, fieldIndex, isRes);
   if (missingFields.length) report.push("missing GHL custom fields: " + missingFields.join(", "));
@@ -275,6 +281,11 @@ async function handleQuote(request, env, origin) {
     return fail(502, "Sorry, we couldn't submit your request just now. Please try again in a minute or call us.");
   }
 
+  /* Steps 3-7 don't affect the customer-facing outcome (each is caught
+     and reported individually), so they run AFTER the response is sent —
+     five sequential GHL round-trips were making submissions feel stuck
+     for ~10 seconds. ctx.waitUntil keeps the worker alive to finish. */
+  const finishSync = (async () => {
   /* 3. upload files into the matching file custom field */
   let uploadedCount = 0;
   if (files.length) {
@@ -357,6 +368,11 @@ async function handleQuote(request, env, origin) {
     files: files.length, uploaded: uploadedCount,
     opportunity: opportunityOk, degraded: failures.length > 0, report,
   });
+  })().catch((e) => log("error", { reason: "background_sync", detail: trim(e) }));
+
+  if (ctx && ctx.waitUntil) ctx.waitUntil(finishSync);
+  else await finishSync;
+
   return json(200, { ok: true }, cors);
 }
 
@@ -532,6 +548,7 @@ function findFileField(fieldIndex, isRes) {
 }
 
 let pipelineCache = null; // {pipelineId, stageId, at}
+let fieldIndexCache = null; // {value: Map, at} — custom-field name→id lookups
 
 async function resolvePipeline(ghl, env) {
   if (env.GHL_PIPELINE_ID && env.GHL_PIPELINE_STAGE_ID) {
