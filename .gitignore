@@ -26,3 +26,7 @@ assets/images/Turf_Landscaping.ai (7).png
 .claude/settings.local.json
 Turf_Landscaping.ai (8).png
 assets/images/Untitled
+
+# Raw client photo drop — 54MB of full-res originals; the derived 4:3
+# slot JPGs in assets/photos/ are what the build actually consumes.
+assets/photos/NEW IMAGES 1 SEP/
