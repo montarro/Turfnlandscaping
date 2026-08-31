@@ -12,7 +12,7 @@ const DATA = require("./services-data.js");
 
 const ROOT = path.join(__dirname, "..");
 const OUTDIR = process.env.OUTDIR || ROOT;
-const SITE = "https://turfandlandscaping.com.au";
+const SITE = "https://bastianolandscaping.com.au";
 const PHONE_DISPLAY = "0457 357 085";
 const PHONE_TEL = "+61457357085";
 

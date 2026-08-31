@@ -3,4 +3,4 @@ Disallow: /admin
 Disallow: /api
 Allow: /
 
-Sitemap: https://turfandlandscaping.com.au/sitemap.xml
+Sitemap: https://bastianolandscaping.com.au/sitemap.xml
