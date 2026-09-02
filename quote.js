@@ -482,12 +482,18 @@
     /* Spam honeypot — offscreen, never shown, must stay empty. */
     html += '<div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true"><label>Leave this field empty<input type="text" id="qf-hp" name="company_website" tabindex="-1" autocomplete="off" /></label></div>';
 
+    /* Turnstile bot check — rendered explicitly because the wizard rebuilds
+       this step's HTML. If the script hasn't loaded the div stays empty and
+       the worker decides (it only enforces once its secret is armed). */
+    html += '<div class="qturnstile" id="qf-turnstile"></div>';
+
     html += '<p class="qerror" role="alert" hidden></p>' +
       '<div class="qnav">' +
       '<button class="btn btn--ghost" type="button" data-back>Back</button>' +
       '<button class="btn btn--primary btn--lg" type="button" data-submit>Request My Free Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></button>' +
       "</div>";
     stepsEl.innerHTML = html;
+    renderTurnstile();
 
     stepsEl.querySelectorAll(".qsummary__edit").forEach(function (b) {
       b.addEventListener("click", function () { saveStep3(); goTo(Number(b.getAttribute("data-goto"))); });
@@ -522,6 +528,30 @@
   }
 
   /* ---------------- Submit ---------------- */
+  /* ---- Turnstile ---- */
+  var TURNSTILE_SITEKEY = "0x4AAAAAAEkkbFGBY5J3FpAS";
+  var tsWidgetId = null;
+
+  function renderTurnstile() {
+    var slot = document.getElementById("qf-turnstile");
+    if (!slot) return;
+    if (!window.turnstile) {
+      /* script still loading — try again shortly, give up quietly after ~10s */
+      var tries = 0;
+      var timer = setInterval(function () {
+        if (window.turnstile && document.getElementById("qf-turnstile")) {
+          clearInterval(timer);
+          renderTurnstile();
+        } else if (++tries > 20) clearInterval(timer);
+      }, 500);
+      return;
+    }
+    tsWidgetId = window.turnstile.render("#qf-turnstile", {
+      sitekey: TURNSTILE_SITEKEY,
+      action: "quote",
+    });
+  }
+
   function submit() {
     if (submitting) return;
     saveStep3();
@@ -549,6 +579,9 @@
     body.append("submitted_at", new Date().toISOString());
     var hp = document.getElementById("qf-hp");
     body.append("company_website", hp ? hp.value : "");
+    if (window.turnstile && tsWidgetId !== null) {
+      body.append("cf-turnstile-response", window.turnstile.getResponse(tsWidgetId) || "");
+    }
 
     fetch(WEBHOOK_URL, { method: "POST", body: body })
       .then(function (res) {
@@ -563,6 +596,9 @@
         submitting = false;
         btn.disabled = false;
         btn.innerHTML = 'Request My Free Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>';
+        /* Turnstile tokens are single-use — a failed submit consumed this
+           one, so reset the widget before the visitor retries. */
+        if (window.turnstile && tsWidgetId !== null) window.turnstile.reset(tsWidgetId);
         setError((err && err.message) || ("Sorry, something went wrong sending your request — your answers are still here. Please try again, or call us on " + PHONE_DISPLAY + "."));
       });
   }

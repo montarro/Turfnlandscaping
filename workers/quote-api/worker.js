@@ -181,10 +181,12 @@ async function handleQuote(request, env, origin, ctx) {
     if (!KNOWN_KEYS.has(key)) return fail(400, "That submission contained unexpected data. Please reload the page and try again.");
   }
 
-  /* Optional Turnstile */
+  /* Optional Turnstile — the token must verify AND belong to this form
+     (action "quote") on the page that is actually submitting (its hostname
+     must match the request Origin, which has already passed the allowlist). */
   if (env.TURNSTILE_SECRET_KEY) {
     const token = String(form.get("cf-turnstile-response") || "");
-    const okTs = await verifyTurnstile(env.TURNSTILE_SECRET_KEY, token, ip);
+    const okTs = await verifyTurnstile(env.TURNSTILE_SECRET_KEY, token, ip, origin);
     if (!okTs) return fail(400, "We couldn't verify that you're human. Please refresh the page and try again.");
   }
 
@@ -448,16 +450,23 @@ async function sha256(s) {
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-async function verifyTurnstile(secret, token, ip) {
-  if (!token) return false;
+async function verifyTurnstile(secret, token, ip, origin) {
+  if (!token || token.length > 2048) return false;
   try {
     const r = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ secret, response: token, remoteip: ip }),
+      signal: AbortSignal.timeout(10_000),
     });
+    if (!r.ok) return false;
     const data = await r.json();
-    return !!data.success;
+    if (!data.success) return false;
+    if (data.action !== "quote") return false;
+    /* Bind the token to the submitting page: siteverify's hostname must
+       equal the request Origin's hostname (the origin allowlist has
+       already vetted it, so this stops cross-host token replay). */
+    return data.hostname === new URL(origin).hostname;
   } catch (e) { return false; }
 }
 
