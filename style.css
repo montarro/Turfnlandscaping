@@ -199,6 +199,9 @@ p  { margin: 0 0 1rem; }
 }
 .site-header__inner {
   pointer-events: auto;
+  /* stays above the open full-screen mobile menu (its sibling, z 99),
+     so the capsule and its X button remain visible and tappable */
+  position: relative; z-index: 100;
   max-width: var(--wrap); margin-inline: auto;
   background: rgba(250, 247, 239, .92);
   -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
@@ -257,7 +260,20 @@ p  { margin: 0 0 1rem; }
   border-radius: var(--r-lg); box-shadow: var(--shadow-lg);
   padding: .7rem 1.2rem 1.2rem;
 }
-.mobile-nav[data-open="true"] { display: block; }
+/* Open state covers the whole screen and scrolls internally, so every item
+   is reachable however long the menu is. The floating header capsule (z 100)
+   stays on top, keeping the X button tappable. */
+.mobile-nav[data-open="true"] {
+  display: block;
+  position: fixed; inset: 0; z-index: 99;
+  max-width: none; margin: 0;
+  border: 0; border-radius: 0;
+  padding: calc(var(--header-h) + 1.8rem) 1.2rem 1.6rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+/* The page behind must not scroll while the menu is open. */
+body.nav-open { overflow: hidden; }
 .mobile-nav__group { padding-top: .9rem; }
 .mobile-nav__group:first-child { padding-top: .4rem; }
 .mobile-nav__label {
@@ -271,7 +287,8 @@ p  { margin: 0 0 1rem; }
   text-decoration: none; border-bottom: 1px solid var(--line);
 }
 .mobile-nav__group a:last-of-type { border-bottom: 0; }
-.mobile-nav .btn { margin-top: 1rem; border-bottom: 0; }
+/* .mobile-nav a outranks .btn--primary, so restate the button's white text */
+.mobile-nav .btn { margin-top: 1rem; border-bottom: 0; color: #fff; }
 
 /* ---------- Hero (photo background, centred composition) ---------- */
 .hero {
@@ -1526,3 +1543,12 @@ p  { margin: 0 0 1rem; }
 /* Discreet admin link in the footer bottom row */
 .footer__admin { color: inherit; opacity: .75; font-size: .95em; }
 .footer__admin:hover { opacity: 1; color: #fff; }
+
+/* While the mobile menu is open the capsule always takes its solid form —
+   on the homepage hero it is normally transparent with the light logo,
+   which would vanish against the menu's white panel. */
+body.nav-open .site-header:not(.is-scrolled) .site-header__inner {
+  background: rgba(250, 247, 239, .92); border-color: var(--line); box-shadow: var(--shadow-md);
+}
+body.nav-open .site-header:not(.is-scrolled) .brand__logo--dark { display: block; }
+body.nav-open .site-header:not(.is-scrolled) .brand__logo--light { display: none; }

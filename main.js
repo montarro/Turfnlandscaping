@@ -204,12 +204,15 @@
       var open = mobileNav.getAttribute("data-open") === "true";
       mobileNav.setAttribute("data-open", String(!open));
       toggle.setAttribute("aria-expanded", String(!open));
+      // the open menu scrolls internally; the page behind stays put
+      document.body.classList.toggle("nav-open", !open);
     });
     // Close the drawer after tapping a link
     mobileNav.addEventListener("click", function (e) {
       if (e.target.closest("a")) {
         mobileNav.setAttribute("data-open", "false");
         toggle.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("nav-open");
       }
     });
   }

@@ -108,7 +108,7 @@ ${mobileAccordions}
       <div class="mobile-nav__group">
         <span class="mobile-nav__label">Get in touch</span>
         <a href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a>
-        <a href="mailto:info@turfandlandscaping.com.au">info@turfandlandscaping.com.au</a>
+        <a href="mailto:info@bastianolandscaping.com.au">info@bastianolandscaping.com.au</a>
       </div>
       <a class="btn btn--primary btn--block" href="/quote">Request a Quote</a>
     </nav>
@@ -159,7 +159,7 @@ const FOOTER = `
           <h4>Get in touch</h4>
           <ul>
             <li><a href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a></li>
-            <li><a href="mailto:info@turfandlandscaping.com.au">info@turfandlandscaping.com.au</a></li>
+            <li><a href="mailto:info@bastianolandscaping.com.au">info@bastianolandscaping.com.au</a></li>
             <li>Melbourne's West • Inner City • Inner North • Inner East &amp; Bayside</li>
             <li>Mon–Fri 7am–9pm · Sat 7am–5pm · Sun closed</li>
           </ul>
