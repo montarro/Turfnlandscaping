@@ -275,12 +275,17 @@ module.exports = async (req, res) => {
         doc.text("PAID", M + W - 76, M - 8, { width: 76, align: "center" });
         doc.restore().opacity(1);
       }
+      /* The footer sits inside the bottom margin. pdfkit starts a new page
+         whenever text is placed below the margin unless an explicit
+         `height` is given, so every footer call passes one — otherwise the
+         footer (business details + page number) spills onto extra pages. */
       doc.font("Helvetica").fontSize(7.5).fillColor(MUTED);
       const footY = doc.page.height - M + 6;
+      const footOpts = { height: 14, lineBreak: false };
       doc.text(
         [settings.trading_name, settings.phone, settings.email, settings.website].filter(Boolean).join("  ·  "),
-        M, footY, { width: W - 90, lineBreak: false });
-      doc.text(`Page ${i + 1} of ${pages.count}`, M + W - 90, footY, { width: 90, align: "right" });
+        M, footY, Object.assign({ width: W - 90 }, footOpts));
+      doc.text(`Page ${i + 1} of ${pages.count}`, M + W - 90, footY, Object.assign({ width: 90, align: "right" }, footOpts));
     }
 
     doc.end();
