@@ -47,7 +47,8 @@
 
   <link rel="icon" href="/assets/favicon.png?v=3" type="image/png" sizes="192x192" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180" />
-  <link rel="preload" as="image" href="/assets/images/hero-video-poster.webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/images/hero-turf-farm.webp" media="(min-width: 820px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/images/hero-turf-farm-mobile.webp" media="(max-width: 819px)" fetchpriority="high" />
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-800.woff2" crossorigin />
   <link rel="stylesheet" href="/style.css" />
 
@@ -269,14 +270,14 @@
     <!-- ============ HERO ============ -->
     <section class="hero" aria-label="Introduction">
       <div class="hero__media">
-        <img src="/assets/images/hero-video-poster.webp"
-             alt="Backyard landscaping with paving and fresh turf"
-             width="1920" height="1080" fetchpriority="high" />
-        <!-- Sits on top of the photo; if it can't load or autoplay, the photo shows. -->
-        <video class="hero__video" autoplay muted loop playsinline preload="auto"
-               poster="/assets/images/hero-video-poster.webp" aria-hidden="true" tabindex="-1">
-          <source src="/assets/videos/hero-background-3.mp4" type="video/mp4" />
-        </video>
+        <!-- Phones get a portrait crop of the same photo so the turf, not the
+             sky, sits behind the headline. -->
+        <picture>
+          <source media="(max-width: 819px)" srcset="/assets/images/hero-turf-farm-mobile.webp" width="864" height="1536" />
+          <img src="/assets/images/hero-turf-farm.webp"
+               alt="Freshly mown turf farm with striped rows running to the horizon"
+               width="1920" height="1080" fetchpriority="high" />
+        </picture>
       </div>
       <div class="wrap hero__inner">
         <p class="hero__location">Melbourne, Victoria</p>

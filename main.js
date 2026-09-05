@@ -153,38 +153,6 @@
     el.addEventListener("pointercancel", function () { dragging = false; });
   }
 
-  /* ---------- Hero background video ----------
-     The <video> layers over the hero photo. Remove it (leaving the photo)
-     when the visitor prefers reduced motion or has data-saver on, and if
-     autoplay is blocked let the poster/photo show instead. */
-  var heroVideo = document.querySelector(".hero__video");
-  if (heroVideo) {
-    var saveData = navigator.connection && navigator.connection.saveData;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || saveData) {
-      heroVideo.remove();
-    } else {
-      /* Low Power Mode / autoplay policies can reject the first play();
-         keep the video (poster shows) and retry on the first interaction. */
-      var tryPlay = function () {
-        var p = heroVideo.play();
-        if (p && p.catch) { p.catch(function () {}); }
-      };
-      tryPlay();
-      ["pointerdown", "touchstart", "scroll", "keydown"].forEach(function (evt) {
-        window.addEventListener(evt, tryPlay, { once: true, passive: true });
-      });
-      /* The loop attribute handles looping, but Safari and Low Power Mode
-         can stall at the final frame — restart explicitly if that happens. */
-      heroVideo.addEventListener("ended", function () {
-        heroVideo.currentTime = 0;
-        tryPlay();
-      });
-      document.addEventListener("visibilitychange", function () {
-        if (!document.hidden && heroVideo.paused && !heroVideo.ended) tryPlay();
-      });
-    }
-  }
-
   /* ---------- Compact header on scroll ---------- */
   var header = document.querySelector(".site-header");
   if (header) {

@@ -6,6 +6,8 @@ WebP under the right filename — no renaming or HTML changes needed.
 | Upload as | Becomes | Used for |
 | --- | --- | --- |
 | `hero.jpg` | `hero-landscaping-northwest-melbourne.webp` | Hero background (1920×1080) |
+| `hero-turf.jpg` | `hero-turf-farm.webp` | Homepage hero background (1920×1080) |
+| `hero-turf-mobile.jpg` | `hero-turf-farm-mobile.webp` | Homepage hero background, phones (864×1536 portrait) |
 | `og.jpg` | `og-turf-and-landscaping.webp` | Social share card (1200×630) |
 | `turf.jpg` | `service-natural-turf-solutions.webp` | Natural Turf card + page |
 | `paving.jpg` | `service-paving-and-stepping-stones.webp` | Paving card + page |

@@ -19,6 +19,8 @@ const SRC = path.join(ROOT, "assets", "photos");
 // short name you upload  ->  filename the site references
 const SLOTS = {
   hero:    "hero-landscaping-northwest-melbourne",
+  "hero-turf": "hero-turf-farm",
+  "hero-turf-mobile": "hero-turf-farm-mobile",
   og:      "og-turf-and-landscaping",
   turf:    "service-natural-turf-solutions",
   paving:  "service-paving-and-stepping-stones",
@@ -31,6 +33,8 @@ const SLOTS = {
 // slot -> [width, height] so each photo is cropped to the ratio the layout expects
 const SIZES = {
   "hero-landscaping-northwest-melbourne": [1920, 1080],
+  "hero-turf-farm": [1920, 1080],
+  "hero-turf-farm-mobile": [864, 1536],
   "og-turf-and-landscaping": [1200, 630],
 };
 // slots resized by width only, keeping the photo's own aspect ratio uncropped
