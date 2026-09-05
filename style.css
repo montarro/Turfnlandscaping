@@ -1298,18 +1298,12 @@ body.nav-open { overflow: hidden; }
     background:
       linear-gradient(180deg, rgba(13,24,17,.62), rgba(13,24,17,.74));
   }
-  /* Fill the whole first screen with the hero photo on mobile
+  /* Fill the whole first screen with the hero video on mobile
      (svh = small viewport height, stable while the browser bar shows) */
   .home .hero__inner {
-    /* .hero already carries the header offset as padding-top, so subtract it
-       here or the hero runs one header-height past the first screen and the
-       bottom-anchored copy falls below the fold. */
-    min-height: calc(100vh - var(--header-h) - .9rem);
-    min-height: calc(100svh - var(--header-h) - .9rem);
-    padding-inline: max(var(--gutter), 16px);
-    /* copy block sits low in the frame, over the turf rather than the sky */
-    justify-content: flex-end;
-    padding-block: 1.5rem 3.25rem;
+    min-height: 100vh; min-height: 100svh; padding-inline: max(var(--gutter), 16px);
+    /* heavier bottom padding floats the whole copy block higher in the frame */
+    padding-block: 1.5rem 13rem;
   }
   .home .hero h1 { font-size: clamp(2.2rem, 9.5vw, 2.9rem); }
   .home .hero__ctas { width: auto; }
