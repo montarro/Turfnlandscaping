@@ -1243,7 +1243,7 @@ body.nav-open { overflow: hidden; }
     linear-gradient(92deg, rgba(13,24,17,.92) 0%, rgba(13,24,17,.72) 34%, rgba(13,24,17,.28) 62%, rgba(13,24,17,.18) 100%),
     linear-gradient(180deg, rgba(13,24,17,.18), rgba(13,24,17,.34));
 }
-.home .hero__media img { object-position: 72% 50%; }
+.home .hero__media img { object-position: 50% 50%; }   /* backyard photo: path left, beds right — keep both */
 @media (max-width: 819px) { .home .hero__media img { object-position: 50% 50%; } }
 .home .hero__inner {
   align-items: flex-start; text-align: left;
