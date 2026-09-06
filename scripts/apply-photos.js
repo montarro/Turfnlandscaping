@@ -33,9 +33,9 @@ const SLOTS = {
 // slot -> [width, height] so each photo is cropped to the ratio the layout expects
 const SIZES = {
   "hero-landscaping-northwest-melbourne": [1920, 1080],
-  // native resolution of the 819px-wide source — no upscaling; the browser scales it under the hero overlay
-  "hero-backyard-transformation": [819, 461],
-  "hero-backyard-transformation-mobile": [540, 960],
+  // native resolution of the 1638px-wide upscaled source — the pipeline never upscales
+  "hero-backyard-transformation": [1638, 922],
+  "hero-backyard-transformation-mobile": [1080, 1920],
   "og-turf-and-landscaping": [1200, 630],
 };
 // slots resized by width only, keeping the photo's own aspect ratio uncropped
