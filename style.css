@@ -1239,9 +1239,13 @@ body.nav-open { overflow: hidden; }
 
 /* --- Hero: copy left, cinematic gradient, editorial type --- */
 .home .hero::after {
+  /* Directional scrim: dark enough under the left-hand copy block for white
+     text, fading to nothing over the right and lower two-thirds so the lawn
+     and planting keep their colour. A light top band keeps the nav legible
+     against the sky; nothing is layered over the bottom of the photo. */
   background:
-    linear-gradient(92deg, rgba(13,24,17,.92) 0%, rgba(13,24,17,.72) 34%, rgba(13,24,17,.28) 62%, rgba(13,24,17,.18) 100%),
-    linear-gradient(180deg, rgba(13,24,17,.18), rgba(13,24,17,.34));
+    linear-gradient(92deg, rgba(13,24,17,.82) 0%, rgba(13,24,17,.62) 28%, rgba(13,24,17,.22) 56%, rgba(13,24,17,0) 78%),
+    linear-gradient(180deg, rgba(13,24,17,.28) 0%, rgba(13,24,17,0) 32%);
 }
 .home .hero__media img { object-position: 50% 50%; }   /* backyard photo: path left, beds right — keep both */
 @media (max-width: 819px) { .home .hero__media img { object-position: 50% 50%; } }
@@ -1297,8 +1301,11 @@ body.nav-open { overflow: hidden; }
 /* --- Mobile hero: full-width overlay, tight spacing, clean stacking --- */
 @media (max-width: 819px) {
   .home .hero::after {
+    /* Phones: the copy spans the full width, so the scrim runs top-to-bottom —
+       heaviest behind the headline and buttons, clearing over the path and
+       raised bed at the bottom. */
     background:
-      linear-gradient(180deg, rgba(13,24,17,.62), rgba(13,24,17,.74));
+      linear-gradient(180deg, rgba(13,24,17,.42) 0%, rgba(13,24,17,.56) 30%, rgba(13,24,17,.52) 66%, rgba(13,24,17,.08) 100%);
   }
   /* Fill the whole first screen with the hero video on mobile
      (svh = small viewport height, stable while the browser bar shows) */
