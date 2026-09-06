@@ -1267,7 +1267,9 @@ body.nav-open { overflow: hidden; }
   /* Bold sans heading restored from the pre-editorial design:
      Poppins 700, -.015em tracking, 1.12 line height. */
   font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(2.5rem, 6.2vw, 4.6rem); line-height: 1.12;
+  /* Scaled back from 4.6rem/1.12 on marketing feedback: confident, not
+     shouting. Line height tightened with the size so it doesn't go gappy. */
+  font-size: clamp(2.25rem, 4.6vw, 3.75rem); line-height: 1.08;
   letter-spacing: -.015em; max-width: 15ch; margin-inline: 0;
   text-wrap: balance;
 }
@@ -1305,7 +1307,7 @@ body.nav-open { overflow: hidden; }
     /* heavier bottom padding floats the whole copy block higher in the frame */
     padding-block: 1.5rem 13rem;
   }
-  .home .hero h1 { font-size: clamp(2.2rem, 9.5vw, 2.9rem); }
+  .home .hero h1 { font-size: clamp(1.95rem, 8.8vw, 2.35rem); line-height: 1.1; }
   .home .hero__ctas { width: auto; }
   .home .hero__ctas .btn { width: auto; padding: .62rem 1.25rem; font-size: .92rem; min-height: 0; }
   .home .hero__ctas .btn--xl { padding: .62rem .95rem .62rem 1.35rem; }
