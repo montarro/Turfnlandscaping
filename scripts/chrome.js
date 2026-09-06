@@ -178,4 +178,27 @@ const FOOTER_SCRIPTS = `
   <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
   <script defer src="/_vercel/insights/script.js"></script>`;
 
-module.exports = { HEADER, FOOTER, FOOTER_SCRIPTS, PHONE_DISPLAY, PHONE_TEL };
+/* ---------- Shared before/after comparison block ----------
+   Every before/after on the site renders through this so the markup,
+   aspect ratio, labels, hint line and no-JS fallback are identical.
+   before/after: { src, alt }. `hint` overrides the default instruction,
+   `eager` drops loading="lazy" for an above-the-fold instance. */
+const BA_HANDLE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6l-4 6 4 6M16 6l4 6-4 6"/></svg>';
+function beforeAfterBlock({ before, after, heading = "Before &amp; after", headingClass = "", intro = "", hint = "", label = "Before and after comparison", eager = false }) {
+  const lazy = eager ? "" : ' loading="lazy"';
+  return `<div class="ba-block">
+  <h2${headingClass ? ` class="${headingClass}"` : ""}>${heading}</h2>
+  ${intro ? `<p class="ba-block__intro">${intro}</p>\n  ` : ""}<p class="hint-line">${hint || "Drag the handle — or use the arrow keys — to compare."}</p>
+  <div class="ba" data-ba tabindex="0" role="slider" aria-label="${label}. Use arrow keys to move the divider." aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+    <img class="ba__before" src="${before.src}" alt="${before.alt}"${lazy} width="1200" height="900" />
+    <img class="ba__after" src="${after.src}" alt="${after.alt}"${lazy} width="1200" height="900" />
+    <span class="ba__label ba__label--after">After</span>
+    <span class="ba__label ba__label--before">Before</span>
+    <div class="ba__divider"></div>
+    <div class="ba__handle">${BA_HANDLE}</div>
+  </div>
+  <noscript><p class="hint-line">Interactive comparison needs JavaScript — the After photo is shown in full.</p></noscript>
+</div>`;
+}
+
+module.exports = { HEADER, FOOTER, FOOTER_SCRIPTS, PHONE_DISPLAY, PHONE_TEL, beforeAfterBlock };

@@ -533,11 +533,19 @@ body.nav-open { overflow: hidden; }
 .tf__viewport { position: relative; }
 .tf__track { display: flex; transition: transform .5s cubic-bezier(.22,.61,.36,1); }
 .tf__slide { flex: 0 0 100%; padding-inline: .4rem; }
+/* ---------- Before/after comparison slider (site-wide canonical) ----------
+   Rendered by beforeAfterBlock() in scripts/chrome.js. 4:3 matches the
+   1200x900 photos the pipeline produces, so nothing is cropped. */
+.ba-block { margin: clamp(1.6rem, 3vw, 2.2rem) 0; }
+.ba-block h2 { margin-bottom: .2rem; }
+.ba-block__intro { max-width: 46rem; margin: 0 0 .45rem; }
+.hint-line { color: var(--muted); font-size: .9rem; margin: .2rem 0 .9rem; }
 .ba {
   position: relative; overflow: hidden; border-radius: var(--r-lg);
-  aspect-ratio: 16 / 9; background: var(--sage-100); touch-action: pan-y;
-  box-shadow: var(--shadow-lg); user-select: none;
+  aspect-ratio: 4 / 3; background: var(--sage-100); touch-action: pan-y;
+  box-shadow: var(--shadow-md); user-select: none; max-width: 900px;
 }
+.ba:focus-visible { outline: 3px solid var(--sage-200); outline-offset: 3px; }
 .ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 .ba__after { clip-path: inset(0 50% 0 0); }
 .ba__divider {
@@ -559,6 +567,9 @@ body.nav-open { overflow: hidden; }
 }
 .ba__label--after { left: 1rem; }
 .ba__label--before { right: 1rem; }
+/* JS-off fallback: show the after photo fully, no divider chrome */
+html:not(.js) .ba__after { clip-path: none; }
+html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
 .tf__meta { text-align: center; margin-top: 1.2rem; }
 .tf__meta h3 { margin-bottom: .15rem; }
 .tf__meta p { color: var(--muted); margin: 0; font-size: .95rem; }

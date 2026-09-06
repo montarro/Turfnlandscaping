@@ -121,7 +121,18 @@ function servicePage(s) {
   const m = s.maintenance;
 
   let body = "";
-  body += `<div class="prose"><p class="lead">${s.intro}</p>`;
+  body += `<div class="prose"><p class="lead">${s.intro}</p></div>`;
+  /* Before/after sits directly under the intro — it's the most persuasive
+     content on the page, so it comes before the detail sections. */
+  if (s.beforeAfter) {
+    const ba = s.beforeAfter;
+    body += CHROME.beforeAfterBlock({
+      before: { src: img(ba.before.img), alt: ba.before.alt },
+      after: { src: img(ba.after.img), alt: ba.after.alt },
+      intro: `${ba.note} <a href="${ba.link}">View the full project</a>.`,
+    });
+  }
+  body += `<div class="prose">`;
   if (s.whoFor) body += `<h2>Who this service suits</h2><p>${s.whoFor}</p>`;
   if (s.problems) body += `<h2>Problems we solve</h2><ul>${s.problems.map((p) => `<li>${p}</li>`).join("")}</ul>`;
   body += `<h2>What's included</h2></div>
@@ -145,20 +156,6 @@ function servicePage(s) {
     <p><strong>At home.</strong> ${m.resi}</p>
     <p><strong>Commercial &amp; body corporate.</strong> ${m.com}</p>
     <p><strong>A scope built for you.</strong> ${m.custom}</p></div>`;
-  }
-
-  if (s.beforeAfter) {
-    const ba = s.beforeAfter;
-    body += `<div class="prose"><h2>Before &amp; after</h2>
-    <p>${ba.note} <a href="${ba.link}">View the full project</a>.</p></div>
-    <div class="ba" data-ba tabindex="0" role="slider" aria-label="Before and after comparison. Use arrow keys to move the divider." aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-      <img class="ba__before" src="${img(ba.before.img)}" alt="${ba.before.alt}" loading="lazy" width="1200" height="900" />
-      <img class="ba__after" src="${img(ba.after.img)}" alt="${ba.after.alt}" loading="lazy" width="1200" height="900" />
-      <span class="ba__label ba__label--after">After</span>
-      <span class="ba__label ba__label--before">Before</span>
-      <div class="ba__divider"></div>
-      <div class="ba__handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6l-4 6 4 6M16 6l4 6-4 6"/></svg></div>
-    </div>`;
   }
 
   if (s.gallery) {

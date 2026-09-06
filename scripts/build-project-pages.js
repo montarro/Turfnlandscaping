@@ -218,18 +218,11 @@ ${HEADER}
             <p>${p.outcome}</p>
           </div>
 
-          ${hasPair ? `
-          <h2 class="pj-h2">Before &amp; after</h2>
-          <p class="hint-line">Drag the handle — or use the arrow keys — to compare.</p>
-          <div class="ba" data-ba tabindex="0" role="slider" aria-label="Before and after comparison. Use arrow keys to move the divider." aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-            <img class="ba__before" src="${img(p.before.img)}" alt="${p.before.alt}" loading="lazy" width="1200" height="900" />
-            <img class="ba__after" src="${img(p.after.img)}" alt="${p.after.alt}" loading="lazy" width="1200" height="900" />
-            <span class="ba__label ba__label--after">After</span>
-            <span class="ba__label ba__label--before">Before</span>
-            <div class="ba__divider"></div>
-            <div class="ba__handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6l-4 6 4 6M16 6l4 6-4 6"/></svg></div>
-          </div>
-          <noscript><p>Interactive comparison needs JavaScript — both photos appear in the gallery below.</p></noscript>` : ""}
+          ${hasPair ? CHROME.beforeAfterBlock({
+            headingClass: "pj-h2",
+            before: { src: img(p.before.img), alt: p.before.alt },
+            after: { src: img(p.after.img), alt: p.after.alt },
+          }) : ""}
 
           <h2 class="pj-h2">Project gallery</h2>
           <div class="pj-gallery">
@@ -348,16 +341,14 @@ ${HEADER}
       <div class="wrap">
         ${pairs.map((p, i) => `
         <article class="pj-ba-item">
-          <h2>${p.title}</h2>
-          <p class="hint-line">${p.categories.join(" · ")}${pairs.length > 1 ? ` · ${i + 1} of ${pairs.length}` : ""} — drag the handle or use arrow keys to compare.</p>
-          <div class="ba" data-ba tabindex="0" role="slider" aria-label="Before and after: ${p.title}. Use arrow keys to move the divider." aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-            <img class="ba__before" src="${img(p.before.img)}" alt="${p.before.alt}" ${i === 0 ? "" : 'loading="lazy"'} width="1200" height="900" />
-            <img class="ba__after" src="${img(p.after.img)}" alt="${p.after.alt}" ${i === 0 ? "" : 'loading="lazy"'} width="1200" height="900" />
-            <span class="ba__label ba__label--after">After</span>
-            <span class="ba__label ba__label--before">Before</span>
-            <div class="ba__divider"></div>
-            <div class="ba__handle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6l-4 6 4 6M16 6l4 6-4 6"/></svg></div>
-          </div>
+          ${CHROME.beforeAfterBlock({
+            heading: p.title,
+            hint: `${p.categories.join(" · ")}${pairs.length > 1 ? ` · ${i + 1} of ${pairs.length}` : ""} — drag the handle or use the arrow keys to compare.`,
+            label: `Before and after: ${p.title}`,
+            eager: i === 0,
+            before: { src: img(p.before.img), alt: p.before.alt },
+            after: { src: img(p.after.img), alt: p.after.alt },
+          })}
           <p>${p.summary}</p>
           <a class="pj-card__link" href="/projects/${p.slug}">View Full Project ${arrow}</a>
         </article>`).join("\n")}

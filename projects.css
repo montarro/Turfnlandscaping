@@ -45,7 +45,6 @@
 /* Detail layout */
 .pj-layout { display: grid; gap: 2.4rem; align-items: start; }
 .pj-h2 { margin-top: 2.2rem; }
-.hint-line { color: var(--muted); font-size: .9rem; margin: .2rem 0 .9rem; }
 .pj-gallery { display: grid; gap: .8rem; grid-template-columns: 1fr; }
 .pj-gallery figure { margin: 0; border-radius: var(--r-md); overflow: hidden; background: var(--sage-100); }
 .pj-gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .4s ease; }
@@ -62,42 +61,10 @@
 
 /* Before/after items on /before-and-after */
 .pj-ba-item { margin-bottom: clamp(2.5rem, 6vw, 4rem); }
-.pj-ba-item h2 { margin-bottom: .2rem; }
 .pj-ba-item .ba { margin-bottom: 1rem; }
 .pj-ba-item > p { max-width: 46rem; }
 
-/* Comparison slider (shares .ba classes with the global sheet; these
-   declarations keep it self-sufficient if globals change) */
-.ba {
-  position: relative; overflow: hidden; border-radius: var(--r-lg);
-  aspect-ratio: 4 / 3; background: var(--sage-100); touch-action: pan-y;
-  box-shadow: var(--shadow-md); user-select: none; max-width: 900px;
-}
-.ba:focus-visible { outline: 3px solid var(--sage-200); outline-offset: 3px; }
-.ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-.ba__after { clip-path: inset(0 50% 0 0); }
-.ba__divider {
-  position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff;
-  box-shadow: 0 0 12px rgba(0,0,0,.35); transform: translateX(-50%); pointer-events: none;
-}
-.ba__handle {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-  width: 48px; height: 48px; border-radius: 50%; background: #fff; color: var(--forest-900);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: var(--shadow-md); pointer-events: none;
-}
-.ba__handle svg { width: 20px; height: 20px; }
-.ba__label {
-  position: absolute; top: 1rem; z-index: 2; pointer-events: none;
-  background: rgba(255,255,255,.95); color: var(--forest-900);
-  font-family: var(--font-display); font-weight: 600; font-size: .85rem;
-  border-radius: 999px; padding: .4rem .95rem; box-shadow: var(--shadow-sm);
-}
-.ba__label--after { left: 1rem; }
-.ba__label--before { right: 1rem; }
-/* JS-off fallback: show the after photo fully, no divider chrome */
-html:not(.js) .ba__after { clip-path: none; }
-html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
+/* Comparison slider: canonical .ba rules live in style.css (see beforeAfterBlock in scripts/chrome.js). */
 
 @media (min-width: 560px) {
   .pj-grid { grid-template-columns: repeat(2, 1fr); }
