@@ -153,6 +153,75 @@
     el.addEventListener("pointercancel", function () { dragging = false; });
   }
 
+  /* ---------- Customer reviews carousel ----------
+     Native scroll-snap does the swiping; this adds mouse-drag, prev/next,
+     dots and a gentle auto-advance that pauses while the visitor is
+     hovering, touching, dragging or focused inside, and is off entirely
+     for prefers-reduced-motion. */
+  var reviews = document.querySelector("[data-reviews]");
+  if (reviews) {
+    var track = reviews.querySelector("[data-reviews-track]");
+    var cards = Array.prototype.slice.call(track.children);
+    var dotsWrap = reviews.querySelector("[data-reviews-dots]");
+    var prevBtn = reviews.querySelector("[data-reviews-prev]");
+    var nextBtn = reviews.querySelector("[data-reviews-next]");
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var paused = false, timer = null, dots = [];
+
+    var step = function () { return cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth; };
+    var perView = function () { return Math.max(1, Math.round(track.clientWidth / step())); };
+    var maxIndex = function () { return Math.max(0, cards.length - perView()); };
+    var index = function () { return Math.round(track.scrollLeft / step()); };
+    var goTo = function (i) {
+      var n = maxIndex(); i = i > n ? 0 : (i < 0 ? n : i);
+      track.scrollTo({ left: i * step(), behavior: reduceMotion ? "auto" : "smooth" });
+    };
+
+    cards.forEach(function (_, i) {
+      var d = document.createElement("button");
+      d.type = "button"; d.className = "reviews__dot"; d.setAttribute("aria-label", "Go to review " + (i + 1));
+      d.addEventListener("click", function () { goTo(i); });
+      dotsWrap.appendChild(d); dots.push(d);
+    });
+    var syncDots = function () {
+      var cur = index(), n = maxIndex();
+      dots.forEach(function (d, i) { d.classList.toggle("is-active", i === cur); d.hidden = i > n; });
+    };
+    track.addEventListener("scroll", syncDots, { passive: true });
+    window.addEventListener("resize", syncDots);
+    syncDots();
+
+    prevBtn.addEventListener("click", function () { goTo(index() - 1); });
+    nextBtn.addEventListener("click", function () { goTo(index() + 1); });
+
+    /* mouse drag (touch already scrolls natively) */
+    var dragStartX = 0, dragStartLeft = 0, dragging = false;
+    track.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse") return;
+      dragging = true; dragStartX = e.clientX; dragStartLeft = track.scrollLeft;
+      track.classList.add("is-dragging"); track.setPointerCapture(e.pointerId);
+    });
+    track.addEventListener("pointermove", function (e) {
+      if (!dragging) return; track.scrollLeft = dragStartLeft - (e.clientX - dragStartX);
+    });
+    var endDrag = function () {
+      if (!dragging) return; dragging = false; track.classList.remove("is-dragging"); goTo(index());
+    };
+    track.addEventListener("pointerup", endDrag);
+    track.addEventListener("pointercancel", endDrag);
+
+    /* auto-advance */
+    var start = function () {
+      if (reduceMotion || timer) return;
+      timer = setInterval(function () { if (!paused && !dragging && !document.hidden) goTo(index() + 1); }, 5500);
+    };
+    var pause = function () { paused = true; };
+    var resume = function () { paused = false; };
+    ["mouseenter", "touchstart", "focusin", "pointerdown"].forEach(function (evt) { reviews.addEventListener(evt, pause, { passive: true }); });
+    ["mouseleave", "touchend", "focusout"].forEach(function (evt) { reviews.addEventListener(evt, resume, { passive: true }); });
+    start();
+  }
+
   /* ---------- Compact header on scroll ---------- */
   var header = document.querySelector(".site-header");
   if (header) {
