@@ -490,14 +490,11 @@ body.nav-open { overflow: hidden; }
 /* ---------- Process ---------- */
 .process { position: relative; padding-block: clamp(2.8rem, 7vw, 5.2rem); }
 .process .section__head { margin-bottom: clamp(1.6rem, 3.5vw, 2.4rem); }
-/* Mobile: vertical timeline — rail down the left, one dot per step */
+/* Step cards are numbered 01–04; no connector rail or dots (removed —
+   they rendered as disconnected floating dots). */
 .process__grid {
   display: grid; gap: 1.5rem; grid-template-columns: 1fr;
-  position: relative; padding-left: 22px;
-}
-.process__grid::before {
-  content: ""; position: absolute; left: 7px; top: 14px; bottom: 14px;
-  width: 2px; border-radius: 999px; background: var(--sage-200);
+  position: relative;
 }
 .process__card {
   background: var(--cream); border: 1px solid var(--sage-200); border-radius: 15px;
@@ -505,10 +502,6 @@ body.nav-open { overflow: hidden; }
   padding: 1.35rem 1.25rem 1.2rem;
   position: relative; z-index: 1;
   transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-}
-.process__card::before {
-  content: ""; position: absolute; left: -19px; top: 26px;
-  width: 9px; height: 9px; border-radius: 50%; background: var(--forest-600);
 }
 .process__card:hover {
   transform: translateY(-3px); border-color: var(--forest-600);
@@ -844,14 +837,7 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
   .quote-section__inner { grid-template-columns: 1fr 1.1fr; gap: 3rem; }
   .values { grid-template-columns: repeat(2, 1fr); column-gap: 3rem; }
   .svc-row { grid-template-columns: repeat(3, 1fr); }
-  /* Desktop: restrained process line ABOVE the panels — spans the centres
-     of steps 01 and 04, one dot per step */
-  .process__grid { grid-template-columns: repeat(4, 1fr); padding-left: 0; padding-top: 26px; }
-  .process__grid::before {
-    left: 12.5%; right: 12.5%; top: 4px; bottom: auto;
-    width: auto; height: 2px;
-  }
-  .process__card::before { left: 50%; top: -26px; transform: translateX(-50%); }
+  .process__grid { grid-template-columns: repeat(4, 1fr); }
   .region-grid { grid-template-columns: repeat(2, 1fr); }
   .founder__inner { grid-template-columns: .85fr 1.15fr; gap: 3.5rem; }
   .founder__portrait { max-width: 24rem; }
