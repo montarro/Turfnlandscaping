@@ -153,6 +153,7 @@ const FOOTER = `
             <li><a href="/#areas">Service Areas</a></li>
             <li><a href="/#faq">FAQ</a></li>
             <li><a href="/quote">Request a quote</a></li>
+            <li><a href="/privacy-policy">Privacy Policy</a></li>
           </ul>
         </div>
         <div>
@@ -166,7 +167,7 @@ const FOOTER = `
         </div>
       </div>
       <div class="footer__bottom">
-        <span>© <span id="year">2026</span> Bastiano Landscaping</span>
+        <span>© <span id="year">2026</span> Bastiano Landscaping · <a class="footer__legal" href="/privacy-policy">Privacy Policy</a></span>
         <span>Melbourne's West • Inner City • Inner North • Inner East &amp; Bayside · <a class="footer__admin" href="/admin">Admin</a></span>
       </div>
     </div>

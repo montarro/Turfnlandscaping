@@ -26,7 +26,7 @@ fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
 
 // Static, hand-written files
-["index.html", "quote.html", "404.html", "style.css", "service-pages.css", "projects.css", "projects.js", "blog.css", "blog.js", "main.js", "quote.js", "robots.txt", "sitemap.xml"].forEach(copy);
+["index.html", "quote.html", "privacy-policy.html", "404.html", "style.css", "service-pages.css", "projects.css", "projects.js", "blog.css", "blog.js", "main.js", "quote.js", "robots.txt", "sitemap.xml"].forEach(copy);
 
 // Whole assets/ tree (logos, favicon, photography) — copying the directory
 // rather than a hand-maintained list means any new asset ships automatically.

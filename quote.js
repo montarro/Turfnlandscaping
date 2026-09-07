@@ -478,6 +478,7 @@
     html += "</div>";
 
     html += '<label class="qconsent"><input type="checkbox" id="qf-consent"' + (answers.consent ? " checked" : "") + ' /> <span>I’m happy for Bastiano Landscaping to contact me about this quote. <span class="req" aria-hidden="true">*</span></span></label>';
+    html += '<p class="form__consent qprivacy">Your details, project answers and any photos are used to contact you and prepare your quote. See our <a href="/privacy-policy">Privacy Policy</a> for how we handle your information.</p>';
 
     /* Spam honeypot — offscreen, never shown, must stay empty. */
     html += '<div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true"><label>Leave this field empty<input type="text" id="qf-hp" name="company_website" tabindex="-1" autocomplete="off" /></label></div>';
