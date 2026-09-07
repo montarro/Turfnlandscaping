@@ -48,7 +48,7 @@
   <link rel="icon" href="/assets/favicon.png?v=3" type="image/png" sizes="192x192" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180" />
   <link rel="preload" as="image" href="/assets/images/hero-frontyard-lawn-flower-borders.webp" media="(min-width: 820px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="/assets/images/hero-frontyard-lawn-flower-borders-mobile.webp" media="(max-width: 819px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/images/hero-stepping-stone-path-mobile.webp" media="(max-width: 819px)" fetchpriority="high" />
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-800.woff2" crossorigin />
   <link rel="stylesheet" href="/style.css" />
 
@@ -270,18 +270,24 @@
     <!-- ============ HERO ============ -->
     <section class="hero" aria-label="Introduction">
       <div class="hero__media">
-        <!-- Two crops of the front-yard photo (turf images web/
+        <!-- Desktop: the front-yard photo (turf images web/
              photo-frontyard-lawn-flower-borders.webp, 878x1078), upscaled 2x
-             with Real-ESRGAN x4plus to 1756x2156 before cropping: a wide band
-             (picket fence, roses, lawn, rose bed) for desktop and a tall crop
-             for phones. WebP first, JPG fallback for browsers without WebP. -->
+             with Real-ESRGAN x4plus to 1756x2156, cropped to a wide band
+             (picket fence, roses, lawn, rose bed).
+             Phones: a different photo — the stepping-stone path (retaining web/
+             image 4.webp, 819x1102), upscaled the same way to 1638x2204 and cut
+             9:16 down the left edge so the path leads to the raised veg bed.
+             WebP first, JPG fallback for browsers without WebP. The alt is
+             swapped to match on phones by the small script below. -->
         <picture>
-          <source media="(max-width: 819px)" type="image/webp" srcset="/assets/images/hero-frontyard-lawn-flower-borders-mobile.webp" width="1080" height="1920" />
+          <source media="(max-width: 819px)" type="image/webp" srcset="/assets/images/hero-stepping-stone-path-mobile.webp" width="1080" height="1920" />
           <source type="image/webp" srcset="/assets/images/hero-frontyard-lawn-flower-borders.webp" width="1756" height="988" />
           <img src="/assets/images/hero-frontyard-lawn-flower-borders.jpg"
                alt="Newly landscaped front yard in Melbourne's west with fresh turf, rose garden beds and white picket fence by Bastiano Landscaping"
+               data-alt-mobile="Bluestone stepping-stone path with white pebble borders leading past a new lawn to a raised vegetable bed, landscaped by Bastiano Landscaping"
                width="1756" height="988" fetchpriority="high" />
         </picture>
+        <script>(function(){var i=document.querySelector(".hero__media img");if(!i)return;var d=i.getAttribute("alt"),m=i.getAttribute("data-alt-mobile"),q=window.matchMedia("(max-width: 819px)");function s(){i.setAttribute("alt",q.matches?m:d);}s();q.addEventListener?q.addEventListener("change",s):q.addListener(s);})();</script>
       </div>
       <div class="wrap hero__inner">
         <p class="hero__location">Melbourne, Victoria</p>
