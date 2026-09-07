@@ -323,7 +323,7 @@
           <a class="btn btn--primary" href="#who-we-are">Discover Our Approach</a>
         </div>
         <figure class="wwd__media reveal">
-          <img src="/assets/images/photo-front-yard-natural-turf.webp" alt="Even natural turf lawn running up to a sleeper retaining wall and planted border at the front of a home" loading="lazy" width="1200" height="900" />
+          <picture><source type="image/webp" srcset="/assets/images/wwd-night-path.webp" width="1080" height="1350" /><img src="/assets/images/wwd-night-path.jpg" alt="Modern home entrance at night with lit exposed-aggregate stepping stones set in pebbles between new garden beds" loading="lazy" width="1080" height="1350" /></picture>
         </figure>
       </div>
     </section>
@@ -532,31 +532,27 @@
       <div class="wrap">
         <div class="section__head reveal">
           <h2 id="work-h">Real projects. <em class="accent-i">Real results.</em></h2>
-          <p class="lead">See how tired lawns and unfinished outdoor areas become practical, polished spaces designed for everyday living.</p>
+          <p class="lead">What Melbourne homeowners say about working with us — straight from our Google reviews.</p>
         </div>
-        <div class="mosaic reveal">
-          <figure class="mosaic__img mosaic__img--tall">
-            <img src="/assets/images/photo-front-garden-pergola.webp" alt="Front garden with timber pergola arch, stepping stones and potted olive trees" loading="lazy" width="1200" height="1500" />
-            <figcaption>Outdoor Transformations</figcaption>
-          </figure>
-          <div class="mosaic__stat" data-nosnippet>
-            <strong>4.8<span class="mosaic__of">/5</span></strong>
-            <div class="mosaic__stars" aria-label="Rated 4.8 out of 5 stars">★★★★★</div>
+        <!-- Google reviews: compact swipeable strip. Cards are rendered by
+             main.js from its REVIEWS array (text-only for now; a `photo` field
+             on an entry adds an image slot to that card). -->
+        <div class="reviews reveal" data-reviews>
+          <p class="reviews__proof" data-nosnippet>
+            <strong>4.8<span class="reviews__of">/5</span></strong>
+            <span class="reviews__proof-stars" aria-label="Rated 4.8 out of 5 stars">★★★★★</span>
             <span>Based on 17 Google reviews</span>
+            <a href="https://www.google.com/maps/place/Turf+And+Landscaping/@-37.7205191,144.8823457,10z/data=!4m8!3m7!1s0x6ac0798ccb3a92f1:0xd24aee4a9f550228!8m2!3d-37.7205191!4d144.8823457!9m1!1b1!16s%2Fg%2F11x6yqvljl?hl=en-GB" target="_blank" rel="noopener">Read them on Google</a>
+          </p>
+          <div class="reviews__scroller">
+            <button class="reviews__btn reviews__btn--prev" type="button" data-reviews-prev aria-label="Previous reviews"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+            <ul class="reviews__track" data-reviews-track aria-label="Customer reviews">
+              <noscript><li class="review review--static"><p>Our latest customer reviews are on <a href="https://www.google.com/maps/place/Turf+And+Landscaping/@-37.7205191,144.8823457,10z/data=!4m8!3m7!1s0x6ac0798ccb3a92f1:0xd24aee4a9f550228!8m2!3d-37.7205191!4d144.8823457!9m1!1b1!16s%2Fg%2F11x6yqvljl?hl=en-GB" target="_blank" rel="noopener">Google</a>.</p></li></noscript>
+            </ul>
+            <button class="reviews__btn reviews__btn--next" type="button" data-reviews-next aria-label="Next reviews"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
           </div>
-          <div class="mosaic__quote">
-            <span class="mosaic__qmark" aria-hidden="true">&ldquo;</span>
-            <blockquote>Punctual, tidy and finished properly — that's the standard every job is held to.</blockquote>
-            <cite><a href="https://www.google.com/maps/place/Turf+And+Landscaping/@-37.7205191,144.8823457,10z/data=!4m8!3m7!1s0x6ac0798ccb3a92f1:0xd24aee4a9f550228!8m2!3d-37.7205191!4d144.8823457!9m1!1b1!16s%2Fg%2F11x6yqvljl?hl=en-GB" target="_blank" rel="noopener">Read our Google reviews</a></cite>
-          </div>
-          <figure class="mosaic__img">
-            <img src="/assets/images/photo-firepit-courtyard.webp" alt="Paver courtyard with a fire pit surrounded by garden beds" loading="lazy" width="1200" height="900" />
-            <figcaption>Paths &amp; Outdoor Living</figcaption>
-          </figure>
-          <figure class="mosaic__img">
-            <img src="/assets/images/photo-front-yard-transformation.webp" alt="Front yard transformation with new turf, white pebble path and red mulch" loading="lazy" width="1200" height="900" />
-            <figcaption>Custom Landscaping</figcaption>
-          </figure>
+        </div>
+        <div class="reviews__cta reveal">
           <div class="mosaic__cta">
             <div>
               <h3>Planning your own outdoor transformation?</h3>
@@ -578,7 +574,7 @@
             <p class="wwa__body">We work across residential and commercial properties, combining practical advice, careful preparation and dependable workmanship from the first site visit through to the final clean-up.</p>
           </div>
           <figure class="wwa__media wwa__media--wide reveal">
-            <img src="/assets/images/photo-lit-stepping-stones.webp" alt="Stepping-stone path with landscape lighting at dusk" loading="lazy" width="1200" height="900" />
+            <picture><source type="image/webp" srcset="/assets/images/wwa-school-turf-crew.webp" width="1200" height="825" /><img src="/assets/images/wwa-school-turf-crew.jpg" alt="Bastiano Landscaping crew laying instant turf rolls across a school playground" loading="lazy" width="1200" height="825" /></picture>
           </figure>
         </div>
 

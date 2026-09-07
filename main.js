@@ -394,3 +394,49 @@
     });
   });
 })();
+
+/* ---------- Google reviews strip ----------
+   Static data, no API. Native scroll-snap handles swiping; this only renders
+   the cards and wires the desktop prev/next arrows. Add a `photo` (URL) to an
+   entry to give that card an image slot. */
+(function () {
+  var REVIEWS = [
+    { name: "Elly B.", quote: "Buffalo turf is looking amazing. My boxer loves it and he also loved Seb. Nice friendly guy and very reasonably priced. Highly recommend!" },
+    { name: "Elizabeth", quote: "Messaged Sebastian Monday and the turf was ordered and installed on Wednesday! Looks great and couldn't be happier." },
+    { name: "Anthony S.", quote: "Very happy with the result, the turf looks great! Great communication and recommendations for after care. 10/10 thanks Sebi." },
+    { name: "Elyse T.", quote: "Looks amazing, brilliant job! My dogs are very happy with their new grass to run around!" },
+    { name: "Damon B.", quote: "Highly recommended for fast efficient turf laying \u2014 on time, prompt and reliable in the whole process." },
+    { name: "Joseph A.", quote: "Bastiano did an amazing job from start to finish. The grass looks absolutely fantastic. Highly recommend if you're after great quality turf." },
+    { name: "Globe Atlas", quote: "Extremely happy with the job. Reliable, honest and most importantly trustworthy. I'll have them attending all my landscaping work from now on." },
+    { name: "Burhaan T.", quote: "Really happy with the work. The turf has taken well and the job looks professional at a great price." },
+    { name: "Stephen-Octav F.", quote: "Sebi and his team did a great job. Easy to deal with, on time, and left the site clean. Would recommend." }
+  ];
+  var root = document.querySelector("[data-reviews]");
+  if (!root) return;
+  var track = root.querySelector("[data-reviews-track]");
+  var prev = root.querySelector("[data-reviews-prev]");
+  var next = root.querySelector("[data-reviews-next]");
+  var STAR = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.6 7.2.6-5.4 4.8 1.6 7-6.4-3.8L5.2 21l1.6-7L1.4 9.2l7.2-.6z"/></svg>';
+  var G = '<svg class="review__g" viewBox="0 0 24 24" role="img" aria-label="Google review"><circle cx="12" cy="12" r="11" fill="#fff" stroke="#e2dcc9"/><text x="12" y="16.6" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="700" fill="#4285f4">G</text></svg>';
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  track.innerHTML = REVIEWS.map(function (r) {
+    return '<li class="review' + (r.photo ? " review--photo" : "") + '">' +
+      (r.photo ? '<figure class="review__photo"><img src="' + esc(r.photo) + '" alt="" loading="lazy" /></figure>' : "") +
+      '<div class="review__top"><span class="review__stars" aria-label="Rated 5 out of 5 stars">' + STAR + STAR + STAR + STAR + STAR + '</span>' + G + '</div>' +
+      '<blockquote class="review__text">' + esc(r.quote) + '</blockquote>' +
+      '<footer class="review__who"><strong>' + esc(r.name) + '</strong><span>Google review</span></footer>' +
+      '</li>';
+  }).join("");
+
+  var step = function () { var c = track.children; return c.length > 1 ? c[1].offsetLeft - c[0].offsetLeft : track.clientWidth; };
+  var sync = function () {
+    var max = track.scrollWidth - track.clientWidth - 1;
+    if (prev) prev.disabled = track.scrollLeft <= 0;
+    if (next) next.disabled = track.scrollLeft >= max;
+  };
+  if (prev) prev.addEventListener("click", function () { track.scrollBy({ left: -step() * 2, behavior: "smooth" }); });
+  if (next) next.addEventListener("click", function () { track.scrollBy({ left: step() * 2, behavior: "smooth" }); });
+  track.addEventListener("scroll", sync, { passive: true });
+  window.addEventListener("resize", sync);
+  sync();
+})();
