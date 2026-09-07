@@ -47,8 +47,8 @@
 
   <link rel="icon" href="/assets/favicon.png?v=3" type="image/png" sizes="192x192" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180" />
-  <link rel="preload" as="image" href="/assets/images/hero-backyard-transformation.webp" media="(min-width: 820px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="/assets/images/hero-backyard-transformation-mobile.webp" media="(max-width: 819px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/images/hero-frontyard-lawn-flower-borders.webp" media="(min-width: 820px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/images/hero-frontyard-lawn-flower-borders-mobile.webp" media="(max-width: 819px)" fetchpriority="high" />
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-800.woff2" crossorigin />
   <link rel="stylesheet" href="/style.css" />
 
@@ -270,15 +270,17 @@
     <!-- ============ HERO ============ -->
     <section class="hero" aria-label="Introduction">
       <div class="hero__media">
-        <!-- Two crops of assets/images/upscalemedia-transformed.webp:
-             a wide band (sky down to the raised beds) for desktop and a tall
-             crop for phones. Both are cut left of / above the gardening gloves
-             in the source's bottom-right corner. -->
+        <!-- Two crops of the front-yard photo (turf images web/
+             photo-frontyard-lawn-flower-borders.webp, 878x1078), upscaled 2x
+             with Real-ESRGAN x4plus to 1756x2156 before cropping: a wide band
+             (picket fence, roses, lawn, rose bed) for desktop and a tall crop
+             for phones. WebP first, JPG fallback for browsers without WebP. -->
         <picture>
-          <source media="(max-width: 819px)" srcset="/assets/images/hero-backyard-transformation-mobile.webp" width="1080" height="1920" />
-          <img src="/assets/images/hero-backyard-transformation.webp"
-               alt="Completed backyard transformation in Melbourne with fresh turf, stepping-stone path, raised garden beds and planting."
-               width="1638" height="922" fetchpriority="high" />
+          <source media="(max-width: 819px)" type="image/webp" srcset="/assets/images/hero-frontyard-lawn-flower-borders-mobile.webp" width="1080" height="1920" />
+          <source type="image/webp" srcset="/assets/images/hero-frontyard-lawn-flower-borders.webp" width="1756" height="988" />
+          <img src="/assets/images/hero-frontyard-lawn-flower-borders.jpg"
+               alt="Newly landscaped front yard in Melbourne's west with fresh turf, rose garden beds and white picket fence by Bastiano Landscaping"
+               width="1756" height="988" fetchpriority="high" />
         </picture>
       </div>
       <div class="wrap hero__inner">
@@ -342,7 +344,7 @@
 
         <div class="sol-grid2 reveal">
           <article class="sol-item">
-            <figure><img src="/assets/images/photo-natural-turf-flower-border.webp" alt="New natural lawn beside a flower border in a front yard" loading="lazy" width="1200" height="900" /></figure>
+            <figure><picture><source type="image/webp" srcset="/assets/images/card-turf-installation.webp" width="1480" height="832" /><img src="/assets/images/card-turf-installation.jpg" alt="Front yard transformed with new turf and a curved brick path by Bastiano Landscaping" loading="lazy" width="1480" height="832" /></picture></figure>
             <div class="sol-item__head"><span class="sol-num" aria-hidden="true">02</span><h3>New Lawn Installation &amp; Replacement</h3></div>
             <p>A fresh, healthy lawn with properly prepared natural or synthetic turf.</p>
             <a class="sol-link" href="/services/turf-installation">View Solution <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -354,7 +356,7 @@
             <a class="sol-link" href="/services/hard-landscaping">View Solution <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           </article>
           <article class="sol-item">
-            <figure><img src="/assets/images/photo-front-yard-after.webp" alt="Finished front yard with new garden beds, stone path and layered planting" loading="lazy" width="1200" height="900" /></figure>
+            <figure><picture><source type="image/webp" srcset="/assets/images/card-garden-improvements.webp" width="1480" height="832" /><img src="/assets/images/card-garden-improvements.jpg" alt="Backyard garden with planted borders, raised veg beds and stepping-stone path by Bastiano Landscaping" loading="lazy" width="1480" height="832" /></picture></figure>
             <div class="sol-item__head"><span class="sol-num" aria-hidden="true">04</span><h3>Garden Improvements</h3></div>
             <p>Refresh an existing yard with new garden beds, plants, mulch, edging and practical improvements.</p>
             <a class="sol-link" href="/services/garden-planting">View Solution <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -415,7 +417,7 @@
         </div>
         <div class="svc-cards">
           <a class="svc-card reveal" href="/services/natural-turf-installation">
-            <figure class="svc-card__media"><img src="/assets/images/photo-rose-garden-turf.webp" alt="Fresh natural turf bordered by roses behind a white picket fence" loading="lazy" width="1200" height="900" /></figure>
+            <figure class="svc-card__media"><picture><source type="image/webp" srcset="/assets/images/svc-natural-turf.webp" width="1200" height="900" /><img src="/assets/images/svc-natural-turf.jpg" alt="Bastiano Landscaping crew laying fresh natural turf rolls across a prepared Melbourne backyard" loading="lazy" width="1200" height="900" /></picture></figure>
             <div class="svc-card__body">
               <h3>Natural Turf</h3>
               <p>Instant natural turf supplied and laid on properly prepared, level ground.</p>
@@ -431,7 +433,7 @@
             </div>
           </a>
           <a class="svc-card reveal" href="/services/complete-landscape-transformations">
-            <figure class="svc-card__media"><img src="/assets/images/ill-custom-landscaping.webp" alt="Landscaped garden with paved path, raised beds, deck and evening lighting" loading="lazy" width="1200" height="900" /></figure>
+            <figure class="svc-card__media"><picture><source type="image/webp" srcset="/assets/images/svc-custom-landscaping.webp" width="1200" height="900" /><img src="/assets/images/svc-custom-landscaping.jpg" alt="Custom landscaped front yard with timber deck steps, new lawn and a potted feature tree by Bastiano Landscaping" loading="lazy" width="1200" height="900" /></picture></figure>
             <div class="svc-card__body">
               <h3>Custom Landscaping</h3>
               <p>Complete yard designs built around your property, from structure to planting.</p>
@@ -439,7 +441,7 @@
             </div>
           </a>
           <a class="svc-card reveal" href="/services/paving">
-            <figure class="svc-card__media"><img src="/assets/images/ill-firepit-garden.webp" alt="Flagstone path and gravel seating circle framed by garden beds and lighting" loading="lazy" width="1200" height="900" /></figure>
+            <figure class="svc-card__media"><picture><source type="image/webp" srcset="/assets/images/svc-pavers-stepping.webp" width="1200" height="900" /><img src="/assets/images/svc-pavers-stepping.jpg" alt="Stepping-stone path set in white pebbles beside timber raised vegetable beds and new lawn" loading="lazy" width="1200" height="900" /></picture></figure>
             <div class="svc-card__body">
               <h3>Pavers &amp; Stepping Stones</h3>
               <p>Paths and paved areas laid dead level on a proper compacted base.</p>
@@ -447,7 +449,7 @@
             </div>
           </a>
           <a class="svc-card reveal" href="/services/retaining-walls">
-            <figure class="svc-card__media"><img src="/assets/images/photo-timber-retaining-wall.webp" alt="Timber sleeper retaining wall planter with flowers along a front lawn" loading="lazy" width="1200" height="900" /></figure>
+            <figure class="svc-card__media"><picture><source type="image/webp" srcset="/assets/images/svc-retaining-walls.webp" width="1200" height="900" /><img src="/assets/images/svc-retaining-walls.jpg" alt="Timber sleeper retaining wall holding a freshly turfed side yard level beside the house" loading="lazy" width="1200" height="900" /></picture></figure>
             <div class="svc-card__body">
               <h3>Retaining Walls</h3>
               <p>Timber and sleeper walls that turn slopes into level, usable ground.</p>
@@ -455,7 +457,7 @@
             </div>
           </a>
           <a class="svc-card reveal" href="/services/hard-landscaping">
-            <figure class="svc-card__media"><img src="/assets/images/photo-raised-garden-beds.webp" alt="Stacked stone-block raised garden beds with clean edging and fresh soil" loading="lazy" width="1200" height="900" /></figure>
+            <figure class="svc-card__media"><picture><source type="image/webp" srcset="/assets/images/svc-hard-landscaping.webp" width="1200" height="900" /><img src="/assets/images/svc-hard-landscaping.jpg" alt="Timber deck and sleeper planter with screening trees along the fence, finished with new lawn" loading="lazy" width="1200" height="900" /></picture></figure>
             <div class="svc-card__body">
               <h3>Hard Landscaping</h3>
               <p>Edging, pebbles, paths and structural work that frame the whole yard.</p>
