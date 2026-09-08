@@ -272,7 +272,6 @@ module.exports = {
     {
       slug: "paving",
       name: "Pavers & Stepping Stones",
-      hideFromHub: false,
       short: "Paving",
       tagline: "Patios, paths and entertaining areas laid dead level on a compacted base — built to stay that way.",
       image: P.pavingCard,
@@ -324,7 +323,6 @@ module.exports = {
     /* ================= 6. STEPPING STONE PATHS ================= */
     {
       slug: "stepping-stone-paths",
-      hideFromHub: true, // still a live page; only hidden from the /services hub
       name: "Stepping-Stone Paths",
       short: "Stepping Stones",
       tagline: "Practical, beautiful paths through lawns and gardens — set level, spaced right, built to walk on.",
@@ -374,7 +372,6 @@ module.exports = {
     /* ================= 7. HARD LANDSCAPING ================= */
     {
       slug: "hard-landscaping",
-      hideFromHub: true, // still a live page; only hidden from the /services hub
       name: "Hard Landscaping",
       short: "Hard Landscaping",
       tagline: "The structural work that shapes a yard — edges, surfaces, walls and levels, built once and built right.",
@@ -426,7 +423,6 @@ module.exports = {
     /* ================= 8. SOFT LANDSCAPING ================= */
     {
       slug: "soft-landscaping",
-      hideFromHub: true, // still a live page; only hidden from the /services hub
       name: "Soft Landscaping",
       short: "Soft Landscaping",
       tagline: "Garden beds, planting and mulch that turn built structure into a living garden.",
@@ -528,7 +524,6 @@ module.exports = {
     /* ================= 10. PLANTS / BEDS / MULCH ================= */
     {
       slug: "plants-garden-beds-mulch",
-      hideFromHub: true, // still a live page; only hidden from the /services hub
       name: "Plants, Garden Beds & Mulch",
       short: "Plants & Mulch",
       tagline: "New beds built properly, the right plants for the spot, and mulch that keeps it all healthy.",

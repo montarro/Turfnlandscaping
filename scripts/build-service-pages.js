@@ -218,13 +218,26 @@ ${ctaBand()}
 ${FOOTER}`;
 }
 
-/* ---------- services hub ---------- */
-function hubCard(s) {
-  return `<a class="pj-card sp-hubcard" href="/services/${s.slug}">
-    <span class="pj-card__media"><img src="${img(s.image)}" alt="" loading="lazy" width="1200" height="900" /></span>
+/* ---------- services hub ----------
+   The hub mirrors the homepage "Our Services" grid (index.html) one-to-one:
+   same seven services, same order, same labels, blurbs and photos. Keep the
+   two lists in sync when a card is added or removed. */
+const HOME_SERVICES = [
+  { slug: "natural-turf-installation", label: "Natural Turf", image: "svc-natural-turf", blurb: "Instant natural turf supplied and laid on properly prepared, level ground." },
+  { slug: "synthetic-turf-installation", label: "Synthetic Turf", image: "svc-synthetic-turf", blurb: "Always-green synthetic lawns with no mowing and no watering." },
+  { slug: "complete-landscape-transformations", label: "Custom Landscaping", image: "svc-custom-landscaping", blurb: "Complete yard designs built around your property, from structure to planting." },
+  { slug: "paving", label: "Pavers &amp; Stepping Stones", image: "svc-pavers-stepping", blurb: "Paths and paved areas laid dead level on a proper compacted base." },
+  { slug: "retaining-walls", label: "Retaining Walls", image: "svc-retaining-walls", blurb: "Timber and sleeper walls that turn slopes into level, usable ground." },
+  { slug: "plants-garden-beds-mulch", label: "Plants &amp; Mulch", image: "ill-plants-mulch", blurb: "Plant selection, quality soil and mulch that keep beds healthy and tidy." },
+  { slug: "property-maintenance", label: "Property &amp; Garden Care", image: "photo-established-lawn-watering", blurb: "Regular mowing, hedging and upkeep that keep a finished yard sharp." },
+];
+function homeHubCard(c) {
+  if (!ALL.some((s) => s.slug === c.slug)) throw new Error(`hub: no service page for ${c.slug}`);
+  return `<a class="pj-card sp-hubcard" href="/services/${c.slug}">
+    <span class="pj-card__media"><img src="${img(c.image)}" alt="" loading="lazy" width="1200" height="900" /></span>
     <span class="pj-card__body">
-      <h3>${s.name.replace(/&/g, "&amp;")}</h3>
-      <p>${s.tagline}</p>
+      <h3>${c.label}</h3>
+      <p>${c.blurb}</p>
       <span class="pj-card__link">Explore ${arrow}</span>
     </span>
   </a>`;
@@ -266,25 +279,12 @@ ${HEADER}
     <section class="section">
       <div class="wrap">
         <div class="section__head">
-          <span class="eyebrow">Build &amp; transform</span>
-          <h2>Turf &amp; landscape construction</h2>
-          <p class="lead">The flagship services that build and transform outdoor spaces.</p>
+          <span class="eyebrow">What we do</span>
+          <h2>Turf, landscaping &amp; property care</h2>
+          <p class="lead">The same seven services shown on our homepage — every one delivered by one accountable team.</p>
         </div>
         <div class="pj-grid">
-          ${DATA.primary.filter((s) => !s.hideFromHub).map(hubCard).join("\n          ")}
-        </div>
-      </div>
-    </section>
-
-    <section class="section section--tint">
-      <div class="wrap">
-        <div class="section__head">
-          <span class="eyebrow">Care &amp; maintain</span>
-          <h2>Property care &amp; maintenance</h2>
-          <p class="lead">Ongoing care that protects the landscaping you've invested in.</p>
-        </div>
-        <div class="pj-grid">
-          ${DATA.secondary.filter((s) => !s.hideFromHub).map(hubCard).join("\n          ")}
+          ${HOME_SERVICES.map(homeHubCard).join("\n          ")}
         </div>
       </div>
     </section>
