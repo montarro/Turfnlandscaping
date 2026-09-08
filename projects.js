@@ -25,15 +25,16 @@
 
   /* ---------- before/after sliders (pointer + touch + keyboard) ---------- */
   document.querySelectorAll("[data-ba]").forEach(function (el) {
-    var after = el.querySelector(".ba__after");
+    var before = el.querySelector(".ba__before");
     var divider = el.querySelector(".ba__divider");
     var handle = el.querySelector(".ba__handle");
-    if (!after || !divider || !handle) return;
+    if (!before || !divider || !handle) return;
     var pct = 50;
     var dragging = false;
 
     function apply() {
-      after.style.clipPath = "inset(0 " + (100 - pct) + "% 0 0)";
+      /* the before photo shows to the left of the divider */
+      before.style.clipPath = "inset(0 " + (100 - pct) + "% 0 0)";
       divider.style.left = pct + "%";
       handle.style.left = pct + "%";
       el.setAttribute("aria-valuenow", String(Math.round(pct)));

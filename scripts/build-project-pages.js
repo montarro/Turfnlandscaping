@@ -180,7 +180,9 @@ function detailPage(p, prev, next) {
       ] },
     ],
   };
-  const hasPair = p.before && p.after;
+  /* A project may carry several labelled comparisons (different angles of
+     the same job); otherwise its single before/after pair is used. */
+  const comparisons = p.comparisons || (p.before && p.after ? [{ before: p.before, after: p.after }] : []);
   return head({
     title: `${p.title} | Bastiano Landscaping`,
     desc: p.summary,
@@ -218,11 +220,13 @@ ${HEADER}
             <p>${p.outcome}</p>
           </div>
 
-          ${hasPair ? CHROME.beforeAfterBlock({
+          ${comparisons.map((c) => CHROME.beforeAfterBlock({
             headingClass: "pj-h2",
-            before: { src: img(p.before.img), alt: p.before.alt },
-            after: { src: img(p.after.img), alt: p.after.alt },
-          }) : ""}
+            heading: c.label ? `Before &amp; after: ${c.label}` : "Before &amp; after",
+            label: c.label ? `Before and after comparison: ${c.label}` : "Before and after comparison",
+            before: { src: img(c.before.img), alt: c.before.alt },
+            after: { src: img(c.after.img), alt: c.after.alt },
+          })).join("\n          ")}
 
           <h2 class="pj-h2">Project gallery</h2>
           <div class="pj-gallery">

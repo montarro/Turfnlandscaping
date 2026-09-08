@@ -127,10 +127,11 @@
   })();
 
   /* Draggable before/after divider: pointer position sets the clip on the
-     "after" image, so dragging right reveals more of the finished job. */
+     "before" image (left of the divider), so dragging left reveals more of
+     the finished job on the right. */
   function initBASlider(el) {
     if (!el) return;
-    var after = el.querySelector(".ba__after");
+    var before = el.querySelector(".ba__before");
     var divider = el.querySelector(".ba__divider");
     var handle = el.querySelector(".ba__handle");
     var dragging = false;
@@ -138,7 +139,7 @@
     function setPos(clientX) {
       var rect = el.getBoundingClientRect();
       var pct = Math.min(96, Math.max(4, ((clientX - rect.left) / rect.width) * 100));
-      after.style.clipPath = "inset(0 " + (100 - pct) + "% 0 0)";
+      before.style.clipPath = "inset(0 " + (100 - pct) + "% 0 0)";
       divider.style.left = pct + "%";
       handle.style.left = pct + "%";
     }
