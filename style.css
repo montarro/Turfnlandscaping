@@ -849,7 +849,7 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
   /* top-level links only (incl. the dropdown trigger) — mega-menu links
      style their own hover */
   .primary-nav > a:hover, .primary-nav > a:focus-visible,
-  .primary-nav .nav-drop > a:hover, .primary-nav .nav-drop > a:focus-visible { background: var(--white-warm); color: var(--forest-800); box-shadow: var(--shadow-sm); }
+  .primary-nav .nav-drop__toggle:hover, .primary-nav .nav-drop__toggle:focus-visible { background: var(--white-warm); color: var(--forest-800); box-shadow: var(--shadow-sm); }
   .nav-toggle { display: none; }
   body { padding-bottom: 0; }
 }
@@ -1118,13 +1118,17 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
    ===================================================================== */
 .nav-drop { position: static; display: flex; align-items: center; }
 .site-header__inner { position: relative; }
+/* One trigger: the "Our Services" label and its chevron live in the same
+   button, styled exactly like the neighbouring top-level links. */
 .nav-drop__toggle {
-  display: inline-flex; align-items: center; justify-content: center;
+  display: inline-flex; align-items: center; gap: .55rem;
   background: none; border: 0; cursor: pointer; color: var(--forest-900);
-  padding: .5rem .4rem; margin-left: -.6rem; border-radius: 999px;
+  font-family: var(--font-display); font-weight: 600; font-size: .93rem; line-height: inherit;
+  white-space: nowrap; padding: .5rem .95rem; border-radius: 999px;
+  transition: background .18s ease, color .18s ease;
 }
-.nav-drop__toggle:hover, .nav-drop__toggle:focus-visible { background: var(--white-warm); box-shadow: var(--shadow-sm); }
-.nav-drop__toggle svg { width: 1rem; height: 1rem; transition: transform .18s ease; }
+.nav-drop__toggle:focus-visible { outline: 2px solid var(--leaf-deep); outline-offset: 2px; }
+.nav-drop__toggle svg { flex: none; width: .9rem; height: .9rem; transition: transform .18s ease; }
 .nav-drop.is-open .nav-drop__toggle svg { transform: rotate(180deg); }
 .nav-drop__menu {
   position: absolute; top: calc(100% + .7rem); left: 50%;
@@ -1156,12 +1160,23 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
   color: var(--leaf-deep); transform: translateX(3px);
   background: none; box-shadow: none;
 }
-.nav-drop__all {
-  grid-column: 1 / -1; display: inline-flex !important; align-items: center; gap: .45rem;
-  margin-top: .5rem; padding-top: .85rem; border-top: 1px solid var(--line);
+/* Compact footer row: spans the panel edge to edge (negative margins undo
+   the panel padding), divider on top, whole row clickable. */
+/* Selectors are scoped under .nav-drop__menu so they outrank the generic
+   `.primary-nav a` pill rule (padding + 999px radius) and the menu-link
+   hover rule — that pill is what made this row look like a big bubble. */
+.nav-drop__menu .nav-drop__all {
+  grid-column: 1 / -1; display: flex; align-items: center; gap: .65rem;
+  margin: .7rem -1.6rem -1.15rem; padding: 1.15rem 1.6rem;
+  border-top: 1px solid var(--line); border-radius: 0 0 10px 10px;
   font-weight: 700; color: var(--forest-800);
+  transition: background .15s ease, color .15s ease;
 }
-.nav-drop__all svg { width: 1rem; height: 1rem; }
+.nav-drop__menu .nav-drop__all svg { flex: none; width: 1rem; height: 1rem; transition: transform .15s ease; }
+.nav-drop__menu .nav-drop__all:hover, .nav-drop__menu .nav-drop__all:focus-visible {
+  background: rgba(46, 81, 56, .06); color: var(--leaf-deep); transform: none; box-shadow: none;
+}
+.nav-drop__menu .nav-drop__all:hover svg, .nav-drop__menu .nav-drop__all:focus-visible svg { transform: translateX(3px); }
 
 /* Mobile services accordion inside the mobile nav */
 .mobile-nav__acc { border: 1px solid var(--line); border-radius: 12px; background: var(--white-warm); margin-bottom: .5rem; overflow: hidden; }
@@ -1345,11 +1360,11 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
 }
 .home .site-header:not(.is-scrolled) .primary-nav { background: transparent; }
 .home .site-header:not(.is-scrolled) .primary-nav > a,
-.home .site-header:not(.is-scrolled) .primary-nav .nav-drop > a { color: #fff; }
+.home .site-header:not(.is-scrolled) .primary-nav .nav-drop__toggle { color: #fff; }
 .home .site-header:not(.is-scrolled) .primary-nav > a:hover,
 .home .site-header:not(.is-scrolled) .primary-nav > a:focus-visible,
-.home .site-header:not(.is-scrolled) .primary-nav .nav-drop > a:hover,
-.home .site-header:not(.is-scrolled) .primary-nav .nav-drop > a:focus-visible { background: rgba(255,255,255,.14); color: #fff; box-shadow: none; }
+.home .site-header:not(.is-scrolled) .primary-nav .nav-drop__toggle:hover,
+.home .site-header:not(.is-scrolled) .primary-nav .nav-drop__toggle:focus-visible { background: rgba(255,255,255,.14); color: #fff; box-shadow: none; }
 .home .site-header:not(.is-scrolled) .nav-drop__toggle { color: #fff; }
 .home .site-header:not(.is-scrolled) .nav-drop__toggle:hover,
 .home .site-header:not(.is-scrolled) .nav-drop__toggle:focus-visible { background: rgba(255,255,255,.14); box-shadow: none; }

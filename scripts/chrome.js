@@ -67,8 +67,7 @@ const HEADER = `
       <nav class="primary-nav" aria-label="Primary">
         <a href="/#who-we-are">Who We Are</a>
         <div class="nav-drop" data-navdrop>
-          <a href="/services">Our Services</a>
-          <button class="nav-drop__toggle" type="button" aria-expanded="false" aria-controls="services-menu" aria-label="Browse services">${chev}</button>
+          <button class="nav-drop__toggle" type="button" aria-expanded="false" aria-controls="services-menu">Our Services ${chev}</button>
           <div class="nav-drop__menu" id="services-menu">
 ${dropColumns}
             <a class="nav-drop__all" href="/services">View All Services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
