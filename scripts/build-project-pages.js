@@ -205,6 +205,22 @@ ${HEADER}
         </div>
       </div>
     </section>
+${comparisons.length ? `
+    <!-- The before/after comparison leads the page: full content width,
+         straight under the hero, ahead of the write-up. -->
+    <section class="section section--tint pj-compare" aria-labelledby="pj-compare-h">
+      <div class="wrap">
+        ${comparisons.map((c, i) => CHROME.beforeAfterBlock({
+          heading: i === 0 ? (c.label ? `Before &amp; after: ${c.label}` : "Before &amp; after") : `Another angle: ${c.label}`,
+          headingClass: i === 0 ? "pj-compare__h" : "pj-compare__h pj-compare__h--sub",
+          headingId: i === 0 ? "pj-compare-h" : "",
+          label: c.label ? `Before and after comparison: ${c.label}` : "Before and after comparison",
+          eager: i === 0,
+          before: { src: img(c.before.img), alt: c.before.alt },
+          after: { src: img(c.after.img), alt: c.after.alt },
+        })).join("\n        ")}
+      </div>
+    </section>` : ""}
 
     <section class="section">
       <div class="wrap pj-layout">
@@ -223,14 +239,6 @@ ${HEADER}
             <h2>The result</h2>
             <p>${p.outcome}</p>
           </div>
-
-          ${comparisons.map((c) => CHROME.beforeAfterBlock({
-            headingClass: "pj-h2",
-            heading: c.label ? `Before &amp; after: ${c.label}` : "Before &amp; after",
-            label: c.label ? `Before and after comparison: ${c.label}` : "Before and after comparison",
-            before: { src: img(c.before.img), alt: c.before.alt },
-            after: { src: img(c.after.img), alt: c.after.alt },
-          })).join("\n          ")}
 
           <h2 class="pj-h2">Project gallery</h2>
           <div class="pj-gallery">
