@@ -113,6 +113,10 @@ function card(p) {
 }
 
 /* ---------- hub page ---------- */
+/* Hero background: the client's turf-farm photo (mown rows to the horizon),
+   cut 16:9 from the top of the frame so the mower deck is out of shot —
+   the same cut that briefly served as the homepage hero. */
+const HUB_HERO = "hero-projects-turf-farm";
 function hubPage() {
   const canonical = `${SITE}/projects`;
   const ld = {
@@ -129,12 +133,12 @@ function hubPage() {
   return head({
     title: "Completed Landscaping Projects Melbourne | Bastiano Landscaping",
     desc: "Real completed projects: turf installation, retaining walls, planters and garden transformations across Melbourne's west and inner suburbs. See the work for yourself.",
-    canonical, image: img(PROJECTS[0].hero), ld,
+    canonical, image: img(HUB_HERO), ld,
   }) + `
 ${HEADER}
   <main id="main">
     <section class="page-hero">
-      <div class="page-hero__media"><img src="${img(PROJECTS[0].hero)}" alt="" width="1200" height="900" fetchpriority="high" /></div>
+      <div class="page-hero__media"><img src="${img(HUB_HERO)}" alt="" width="1920" height="1080" fetchpriority="high" /></div>
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Projects</nav>
         <h1>Real Projects. <em class="accent-i">Built Properly.</em></h1>
