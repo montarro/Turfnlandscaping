@@ -129,7 +129,7 @@ function servicePage(s) {
     body += CHROME.beforeAfterBlock({
       before: { src: img(ba.before.img), alt: ba.before.alt },
       after: { src: img(ba.after.img), alt: ba.after.alt },
-      intro: `${ba.note} <a href="${ba.link}">View the full project</a>.`,
+      intro: ba.link ? `${ba.note} <a href="${ba.link}">View the full project</a>.` : ba.note,
     });
   }
   body += `<div class="prose">`;

@@ -35,6 +35,12 @@ const NATURAL_TURF_BA = {
   link: "/projects/natural-turf-installation",
 };
 
+const SYNTHETIC_BA = {
+  before: { img: "proj-synthetic-sideyard-before", alt: "Before: a bare soil strip between the deck and the sleeper garden bed" },
+  after: { img: "photo-synthetic-turf-covered-deck", alt: "After: synthetic turf laid along the same strip beside the covered deck" },
+  note: "A genuine before and after from a side-yard synthetic turf installation beside a covered deck.",
+};
+
 const PLANTER_BA = {
   before: { img: P.planterBefore, alt: "Before: weed-covered mound in front of a new build" },
   after: { img: P.planterAfter, alt: "After: raised sleeper planter with fresh turf, pebbles and flowers" },
@@ -146,10 +152,14 @@ module.exports = {
         ["Can it go over concrete?", "Often, yes — with the right drainage and padding approach. We'll assess the slab and falls on-site before recommending it."],
       ],
       gallery: [
-        { img: P.synthetic, alt: "Dense synthetic lawn with timber edging and pebble border" },
+        { img: "svc-synthetic-turf", alt: "Synthetic turf courtyard beside a merbau deck and black balcony railing" },
+        { img: "photo-synthetic-turf-brick-courtyard", alt: "Synthetic turf with red mulch borders in a narrow brick courtyard" },
+        { img: "photo-synthetic-turf-fenced-sideyard", alt: "Synthetic turf filling a fenced side yard wall to wall" },
+        { img: "photo-synthetic-turf-covered-deck", alt: "Synthetic turf strip between a covered deck and a sleeper garden bed" },
+        { img: "photo-synthetic-turf-front-path", alt: "Curved synthetic front lawn beside a brick path and driveway" },
         { img: P.synthetic2, alt: "Close view of a finished synthetic lawn's natural-looking pile" },
-        { img: P.sideGarden, alt: "Synthetic turf side garden with stepping stones and climbing flowers" },
       ],
+      beforeAfter: SYNTHETIC_BA,
       related: ["natural-turf-installation", "turf-preparation-levelling-drainage", "hard-landscaping", "garden-care"],
     },
 
