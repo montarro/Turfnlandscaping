@@ -36,7 +36,7 @@ const SERVICE_GROUPS = [
       ["/services/lawn-mowing", "Lawn Mowing"],
       ["/services/property-maintenance", "Property Maintenance"],
       ["/services/garden-care", "Garden Care"],
-      ["/services/irrigation-repairs", "Irrigation Repairs"],
+      ["/services/irrigation-repairs", "Irrigation Installation &amp; Repairs"],
       ["/services/weed-control-spraying", "Weed Control &amp; Spraying"],
       ["/services/hedge-trimming-pruning", "Hedge Trimming &amp; Pruning"],
     ],

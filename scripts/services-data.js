@@ -729,11 +729,11 @@ module.exports = {
     /* ================= 14. IRRIGATION REPAIRS ================= */
     {
       slug: "irrigation-repairs",
-      name: "Irrigation System Repairs",
+      name: "Irrigation Installation & Repairs",
       short: "Irrigation",
-      tagline: "Find the fault, fix it properly, and get water landing where it should again.",
+      tagline: "New irrigation systems installed, and existing ones fixed properly, so water lands where it should.",
       image: P.turfCard,
-      intro: "Broken heads, leaking lines, dead zones and controllers nobody remembers how to program — irrigation problems waste water and quietly kill the lawn and garden they were meant to protect. We find the fault and fix it properly.",
+      intro: "Broken heads, leaking lines, dead zones and controllers nobody remembers how to program — irrigation problems waste water and quietly kill the lawn and garden they were meant to protect. We install new drip and pop-up systems, and find and fix faults in existing ones.",
       maintenance: {
         oneOff: "Most irrigation work is a diagnose-and-repair visit: find the fault, fix or replace the failed parts, reset the controller, test coverage.",
         recurring: "Seasonal checks — spring start-up and summer settings — catch small failures before they cost you a lawn in January.",
@@ -742,6 +742,7 @@ module.exports = {
         custom: "If your system needs more than repair, we'll say so plainly and quote options rather than billing endless small fixes.",
       },
       included: [
+        "New drip and pop-up sprinkler systems for lawns and garden beds",
         "Fault-finding across zones, valves and controllers",
         "Replacing broken heads, risers and fittings",
         "Repairing cut or leaking lines",
