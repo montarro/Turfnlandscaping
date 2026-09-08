@@ -271,9 +271,10 @@
     <section class="hero" aria-label="Introduction">
       <div class="hero__media">
         <!-- Desktop: the front-yard photo (assets/images/frontyard hero.webp,
-             878x1078), resized 2x with Lanczos plus light sharpening (no GAN
-             upscaler — Real-ESRGAN painted synthetic grass), cropped to the
-             middle band (street houses, picket fence and roses, lawn, rose bed).
+             878x1078) at native resolution, no upscaling or sharpening (both
+             a GAN upscale and a sharpened 2x resize made the grass read as
+             rendered), cropped to the lower band from y=410 (picket fence and
+             roses, lawn, raised bed, rose border).
              Phones: a different photo — the stepping-stone path (retaining web/
              image 4.webp, 819x1102), resized the same way to 1638x2204 and cut
              9:16 down the left edge so the path leads to the raised veg bed.
@@ -281,11 +282,11 @@
              swapped to match on phones by the small script below. -->
         <picture>
           <source media="(max-width: 819px)" type="image/webp" srcset="/assets/images/hero-stepping-stone-path-mobile.webp" width="1080" height="1920" />
-          <source type="image/webp" srcset="/assets/images/hero-frontyard-lawn-flower-borders.webp" width="1756" height="988" />
+          <source type="image/webp" srcset="/assets/images/hero-frontyard-lawn-flower-borders.webp" width="878" height="494" />
           <img src="/assets/images/hero-frontyard-lawn-flower-borders.jpg"
                alt="Newly landscaped front yard in Melbourne's west with fresh turf, rose garden beds and white picket fence by Bastiano Landscaping"
                data-alt-mobile="Bluestone stepping-stone path with white pebble borders leading past a new lawn to a raised vegetable bed, landscaped by Bastiano Landscaping"
-               width="1756" height="988" fetchpriority="high" />
+               width="878" height="494" fetchpriority="high" />
         </picture>
         <script>(function(){var i=document.querySelector(".hero__media img");if(!i)return;var d=i.getAttribute("alt"),m=i.getAttribute("data-alt-mobile"),q=window.matchMedia("(max-width: 819px)");function s(){i.setAttribute("alt",q.matches?m:d);}s();q.addEventListener?q.addEventListener("change",s):q.addListener(s);})();</script>
       </div>
