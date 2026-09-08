@@ -271,7 +271,7 @@ ${HEADER}
           <p class="lead">The flagship services that build and transform outdoor spaces.</p>
         </div>
         <div class="pj-grid">
-          ${DATA.primary.map(hubCard).join("\n          ")}
+          ${DATA.primary.filter((s) => !s.hideFromHub).map(hubCard).join("\n          ")}
         </div>
       </div>
     </section>
@@ -284,7 +284,7 @@ ${HEADER}
           <p class="lead">Ongoing care that protects the landscaping you've invested in.</p>
         </div>
         <div class="pj-grid">
-          ${DATA.secondary.map(hubCard).join("\n          ")}
+          ${DATA.secondary.filter((s) => !s.hideFromHub).map(hubCard).join("\n          ")}
         </div>
       </div>
     </section>
