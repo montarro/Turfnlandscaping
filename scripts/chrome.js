@@ -165,12 +165,10 @@ const FOOTER = `
           </ul>
         </div>
       </div>
-      <!-- PLACEHOLDER: no Montarro website URL exists in this repo or its config.
-           Replace https://REPLACE-WITH-MONTARRO-WEBSITE-URL here AND in the
-           hand-written footers (index.html, 404.html, quote.html,
-           privacy-policy.html) with the real address. -->
+      <!-- Montarro credit link (montarro.com) is repeated in the hand-written
+           footers: index.html, 404.html, quote.html, privacy-policy.html. -->
       <div class="footer__bottom">
-        <span>© <span id="year">2026</span> Bastiano Landscaping · <a class="footer__legal" href="/privacy-policy">Privacy Policy</a><span class="footer__credit"><span class="footer__credit-sep" aria-hidden="true"> · </span>Created by <a class="footer__credit-link" href="https://REPLACE-WITH-MONTARRO-WEBSITE-URL" target="_blank" rel="noopener noreferrer" aria-label="Website created by Montarro">MONTARRO <span aria-hidden="true">↗</span></a></span></span>
+        <span>© <span id="year">2026</span> Bastiano Landscaping · <a class="footer__legal" href="/privacy-policy">Privacy Policy</a><span class="footer__credit"><span class="footer__credit-sep" aria-hidden="true"> · </span>Created by <a class="footer__credit-link" href="https://montarro.com" target="_blank" rel="noopener noreferrer" aria-label="Website created by Montarro">MONTARRO <span aria-hidden="true">↗</span></a></span></span>
         <span>Melbourne's West • Inner City • Inner North • Inner East &amp; Bayside · <a class="footer__admin" href="/admin">Admin</a></span>
       </div>
     </div>
