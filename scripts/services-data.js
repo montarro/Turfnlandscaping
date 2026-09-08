@@ -28,6 +28,13 @@ const P = {
   bannerYard: "project-garden-path",
 };
 
+const NATURAL_TURF_BA = {
+  before: { img: "proj-naturalturf-before", alt: "Before: the front garden stripped back to bare, uneven soil with timber offcuts left across it" },
+  after: { img: "proj-naturalturf-after", alt: "After: an even natural turf lawn across the full front garden up to the picket fence" },
+  note: "A genuine before and after from our natural turf installation project — see the full case study on our Projects page.",
+  link: "/projects/natural-turf-installation",
+};
+
 const PLANTER_BA = {
   before: { img: P.planterBefore, alt: "Before: weed-covered mound in front of a new build" },
   after: { img: P.planterAfter, alt: "After: raised sleeper planter with fresh turf, pebbles and flowers" },
@@ -43,7 +50,7 @@ module.exports = {
       name: "Natural Turf Supply & Installation",
       short: "Natural Turf",
       tagline: "Fresh, hard-wearing natural lawns supplied and laid to suit your soil, sun and lifestyle.",
-      image: P.planterAfter,
+      image: "photo-front-yard-natural-turf",
       intro: "Nothing beats real grass underfoot. We supply and lay quality natural turf over properly prepared, graded and drained ground, so your new lawn takes root quickly and stands up to Melbourne summers, kids and pets.",
       whoFor: "Ideal for family backyards that get real use, front lawns that carry the home's street appeal, and new builds starting from bare soil. If your block gets reasonable sun and you don't mind mowing, natural turf gives the best feel and looks of any surface.",
       problems: [
@@ -83,11 +90,14 @@ module.exports = {
         ["Can you remove my old lawn first?", "Yes — old turf removal, weed treatment and disposal are part of the job when needed, so you get a clean start."],
       ],
       gallery: [
-        { img: P.planterAfter, alt: "Fresh natural turf laid inside a raised sleeper planter" },
-        { img: P.sleeper2, alt: "New natural lawn behind a stained sleeper retaining wall" },
-        { img: P.litpath2, alt: "Instant turf and planter beds with garden lighting at dusk" },
+        { img: "photo-natural-turf-slabs-stacked", alt: "Fresh natural turf slabs stacked on prepared soil, ready to lay" },
+        { img: "photo-school-turf-crew-laying", alt: "Our crew laying natural turf rolls across school grounds" },
+        { img: "photo-backyard-lawn-sprinkler", alt: "Sprinkler watering in a large new natural lawn in a family backyard" },
+        { img: "photo-nature-strip-new-turf", alt: "New natural turf laid on a nature strip in a housing estate" },
+        { img: "photo-backyard-turf-brick-wall", alt: "Newly laid natural turf in a backyard beside a brick boundary wall" },
+        { img: "photo-frontyard-timber-steps-lawn", alt: "New natural lawn beside merbau steps at the front of a home" },
       ],
-      beforeAfter: PLANTER_BA,
+      beforeAfter: NATURAL_TURF_BA,
       related: ["synthetic-turf-installation", "turf-preparation-levelling-drainage", "turf-repair-patching", "lawn-mowing"],
     },
 
