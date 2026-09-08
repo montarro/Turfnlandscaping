@@ -747,12 +747,26 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
   transition: background .18s ease, transform .12s ease;
 }
 .footer__socials a:hover { background: rgba(255,255,255,.16); transform: translateY(-2px); }
-.footer__socials svg { width: 19px; height: 19px; color: #e4ecdf; }
+.footer__socials svg { width: 22px; height: 22px; color: #e4ecdf; display: block; transition: color .18s ease; }
+.footer__socials a:hover svg, .footer__socials a:focus-visible svg { color: var(--leaf); }
 .footer__cta { margin-top: 1.4rem; }
 .footer__bottom {
   margin-top: 2.6rem; padding-top: 1.4rem; border-top: 1px solid var(--line-on-dark);
   display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; justify-content: space-between;
   font-size: .85rem; color: #93a88d;
+}
+/* "Created by MONTARRO ↗" — plain text in the bottom row, muted label,
+   slightly heavier spaced-out name, green accent on hover. */
+.footer__credit { font-size: .72rem; color: #93a88d; white-space: nowrap; }
+.footer__credit-link {
+  font-weight: 600; letter-spacing: .08em; color: #e4ecdf; text-decoration: none;
+  transition: color .18s ease;
+}
+.site-footer .footer__credit-link:hover, .site-footer .footer__credit-link:focus-visible { color: var(--leaf); text-decoration: none; }
+@media (max-width: 819px) {
+  .footer__credit { display: block; text-align: center; margin-top: .55rem; white-space: normal; }
+  .footer__credit-sep { display: none; }
+  .footer__bottom > span:first-child { width: 100%; text-align: center; }
 }
 
 
