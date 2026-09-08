@@ -185,7 +185,8 @@ function detailPage(p, prev, next) {
     ],
   };
   /* A project may carry several labelled comparisons (different angles of
-     the same job); otherwise its single before/after pair is used. */
+     the same job); otherwise its single before/after pair is used. They
+     open the main column, ahead of The brief, in the standard slider. */
   const comparisons = p.comparisons || (p.before && p.after ? [{ before: p.before, after: p.after }] : []);
   return head({
     title: `${p.title} | Bastiano Landscaping`,
@@ -205,26 +206,17 @@ ${HEADER}
         </div>
       </div>
     </section>
-${comparisons.length ? `
-    <!-- The before/after comparison leads the page: full content width,
-         straight under the hero, ahead of the write-up. -->
-    <section class="section section--tint pj-compare" aria-labelledby="pj-compare-h">
-      <div class="wrap">
-        ${comparisons.map((c, i) => CHROME.beforeAfterBlock({
-          heading: i === 0 ? (c.label ? `Before &amp; after: ${c.label}` : "Before &amp; after") : `Another angle: ${c.label}`,
-          headingClass: i === 0 ? "pj-compare__h" : "pj-compare__h pj-compare__h--sub",
-          headingId: i === 0 ? "pj-compare-h" : "",
-          label: c.label ? `Before and after comparison: ${c.label}` : "Before and after comparison",
-          eager: i === 0,
-          before: { src: img(c.before.img), alt: c.before.alt },
-          after: { src: img(c.after.img), alt: c.after.alt },
-        })).join("\n        ")}
-      </div>
-    </section>` : ""}
-
     <section class="section">
       <div class="wrap pj-layout">
         <div>
+          ${comparisons.map((c, i) => CHROME.beforeAfterBlock({
+            heading: i === 0 ? (c.label ? `Before &amp; after: ${c.label}` : "Before &amp; after") : `Another angle: ${c.label}`,
+            headingClass: i === 0 ? "pj-lead-h" : "pj-h2",
+            eager: i === 0,
+            label: c.label ? `Before and after comparison: ${c.label}` : "Before and after comparison",
+            before: { src: img(c.before.img), alt: c.before.alt },
+            after: { src: img(c.after.img), alt: c.after.alt },
+          })).join("\n          ")}
           <div class="prose">
             <h2>The brief</h2>
             <p>${p.challenge}</p>

@@ -59,18 +59,10 @@
 .pj-facts span { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
 .pj-facts strong { color: var(--forest-900); font-size: .95rem; }
 
-/* Lead comparison section on project pages: sits straight under the hero,
-   spans the full content width (wider than the text column) and stacks
-   extra angles of the same job beneath the main pair. */
-.pj-compare { padding-block: clamp(2rem, 5vw, 3.4rem); }
-.pj-compare .ba-block { margin: 0; }
-.pj-compare .ba-block + .ba-block { margin-top: clamp(1.8rem, 4vw, 2.8rem); }
-.pj-compare .ba { max-width: none; }
-.pj-compare__h { margin-bottom: .2rem; }
-.pj-compare__h--sub { font-size: clamp(1.25rem, 2.4vw, 1.6rem); }
-@media (min-width: 1020px) {
-  .pj-compare .ba { aspect-ratio: 16 / 10; }
-}
+/* Lead comparison on project pages: first thing in the main column, so no
+   extra top margin above its heading. */
+.pj-layout .ba-block:first-child { margin-top: 0; }
+.pj-lead-h { margin-bottom: .2rem; }
 
 /* Before/after items on /before-and-after */
 .pj-ba-item { margin-bottom: clamp(2.5rem, 6vw, 4rem); }

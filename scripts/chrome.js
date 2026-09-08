@@ -184,10 +184,10 @@ const FOOTER_SCRIPTS = `
    before/after: { src, alt }. `hint` overrides the default instruction,
    `eager` drops loading="lazy" for an above-the-fold instance. */
 const BA_HANDLE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6l-4 6 4 6M16 6l4 6-4 6"/></svg>';
-function beforeAfterBlock({ before, after, heading = "Before &amp; after", headingClass = "", headingId = "", intro = "", hint = "", label = "Before and after comparison", eager = false }) {
+function beforeAfterBlock({ before, after, heading = "Before &amp; after", headingClass = "", intro = "", hint = "", label = "Before and after comparison", eager = false }) {
   const lazy = eager ? "" : ' loading="lazy"';
   return `<div class="ba-block">
-  <h2${headingClass ? ` class="${headingClass}"` : ""}${headingId ? ` id="${headingId}"` : ""}>${heading}</h2>
+  <h2${headingClass ? ` class="${headingClass}"` : ""}>${heading}</h2>
   ${intro ? `<p class="ba-block__intro">${intro}</p>\n  ` : ""}<p class="hint-line">${hint || "Drag the handle — or use the arrow keys — to compare."}</p>
   <div class="ba" data-ba tabindex="0" role="slider" aria-label="${label}. Use arrow keys to move the divider." aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
     <img class="ba__before" src="${before.src}" alt="${before.alt}"${lazy} width="1200" height="900" />

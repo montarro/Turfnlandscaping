@@ -544,11 +544,11 @@ body.nav-open { overflow: hidden; }
    is clipped to the left of the divider, so before is left, after is right. */
 .ba__before { z-index: 1; clip-path: inset(0 50% 0 0); }
 .ba__divider {
-  position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff;
+  position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; z-index: 2;
   box-shadow: 0 0 12px rgba(0,0,0,.35); transform: translateX(-50%); pointer-events: none;
 }
 .ba__handle {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 2;
   width: 48px; height: 48px; border-radius: 50%; background: #fff; color: var(--forest-900);
   display: flex; align-items: center; justify-content: center;
   box-shadow: var(--shadow-md); pointer-events: none;
