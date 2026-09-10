@@ -50,11 +50,11 @@ function head({ title, desc, canonical, image, ld }) {
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '1390874685269007');
+  fbq('init', '927936959705494');
   fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=1390874685269007&ev=PageView&noscript=1"
+  src="https://www.facebook.com/tr?id=927936959705494&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -302,11 +302,11 @@ function beforeAfterPage() {
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '1390874685269007');
+  fbq('init', '927936959705494');
   fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=1390874685269007&ev=PageView&noscript=1"
+  src="https://www.facebook.com/tr?id=927936959705494&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
