@@ -659,15 +659,21 @@ const els = {
 };
 
 // ---------------------------------------------------------------------------
-// Hidden reminder banner — invisible on every visit except inside this one
-// window, when it shows across the top of the page for its duration.
+// Hidden reminder banner — invisible on every visit except during daytime
+// hours (Sydney time) on Monday and Tuesday, when it shows across the top
+// of the page. Windows are fixed UTC timestamps (8am-8pm AEST = 22:00-10:00
+// UTC), so they land on the right Sydney day regardless of the viewer's
+// own timezone.
 // ---------------------------------------------------------------------------
-const REMINDER_START = Date.parse('2026-09-11T04:31:00Z');
-const REMINDER_END = Date.parse('2026-09-11T04:41:00Z');
+const REMINDER_WINDOWS = [
+  { start: Date.parse('2026-09-13T22:00:00Z'), end: Date.parse('2026-09-14T10:00:00Z') }, // Monday, Sydney
+  { start: Date.parse('2026-09-14T22:00:00Z'), end: Date.parse('2026-09-15T10:00:00Z') }, // Tuesday, Sydney
+];
 const REMINDER_TEXT = "Reminder: don't forget the front and back copy of your driver's license.";
 
 function updateReminderBanner() {
-  const active = Date.now() >= REMINDER_START && Date.now() < REMINDER_END;
+  const now = Date.now();
+  const active = REMINDER_WINDOWS.some((w) => now >= w.start && now < w.end);
   els.reminderBanner.hidden = !active;
   if (active) els.reminderBanner.textContent = REMINDER_TEXT;
 }
