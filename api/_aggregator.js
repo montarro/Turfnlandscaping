@@ -212,6 +212,10 @@ const CHANNELS = {
   abcau: { label: { en: 'ABC Australia', fr: 'ABC Australie', ar: 'إيه بي سي أستراليا' }, domain: { en: 'abc.net.au', fr: 'abc.net.au', ar: 'abc.net.au' } },
   rtarabic: { label: { en: 'RT Arabic', fr: 'RT Arabic', ar: 'آر تي بالعربية' }, domain: { en: 'arabic.rt.com', fr: 'arabic.rt.com', ar: 'arabic.rt.com' } },
   asharq: { label: { en: 'Asharq Al-Awsat', fr: 'Asharq Al-Awsat', ar: 'الشرق الأوسط (صحيفة)' }, domain: { en: 'aawsat.com', fr: 'aawsat.com', ar: 'aawsat.com' } },
+  // Tunisia's own press, same single-language-outlet pattern as franceinfo/
+  // rtarabic above: the real content is always Achourouk's Arabic, regardless
+  // of which UI language is picked.
+  achourouk: { label: { en: 'Achourouk (Tunisia)', fr: 'Achourouk (Tunisie)', ar: 'الشروق' }, domain: { en: 'alchourouk.com', fr: 'alchourouk.com', ar: 'alchourouk.com' } },
 };
 
 // When a single channel is picked we read its OWN RSS feed (real article URLs +
@@ -266,6 +270,7 @@ const CHANNEL_FEEDS = {
   bfmtv: { en: [googleNews('site:bfmtv.com', 'fr')], fr: [googleNews('site:bfmtv.com', 'fr')], ar: [googleNews('site:bfmtv.com', 'fr')] },
   tf1: { en: [googleNews('site:tf1info.fr', 'fr')], fr: [googleNews('site:tf1info.fr', 'fr')], ar: [googleNews('site:tf1info.fr', 'fr')] },
   skyau: { en: [googleNews('site:skynews.com.au', 'en')], fr: [googleNews('site:skynews.com.au', 'en')], ar: [googleNews('site:skynews.com.au', 'en')] },
+  achourouk: { en: [googleNews('site:alchourouk.com', 'ar')], fr: [googleNews('site:alchourouk.com', 'ar')], ar: [googleNews('site:alchourouk.com', 'ar')] },
 };
 
 // Loose topic matchers for narrowing a single channel's feed by chip. World is
