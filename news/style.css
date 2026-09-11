@@ -73,6 +73,19 @@ body {
   gap: 18px;
 }
 
+/* ---------- Reminder banner (hidden except during its scheduled window) ---------- */
+.reminder-banner {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--blue-dark);
+  color: #ffffff;
+  text-align: center;
+  padding: 10px 16px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
 /* ---------- Header ---------- */
 .app__header { text-align: left; }
 

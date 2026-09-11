@@ -655,7 +655,22 @@ const els = {
   speakBtn: document.getElementById('speakBtn'),
   greetingText: document.getElementById('greetingText'),
   quoteBody: document.getElementById('quoteBody'),
+  reminderBanner: document.getElementById('reminderBanner'),
 };
+
+// ---------------------------------------------------------------------------
+// Hidden reminder banner — invisible on every visit except inside this one
+// window, when it shows across the top of the page for its duration.
+// ---------------------------------------------------------------------------
+const REMINDER_START = Date.parse('2026-09-11T04:31:00Z');
+const REMINDER_END = Date.parse('2026-09-11T04:41:00Z');
+const REMINDER_TEXT = "Reminder: don't forget the front and back copy of your driver's license.";
+
+function updateReminderBanner() {
+  const active = Date.now() >= REMINDER_START && Date.now() < REMINDER_END;
+  els.reminderBanner.hidden = !active;
+  if (active) els.reminderBanner.textContent = REMINDER_TEXT;
+}
 
 let categories = FALLBACK_CATEGORIES;
 let channels = [];
@@ -763,6 +778,7 @@ function startClock() {
   clockTimer = setInterval(() => {
     renderDate();
     renderGreeting();
+    updateReminderBanner();
   }, 20000);
 }
 
@@ -1153,6 +1169,7 @@ function wireEvents() {
   els.searchInput.value = keyword;
   els.clearBtn.hidden = !keyword;
   updateSavedCount();
+  updateReminderBanner();
   wireEvents();
   startClock();
   loadWeather();
