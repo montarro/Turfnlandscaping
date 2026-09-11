@@ -615,6 +615,8 @@ const FALLBACK_CATEGORIES = [
   { key: 'france', label: 'France & French Politics' },
   { key: 'africanpolitics', label: 'African Politics' },
   { key: 'arabicnews', label: 'Arabic News' },
+  { key: 'asia', label: 'Asian News' },
+  { key: 'europe', label: 'European News' },
 ];
 
 const DEFAULT_SELECTED = ['world', 'tunisia', 'middleeast', 'northafrica', 'france'];
@@ -980,7 +982,7 @@ async function load({ force } = {}) {
   if (force) params.set('refresh', '1');
 
   try {
-    const res = await fetch(`${API}?${params.toString()}`, { signal: inflight.signal });
+    const res = await fetch(`${API}?${params.toString()}`, { signal: inflight.signal, cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     renderList((data && data.articles) || []);

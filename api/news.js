@@ -18,9 +18,13 @@ module.exports = async function handler(req, res) {
   try {
     const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
     const force = url.searchParams.get('refresh') === '1';
-    // Let Vercel's edge cache hold the response briefly, unless the reader
-    // explicitly asked for the latest (the refresh button).
-    res.setHeader('Cache-Control', force ? 'no-store' : 's-maxage=300, stale-while-revalidate=600');
+    // Let Vercel's edge cache hold the response very briefly, unless the
+    // reader explicitly asked for the latest (the refresh button). This used
+    // to be 5+10 minutes, which meant an ordinary page load (or even the
+    // refresh button, before it forced no-store) could keep serving the same
+    // cached response for up to 15 minutes — read by the reader as "refresh
+    // does nothing, I keep seeing the same news".
+    res.setHeader('Cache-Control', force ? 'no-store' : 's-maxage=45, stale-while-revalidate=60');
 
     const lang = url.searchParams.get('lang') || 'en';
 

@@ -81,6 +81,22 @@ const CATEGORIES = {
     q: { en: 'أخبار', fr: 'أخبار', ar: 'أخبار' },
     forceLang: 'ar',
   },
+  asia: {
+    label: { en: 'Asian News', fr: 'Actualités asiatiques', ar: 'أخبار آسيا' },
+    q: {
+      en: 'Asia OR China OR Japan OR India OR "South Korea" OR "North Korea" OR Indonesia OR Vietnam OR Pakistan',
+      fr: 'Asie OR Chine OR Japon OR Inde OR "Corée du Sud" OR "Corée du Nord" OR Indonésie OR Vietnam OR Pakistan',
+      ar: 'آسيا OR الصين OR اليابان OR الهند OR كوريا الجنوبية OR كوريا الشمالية OR إندونيسيا OR فيتنام OR باكستان',
+    },
+  },
+  europe: {
+    label: { en: 'European News', fr: 'Actualités européennes', ar: 'أخبار أوروبا' },
+    q: {
+      en: 'Europe OR "European Union" OR Germany OR Italy OR Spain OR "United Kingdom" OR Poland OR Netherlands',
+      fr: 'Europe OR "Union européenne" OR Allemagne OR Italie OR Espagne OR Royaume-Uni OR Pologne OR Pays-Bas',
+      ar: 'أوروبا OR الاتحاد الأوروبي OR ألمانيا OR إيطاليا OR إسبانيا OR بريطانيا OR بولندا OR هولندا',
+    },
+  },
 };
 
 // Aymen's preferred outlets, in the edition matching each UI language. Added to
@@ -125,6 +141,16 @@ const AFRICA_SOURCE_FEEDS = {
   ],
   ar: [],
 };
+
+// Achourouk (الشروق التونسية) — Tunisia's best-selling daily. Its own site
+// blocks datacenter requests (same problem as Al Arabiya/BFM TV above), so it
+// is pulled through a Google News site: search instead, which reliably
+// returns its real articles. Always in Arabic (the outlet's real language),
+// added to the "Tunisia" topic regardless of the UI language, the same way
+// AFRICA_SOURCE_FEEDS layers real outlets on top of the Google News search.
+const TUNISIA_SOURCE_FEEDS = [
+  { url: googleNews('site:alchourouk.com', 'ar'), source: 'الشروق' },
+];
 
 // Used to keep African Politics from being diluted by the sports,
 // entertainment, wildlife and general-interest coverage that a broad regional
@@ -259,6 +285,17 @@ const CAT_TERMS = {
     'أفريقيا', 'الاتحاد الأفريقي', 'نيجيريا', 'كينيا', 'إثيوبيا', 'جنوب أفريقيا', 'السودان', 'الكونغو',
   ],
   arabicnews: null,
+  asia: [
+    'asia', 'asian', 'asie', 'asiatique', 'china', 'chinese', 'chine', 'japan', 'japon', 'india', 'inde',
+    'korea', 'corée', 'coree', 'indonesia', 'indonésie', 'vietnam', 'pakistan', 'thailand', 'thaïlande',
+    'آسيا', 'الصين', 'اليابان', 'الهند', 'كوريا', 'إندونيسيا', 'فيتنام', 'باكستان',
+  ],
+  europe: [
+    'europe', 'european', 'européen', 'européenne', 'eu ', 'germany', 'allemagne', 'italy', 'italie',
+    'spain', 'espagne', 'united kingdom', 'royaume-uni', 'britain', 'poland', 'pologne', 'netherlands',
+    'pays-bas', 'brussels', 'bruxelles',
+    'أوروبا', 'الاتحاد الأوروبي', 'ألمانيا', 'إيطاليا', 'إسبانيا', 'بريطانيا', 'بولندا', 'هولندا',
+  ],
 };
 
 function articleMatchesCategory(a, cat) {
@@ -483,8 +520,12 @@ function matchesQuery(article, tokens, phrase) {
 // gentle on the upstream feeds and fast on repeat requests.
 // ---------------------------------------------------------------------------
 
+// Kept short: long-lived caching here (combined with the CDN's own cache — see
+// api/news.js) is what made the refresh button look like it "did nothing" —
+// a reader hitting refresh within the TTL got back the exact same cached
+// response instead of a new fetch of the upstream feeds.
 const CACHE = new Map();
-const CACHE_TTL_MS = 5 * 60 * 1000;
+const CACHE_TTL_MS = 60 * 1000;
 
 function cacheGet(key) {
   const hit = CACHE.get(key);
@@ -545,6 +586,10 @@ async function getNews({ categories, q, limit, lang, source, force } = {}) {
       // text-only Google News search results — the reader gets photos too.
       if (cat === 'africanpolitics') {
         for (const af of AFRICA_SOURCE_FEEDS[L] || []) feeds.push(af);
+      }
+      // Tunisia also pulls Achourouk directly, regardless of UI language.
+      if (cat === 'tunisia') {
+        for (const tf of TUNISIA_SOURCE_FEEDS) feeds.push(tf);
       }
     }
 
