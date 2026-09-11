@@ -34,6 +34,7 @@ const I18N = {
     savedCount: (n) => `${n} saved`,
     updated: 'Updated',
     updatedAt: (s) => `Updated ${s}`,
+    olderHeadlines: (n) => `Headlines from ${n} week${n === 1 ? '' : 's'} ago`,
     yourLocation: 'Your location',
     weatherUnavailable: "Weather isn't available right now.",
     tryAgainSoon: 'Try again soon.',
@@ -62,6 +63,7 @@ const I18N = {
     savedCount: (n) => `${n} enregistré${n === 1 ? '' : 's'}`,
     updated: 'Mis à jour',
     updatedAt: (s) => `Mis à jour ${s}`,
+    olderHeadlines: (n) => `Titres d'il y a ${n} semaine${n === 1 ? '' : 's'}`,
     yourLocation: 'Votre position',
     weatherUnavailable: "La météo n'est pas disponible pour le moment.",
     tryAgainSoon: 'Réessayez bientôt.',
@@ -90,6 +92,7 @@ const I18N = {
     savedCount: (n) => `${n} محفوظ`,
     updated: 'آخر تحديث',
     updatedAt: (s) => `آخر تحديث ${s}`,
+    olderHeadlines: (n) => `عناوين من قبل ${n} أسبوع`,
     yourLocation: 'موقعك',
     weatherUnavailable: 'تعذّر عرض حالة الطقس الآن.',
     tryAgainSoon: 'أعد المحاولة بعد قليل.',
@@ -663,6 +666,12 @@ let source = 'all';
 let inflight = null;
 let currentArticles = [];
 let savedView = false;
+// Which "week back" the refresh button is currently showing: 0 is always
+// fresh (what a normal page visit gets); pressing refresh steps through
+// 1-4 (each about a week further back, covering roughly the last month)
+// then loops back to 0. Reset to 0 by any filter/topic/keyword/channel/
+// language change, so switching what you're looking at always starts fresh.
+let refreshCycle = 0;
 
 const t = () => I18N[lang] || I18N.en;
 const loc = () => (lang === 'ar' ? 'ar' : lang === 'fr' ? 'fr' : 'en-US');
@@ -821,6 +830,7 @@ function renderChips() {
       if (selected.has(cat.key)) selected.delete(cat.key);
       else selected.add(cat.key);
       btn.setAttribute('aria-pressed', selected.has(cat.key) ? 'true' : 'false');
+      refreshCycle = 0;
       writeState();
       if (!savedView) load();
     });
@@ -936,7 +946,11 @@ function showState(title, hint, isError) {
 function updateMeta(data) {
   const m = (data && data.meta) || {};
   els.meta.textContent = t().headline(m.total || 0);
-  if (m.generatedAt) {
+  if (m.cycle) {
+    // Make it obvious this isn't the latest news, so cycled-back headlines
+    // don't read as the site being broken or stuck.
+    els.updatedLine.textContent = t().olderHeadlines(m.cycle);
+  } else if (m.generatedAt) {
     els.updatedLine.textContent = t().updatedAt(
       new Date(m.generatedAt).toLocaleTimeString(loc(), { hour: '2-digit', minute: '2-digit' })
     );
@@ -965,7 +979,7 @@ function showSaved() {
   els.clearFiltersBtn.hidden = true;
 }
 
-async function load({ force } = {}) {
+async function load({ force, cycle } = {}) {
   savedView = false;
   els.savedBtn.setAttribute('aria-pressed', 'false');
   if (inflight) inflight.abort();
@@ -980,6 +994,7 @@ async function load({ force } = {}) {
   params.set('lang', lang);
   params.set('source', source);
   if (force) params.set('refresh', '1');
+  if (cycle) params.set('cycle', cycle);
 
   try {
     const res = await fetch(`${API}?${params.toString()}`, { signal: inflight.signal, cache: 'no-store' });
@@ -1022,6 +1037,7 @@ function onSearchInput() {
   clearTimeout(searchTimer);
   searchTimer = setTimeout(() => {
     keyword = val;
+    refreshCycle = 0;
     writeState();
     load();
   }, 400);
@@ -1030,6 +1046,7 @@ function onSearchInput() {
 async function setLanguage(next) {
   if (!LANGS.includes(next) || next === lang) return;
   lang = next;
+  refreshCycle = 0;
   writeState();
   applyLanguageChrome();
   await Promise.all([loadCategories(), loadChannels()]);
@@ -1068,6 +1085,7 @@ function wireEvents() {
     e.preventDefault();
     clearTimeout(searchTimer);
     keyword = els.searchInput.value.trim();
+    refreshCycle = 0;
     writeState();
     load();
   });
@@ -1076,6 +1094,7 @@ function wireEvents() {
     els.searchInput.value = '';
     els.clearBtn.hidden = true;
     keyword = '';
+    refreshCycle = 0;
     writeState();
     load();
   });
@@ -1085,12 +1104,16 @@ function wireEvents() {
     els.searchInput.value = '';
     els.clearBtn.hidden = true;
     els.sourceSelect.value = 'all';
+    refreshCycle = 0;
     writeState();
     load();
   });
   els.refreshBtn.addEventListener('click', () => {
     els.refreshBtn.classList.add('is-spinning');
-    const done = savedView ? Promise.resolve(showSaved()) : load({ force: true });
+    // Step to the next week back each press, looping to 0 (freshest) after
+    // CYCLE_MAX — see the matching CYCLE_MAX in api/_aggregator.js.
+    refreshCycle = (refreshCycle + 1) % 5;
+    const done = savedView ? Promise.resolve(showSaved()) : load({ force: true, cycle: refreshCycle });
     loadWeather();
     Promise.resolve(done).then(() => {
       // Clear confirmation that the refresh actually happened, since the
@@ -1103,12 +1126,15 @@ function wireEvents() {
   });
   els.speakBtn.addEventListener('click', onSpeakClick);
   els.savedBtn.addEventListener('click', () => {
-    if (savedView) load();
-    else showSaved();
+    if (savedView) {
+      refreshCycle = 0;
+      load();
+    } else showSaved();
   });
   els.feed.addEventListener('click', onFeedClick);
   els.sourceSelect.addEventListener('change', () => {
     source = els.sourceSelect.value || 'all';
+    refreshCycle = 0;
     writeState();
     load();
   });

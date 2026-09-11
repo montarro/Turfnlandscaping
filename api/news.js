@@ -46,8 +46,12 @@ module.exports = async function handler(req, res) {
     const q = url.searchParams.get('q') || '';
     const source = url.searchParams.get('source') || 'all';
     const limit = Math.min(parseInt(url.searchParams.get('limit') || '120', 10) || 120, 200);
+    // The refresh button cycles through the last ~month of news a week at a
+    // time (see cycleDateRange in _aggregator.js); 0 (the default) is always
+    // the freshest, unfiltered view — what a reader gets on a normal visit.
+    const cycle = url.searchParams.get('cycle') || '0';
 
-    const data = await getNews({ categories, q, limit, lang, source, force });
+    const data = await getNews({ categories, q, limit, lang, source, force, cycle });
     res.statusCode = 200;
     res.end(JSON.stringify(data));
   } catch (err) {

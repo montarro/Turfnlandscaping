@@ -21,11 +21,33 @@
 const LANGS = ['en', 'fr', 'ar'];
 
 // Build a Google News RSS search URL for a query in a given language/region.
-function googleNews(query, lang) {
-  const q = encodeURIComponent(query);
+// An optional dateRange ({ after, before }, YYYY-MM-DD) restricts the search
+// to that window, via Google's own search date operators — used to cycle
+// through older weeks of news on repeated refreshes (see cycleDateRange).
+function googleNews(query, lang, dateRange) {
+  const fullQuery = dateRange ? `${query} after:${dateRange.after} before:${dateRange.before}` : query;
+  const q = encodeURIComponent(fullQuery);
   if (lang === 'fr') return `https://news.google.com/rss/search?q=${q}&hl=fr&gl=FR&ceid=FR:fr`;
   if (lang === 'ar') return `https://news.google.com/rss/search?q=${q}&hl=ar&gl=EG&ceid=EG:ar`;
   return `https://news.google.com/rss/search?q=${q}&hl=en-US&gl=US&ceid=US:en`;
+}
+
+// The refresh button cycles through the last ~month of news: cycle 0 is
+// always the freshest (no date restriction, what the reader sees on a normal
+// page visit); cycles 1-4 step back one week at a time. The frontend wraps
+// back to 0 after cycle 4, so repeatedly pressing refresh loops rather than
+// walking further and further into the past forever.
+const CYCLE_WINDOW_DAYS = 7;
+const CYCLE_MAX = 4;
+function cycleDateRange(cycle) {
+  const c = Math.min(Math.max(parseInt(cycle, 10) || 0, 0), CYCLE_MAX);
+  if (!c) return null;
+  const dayMs = 24 * 60 * 60 * 1000;
+  const fmt = (d) => d.toISOString().slice(0, 10);
+  return {
+    after: fmt(new Date(Date.now() - c * CYCLE_WINDOW_DAYS * dayMs)),
+    before: fmt(new Date(Date.now() - (c - 1) * CYCLE_WINDOW_DAYS * dayMs)),
+  };
 }
 
 // Each category has a localized display label and a localized search query, so
@@ -546,7 +568,7 @@ function cacheSet(key, value) {
 // Public entry point.
 // ---------------------------------------------------------------------------
 
-async function getNews({ categories, q, limit, lang, source, force } = {}) {
+async function getNews({ categories, q, limit, lang, source, force, cycle } = {}) {
   const L = normalizeLang(lang);
   const selected =
     Array.isArray(categories) && categories.length
@@ -555,7 +577,9 @@ async function getNews({ categories, q, limit, lang, source, force } = {}) {
 
   const query = (q || '').trim();
   const channelKey = CHANNELS[source] ? source : 'all';
-  const cacheKey = JSON.stringify({ c: selected.slice().sort(), q: query.toLowerCase(), l: L, s: channelKey });
+  const cycleNum = Math.min(Math.max(parseInt(cycle, 10) || 0, 0), CYCLE_MAX);
+  const dateRange = cycleDateRange(cycleNum);
+  const cacheKey = JSON.stringify({ c: selected.slice().sort(), q: query.toLowerCase(), l: L, s: channelKey, cy: cycleNum });
   if (!force) {
     const cached = cacheGet(cacheKey);
     if (cached) return { ...cached, cached: true };
@@ -582,7 +606,7 @@ async function getNews({ categories, q, limit, lang, source, force } = {}) {
         for (const af of ARABIC_NEWS_FEEDS) feeds.push(af);
         continue;
       }
-      feeds.push({ url: googleNews(catDef.q[L], L), source: 'Google News' });
+      feeds.push({ url: googleNews(catDef.q[L], L, dateRange), source: 'Google News' });
       // The broad World view also pulls Aymen's preferred outlets directly.
       if (cat === 'world') {
         for (const sf of SOURCE_FEEDS[L] || []) feeds.push(sf);
@@ -600,7 +624,7 @@ async function getNews({ categories, q, limit, lang, source, force } = {}) {
 
     // A keyword turns into a live Google News search in the chosen language.
     if (query) {
-      feeds.push({ url: googleNews(query, L), source: 'Google News' });
+      feeds.push({ url: googleNews(query, L, dateRange), source: 'Google News' });
     }
   }
 
@@ -687,6 +711,7 @@ async function getNews({ categories, q, limit, lang, source, force } = {}) {
       categories: usedCategories,
       lang: L,
       source: channelKey,
+      cycle: cycleNum,
       query: query || null,
       feedsQueried: uniqueFeeds.length,
       feedsOk: sources.filter((s) => !s.error).length,
