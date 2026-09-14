@@ -259,7 +259,7 @@ function reviewerPage() {
       act(card, { slug: slug, action: "delete_note", id: del.dataset.del }, "Note removed");
     });
     var det = card.querySelector("[data-preview]");
-    det.addEventListener("toggle", function () { var f = det.querySelector("iframe"); if (det.open && !f.src) f.src = f.dataset.src; });
+    if (det) det.addEventListener("toggle", function () { var f = det.querySelector("iframe"); if (det.open && !f.src) f.src = f.dataset.src; });
   });
   if (!KEY) { gate("This page needs its private link"); }
   else api("GET").then(function (d) { d.blogs.forEach(render); if (d.ideas) render(d.ideas); }).catch(function (e) { gate(e.message); });
