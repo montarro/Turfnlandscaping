@@ -85,10 +85,11 @@ const CSS = `
   .badge--changes{background:#fdf3d6;color:#7a4a00}
   .preview{margin:.9rem 0 0}
   .preview iframe{width:100%;height:72vh;border:1px solid var(--line);border-radius:12px;background:#fff;margin-top:.6rem}
-  .preview summary{cursor:pointer;color:var(--forest);font-weight:600;list-style:none;display:inline-flex;align-items:center;gap:.4rem}
+  .preview summary{cursor:pointer;list-style:none}
   .preview summary::-webkit-details-marker{display:none}
   .preview summary::before{content:"▸";font-size:.9em}
   .preview[open] summary::before{content:"▾"}
+  .preview[open] summary::after{content:"Tap to close"; font-weight:400; opacity:.8; font-size:.85em; margin-left:.3rem}
   h3{font-size:.95rem;margin:1.2rem 0 .5rem}
   .notes{list-style:none;margin:0;padding:0}
   .note{border:1px solid var(--line);border-radius:12px;padding:.7rem .85rem;margin-bottom:.55rem;background:#fcfbf7}
@@ -172,11 +173,10 @@ function reviewerPage() {
         <h2>${esc(a.title)}</h2>
         <p class="stand">${esc(a.standfirst)}</p>
         <div class="row">
-          <a class="btn" href="/blog/${a.slug}" target="_blank" rel="noopener">Read the full article ↗</a>
           <span class="badge badge--pending" data-badge>Loading…</span>
         </div>
         <details class="preview" data-preview>
-          <summary>Preview it here instead</summary>
+          <summary class="btn">Preview the article</summary>
           <iframe data-src="/blog/${a.slug}" title="Preview: ${esc(a.title)}" loading="lazy"></iframe>
         </details>
 
