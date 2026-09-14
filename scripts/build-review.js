@@ -107,7 +107,7 @@ const CSS = `
   .sum{display:grid;gap:.4rem;margin:0 0 1.2rem;padding:0;list-style:none}
   .sum li{display:flex;justify-content:space-between;gap:.8rem;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:.7rem .9rem}
   .sum a{color:var(--forest);font-weight:600;text-decoration:none}
-  footer{text-align:center;color:var(--muted);font-size:.82rem;padding:2rem 1rem}
+  main{padding-bottom:2.5rem}
   @media (max-width:480px){.btn{flex:1 1 auto;justify-content:center}.preview iframe{height:80vh}}
 `;
 
@@ -193,7 +193,7 @@ function reviewerPage() {
             <button class="btn btn--ok" type="button" data-status="approved">✓ Approve</button>
             <button class="btn btn--warn" type="button" data-status="changes">Changes requested</button>
           </div>
-          <p class="hint">Approving does not publish anything — Khaled schedules each article once you're happy with it.</p>
+          <p class="hint">Approving does not publish anything — we schedule each article once you're happy with it.</p>
         </div>
       </div>
     </article>`).join("\n");
@@ -203,11 +203,11 @@ function reviewerPage() {
   <main class="wrap" id="main">
     <div class="intro">
       <p><strong>Hi ${esc(CONFIG.reviewer)} — three articles are ready for your check.</strong></p>
-      <p>For each one: read it, add any notes, then tap <strong>Approve</strong> or <strong>Changes requested</strong>. Everything saves straight away and Khaled sees it on his side.</p>
+      <p>For each one: read it, add any notes, then tap <strong>Approve</strong> or <strong>Changes requested</strong>. Everything saves straight away and we see it on our side.</p>
     </div>
     ${cards}
   </main>
-  <footer>Private review page · not listed on the website · ${esc(CONFIG.round)}</footer>`;
+`;
 
   const script = COMMON_JS + `
   var state = {};
@@ -266,7 +266,7 @@ function ownerPage() {
     <ul class="sum" id="sum"></ul>
     <div id="detail"></div>
   </main>
-  <footer>Private owner view · not listed on the website</footer>`;
+`;
 
   const meta = JSON.stringify(articles.map((a) => ({ slug: a.slug, title: a.title, n: a.n })));
   const script = COMMON_JS + `
