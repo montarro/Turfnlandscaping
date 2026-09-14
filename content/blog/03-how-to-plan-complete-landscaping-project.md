@@ -9,8 +9,8 @@ author: "Sebastian Caus"
 published: false
 datePublished: ""
 dateReviewed: ""
-heroImage: "front-yard-landscaping-after.jpg"
-heroAlt: "Completed front yard landscaping with turf paving and planted garden beds"
+heroImage: "front-yard-after-landscaping-turf-mulch-path.jpg"
+heroAlt: "Completed front yard landscaping: new lawn, mulched garden beds, a pebble stepping-stone path and a rock feature in front of the home"
 relatedServices: ["Custom Landscaping", "Garden Design", "Hard Landscaping"]
 suggestedInternalLinks: ["/services/custom-landscaping", "/projects", "/quote"]
 status: "Ready after Sebastian's technical review"

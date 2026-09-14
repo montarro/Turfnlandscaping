@@ -31,6 +31,8 @@ const field = (fm, key) => (fm.match(new RegExp(`^${key}:\\s*"(.*)"\\s*$`, "m"))
 const CROP = {
   // the garden border and house sit along the top of a tall phone photo
   "natural-vs-synthetic-turf-melbourne": "top",
+  // wide daylight shot of the whole finished front yard — trim sky, keep the garden
+  "how-to-plan-complete-landscaping-project": "bottom",
 };
 
 (async () => {
