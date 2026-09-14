@@ -19,7 +19,7 @@ const P = {
   sleeper: "proj-sleeperbed-1",
   sleeper2: "proj-sleeperbed-2",
   turfCard: "service-natural-turf-solutions",
-  pavingCard: "service-paving-and-stepping-stones",
+  pavingCard: "paving-flagstone-patio-pergola",
   wallsCard: "service-retaining-walls",
   softCard: "service-soft-landscaping",
   designCard: "service-garden-design",
@@ -35,10 +35,11 @@ const NATURAL_TURF_BA = {
   link: "/projects/natural-turf-installation",
 };
 
-const SYNTHETIC_BA = {
-  before: { img: "proj-synthetic-sideyard-before", alt: "Before: a bare soil strip between the deck and the sleeper garden bed" },
-  after: { img: "photo-synthetic-turf-covered-deck", alt: "After: synthetic turf laid along the same strip beside the covered deck" },
-  note: "A genuine before and after from a side-yard synthetic turf installation beside a covered deck.",
+const RETAINING_BA = {
+  before: { img: "proj-retaining-before-1", alt: "Before: a sloping corner frontage with tired lawn, loose pebbles and a few shrubs along the footpath" },
+  after: { img: "proj-retaining-after-1", alt: "After: a dark-stained timber sleeper retaining wall with galvanised posts holding a level lawn, with flowers, pebble trim and red mulch" },
+  note: "A genuine before and after from our stained sleeper retaining wall project — see the full case study on our Projects page.",
+  link: "/projects/stained-sleeper-raised-garden",
 };
 
 const PLANTER_BA = {
@@ -56,7 +57,7 @@ module.exports = {
       name: "Natural Turf Supply & Installation",
       short: "Natural Turf",
       tagline: "Fresh, hard-wearing natural lawns supplied and laid to suit your soil, sun and lifestyle.",
-      image: "photo-front-yard-natural-turf",
+      image: "photo-natural-turf-flower-border",
       intro: "Nothing beats real grass underfoot. We supply and lay quality natural turf over properly prepared, graded and drained ground, so your new lawn takes root quickly and stands up to Melbourne summers, kids and pets.",
       whoFor: "Ideal for family backyards that get real use, front lawns that carry the home's street appeal, and new builds starting from bare soil. If your block gets reasonable sun and you don't mind mowing, natural turf gives the best feel and looks of any surface.",
       problems: [
@@ -158,8 +159,8 @@ module.exports = {
         { img: "photo-synthetic-turf-covered-deck", alt: "Synthetic turf strip between a covered deck and a sleeper garden bed" },
         { img: "photo-synthetic-turf-front-path", alt: "Curved synthetic front lawn beside a brick path and driveway" },
         { img: P.synthetic2, alt: "Close view of a finished synthetic lawn's natural-looking pile" },
+        { img: "photo-front-yard-natural-turf", alt: "Synthetic front lawn with a river-pebble border, freshly power-brushed" },
       ],
-      beforeAfter: SYNTHETIC_BA,
       related: ["natural-turf-installation", "turf-preparation-levelling-drainage", "hard-landscaping", "garden-care"],
     },
 
@@ -264,7 +265,7 @@ module.exports = {
         { img: P.planterProgress, alt: "Treated-pine planter wall under construction with fresh topsoil" },
         { img: P.sleeper2, alt: "Finished raised garden with stained wall, pebble strip and new lawn" },
       ],
-      beforeAfter: PLANTER_BA,
+      beforeAfter: RETAINING_BA,
       related: ["hard-landscaping", "turf-preparation-levelling-drainage", "paving", "plants-garden-beds-mulch"],
     },
 
@@ -313,7 +314,8 @@ module.exports = {
         ["Can you match my existing paving?", "Often yes — or we'll suggest a deliberate contrast that looks intentional instead of a near-miss."],
       ],
       gallery: [
-        { img: P.pavingCard, alt: "Level paved area laid to pattern" },
+        { img: "svc-pavers-stepping", alt: "Stepping-stone path through a narrow side-yard lawn beneath a wall of purple clematis" },
+        { img: "paving-front-path-pavers-pebbles", alt: "Front entry path of large-format pavers set in white pebbles between lawn and garden beds" },
         { img: P.litpath, alt: "Exposed-aggregate pads set in a lit pebble path" },
         { img: P.bannerYard, alt: "Front yard with curved paved path, retaining wall and garden beds" },
       ],

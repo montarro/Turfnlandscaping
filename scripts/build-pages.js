@@ -146,8 +146,8 @@ const SERVICES = [
   },
   {
     name: "Paving & Stepping Stones",
-    image: "service-paving-and-stepping-stones.webp",
-    imageAlt: "Bluestone paving laid level across an outdoor patio area",
+    image: "paving-flagstone-patio-pergola.webp",
+    imageAlt: "Flagstone paved patio beside a timber pergola and a lawn",
     tagline: "Patios, paths and pool surrounds laid dead level and built to last.",
     desc:
       "Paving and stepping-stone paths across Melbourne's west and inner suburbs — bluestone, concrete and clay pavers on a proper base with correct drainage. Free on-site quotes: call 0457 357 085.",
