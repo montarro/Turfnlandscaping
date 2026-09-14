@@ -176,11 +176,11 @@ function servicePage(s) {
     return r ? `<a href="/services/${r.slug}">${r.name.replace(/&/g, "&amp;")} ${arrow}</a>` : "";
   }).join("")}</div>`;
 
-  return head({ title, desc, canonical, image: img(s.image), ld }) + `
+  return head({ title, desc, canonical, image: img(s.image || "hero-landscaping-northwest-melbourne"), ld }) + `
 ${HEADER}
   <main id="main">
-    <section class="page-hero">
-      <div class="page-hero__media"><img src="${img(s.image)}" alt="" width="1200" height="900" fetchpriority="high" /></div>
+    <section class="page-hero${s.image ? "" : " page-hero--plain"}">
+      ${s.image ? `<div class="page-hero__media"><img src="${img(s.image)}" alt="" width="1200" height="900" fetchpriority="high" /></div>` : ""}
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/services">Services</a><span>/</span>${s.name.replace(/&/g, "&amp;")}</nav>
         <h1>${s.name.replace(/&/g, "&amp;")}</h1>

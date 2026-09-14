@@ -777,6 +777,8 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
   padding-top: calc(var(--header-h) + .9rem);
 }
 .page-hero__media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+/* Service pages that have no photo yet: solid forest background instead of an image. */
+.page-hero--plain { background: var(--forest-900); }
 .page-hero__media img { width: 100%; height: 100%; object-fit: cover; }
 .page-hero::after {
   content: ""; position: absolute; inset: 0; z-index: -1;

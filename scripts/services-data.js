@@ -42,6 +42,13 @@ const RETAINING_BA = {
   link: "/projects/stained-sleeper-raised-garden",
 };
 
+const COURTYARD_BA = {
+  before: { img: "proj-courtyard-before-1", alt: "Before: an overgrown, weedy bed around an established tree beside a timber sleeper path" },
+  after: { img: "proj-courtyard-after-1", alt: "After: a square of fresh natural turf under the tree, bordered with white pebbles and flowering plants" },
+  note: "A genuine before and after from our courtyard garden refresh — see the full case study on our Projects page.",
+  link: "/projects/courtyard-garden-turf-refresh",
+};
+
 const PLANTER_BA = {
   before: { img: P.planterBefore, alt: "Before: weed-covered mound in front of a new build" },
   after: { img: P.planterAfter, alt: "After: raised sleeper planter with fresh turf, pebbles and flowers" },
@@ -667,7 +674,7 @@ module.exports = {
       name: "Lawn Mowing & Edging",
       short: "Mowing",
       tagline: "Regular, reliable mowing at the right height — with edges that make the whole yard look finished.",
-      image: P.planterAfter,
+      image: "photo-rose-garden-turf",
       intro: "A good lawn is made by consistent care. We mow at the correct height for your grass type — scalping a lawn to stretch out visits is how lawns die — edge cleanly along paths and beds, and leave the site tidy every time.",
       maintenance: {
         oneOff: "One-off cuts suit overgrown catch-ups, pre-inspection tidies and holiday cover. Long-grass jobs are quoted honestly for the extra work involved.",
@@ -688,8 +695,8 @@ module.exports = {
         ["Can you rescue an overgrown lawn?", "Almost always. We stage the height down over a couple of visits rather than scalping it in one, then get it onto a healthy cycle."],
       ],
       gallery: [
-        { img: P.planterAfter, alt: "Freshly mown lawn with crisp edges inside a sleeper planter" },
-        { img: P.hero, alt: "Neat front lawn with defined edges beside garden beds" },
+        { img: "photo-rose-garden-turf", alt: "Neatly cut natural lawn with crisp edges beside a rose border and picket fence" },
+        { img: "detail-frontyard-natural-lawn", alt: "Close view of a trimmed natural front lawn" },
       ],
       related: ["turf-repair-patching", "weed-control-spraying", "garden-care", "property-maintenance"],
     },
@@ -700,7 +707,7 @@ module.exports = {
       name: "Garden Care",
       short: "Garden Care",
       tagline: "Seasonal care that keeps garden beds healthy, tidy and improving year on year.",
-      image: P.softCard,
+      image: "proj-bedrefresh-after-1",
       intro: "Gardens are living things — they need feeding, pruning, weeding and the occasional hard word. Our garden care keeps beds healthy and presentable through the seasons, so the garden gets better each year instead of slowly going backwards.",
       maintenance: {
         oneOff: "Seasonal blitzes — a spring reset or autumn cut-back — restore order in a single visit and suit owners who enjoy the in-between upkeep themselves.",
@@ -722,9 +729,10 @@ module.exports = {
         ["Do you plant replacements?", "Yes — like-for-like or better-suited species where something has failed, so beds stay full."],
       ],
       gallery: [
-        { img: P.softCard, alt: "Healthy, well-tended mulched garden bed" },
-        { img: P.planterNight, alt: "Flowering planter bed kept tidy and full" },
+        { img: "proj-courtyard-after-1", alt: "Courtyard bed cleared and re-laid with natural turf, white pebbles and flowering plants around the existing tree" },
+        { img: "proj-bedrefresh-after-1", alt: "Front entrance bed reshaped with curved edging, dark mulch, a white-pebble feature and compact planting" },
       ],
+      beforeAfter: COURTYARD_BA,
       related: ["plants-garden-beds-mulch", "hedge-trimming-pruning", "weed-control-spraying", "property-maintenance"],
     },
 
@@ -804,7 +812,6 @@ module.exports = {
       name: "Hedge Trimming & Pruning",
       short: "Hedges",
       tagline: "Clean, healthy hedges and shrubs — shaped at the right time of year, cleaned up completely.",
-      image: P.sideGarden,
       intro: "A sharp hedge lifts a whole property; a butchered one takes years to recover. We trim and prune for shape and plant health — at the right time of year for the species — and take every scrap of green waste with us.",
       maintenance: {
         oneOff: "One-off shapes and reductions restore overgrown hedges and shrubs, staged where a hard cut would stress the plant.",
@@ -824,10 +831,6 @@ module.exports = {
         ["How often should hedges be trimmed?", "Fast growers may want trimming several times over the warm months; slower species once or twice a year. Frequent light trims always beat occasional hard ones."],
         ["Can a badly overgrown hedge be saved?", "Often — many species reshoot from hard pruning if it's staged and timed correctly. Some don't; we'll tell you which you have before cutting."],
         ["Do you remove the clippings?", "Always — the job isn't finished until the site is cleaner than we found it."],
-      ],
-      gallery: [
-        { img: P.sideGarden, alt: "Neatly maintained garden with trained flowering climbers" },
-        { img: P.softCard, alt: "Well-shaped shrubs in a mulched bed" },
       ],
       related: ["garden-care", "property-maintenance", "soft-landscaping", "weed-control-spraying"],
     },
