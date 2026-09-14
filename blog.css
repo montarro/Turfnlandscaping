@@ -185,6 +185,15 @@
 .bl-table th, .bl-table td { text-align: left; vertical-align: top; padding: .65rem .75rem; border-bottom: 1px solid var(--line); }
 .bl-table thead th { background: var(--sage-100); color: var(--forest-900); font-family: var(--font-display); font-weight: 600; font-size: .88rem; }
 .bl-table tbody th { font-weight: 600; color: var(--forest-900); white-space: nowrap; }
+@media (max-width: 640px) {
+  /* Stack each comparison row instead of scrolling sideways */
+  .bl-table { min-width: 0; }
+  .bl-table thead { display: none; }
+  .bl-table tr { display: block; padding: .7rem 0; border-bottom: 1px solid var(--line); }
+  .bl-table tbody th, .bl-table td { display: block; border: 0; padding: .15rem 0; white-space: normal; }
+  .bl-table tbody th { font-size: 1.02rem; padding-bottom: .35rem; }
+  .bl-table td::before { content: attr(data-label) ": "; font-weight: 600; color: var(--forest-900); }
+}
 
 /* ---------- Article: end-of-article CTA ----------
    One restrained panel at the end of the piece — no CTAs between sections. */

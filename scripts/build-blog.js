@@ -158,7 +158,8 @@ function renderMarkdown(body, report) {
     const [head, ...rows] = table;
     out.push('<div class="bl-table-wrap"><table class="bl-table">');
     out.push(`<thead><tr>${head.map((c) => `<th scope="col">${inline(c, report)}</th>`).join("")}</tr></thead>`);
-    out.push(`<tbody>${rows.map((r) => `<tr>${r.map((c, i) => i === 0 ? `<th scope="row">${inline(c, report)}</th>` : `<td>${inline(c, report)}</td>`).join("")}</tr>`).join("")}</tbody>`);
+    // data-label carries the column heading so narrow screens can stack each row (blog.css)
+    out.push(`<tbody>${rows.map((r) => `<tr>${r.map((c, i) => i === 0 ? `<th scope="row">${inline(c, report)}</th>` : `<td data-label="${esc(head[i] || "")}">${inline(c, report)}</td>`).join("")}</tr>`).join("")}</tbody>`);
     out.push("</table></div>");
     table = null;
   };
