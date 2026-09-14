@@ -50,6 +50,27 @@ module.exports = async (req, res) => {
     if (req.method !== "GET" && req.method !== "POST") return json(res, 405, { error: "Method not allowed" });
     if (!keyMatches(req)) return json(res, 401, { error: "This review link is not valid" });
 
+    if (req.method === "GET" && new URL(req.url, "http://x").searchParams.get("health") === "1") {
+      /* Key-protected diagnostics: shape and reachability only, never values. */
+      const KNOWN = "https://podlutvvrclhxmhgupil.supabase.co";
+      const envUrl = (process.env.SUPABASE_URL || "").trim();
+      const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
+      const out = {
+        envUrlSet: !!envUrl,
+        envUrlShapeOk: /^https:\/\/[a-z0-9]+\.supabase\.co$/.test(envUrl),
+        envUrlIsKnownProject: envUrl === KNOWN,
+        keyShapeOk: key.startsWith("eyJ") && key.length > 150,
+      };
+      for (const [label, url] of [["env", envUrl], ["default", KNOWN]]) {
+        if (!url) continue;
+        try {
+          const r = await fetch(url + "/storage/v1/bucket", { headers: { apikey: key, Authorization: "Bearer " + key } });
+          out["probe_" + label] = r.status;
+        } catch (e) { out["probe_" + label] = (e.cause && e.cause.code) || e.name || "fetch failed"; }
+      }
+      return json(res, 200, out);
+    }
+
     if (req.method === "GET") {
       const blogs = await Promise.all(CONFIG.slugs.map(load));
       return json(res, 200, { reviewer: CONFIG.reviewer, round: CONFIG.round, blogs });
