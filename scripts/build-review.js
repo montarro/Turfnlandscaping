@@ -67,7 +67,7 @@ const CSS = `
   .intro{background:var(--sage);border-radius:var(--r);padding:1rem 1.1rem;margin:.5rem 0 1.2rem;font-size:.95rem}
   .intro p{margin:.3rem 0}
   .card{background:var(--white);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:1.4rem;box-shadow:0 2px 10px rgba(29,53,39,.05)}
-  .card__hero{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;background:var(--sage)}
+  .card__hero{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;background:var(--sage)}
   .card__body{padding:1.1rem 1.1rem 1.25rem}
   .kicker{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 .3rem}
   .card h2{font-size:1.25rem;line-height:1.3;margin:0 0 .5rem}
