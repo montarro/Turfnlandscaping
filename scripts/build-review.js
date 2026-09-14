@@ -206,6 +206,18 @@ function reviewerPage() {
       <p>For each one: read it, add any notes, then tap <strong>Approve</strong> or <strong>Changes requested</strong>. Everything saves straight away and we see it on our side.</p>
     </div>
     ${cards}
+    <article class="card" id="card-_ideas" data-slug="_ideas">
+      <div class="card__body">
+        <p class="kicker">One last thing</p>
+        <h2>Any ideas for future articles?</h2>
+        <p class="stand">Questions customers keep asking, jobs worth explaining, or titles you'd like to see — add as many as you like.</p>
+        <ul class="notes" data-notes></ul>
+        <textarea data-text placeholder="e.g. What does a retaining wall cost in Melbourne? · Synthetic turf and dogs · Best lawn for shade" maxlength="4000"></textarea>
+        <div class="row" style="margin-top:.6rem">
+          <button class="btn btn--ghost" type="button" data-add>Add idea</button>
+        </div>
+      </div>
+    </article>
   </main>
 `;
 
@@ -214,12 +226,13 @@ function reviewerPage() {
   function render(rec) {
     var card = document.querySelector('[data-slug="' + rec.slug + '"]'); if (!card) return;
     state[rec.slug] = rec;
-    card.querySelector("[data-badge]").outerHTML = badge(rec.status).replace('class="badge', 'data-badge class="badge');
+    var bd = card.querySelector("[data-badge]");
+    if (bd) bd.outerHTML = badge(rec.status).replace('class="badge', 'data-badge class="badge');
     card.querySelectorAll("[data-status]").forEach(function (b) { b.classList.toggle("is-on", b.dataset.status === rec.status); });
     var list = card.querySelector("[data-notes]");
     list.innerHTML = rec.notes.length ? rec.notes.map(function (n) {
       return '<li class="note"><p>' + esc(n.text) + '</p><div class="meta"><span>' + esc(n.by) + ' · ' + when(n.at) + '</span><button class="btn btn--danger" type="button" data-del="' + n.id + '">Remove</button></div></li>';
-    }).join("") : '<li class="empty">No notes yet.</li>';
+    }).join("") : '<li class="empty">' + (rec.slug === "_ideas" ? "No ideas yet." : "No notes yet.") + '</li>';
   }
   function busy(card, on) { card.querySelectorAll("button").forEach(function (b) { b.disabled = on; }); }
   function act(card, payload, okMsg) {
@@ -233,7 +246,7 @@ function reviewerPage() {
     card.querySelector("[data-add]").addEventListener("click", function () {
       var ta = card.querySelector("[data-text]"); var text = ta.value.trim();
       if (!text) { toast("Write a note first", true); ta.focus(); return; }
-      act(card, { slug: slug, action: "note", text: text }, "Note saved").then(function () { if (state[slug] && state[slug].notes.some(function (n) { return n.text === text; })) ta.value = ""; });
+      act(card, { slug: slug, action: "note", text: text }, slug === "_ideas" ? "Idea saved" : "Note saved").then(function () { if (state[slug] && state[slug].notes.some(function (n) { return n.text === text; })) ta.value = ""; });
     });
     card.querySelectorAll("[data-status]").forEach(function (b) {
       b.addEventListener("click", function () {
@@ -249,7 +262,7 @@ function reviewerPage() {
     det.addEventListener("toggle", function () { var f = det.querySelector("iframe"); if (det.open && !f.src) f.src = f.dataset.src; });
   });
   if (!KEY) { gate("This page needs its private link"); }
-  else api("GET").then(function (d) { d.blogs.forEach(render); }).catch(function (e) { gate(e.message); });
+  else api("GET").then(function (d) { d.blogs.forEach(render); if (d.ideas) render(d.ideas); }).catch(function (e) { gate(e.message); });
   `;
   return shell({ title: "Blog review — Bastiano Landscaping", body, script });
 }
@@ -265,6 +278,10 @@ function ownerPage() {
     </div>
     <ul class="sum" id="sum"></ul>
     <div id="detail"></div>
+    <article class="card" id="ideas"><div class="card__body">
+      <p class="kicker">From the bottom of his page</p><h2>Ideas for future articles</h2>
+      <ul class="notes" id="ideas-list"><li class="empty">No ideas yet.</li></ul>
+    </div></article>
   </main>
 `;
 
@@ -288,6 +305,8 @@ function ownerPage() {
           (r.notes.length ? r.notes.map(function (n) { return '<li class="note"><p>' + esc(n.text) + '</p><div class="meta"><span>' + esc(n.by) + ' · ' + when(n.at) + '</span></div></li>'; }).join("") : '<li class="empty">No notes yet.</li>') +
           '</ul></div></article>';
       }).join("");
+      var ideas = (d.ideas && d.ideas.notes) || [];
+      document.getElementById("ideas-list").innerHTML = ideas.length ? ideas.map(function (n) { return '<li class="note"><p>' + esc(n.text) + '</p><div class="meta"><span>' + esc(n.by) + ' · ' + when(n.at) + '</span></div></li>'; }).join("") : '<li class="empty">No ideas yet.</li>';
       document.getElementById("stamp").textContent = "Loaded " + when(new Date().toISOString());
     }).catch(function (e) { gate(e.message); });
   }
