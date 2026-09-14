@@ -59,6 +59,8 @@ execFileSync("node", [path.join(__dirname, "build-project-pages.js")], { stdio: 
 // Blog last of the page generators: it checks every internal link in the
 // drafts against the routes the generators above have just written.
 execFileSync("node", [path.join(__dirname, "build-blog.js")], { stdio: "inherit", env });
+// Private blog review area (/review, /review/owner) — reads the same drafts.
+execFileSync("node", [path.join(__dirname, "build-review.js")], { stdio: "inherit", env });
 execFileSync("node", [path.join(__dirname, "gen-images.js")], { stdio: "inherit", env });
 
 // Real photography wins over generated placeholders.
