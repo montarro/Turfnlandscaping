@@ -200,7 +200,7 @@
   </url>
   <url>
     <loc>https://bastianolandscaping.com.au/blog</loc>
-    <lastmod>2026-08-31</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -219,6 +219,24 @@
   <url>
     <loc>https://bastianolandscaping.com.au/blog/turf-repair-vs-lawn-replacement</loc>
     <lastmod>2026-08-31</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bastianolandscaping.com.au/blog/best-time-to-lay-turf-melbourne</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bastianolandscaping.com.au/blog/how-to-plan-complete-landscaping-project</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bastianolandscaping.com.au/blog/pavers-vs-stepping-stones-garden-path</loc>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>

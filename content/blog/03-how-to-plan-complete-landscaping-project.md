@@ -6,9 +6,9 @@ metaDescription: "Plan a Melbourne landscaping project in the right order: decid
 primaryKeyword: "how to plan a landscaping project"
 searchIntent: "informational commercial"
 author: "Sebastian Caus"
-published: false
-datePublished: ""
-dateReviewed: ""
+published: true
+datePublished: "2026-09-14"
+dateReviewed: "2026-09-14"
 heroImage: "front-yard-after-landscaping-turf-mulch-path.jpg"
 heroAlt: "Completed front yard landscaping: new lawn, mulched garden beds, a pebble stepping-stone path and a rock feature in front of the home"
 relatedServices: ["Custom Landscaping", "Garden Design", "Hard Landscaping"]

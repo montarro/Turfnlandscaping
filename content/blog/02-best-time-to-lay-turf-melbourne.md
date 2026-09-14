@@ -6,9 +6,9 @@ metaDescription: "Spring and early autumn suit most Melbourne lawns. See how eac
 primaryKeyword: "best time to lay turf Melbourne"
 searchIntent: "informational"
 author: "Sebastian Caus"
-published: false
-datePublished: ""
-dateReviewed: ""
+published: true
+datePublished: "2026-09-14"
+dateReviewed: "2026-09-14"
 heroImage: "natural-turf-backyard-installation-in-progress.jpg"
 heroAlt: "Fresh natural turf being installed in a Melbourne backyard"
 relatedServices: ["Natural Turf", "Turf Repair and Patching"]

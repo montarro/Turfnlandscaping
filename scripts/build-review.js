@@ -41,6 +41,7 @@ const all = fs.readdirSync(POSTS_DIR).filter((f) => /^\d+-.*\.md$/.test(f)).map(
   return {
     file, slug: data.slug, title: data.title, heroAlt: data.heroAlt,
     published: String(data.published).trim() === "true",
+    datePublished: data.datePublished || "",
     readMinutes: Math.max(3, Math.round(words / 210)),
     standfirst: (body.split(/\n\s*\n/).find((p) => p.trim() && !/^#/.test(p.trim())) || "").trim(),
   };
@@ -48,7 +49,7 @@ const all = fs.readdirSync(POSTS_DIR).filter((f) => /^\d+-.*\.md$/.test(f)).map(
 const articles = CONFIG.slugs.map((slug, i) => {
   const a = all.find((p) => p.slug === slug);
   if (!a) throw new Error(`blog-review.json: no article with slug "${slug}"`);
-  if (a.published) throw new Error(`blog-review.json: "${slug}" is already published — the review round is for drafts only`);
+  // A published article stays on the page (notes still welcome) but loses its verdict buttons.
   return Object.assign({ n: i + 1 }, a);
 });
 
@@ -169,7 +170,7 @@ function reviewerPage() {
     <article class="card" id="card-${a.slug}" data-slug="${a.slug}">
       <img class="card__hero" src="/assets/images/blog-${a.slug}.webp" alt="${esc(a.heroAlt)}" loading="lazy" width="1200" height="800" />
       <div class="card__body">
-        <p class="kicker">Article ${a.n} of ${articles.length} · ${a.readMinutes} min read</p>
+        <p class="kicker">Article ${a.n} of ${articles.length} · ${a.readMinutes} min read${a.published ? ` · Published ${a.datePublished}` : ""}</p>
         <h2>${esc(a.title)}</h2>
         <p class="stand">${esc(a.standfirst)}</p>
         <div class="row">
@@ -187,14 +188,14 @@ function reviewerPage() {
           <button class="btn btn--ghost" type="button" data-add>Add note</button>
         </div>
 
-        <div class="status">
+        ${a.published ? `<p class="hint">This article is now live on the website. Notes are still welcome and we can update it any time.</p>` : `<div class="status">
           <h3 style="margin-top:0">Your verdict</h3>
           <div class="row">
             <button class="btn btn--ok" type="button" data-status="approved">✓ Approve</button>
             <button class="btn btn--warn" type="button" data-status="changes">Changes requested</button>
           </div>
           <p class="hint">Approving does not publish anything — we schedule each article once you're happy with it.</p>
-        </div>
+        </div>`}
       </div>
     </article>`).join("\n");
 

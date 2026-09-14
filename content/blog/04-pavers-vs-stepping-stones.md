@@ -6,9 +6,9 @@ metaDescription: "Pavers or stepping stones for a Melbourne garden path? Compare
 primaryKeyword: "pavers vs stepping stones"
 searchIntent: "comparison"
 author: "Sebastian Caus"
-published: false
-datePublished: ""
-dateReviewed: ""
+published: true
+datePublished: "2026-09-14"
+dateReviewed: "2026-09-14"
 heroImage: "side-yard-stepping-stone-path-climbing-flowers.jpg"
 heroAlt: "Stepping stone garden path through a landscaped Melbourne side yard"
 relatedServices: ["Pavers and Stepping Stones", "Hard Landscaping"]
