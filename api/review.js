@@ -12,7 +12,7 @@
           action "status"      + status        pending | approved | changes
 
    Feedback is stored as one JSON document per article in a private
-   Supabase Storage bucket (api/_lib/store.js). Nothing here can publish
+   Vercel Blob store (api/_lib/store.js). Nothing here can publish
    an article — publishing is a frontmatter change in content/blog.
    ===================================================================== */
 const crypto = require("crypto");
@@ -51,23 +51,10 @@ module.exports = async (req, res) => {
     if (!keyMatches(req)) return json(res, 401, { error: "This review link is not valid" });
 
     if (req.method === "GET" && new URL(req.url, "http://x").searchParams.get("health") === "1") {
-      /* Key-protected diagnostics: shape and reachability only, never values. */
-      const KNOWN = "https://podlutvvrclhxmhgupil.supabase.co";
-      const envUrl = (process.env.SUPABASE_URL || "").trim();
-      const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
-      const out = {
-        envUrlSet: !!envUrl,
-        envUrlShapeOk: /^https:\/\/[a-z0-9]+\.supabase\.co$/.test(envUrl),
-        envUrlIsKnownProject: envUrl === KNOWN,
-        keyShapeOk: key.startsWith("eyJ") && key.length > 150,
-      };
-      for (const [label, url] of [["env", envUrl], ["default", KNOWN]]) {
-        if (!url) continue;
-        try {
-          const r = await fetch(url + "/storage/v1/bucket", { headers: { apikey: key, Authorization: "Bearer " + key } });
-          out["probe_" + label] = r.status;
-        } catch (e) { out["probe_" + label] = (e.cause && e.cause.code) || e.name || "fetch failed"; }
-      }
+      /* Key-protected diagnostics: no values, just whether storage answers. */
+      const out = { tokenSet: !!process.env.BLOB_READ_WRITE_TOKEN };
+      try { await store.getJson("__health__.json"); out.storage = "ok"; }
+      catch (e) { out.storage = String(e.message).slice(0, 200); }
       return json(res, 200, out);
     }
 
