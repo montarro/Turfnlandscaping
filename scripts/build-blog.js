@@ -121,6 +121,8 @@ function parseFrontmatter(raw) {
 /* ---------- markdown ---------- */
 function inline(text, report) {
   let out = esc(smart(text));
+  // **bold** — used sparingly for the lead phrase of a list item
+  out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   // [label](/path) — the drafts only ever link internally
   out = out.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) => {
     const to = remap(href);
@@ -150,9 +152,31 @@ function renderMarkdown(body, report) {
   let list = null; // "ul" | "ol"
   const closeList = () => { if (list) { out.push(`</${list}>`); list = null; } };
 
+  let table = null; // rows of cells while inside a pipe table
+  const closeTable = () => {
+    if (!table) return;
+    const [head, ...rows] = table;
+    out.push('<div class="bl-table-wrap"><table class="bl-table">');
+    out.push(`<thead><tr>${head.map((c) => `<th scope="col">${inline(c, report)}</th>`).join("")}</tr></thead>`);
+    out.push(`<tbody>${rows.map((r) => `<tr>${r.map((c, i) => i === 0 ? `<th scope="row">${inline(c, report)}</th>` : `<td>${inline(c, report)}</td>`).join("")}</tr>`).join("")}</tbody>`);
+    out.push("</table></div>");
+    table = null;
+  };
+
   for (let raw of lines) {
     const line = raw.trimEnd();
-    if (!line.trim()) { closeList(); continue; }
+    if (!line.trim()) { closeList(); closeTable(); continue; }
+
+    // | a | b | pipe tables; the |---|---| separator row is skipped
+    if (/^\|.*\|$/.test(line.trim())) {
+      closeList();
+      const cells = line.trim().slice(1, -1).split("|").map((c) => c.trim());
+      if (cells.every((c) => /^:?-{2,}:?$/.test(c))) continue;
+      if (!table) table = [];
+      table.push(cells);
+      continue;
+    }
+    closeTable();
 
     const h = line.match(/^(#{2,3})\s+(.*)$/);
     if (h) { closeList(); const n = h[1].length; out.push(`<h${n}>${inline(h[2], report)}</h${n}>`); continue; }
@@ -178,6 +202,7 @@ function renderMarkdown(body, report) {
     out.push(`<p>${inline(line, report)}</p>`);
   }
   closeList();
+  closeTable();
   return out.join("\n            ");
 }
 

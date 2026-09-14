@@ -180,6 +180,11 @@
 .bl-prose .bl-list li { margin-bottom: .55rem; padding-left: .2rem; }
 .bl-prose ul.bl-list li::marker { color: var(--leaf-deep); }
 .bl-prose ol.bl-list li::marker { color: var(--leaf-deep); font-family: var(--font-display); font-weight: 700; }
+.bl-table-wrap { overflow-x: auto; margin: 0 0 1.4rem; -webkit-overflow-scrolling: touch; }
+.bl-table { width: 100%; border-collapse: collapse; font-size: .95rem; line-height: 1.5; min-width: 520px; }
+.bl-table th, .bl-table td { text-align: left; vertical-align: top; padding: .65rem .75rem; border-bottom: 1px solid var(--line); }
+.bl-table thead th { background: var(--sage-100); color: var(--forest-900); font-family: var(--font-display); font-weight: 600; font-size: .88rem; }
+.bl-table tbody th { font-weight: 600; color: var(--forest-900); white-space: nowrap; }
 
 /* ---------- Article: end-of-article CTA ----------
    One restrained panel at the end of the piece — no CTAs between sections. */
