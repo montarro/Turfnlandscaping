@@ -1,7 +1,7 @@
 {
   "_comment": "Blog review round for Sebastian. Slugs must match content/blog/*.md. Read by scripts/build-review.js (the /review pages) and api/review.js (feedback storage). Changing this list never publishes anything.",
   "reviewer": "Sebastian",
-  "round": "Round 1 — next three scheduled articles",
+  "round": "Next three scheduled articles",
   "slugs": [
     "best-time-to-lay-turf-melbourne",
     "how-to-plan-complete-landscaping-project",

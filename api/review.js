@@ -21,6 +21,9 @@ const { json, readBody, handleError } = require("./_lib/util");
 const CONFIG = require("../content/blog-review.json");
 
 const STATUSES = ["pending", "approved", "changes"];
+/* Extra document for "ideas for future articles" — notes only, no status. */
+const IDEAS = "_ideas";
+const ALLOWED = CONFIG.slugs.concat(IDEAS);
 const MAX_NOTE = 4000;
 
 function keyMatches(req) {
@@ -60,12 +63,13 @@ module.exports = async (req, res) => {
 
     if (req.method === "GET") {
       const blogs = await Promise.all(CONFIG.slugs.map(load));
-      return json(res, 200, { reviewer: CONFIG.reviewer, round: CONFIG.round, blogs });
+      const ideas = await load(IDEAS);
+      return json(res, 200, { reviewer: CONFIG.reviewer, round: CONFIG.round, blogs, ideas });
     }
 
     const body = await readBody(req);
     const slug = String(body.slug || "");
-    if (!CONFIG.slugs.includes(slug)) return json(res, 400, { error: "Unknown article" });
+    if (!ALLOWED.includes(slug)) return json(res, 400, { error: "Unknown article" });
 
     const rec = await load(slug);
     const now = new Date().toISOString();
@@ -80,6 +84,7 @@ module.exports = async (req, res) => {
       rec.notes = rec.notes.filter((n) => n.id !== String(body.id || ""));
       if (rec.notes.length === before) return json(res, 404, { error: "Note not found" });
     } else if (body.action === "status") {
+      if (slug === IDEAS) return json(res, 400, { error: "Ideas have no status" });
       const status = String(body.status || "");
       if (!STATUSES.includes(status)) return json(res, 400, { error: "Unknown status" });
       rec.status = status;
