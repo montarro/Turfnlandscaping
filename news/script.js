@@ -942,9 +942,8 @@ function renderList(list) {
     return;
   }
   els.stateBox.hidden = true;
-  // Photo articles first (stable order within each group), text-only below.
-  const ordered = list.filter((a) => a.image).concat(list.filter((a) => !a.image));
-  els.feed.innerHTML = ordered.map(cardHTML).join('');
+  // Newest to oldest, exactly as returned by the API — no reordering.
+  els.feed.innerHTML = list.map(cardHTML).join('');
 }
 
 function showState(title, hint, isError) {

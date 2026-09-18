@@ -664,15 +664,20 @@ async function getNews({ categories, q, limit, lang, source, force, cycle } = {}
     }
   }
 
-  // Round-robin across the feeds so every selected topic/channel is represented
-  // near the top, while each feed stays newest-first internally.
-  let articles = [];
-  for (let i = 0, more = true; more; i++) {
-    more = false;
-    for (const lst of lists) {
-      if (lst[i]) { articles.push(lst[i]); more = true; }
-    }
-  }
+  // Focus on the past week first — older articles only appear once this
+  // week's are exhausted — and within each group, photo articles lead
+  // (text-only articles are still included, just after the photo ones).
+  const ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+  const weekCutoff = Date.now() - ONE_WEEK_MS;
+  const articleTime = (a) => (a.publishedAt ? Date.parse(a.publishedAt) : 0);
+  const byPhotoThenDate = (a, b) => {
+    const photoDiff = (b.image ? 1 : 0) - (a.image ? 1 : 0);
+    return photoDiff || byDateDesc(a, b);
+  };
+  const flat = lists.flat();
+  const thisWeek = flat.filter((a) => articleTime(a) >= weekCutoff).sort(byPhotoThenDate);
+  const older = flat.filter((a) => articleTime(a) < weekCutoff).sort(byPhotoThenDate);
+  let articles = [...thisWeek, ...older];
 
   articles = dedupe(articles);
 
