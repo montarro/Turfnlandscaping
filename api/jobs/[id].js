@@ -11,6 +11,14 @@ module.exports = async (req, res) => {
   try {
     if (!requireAuth(req, res)) return;
     const id = req.query.id;
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(id || ""))) {
+      return json(res, 400, { error: "Invalid job id" });
+    }
+    if (req.method === "DELETE") {
+      const gone = await db.del("jobs", `id=eq.${id}`);
+      if (!gone || !gone.length) return json(res, 404, { error: "Job not found" });
+      return json(res, 200, { ok: true });
+    }
     if (req.method === "GET") {
       const rows = await db.select("jobs", `select=*&id=eq.${id}`);
       if (!rows.length) return json(res, 404, { error: "Job not found" });

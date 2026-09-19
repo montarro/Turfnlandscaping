@@ -675,6 +675,7 @@
           b.push('<button class="btn btn--ghost" id="act-issue">Issue Invoice</button>');
           b.push('<button class="btn btn--soft" id="act-dup">Duplicate</button>');
           b.push('<button class="btn btn--danger" id="act-archive">Archive draft</button>');
+          b.push('<button class="btn btn--danger" id="act-del">Delete</button>');
         }
       } else {
         b.push('<a class="btn btn--soft" href="/api/invoices/pdf?id=' + inv.id + '" target="_blank" rel="noopener">Preview PDF</a>');
@@ -684,6 +685,7 @@
         b.push('<button class="btn btn--soft" id="act-dup">Duplicate</button>');
         if (["issued", "part_paid", "paid"].indexOf(inv.status) !== -1) b.push('<button class="btn btn--ghost" id="act-rev">Create Revision</button>');
         if (inv.status !== "void") b.push('<button class="btn btn--danger" id="act-void">Void</button>');
+        b.push('<button class="btn btn--danger" id="act-del">Delete</button>');
       }
       box.innerHTML = b.join("");
 
@@ -724,6 +726,14 @@
         if (reason === null) return;
         try { await api("/api/invoices/" + inv.id, { method: "POST", body: { action: "void", reason: reason } }); viewInvoiceEditor(inv.id); }
         catch (e) { toast(e.message, true); }
+      });
+      on("act-del", async function () {
+        var label = inv.invoice_no ? "invoice " + inv.invoice_no : "this draft";
+        if (!confirm("Permanently delete " + label + "? This cannot be undone — its line items and recorded payments are deleted too. Download the PDF first if you need a copy.")) return;
+        try {
+          await api("/api/invoices/" + inv.id, { method: "POST", body: { action: "delete" } });
+          dirty = false; toast("Invoice deleted"); nav("/admin/invoices");
+        } catch (e) { toast(e.message, true); }
       });
       on("act-rev", async function () {
         if (!confirm("Create an editable revision? The original stays preserved exactly as issued.")) return;
@@ -1059,10 +1069,18 @@
         "</div>" +
         (j.invoice_id ? '<p><a href="/admin/invoices/' + j.invoice_id + '" data-nav>Open linked invoice →</a></p>' : "") +
         '<div class="btnrow"><button class="btn btn--primary" id="jf-save">' + (isNew ? "Add job" : "Save changes") + "</button>" +
-        '<button class="btn btn--ghost" id="jf-cancel">Cancel</button></div>' +
+        '<button class="btn btn--ghost" id="jf-cancel">Cancel</button>' +
+        (isNew ? "" : '<button class="btn btn--danger" id="jf-delete">Delete job</button>') + "</div>" +
         '<p class="error-text" id="jf-err" role="alert"></p></fieldset>';
       document.getElementById("job-form").scrollIntoView({ behavior: "smooth", block: "nearest" });
       document.getElementById("jf-cancel").addEventListener("click", function () { document.getElementById("job-form").innerHTML = ""; });
+      if (!isNew) document.getElementById("jf-delete").addEventListener("click", async function () {
+        var msg = "Permanently delete this job for " + (j.client_name || "this client") + "? This cannot be undone.";
+        if (j.invoice_id) msg += "\n\nIts linked invoice is NOT deleted — it stays in the Invoices tab.";
+        if (!confirm(msg)) return;
+        try { await api("/api/jobs/" + j.id, { method: "DELETE" }); toast("Job deleted"); document.getElementById("job-form").innerHTML = ""; viewJobs(); }
+        catch (e) { document.getElementById("jf-err").textContent = e.message; }
+      });
       document.getElementById("jf-save").addEventListener("click", async function () {
         var priceRaw = document.getElementById("jf-price").value.trim();
         var body = {

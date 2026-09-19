@@ -53,6 +53,7 @@ const db = {
   select: (table, query) => rest("GET", `/${table}?${query || "select=*"}`),
   insert: (table, row) => rest("POST", `/${table}`, row),
   update: (table, query, patch) => rest("PATCH", `/${table}?${query}`, patch),
+  del: (table, query) => rest("DELETE", `/${table}?${query}`, undefined, { Prefer: "return=representation" }),
   rpc: async (fn, args) => {
     const { url, key } = config();
     const res = await fetch(url + "/rest/v1/rpc/" + fn, {

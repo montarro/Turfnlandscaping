@@ -22,6 +22,9 @@ module.exports = async (req, res) => {
   try {
     if (!requireAuth(req, res)) return;
     const id = req.query.id;
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(id || ""))) {
+      return json(res, 400, { error: "Invalid invoice id" });
+    }
 
     if (req.method === "GET") {
       const inv = await loadFull(id);
@@ -57,6 +60,17 @@ module.exports = async (req, res) => {
         }
         case "payment": {
           await db.rpc("record_payment", { p_id: id, p: body.payment || {} });
+          return json(res, 200, { ok: true });
+        }
+        case "delete": {
+          /* Hard delete at the owner's request — downloaded PDFs are the
+             retained record. jobs.invoice_id and invoices.revision_of
+             have no cascade, so unlink them first; items, scope sections
+             and payments cascade in the schema. */
+          await db.update("jobs", `invoice_id=eq.${id}`, { invoice_id: null });
+          await db.update("invoices", `revision_of=eq.${id}`, { revision_of: null });
+          const gone = await db.del("invoices", `id=eq.${id}`);
+          if (!gone || !gone.length) return json(res, 404, { error: "Invoice not found" });
           return json(res, 200, { ok: true });
         }
         default:
