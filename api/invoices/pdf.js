@@ -43,6 +43,9 @@ module.exports = async (req, res) => {
     const u = new URL(req.url, "http://x");
     const id = u.searchParams.get("id");
     if (!id) return json(res, 400, { error: "id required" });
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+      return json(res, 400, { error: "Invalid invoice id" });
+    }
 
     const rows = await db.select("invoices", `select=*&id=eq.${id}`);
     if (!rows.length) return json(res, 404, { error: "Invoice not found" });
@@ -298,7 +301,7 @@ module.exports = async (req, res) => {
     res.setHeader("X-Robots-Tag", "noindex, nofollow");
     res.setHeader("Cache-Control", "no-store");
     const disposition = u.searchParams.get("download") === "1" ? "attachment" : "inline";
-    res.setHeader("Content-Disposition", `${disposition}; filename="TLV-Invoice-${number}-${clientName}.pdf"`);
+    res.setHeader("Content-Disposition", `${disposition}; filename="Bastiano-Invoice-${number}-${clientName}.pdf"`);
     res.end(pdf);
   } catch (e) { handleError(res, e); }
 };

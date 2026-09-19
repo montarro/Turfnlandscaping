@@ -33,8 +33,8 @@ function keyMatches(req) {
     err.statusCode = 503;
     throw err;
   }
-  const u = new URL(req.url, "http://x");
-  const provided = String(req.headers["x-review-key"] || u.searchParams.get("k") || "");
+  /* Header only — a key in the query string would land in access logs. */
+  const provided = String(req.headers["x-review-key"] || "");
   const a = Buffer.from(provided), b = Buffer.from(expected);
   return a.length === b.length && crypto.timingSafeEqual(a, b);
 }

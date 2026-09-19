@@ -35,7 +35,7 @@ const GRADS = {
   d: ["#5a9c3e", "#0e3b23"],
 };
 
-function svg({ w, h, title, lines, icon = "hero", grad = "a", eyebrow = "TURF AND LANDSCAPING", textless = false }) {
+function svg({ w, h, title, lines, icon = "hero", grad = "a", eyebrow = "BASTIANO LANDSCAPING", textless = false }) {
   const [c1, c2] = GRADS[grad] || GRADS.a;
   const cx = w / 2;
 
@@ -86,25 +86,6 @@ const IMAGES = [
   // Labelled — standalone card, nothing overlaid.
   { file: "og-turf-and-landscaping.webp", w: 1200, h: 630, grad: "b", icon: "hero",
     lines: ["Bastiano Landscaping", "Melbourne West & Inner Suburbs"], eyebrow: "FREE ON-SITE QUOTES" },
-
-  { file: "new-turf-lawn-craigieburn-backyard.webp", w: 1200, h: 900, grad: "c", icon: "turf",
-    lines: ["New turf lawn", "Craigieburn"] },
-  { file: "bluestone-paving-patio-sunbury.webp", w: 1200, h: 900, grad: "b", icon: "paving",
-    lines: ["Bluestone paving", "Sunbury"] },
-  { file: "timber-sleeper-retaining-wall-melton.webp", w: 1200, h: 900, grad: "a", icon: "wall",
-    lines: ["Timber sleeper wall", "Melton"] },
-  { file: "native-garden-planting-point-cook.webp", w: 1200, h: 900, grad: "d", icon: "soft",
-    lines: ["Native garden beds", "Point Cook"] },
-  { file: "stepping-stone-path-werribee.webp", w: 1200, h: 900, grad: "b", icon: "paving",
-    lines: ["Stepping-stone path", "Werribee"] },
-  { file: "instant-turf-front-lawn-mickleham.webp", w: 1200, h: 900, grad: "c", icon: "turf",
-    lines: ["Instant turf front lawn", "Mickleham"] },
-  { file: "courtyard-garden-design-craigieburn.webp", w: 1200, h: 900, grad: "c", icon: "design",
-    lines: ["Courtyard garden design", "Craigieburn"] },
-  { file: "concrete-sleeper-retaining-wall-sunbury.webp", w: 1200, h: 900, grad: "a", icon: "wall",
-    lines: ["Concrete sleeper wall", "Sunbury"] },
-  { file: "mulched-garden-beds-shrubs-melton.webp", w: 1200, h: 900, grad: "d", icon: "soft",
-    lines: ["Mulched beds & shrubs", "Melton"] },
 ];
 
 (async () => {

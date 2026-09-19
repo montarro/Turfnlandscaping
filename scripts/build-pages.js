@@ -126,44 +126,6 @@ function ctaBand() {
 /* ---------- Service pages ---------- */
 const SERVICES = [
   {
-    name: "Natural Turf Solutions",
-    image: "service-natural-turf-solutions.webp",
-    imageAlt: "Roll of fresh natural turf being laid over prepared soil",
-    tagline: "Fresh, hard-wearing lawns supplied and laid to suit your soil, sun and lifestyle.",
-    desc:
-      "New natural turf supplied and laid across Melbourne's west and inner suburbs. Proper soil prep, warm-season varieties and a lawn that lasts. Free on-site quotes — call 0457 357 085.",
-    intro:
-      "A healthy lawn is the fastest way to lift the look of a whole property — and the biggest disappointment if it's laid over poor ground. We supply and lay quality natural turf on soil that's been properly prepared, graded and drained, so your new lawn takes quickly and holds up to Melbourne summers, kids and pets.",
-    included: [
-      "Site clearing, weed removal and soil preparation",
-      "Grading and levelling for a smooth, even finish",
-      "Supply of quality warm-season turf suited to your aspect",
-      "Careful laying, rolling and joint alignment",
-      "Watering-in and simple aftercare advice",
-    ],
-    body:
-      "We help you choose the right variety for the spot — a tougher couch or kikuyu for a lawn that cops full sun and foot traffic, or a soft-leaf buffalo where you want shade tolerance and a plush feel underfoot. Whether it's a small front verge or a full backyard, we handle the whole job, leave the site tidy, and tell you exactly how to water it in for the first few weeks.",
-  },
-  {
-    name: "Paving & Stepping Stones",
-    image: "paving-flagstone-patio-pergola.webp",
-    imageAlt: "Flagstone paved patio beside a timber pergola and a lawn",
-    tagline: "Patios, paths and pool surrounds laid dead level and built to last.",
-    desc:
-      "Paving and stepping-stone paths across Melbourne's west and inner suburbs — bluestone, concrete and clay pavers on a proper base with correct drainage. Free on-site quotes: call 0457 357 085.",
-    intro:
-      "Good paving is all in the base you don't see. We excavate, compact and lay a proper sub-base so your patio, path or pool surround stays flat and true for years — no rocking pavers, no puddles, no weeds pushing through the joints.",
-    included: [
-      "Excavation and compacted road-base preparation",
-      "Bluestone, concrete, clay and porcelain pavers",
-      "Stepping-stone paths and garden walkways",
-      "Correct falls for drainage away from the house",
-      "Clean cuts, tight joints and a swept finish",
-    ],
-    body:
-      "From an entertaining area off the back door to a neat path down the side of the house, we lay to a string line and a level so the finish looks sharp and drains the way it should. We'll talk you through paver options to match your home and budget, and make sure water runs away from your slab, not toward it.",
-  },
-  {
     name: "Retaining Walls",
     image: "service-retaining-walls.webp",
     imageAlt: "Concrete sleeper retaining wall holding back a garden bed",

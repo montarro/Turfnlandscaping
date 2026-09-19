@@ -138,7 +138,7 @@ function hubPage() {
 ${HEADER}
   <main id="main">
     <section class="page-hero">
-      <div class="page-hero__media"><img src="${img(HUB_HERO)}" alt="" width="1920" height="1080" fetchpriority="high" /></div>
+      <div class="page-hero__media"><img src="${img(HUB_HERO)}" alt="Completed landscaping project with new lawn and garden beds" width="1920" height="1080" fetchpriority="high" /></div>
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Projects</nav>
         <h1>Real Projects. <em class="accent-i">Built Properly.</em></h1>
@@ -332,7 +332,7 @@ function beforeAfterPage() {
 ${HEADER}
   <main id="main">
     <section class="page-hero">
-      <div class="page-hero__media"><img src="${img(pairs[0] ? pairs[0].after.img : PROJECTS[0].hero)}" alt="" width="1200" height="900" fetchpriority="high" /></div>
+      <div class="page-hero__media"><img src="${img(pairs[0] ? pairs[0].after.img : PROJECTS[0].hero)}" alt="Before and after landscaping transformation" width="1200" height="900" fetchpriority="high" /></div>
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Before &amp; After</nav>
         <span class="eyebrow eyebrow--light">Real Transformations</span>

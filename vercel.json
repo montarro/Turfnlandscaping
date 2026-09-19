@@ -82,6 +82,18 @@
       "permanent": false
     },
     {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "^(www\\.)?turfandlandscaping\\.com\\.au$" }],
+      "destination": "https://bastianolandscaping.com.au/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "^(www\\.)?bastiano-turf\\.com\\.au$" }],
+      "destination": "https://bastianolandscaping.com.au/:path*",
+      "permanent": true
+    },
+    {
       "source": "/((?!api/|assets/|admin/|robots\\.txt|login|invoices|jobs|clients|pricing|settings).*)",
       "has": [{ "type": "host", "value": "^app\\.bastianolandscaping\\.com\\.au$" }],
       "destination": "/invoices",

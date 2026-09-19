@@ -23,9 +23,6 @@ const GHL_VERSION = "2021-07-28";
 const DEFAULT_ORIGINS = [
   "https://bastianolandscaping.com.au",
   "https://www.bastianolandscaping.com.au",
-  // Pre-launch preview hosts of the same site (form testing).
-  "https://bastiano-landscaping.turfnlandscaping.workers.dev",
-  "https://turfnlandscaping-git-redesign-rymar-inspired-hero-montarro.vercel.app",
 ];
 
 const MAX_FILES = 5;

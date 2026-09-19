@@ -180,7 +180,7 @@ function servicePage(s) {
 ${HEADER}
   <main id="main">
     <section class="page-hero${s.image ? "" : " page-hero--plain"}">
-      ${s.image ? `<div class="page-hero__media"><img src="${img(s.image)}" alt="" width="1200" height="900" fetchpriority="high" /></div>` : ""}
+      ${s.image ? `<div class="page-hero__media"><img src="${img(s.image)}" alt="${s.name.replace(/&/g, "&amp;")} by Bastiano Landscaping" width="1200" height="900" fetchpriority="high" /></div>` : ""}
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/services">Services</a><span>/</span>${s.name.replace(/&/g, "&amp;")}</nav>
         <h1>${s.name.replace(/&/g, "&amp;")}</h1>
@@ -264,7 +264,7 @@ function hubPage() {
 ${HEADER}
   <main id="main">
     <section class="page-hero">
-      <div class="page-hero__media"><img src="${img("hero-landscaping-northwest-melbourne")}" alt="" width="1920" height="1080" fetchpriority="high" /></div>
+      <div class="page-hero__media"><img src="${img("hero-landscaping-northwest-melbourne")}" alt="Landscaped backyard with fresh turf and garden beds in Melbourne's west" width="1920" height="1080" fetchpriority="high" /></div>
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Services</nav>
         <h1>Our <em class="accent-i">Services.</em></h1>

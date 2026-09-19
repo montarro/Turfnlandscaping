@@ -10,6 +10,9 @@ module.exports = async (req, res) => {
   try {
     if (!requireAuth(req, res)) return;
     const id = req.query.id;
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(id || ""))) {
+      return json(res, 400, { error: "Invalid client id" });
+    }
     if (req.method === "GET") {
       const rows = await db.select("clients", `select=*&id=eq.${id}`);
       if (!rows.length) return json(res, 404, { error: "Client not found" });

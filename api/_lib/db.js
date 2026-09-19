@@ -15,7 +15,8 @@ function config() {
   const url = /^https:\/\/[a-z0-9]+\.supabase\.co$/.test(envUrl) ? envUrl : DEFAULT_URL;
 
   const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
-  if (!key || !key.startsWith("eyJ") || key.length < 150) {
+  const keyLooksValid = key.startsWith("sb_secret_") ? key.length > 20 : (key.startsWith("eyJ") && key.length > 150);
+  if (!key || !keyLooksValid) {
     const err = new Error(
       "SUPABASE_SERVICE_ROLE_KEY is missing or truncated on this deployment — " +
       "re-paste it in Vercel (Settings -> Environment Variables) with Production ticked, then redeploy"

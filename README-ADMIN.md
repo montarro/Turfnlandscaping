@@ -8,10 +8,11 @@ environment below is configured.
 ## One-time setup
 
 1. **Create a Supabase project** (free tier is fine) at supabase.com.
-2. **Run the migration**: open the project's SQL editor and paste the
-   contents of `supabase/migrations/001_init.sql`, then run it.
+2. **Run the migrations, in order**: open the project's SQL editor and
+   run `supabase/migrations/001_init.sql`, then `002_jobs.sql` (the
+   job board), then `003_ghl_integration.sql` (GHL webhook columns).
 3. **Create the admin user**: Supabase Dashboard → Authentication →
-   Users → "Add user" → email `info@turfandlandscaping.com.au` with a
+   Users → "Add user" → email `sebastian@bastianolandscaping.com.au` with a
    strong password (tick "auto confirm"). Only emails listed in
    `ADMIN_EMAILS` can ever get a session, regardless of who signs up.
 4. **Set environment variables** in Vercel (Project → Settings →
@@ -19,8 +20,15 @@ environment below is configured.
    - `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
      (Supabase → Settings → API)
    - `SESSION_SECRET` — any random 32+ character string
-   - `ADMIN_EMAILS` — `info@turfandlandscaping.com.au`
-5. Redeploy. Sign in at `/admin/login`.
+   - `ADMIN_EMAILS` — `sebastian@bastianolandscaping.com.au`
+   - `REVIEW_KEY` — 20+ character secret for the /review sign-off area
+     (the review link's `?k=` value; losing it locks the area out)
+   - `GHL_WEBHOOK_SECRET` — 32+ character secret the GHL job-completed
+     webhook must send in `X-Webhook-Secret`
+   - `BLOB_READ_WRITE_TOKEN` — injected automatically once a Vercel
+     Blob store is attached; /review notes are stored there
+5. Redeploy. Sign in at `https://app.bastianolandscaping.com.au` (or
+   `/admin` on any preview deployment).
 
 ## Security notes
 

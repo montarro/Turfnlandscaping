@@ -33,3 +33,6 @@ assets/photos/NEW IMAGES 1 SEP/
 
 # Raw originals dropped 14 Sep 2026 (4a/4b bed refresh, 7a/7b courtyard, 8a/8b retaining) — derived WebPs live in assets/images
 assets/photos/raw-14-sep/
+
+# Supabase CLI cache — may hold project-ref/token material
+supabase/.temp/

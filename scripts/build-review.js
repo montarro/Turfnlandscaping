@@ -203,8 +203,8 @@ function reviewerPage() {
   ${header(CONFIG.round)}
   <main class="wrap" id="main">
     <div class="intro">
-      <p><strong>Hi ${esc(CONFIG.reviewer)} — three articles are ready for your check.</strong></p>
-      <p>For each one: read it, add any notes, then tap <strong>Approve</strong> or <strong>Changes requested</strong>. Everything saves straight away and we see it on our side.</p>
+      <p><strong>Hi ${esc(CONFIG.reviewer)} — your articles are below.</strong></p>
+      <p>Anything still waiting on you shows <strong>Approve</strong> and <strong>Changes requested</strong> buttons — read it, add any notes, then tap one. Articles marked as live are already published. Everything saves straight away and we see it on our side.</p>
     </div>
     ${cards}
     <article class="card" id="card-_ideas" data-slug="_ideas">

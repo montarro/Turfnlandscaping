@@ -10,6 +10,9 @@ module.exports = async (req, res) => {
   try {
     if (!requireAuth(req, res)) return;
     if (req.method !== "PUT") return json(res, 405, { error: "Method not allowed" });
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(req.query.id || ""))) {
+      return json(res, 400, { error: "Invalid item id" });
+    }
     const body = await readBody(req);
     const patch = {};
     FIELDS.forEach((k) => { if (body[k] !== undefined) patch[k] = body[k]; });

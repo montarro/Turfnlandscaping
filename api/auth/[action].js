@@ -33,7 +33,8 @@ async function login(req, res) {
   const envUrl = (process.env.SUPABASE_URL || "").trim();
   const envAnon = (process.env.SUPABASE_ANON_KEY || "").trim();
   const url = /^https:\/\/[a-z0-9]+\.supabase\.co$/.test(envUrl) ? envUrl : DEFAULT_URL;
-  const anon = (envAnon.startsWith("eyJ") && envAnon.length > 150) ? envAnon : DEFAULT_ANON;
+  const anonLooksValid = envAnon.startsWith("sb_publishable_") ? envAnon.length > 20 : (envAnon.startsWith("eyJ") && envAnon.length > 150);
+  const anon = anonLooksValid ? envAnon : DEFAULT_ANON;
 
   const r = await fetch(url.replace(/\/$/, "") + "/auth/v1/token?grant_type=password", {
     method: "POST",
