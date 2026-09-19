@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
       const rows = await db.select("clients", `select=*&id=eq.${id}`);
       if (!rows.length) return json(res, 404, { error: "Client not found" });
       const invoices = await db.select("invoices",
-        `select=id,invoice_no,status,issue_date,total_cents,paid_cents&client_id=eq.${id}&order=created_at.desc&limit=100`);
+        `select=id,invoice_no,status,issue_date,total_cents,paid_cents&client_id=eq.${id}&deleted_at=is.null&order=created_at.desc&limit=100`);
       return json(res, 200, Object.assign(rows[0], { invoices }));
     }
     if (req.method === "PUT") {

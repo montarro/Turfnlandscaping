@@ -1,5 +1,13 @@
 /* Shared helpers for the /api functions. */
 
+/* Gate for the hidden invoice trash: valid only when the request carries
+   the access key set in the TRASH_KEY env var. No env var, no trash. */
+function trashKeyOk(req) {
+  const expected = String(process.env.TRASH_KEY || "");
+  if (expected.length < 6) return false;
+  return String(req.headers["x-trash-key"] || "") === expected;
+}
+
 function json(res, status, data) {
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json");
@@ -22,4 +30,4 @@ function handleError(res, e) {
   json(res, e.statusCode || 500, { error: e.message || "Server error" });
 }
 
-module.exports = { json, readBody, handleError };
+module.exports = { json, readBody, handleError, trashKeyOk };

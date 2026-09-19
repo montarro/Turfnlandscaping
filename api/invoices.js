@@ -2,7 +2,7 @@
    POST /api/invoices — save a draft (create or update) via save_invoice RPC. */
 const { requireAuth } = require("./_lib/auth");
 const db = require("./_lib/db");
-const { json, readBody, handleError } = require("./_lib/util");
+const { json, readBody, handleError, trashKeyOk } = require("./_lib/util");
 
 module.exports = async (req, res) => {
   try {
@@ -10,6 +10,16 @@ module.exports = async (req, res) => {
 
     if (req.method === "GET") {
       const u = new URL(req.url, "http://x");
+
+      /* Hidden trash listing — without the key it doesn't exist. */
+      if (u.searchParams.get("trash") === "1") {
+        if (!trashKeyOk(req)) return json(res, 404, { error: "Not found" });
+        const rows = await db.select("invoices",
+          "select=id,invoice_no,status,client_snapshot,project_address,total_cents,deleted_at,created_at" +
+          "&deleted_at=not.is.null&order=deleted_at.desc&limit=200");
+        return json(res, 200, { invoices: rows });
+      }
+
       const q = (u.searchParams.get("q") || "").replace(/[%,()]/g, "");
       const status = u.searchParams.get("status") || "";
       const from = u.searchParams.get("from") || "";
@@ -17,7 +27,7 @@ module.exports = async (req, res) => {
 
       let query = "select=id,invoice_no,status,customer_type,client_snapshot,project_address," +
         "issue_date,due_date,total_cents,paid_cents,archived,created_at,revision_of,revision_number" +
-        "&archived=eq.false&order=created_at.desc&limit=500";
+        "&archived=eq.false&deleted_at=is.null&order=created_at.desc&limit=500";
       if (status && status !== "overdue") query += `&status=eq.${status}`;
       if (from) query += `&issue_date=gte.${from}`;
       if (to) query += `&issue_date=lte.${to}`;

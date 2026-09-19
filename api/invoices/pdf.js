@@ -6,7 +6,7 @@
 const PDFDocument = require("pdfkit");
 const { requireAuth } = require("../_lib/auth");
 const db = require("../_lib/db");
-const { json, handleError } = require("../_lib/util");
+const { json, handleError, trashKeyOk } = require("../_lib/util");
 
 const FOREST = "#1d3527";
 const FOREST_MID = "#2e5138";
@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
     }
 
     const rows = await db.select("invoices", `select=*&id=eq.${id}`);
-    if (!rows.length) return json(res, 404, { error: "Invoice not found" });
+    if (!rows.length || (rows[0].deleted_at && !trashKeyOk(req))) return json(res, 404, { error: "Invoice not found" });
     const inv = rows[0];
     inv.items = await db.select("invoice_items", `select=*&invoice_id=eq.${id}&order=position.asc`);
     inv.scope_sections = await db.select("invoice_scope_sections", `select=*&invoice_id=eq.${id}&order=position.asc`);

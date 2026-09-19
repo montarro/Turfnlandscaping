@@ -1348,7 +1348,52 @@
       html += '<p class="hint" style="color:var(--warn)">⚠ Still needed before issuing your first final invoice: ' + missing.join(", ") + ".</p>";
     }
     html += "</div>";
+    /* Unlabelled dot at the very bottom — the invoice trash lives behind
+       it, unlocked by an access key the server checks. */
+    html += '<p style="text-align:right;opacity:.15;margin-top:2rem" aria-hidden="true"><span id="st-dot" style="cursor:default">·</span></p><div id="st-trash"></div>';
     document.getElementById("view").innerHTML = html;
+
+    var trashKey = null;
+    async function loadTrash() {
+      var box = document.getElementById("st-trash");
+      var data;
+      try { data = await api("/api/invoices?trash=1", { headers: { "x-trash-key": trashKey } }); }
+      catch (e) { box.innerHTML = ""; trashKey = null; toast("Nothing here.", true); return; }
+      var rows = data.invoices || [];
+      var h = '<div class="card"><h2>Deleted invoices</h2>';
+      if (!rows.length) h += '<p class="hint">Trash is empty.</p>';
+      else {
+        h += '<table class="jobs-table"><thead><tr><th>Invoice</th><th>Client</th><th>Total</th><th>Deleted</th><th>Actions</th></tr></thead><tbody>';
+        rows.forEach(function (r) {
+          var who = (r.client_snapshot && (r.client_snapshot.business || r.client_snapshot.name)) || "—";
+          h += "<tr><td>" + esc(r.invoice_no || "Draft") + "</td><td>" + esc(who) + "</td><td>" + money(r.total_cents || 0) + "</td><td>" + fmtDate(r.deleted_at) + "</td>" +
+            '<td><button class="btn btn--sm btn--soft" data-restore="' + r.id + '">Restore</button> ' +
+            '<button class="btn btn--sm btn--danger" data-purge="' + r.id + '">Delete forever</button></td></tr>';
+        });
+        h += "</tbody></table>";
+      }
+      h += "</div>";
+      box.innerHTML = h;
+      box.querySelectorAll("[data-restore]").forEach(function (b) {
+        b.addEventListener("click", async function () {
+          try { await api("/api/invoices/" + b.dataset.restore, { method: "POST", body: { action: "restore" }, headers: { "x-trash-key": trashKey } }); toast("Restored"); loadTrash(); }
+          catch (e) { toast(e.message, true); }
+        });
+      });
+      box.querySelectorAll("[data-purge]").forEach(function (b) {
+        b.addEventListener("click", async function () {
+          if (!confirm("Permanently delete this invoice? This is final — there is no way back after this.")) return;
+          try { await api("/api/invoices/" + b.dataset.purge, { method: "POST", body: { action: "purge" }, headers: { "x-trash-key": trashKey } }); toast("Gone forever"); loadTrash(); }
+          catch (e) { toast(e.message, true); }
+        });
+      });
+    }
+    document.getElementById("st-dot").addEventListener("click", function () {
+      var k = prompt("Access key:");
+      if (!k) return;
+      trashKey = k.trim();
+      loadTrash();
+    });
 
     document.getElementById("st-save").addEventListener("click", async function () {
       var body = {};

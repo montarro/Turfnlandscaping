@@ -4,7 +4,7 @@
    through save_invoice (drafts only) and revisions create new drafts. */
 const { requireAuth } = require("../_lib/auth");
 const db = require("../_lib/db");
-const { json, readBody, handleError } = require("../_lib/util");
+const { json, readBody, handleError, trashKeyOk } = require("../_lib/util");
 
 async function loadFull(id) {
   const rows = await db.select("invoices", `select=*&id=eq.${id}`);
@@ -28,12 +28,26 @@ module.exports = async (req, res) => {
 
     if (req.method === "GET") {
       const inv = await loadFull(id);
-      if (!inv) return json(res, 404, { error: "Invoice not found" });
+      if (!inv || (inv.deleted_at && !trashKeyOk(req))) return json(res, 404, { error: "Invoice not found" });
       return json(res, 200, inv);
     }
 
     if (req.method === "POST") {
       const body = await readBody(req);
+
+      /* A trashed invoice answers only to the key-gated trash actions;
+         to everyone else it does not exist. */
+      const cur = await db.select("invoices", `select=deleted_at&id=eq.${id}`);
+      if (!cur.length) return json(res, 404, { error: "Invoice not found" });
+      const inTrash = !!cur[0].deleted_at;
+      if (inTrash && !trashKeyOk(req)) return json(res, 404, { error: "Invoice not found" });
+      if (["restore", "purge"].includes(body.action) && !trashKeyOk(req)) {
+        return json(res, 400, { error: "Unknown action" });
+      }
+      if (inTrash && !["restore", "purge"].includes(body.action)) {
+        return json(res, 400, { error: "Restore this invoice before working on it" });
+      }
+
       switch (body.action) {
         case "issue": {
           const no = await db.rpc("issue_invoice", { p_id: id });
@@ -63,10 +77,21 @@ module.exports = async (req, res) => {
           return json(res, 200, { ok: true });
         }
         case "delete": {
-          /* Hard delete at the owner's request — downloaded PDFs are the
-             retained record. jobs.invoice_id and invoices.revision_of
-             have no cascade, so unlink them first; items, scope sections
-             and payments cascade in the schema. */
+          /* Soft delete into the hidden trash: the invoice vanishes from
+             every list but the row survives. Jobs and revisions are
+             unlinked so nothing visible points at a hidden record. */
+          await db.update("jobs", `invoice_id=eq.${id}`, { invoice_id: null });
+          await db.update("invoices", `revision_of=eq.${id}`, { revision_of: null });
+          await db.update("invoices", `id=eq.${id}`, { deleted_at: new Date().toISOString() });
+          return json(res, 200, { ok: true });
+        }
+        case "restore": {
+          await db.update("invoices", `id=eq.${id}`, { deleted_at: null });
+          return json(res, 200, { ok: true });
+        }
+        case "purge": {
+          /* The real hard delete — only reachable from inside the trash.
+             Items, scope sections and payments cascade in the schema. */
           await db.update("jobs", `invoice_id=eq.${id}`, { invoice_id: null });
           await db.update("invoices", `revision_of=eq.${id}`, { revision_of: null });
           const gone = await db.del("invoices", `id=eq.${id}`);
