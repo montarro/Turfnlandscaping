@@ -90,6 +90,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/integrations/ghl/job-completed",
+      "destination": "/api/jobs?ghl=job-completed"
+    },
+    {
       "source": "/admin/:path*",
       "destination": "/admin"
     },
