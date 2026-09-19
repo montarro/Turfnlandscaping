@@ -86,26 +86,40 @@
   });
 
   /* ================= chrome ================= */
+  /* Desktop: fixed sidebar (primary nav on top, Pricing/Settings and the
+     account grouped below). Mobile: slim top bar + horizontally scrolling
+     nav. Same markup, CSS decides which chrome shows. */
   function shell(active, inner) {
-    app.innerHTML =
-      '<div class="frame">' +
-      '<header class="topbar">' +
-      '<span class="topbar__brand"><img src="/assets/logo-turf-and-landscaping-white.png" alt="" /><strong>Bastiano Landscaping Admin</strong></span>' +
-      "<nav>" +
+    var navPrimary =
       navLink("/admin/jobs", "Jobs", active === "jobs") +
       navLink("/admin/invoices", "Invoices", active === "invoices") +
-      navLink("/admin/clients", "Clients", active === "clients") +
+      navLink("/admin/clients", "Clients", active === "clients");
+    var navSecondary =
       navLink("/admin/pricing", "Pricing", active === "pricing") +
-      navLink("/admin/settings", "Settings", active === "settings") +
-      "</nav>" +
+      navLink("/admin/settings", "Settings", active === "settings");
+    app.innerHTML =
+      '<div class="frame">' +
+      '<aside class="sidebar">' +
+      '<a class="sidebar__brand" href="/admin/jobs" data-nav><img src="/assets/logo-turf-and-landscaping.png" alt="Bastiano Landscaping" /></a>' +
+      '<nav class="sidebar__nav" aria-label="Main">' + navPrimary + "</nav>" +
+      '<div class="sidebar__divider" role="presentation"></div>' +
+      '<nav class="sidebar__nav sidebar__nav--secondary" aria-label="Admin">' + navSecondary + "</nav>" +
+      '<div class="sidebar__foot">' +
+      '<span class="sidebar__email">' + esc(state.email || "") + "</span>" +
+      '<button class="btn btn--quiet btn--sm" id="logout">Sign out</button>' +
+      "</div></aside>" +
+      '<div class="content">' +
+      '<header class="mobilebar">' +
+      '<a class="mobilebar__brand" href="/admin/jobs" data-nav><img src="/assets/logo-turf-and-landscaping.png" alt="Bastiano Landscaping" /></a>' +
       '<div class="acct">' +
       '<button class="acct__btn" id="acct-btn" aria-haspopup="true" aria-expanded="false">Account <span aria-hidden="true">▾</span></button>' +
       '<div class="acct__menu" id="acct-menu" hidden>' +
       '<div class="acct__email">' + esc(state.email || "") + "</div>" +
-      '<button class="acct__item" id="logout">Sign out</button>' +
+      '<button class="acct__item" id="logout2">Sign out</button>' +
       "</div></div>" +
       "</header>" +
-      '<main class="main" id="view">' + inner + "</main></div>";
+      '<nav class="mobilenav" aria-label="Main">' + navPrimary + navSecondary + "</nav>" +
+      '<main class="main" id="view">' + inner + "</main></div></div>";
     var acctBtn = document.getElementById("acct-btn");
     var acctMenu = document.getElementById("acct-menu");
     function closeAcct() { acctMenu.hidden = true; acctBtn.setAttribute("aria-expanded", "false"); }
@@ -117,10 +131,12 @@
     });
     document.addEventListener("click", function (e) { if (!acctMenu.hidden && !acctMenu.contains(e.target)) closeAcct(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeAcct(); });
-    document.getElementById("logout").addEventListener("click", async function () {
+    var doLogout = async function () {
       await api("/api/auth/logout", { method: "POST" });
       nav("/admin/login");
-    });
+    };
+    document.getElementById("logout").addEventListener("click", doLogout);
+    document.getElementById("logout2").addEventListener("click", doLogout);
   }
   function navLink(href, label, active) {
     return '<a href="' + href + '" data-nav' + (active ? ' class="active" aria-current="page"' : "") + ">" + label + "</a>";
@@ -153,7 +169,7 @@
         btn.textContent = "Signed in ✓";
         /* prove the cookie round-trips before leaving the login screen */
         await api("/api/auth/me");
-        nav("/admin/invoices");
+        nav("/admin/jobs");
       } catch (ex) {
         err.textContent = ex.message.indexOf("Not signed in") === 0
           ? "Signed in, but the session didn't persist: " + ex.message
@@ -197,8 +213,8 @@
     html += '<div class="stats">';
     html += '<div class="stat stat--money"><strong>' + money(data.outstanding_cents) + "</strong><span>Total outstanding</span></div>";
     ["draft", "issued", "part_paid", "paid", "overdue", "void"].forEach(function (s) {
-      html += '<div class="stat' + (filters.status === s ? " active" : "") + '" data-status="' + s + '"><strong>' +
-        (counts[s] || 0) + "</strong><span>" + STATUS_LABELS[s] + "</span></div>";
+      html += '<button type="button" class="stat' + (filters.status === s ? " active" : "") + '" data-status="' + s + '" aria-pressed="' + (filters.status === s) + '"><strong>' +
+        (counts[s] || 0) + "</strong><span>" + STATUS_LABELS[s] + "</span></button>";
     });
     html += "</div>";
 
@@ -494,7 +510,8 @@
         (s.gst_registered && !s.abn ? '<p class="hint" style="margin-top:.8rem">⚠ Add your ABN in Settings before issuing tax invoices.</p>' : "") +
         '<p class="hint" style="margin-top:.8rem">Invoice settings should be confirmed with your accountant or bookkeeper.</p></div>';
 
-      document.getElementById("view").innerHTML = head + '<div class="editor-layout"><div>' + main + "</div>" + side + "</div>";
+      document.getElementById("view").innerHTML = head + '<div class="editor-layout"><div>' + main + "</div>" + side + "</div>" +
+        '<div class="stickybar" id="sticky-actions"></div>';
 
       renderScope();
       renderItems();
@@ -742,6 +759,27 @@
       });
       on("act-print", function () { window.open("/api/invoices/pdf?id=" + inv.id, "_blank"); });
       on("act-pay", function () { paymentModal(); });
+
+      /* Mobile: keep the one action that matters within thumb reach.
+         Buttons proxy to the real handlers above. */
+      var sticky = document.getElementById("sticky-actions");
+      if (sticky) {
+        var sb = [];
+        if (editable) {
+          sb.push('<button class="btn btn--primary" data-proxy="act-save">Save draft</button>');
+          if (inv.id) sb.push('<button class="btn btn--ghost" data-proxy="act-issue">Issue</button>');
+        } else {
+          sb.push('<a class="btn btn--primary" href="/api/invoices/pdf?id=' + inv.id + '&download=1">Download PDF</a>');
+          if (["issued", "part_paid"].indexOf(inv.status) !== -1) sb.push('<button class="btn btn--soft" data-proxy="act-pay">Record payment</button>');
+        }
+        sticky.innerHTML = sb.join("");
+        sticky.querySelectorAll("[data-proxy]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            var t = document.getElementById(b.dataset.proxy);
+            if (t) t.click();
+          });
+        });
+      }
     }
 
     function paymentModal() {
@@ -921,7 +959,7 @@
 
   /* ================= jobs ================= */
   var JOB_STATUSES = ["scheduled", "in_progress", "needs_invoice", "invoiced", "paid"];
-  var JOB_LABELS = { scheduled: "Scheduled", in_progress: "In Progress", needs_invoice: "Needs Invoice", invoiced: "Invoiced", paid: "Paid" };
+  var JOB_LABELS = { scheduled: "Scheduled", in_progress: "In Progress", needs_invoice: "Ready to invoice", invoiced: "Invoiced", paid: "Paid" };
   var JOB_ACTIONS = {
     scheduled: { label: "Start Job", next: "in_progress" },
     in_progress: { label: "Mark Completed", next: "needs_invoice" },
@@ -942,12 +980,19 @@
     var counts = { all: jobs.length };
     JOB_STATUSES.forEach(function (st) { counts[st] = jobs.filter(function (j) { return j.status === st; }).length; });
 
-    var TABS = ["all"].concat(JOB_STATUSES);
+    /* Ready-to-invoice first: it's the money queue. */
+    var TABS = ["all", "needs_invoice", "scheduled", "in_progress", "invoiced", "paid"];
     var TAB_LABELS = Object.assign({ all: "All" }, JOB_LABELS);
 
     var html = '<div class="pagehead">' +
       '<div><h1>Jobs</h1><p class="hint">Manage current work from booking through to payment.</p></div>' +
       '<button class="btn btn--primary" id="job-new">+ Add Job</button></div>';
+
+    if (counts.needs_invoice > 0 && tab !== "needs_invoice") {
+      html += '<button class="readybar" id="ready-jump">' +
+        "<strong>" + counts.needs_invoice + "</strong> completed job" + (counts.needs_invoice === 1 ? "" : "s") +
+        ' ready to invoice <span aria-hidden="true">→</span></button>';
+    }
 
     html += '<div class="card">' +
       '<div class="toolbar">' +
@@ -1006,6 +1051,7 @@
           }
           return '<tr data-id="' + j.id + '">' +
             '<td data-th="Client"><strong>' + esc(j.client_name) + "</strong>" +
+            (j.ghl_opportunity_id ? ' <span class="jtag" title="Came in from the CRM">CRM</span>' : "") +
             (j.phone ? '<div class="hint"><a href="tel:' + esc(j.phone.replace(/\s/g, "")) + '">' + esc(j.phone) + "</a></div>" : "") + "</td>" +
             '<td data-th="Service">' + esc(j.description || "—") +
             (j.price_cents != null ? '<div class="hint">' + money(j.price_cents) + "</div>" : "") + "</td>" +
@@ -1038,6 +1084,8 @@
     }
     renderList();
 
+    var readyJump = document.getElementById("ready-jump");
+    if (readyJump) readyJump.addEventListener("click", function () { state.jobTab = "needs_invoice"; viewJobs(); });
     document.querySelectorAll(".jobtab").forEach(function (el) {
       el.addEventListener("click", function () { state.jobTab = el.dataset.tab; viewJobs(); });
     });
@@ -1418,7 +1466,7 @@
   async function route() {
     window.onbeforeunload = null;
     var p = currentPath();
-    if (p === "/admin" || p === "") { nav("/admin/invoices"); return; }
+    if (p === "/admin" || p === "") { nav("/admin/jobs"); return; }
     if (p === "/admin/login") { viewLogin(); return; }
 
     if (!state.email) {
@@ -1436,7 +1484,7 @@
     if (p === "/admin/clients") return viewClients();
     if (p === "/admin/pricing") return viewPricing();
     if (p === "/admin/settings") return viewSettings();
-    nav("/admin/invoices");
+    nav("/admin/jobs");
   }
 
   route();
