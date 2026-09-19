@@ -199,6 +199,11 @@ async function handleQuote(request, env, origin, ctx) {
     if (!KNOWN_KEYS.has(key)) return fail(400, "That submission contained unexpected data. Please reload the page and try again.");
   }
 
+  /* source_page travels as its own form field, not inside the JSON
+     payload, so copy it in — otherwise the Submission Source custom
+     field never maps. */
+  if (!a.source_page) a.source_page = String(form.get("source_page") || "").slice(0, 200);
+
   /* ---- server-side validation, mirroring the wizard's rules ---- */
   const type = a.customer_type;
   if (type !== "residential" && type !== "commercial") return fail(400, "Please choose residential or commercial.");
