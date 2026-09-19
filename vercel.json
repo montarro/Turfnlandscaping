@@ -37,6 +37,16 @@
       ]
     },
     {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "^app\\.bastianolandscaping\\.com\\.au$" }],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
       "source": "/review(/.*)?",
       "headers": [
         {
@@ -64,11 +74,28 @@
       "source": "/services/paving-and-stepping-stones",
       "destination": "/services/paving",
       "permanent": true
+    },
+    {
+      "source": "/admin/:path*",
+      "has": [{ "type": "host", "value": "^(www\\.)?bastianolandscaping\\.com\\.au$" }],
+      "destination": "https://app.bastianolandscaping.com.au/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/((?!api/|assets/|admin/|robots\\.txt|login|invoices|jobs|clients|pricing|settings).*)",
+      "has": [{ "type": "host", "value": "^app\\.bastianolandscaping\\.com\\.au$" }],
+      "destination": "/invoices",
+      "permanent": false
     }
   ],
   "rewrites": [
     {
       "source": "/admin/:path*",
+      "destination": "/admin"
+    },
+    {
+      "source": "/((?:login|invoices|jobs|clients|pricing|settings)(?:/.*)?)",
+      "has": [{ "type": "host", "value": "^app\\.bastianolandscaping\\.com\\.au$" }],
       "destination": "/admin"
     }
   ]

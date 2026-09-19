@@ -53,7 +53,7 @@
     var data = null;
     try { data = await res.json(); } catch (e) {}
     if (res.status === 401) {
-      if (location.pathname !== "/admin/login") nav("/admin/login");
+      if (currentPath() !== "/admin/login") nav("/admin/login");
       throw new Error("Not signed in" + (data && data.reason ? " [" + data.reason + "]" : ""));
     }
     if (!res.ok) {
@@ -64,7 +64,21 @@
     return data;
   }
 
-  function nav(path) { history.pushState({}, "", path); route(); }
+  /* The app serves at /admin on the main site and at the ROOT of the
+     app. subdomain. Internal route names always carry the /admin prefix;
+     BASE only decides what shows in the address bar. */
+  var BASE = location.pathname === "/admin" || location.pathname.indexOf("/admin/") === 0 ? "/admin" : "";
+  if (BASE && /^app\./i.test(location.hostname)) {
+    history.replaceState({}, "", (location.pathname.slice(6) || "/") + location.search);
+    BASE = "";
+  }
+  function toUrl(path) { return BASE ? path : (path.slice(6) || "/"); }
+  function currentPath() {
+    var p = location.pathname.replace(/\/$/, "");
+    return BASE ? p : "/admin" + p;
+  }
+
+  function nav(path) { history.pushState({}, "", toUrl(path)); route(); }
   window.addEventListener("popstate", route);
   document.addEventListener("click", function (e) {
     var a = e.target.closest("a[data-nav]");
@@ -351,7 +365,7 @@
       setSaveState("Saving…", "saving");
       try {
         var out = await api("/api/invoices", { method: "POST", body: payload });
-        if (!inv.id) { inv.id = out.id; history.replaceState({}, "", "/admin/invoices/" + out.id); }
+        if (!inv.id) { inv.id = out.id; history.replaceState({}, "", toUrl("/admin/invoices/" + out.id)); }
         if (state._linkJob) {
           var jobId = state._linkJob;
           state._linkJob = null;
@@ -1340,14 +1354,14 @@
   /* ================= router ================= */
   async function route() {
     window.onbeforeunload = null;
-    var p = location.pathname.replace(/\/$/, "");
+    var p = currentPath();
     if (p === "/admin" || p === "") { nav("/admin/invoices"); return; }
     if (p === "/admin/login") { viewLogin(); return; }
 
     if (!state.email) {
       try { var me = await api("/api/auth/me"); state.email = me.email; }
       catch (e) {
-        if (location.pathname !== "/admin/login") nav("/admin/login");
+        if (currentPath() !== "/admin/login") nav("/admin/login");
         return;
       }
     }
