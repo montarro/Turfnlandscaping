@@ -259,6 +259,16 @@ td.num, th.num { text-align: right; white-space: nowrap; font-variant-numeric: t
 }
 .acct__item:hover { background: var(--surface-soft); }
 
+/* ---------- Home overview ---------- */
+.homerow { display: flex; align-items: center; gap: .8rem; padding: .6rem 0; border-bottom: 1px solid var(--line); }
+.homerow:last-child { border-bottom: 0; padding-bottom: 0; }
+.homerow__main { min-width: 0; margin-right: auto; }
+.homerow__main .hint { overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 560px) {
+  .homerow { flex-wrap: wrap; }
+  .homerow .btn { flex: 1 1 100%; }
+}
+
 /* ---------- Job board ---------- */
 .jobtabs { display: flex; gap: .35rem; flex-wrap: wrap; margin-bottom: 1rem; }
 .jobtab {

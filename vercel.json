@@ -94,9 +94,9 @@
       "permanent": true
     },
     {
-      "source": "/((?!api/|assets/|admin/|robots\\.txt|login|invoices|jobs|clients|pricing|settings).*)",
+      "source": "/((?!api/|assets/|admin/|robots\\.txt|home|login|invoices|jobs|clients|pricing|settings).*)",
       "has": [{ "type": "host", "value": "^app\\.bastianolandscaping\\.com\\.au$" }],
-      "destination": "/jobs",
+      "destination": "/home",
       "permanent": false
     }
   ],
@@ -110,7 +110,7 @@
       "destination": "/admin"
     },
     {
-      "source": "/((?:login|invoices|jobs|clients|pricing|settings)(?:/.*)?)",
+      "source": "/((?:home|login|invoices|jobs|clients|pricing|settings)(?:/.*)?)",
       "has": [{ "type": "host", "value": "^app\\.bastianolandscaping\\.com\\.au$" }],
       "destination": "/admin"
     }

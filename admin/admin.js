@@ -91,6 +91,7 @@
      nav. Same markup, CSS decides which chrome shows. */
   function shell(active, inner) {
     var navPrimary =
+      navLink("/admin/home", "Home", active === "home") +
       navLink("/admin/jobs", "Jobs", active === "jobs") +
       navLink("/admin/invoices", "Invoices", active === "invoices") +
       navLink("/admin/clients", "Clients", active === "clients");
@@ -169,7 +170,7 @@
         btn.textContent = "Signed in ✓";
         /* prove the cookie round-trips before leaving the login screen */
         await api("/api/auth/me");
-        nav("/admin/jobs");
+        nav("/admin/home");
       } catch (ex) {
         err.textContent = ex.message.indexOf("Not signed in") === 0
           ? "Signed in, but the session didn't persist: " + ex.message
@@ -957,6 +958,83 @@
     }
   }
 
+  /* ================= home ================= */
+  async function viewHome() {
+    shell("home", "<h1>Welcome back</h1><p class=\"hint\">Loading…</p>");
+    if (!state.settings) { try { state.settings = await api("/api/settings"); } catch (e) { state.settings = null; } }
+
+    var jobs = [], invData = { invoices: [], outstanding_cents: 0 }, errs = [];
+    await Promise.all([
+      api("/api/jobs").then(function (r) { jobs = r; }, function (e) { errs.push("Jobs: " + e.message); }),
+      api("/api/invoices").then(function (r) { invData = r; }, function (e) { errs.push("Invoices: " + e.message); }),
+    ]);
+
+    var first = ((state.settings && state.settings.owner_name) || "").trim().split(/\s+/)[0];
+    var today = new Date().toLocaleDateString("en-AU", { weekday: "long", day: "numeric", month: "long" });
+
+    var jc = {};
+    JOB_STATUSES.forEach(function (st) { jc[st] = jobs.filter(function (j) { return j.status === st; }).length; });
+    var month = new Date().toISOString().slice(0, 7);
+    var issuedMonth = invData.invoices.filter(function (r) {
+      return r.status !== "draft" && r.issue_date && r.issue_date.slice(0, 7) === month;
+    }).length;
+    var paidInvoices = invData.invoices.filter(function (r) { return r.status === "paid"; }).length;
+    var ghlJobs = jobs.filter(function (j) { return j.ghl_opportunity_id; })
+      .sort(function (a, b) { return (b.created_at || "").localeCompare(a.created_at || ""); }).slice(0, 5);
+
+    var html = '<div class="pagehead"><div>' +
+      "<h1>Welcome back" + (first ? ", " + esc(first) : "") + "</h1>" +
+      '<p class="hint">' + esc(today) + "</p></div>" +
+      '<span class="btnrow"><a class="btn btn--ghost" href="/admin/jobs" data-nav>+ Add Job</a>' +
+      '<a class="btn btn--primary" href="/admin/invoices/new" data-nav>+ New Invoice</a></span></div>';
+
+    if (errs.length) html += '<p class="error-text">' + errs.map(esc).join("<br>") + "</p>";
+
+    if (jc.needs_invoice > 0) {
+      html += '<button class="readybar" id="home-ready"><strong>' + jc.needs_invoice + "</strong> completed job" +
+        (jc.needs_invoice === 1 ? "" : "s") + ' ready to invoice <span aria-hidden="true">→</span></button>';
+    }
+
+    /* Every number below is computed from the live jobs/invoices lists. */
+    html += '<div class="stats">' +
+      '<div class="stat stat--money"><strong>' + money(invData.outstanding_cents) + "</strong><span>Outstanding across issued invoices</span></div>" +
+      '<button type="button" class="stat" data-go="jobs:needs_invoice"><strong>' + jc.needs_invoice + "</strong><span>Ready to invoice</span></button>" +
+      '<button type="button" class="stat" data-go="jobs:invoiced"><strong>' + jc.invoiced + "</strong><span>Jobs awaiting payment</span></button>" +
+      '<button type="button" class="stat" data-go="jobs:paid"><strong>' + jc.paid + "</strong><span>Jobs paid</span></button>" +
+      '<button type="button" class="stat" data-go="inv:"><strong>' + issuedMonth + "</strong><span>Invoices issued this month</span></button>" +
+      '<button type="button" class="stat" data-go="inv:paid"><strong>' + paidInvoices + "</strong><span>Invoices paid</span></button>" +
+      "</div>";
+
+    html += '<div class="card"><h2>Latest from the CRM</h2>';
+    if (!ghlJobs.length) {
+      html += '<p class="hint">Jobs completed in GoHighLevel will appear here automatically, ready to invoice.</p>';
+    } else {
+      html += ghlJobs.map(function (j) {
+        return '<div class="homerow">' +
+          '<div class="homerow__main"><strong>' + esc(j.client_name) + "</strong>" +
+          '<div class="hint">' + esc(j.description || "—") + (j.price_cents != null ? " · " + money(j.price_cents) : "") +
+          " · " + fmtDate(j.created_at) + "</div></div>" +
+          '<span class="jlabel jlabel--' + j.status + '">' + JOB_LABELS[j.status] + "</span>" +
+          (j.status === "needs_invoice"
+            ? '<a class="btn btn--primary btn--sm" href="/admin/invoices/new?job=' + j.id + '" data-nav>Create Invoice</a>'
+            : (j.invoice_id ? '<a class="btn btn--soft btn--sm" href="/admin/invoices/' + j.invoice_id + '" data-nav>Invoice</a>' : "")) +
+          "</div>";
+      }).join("");
+    }
+    html += "</div>";
+
+    document.getElementById("view").innerHTML = html;
+    var ready = document.getElementById("home-ready");
+    if (ready) ready.addEventListener("click", function () { state.jobTab = "needs_invoice"; nav("/admin/jobs"); });
+    document.querySelectorAll(".stat[data-go]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        var parts = el.dataset.go.split(":");
+        if (parts[0] === "jobs") { state.jobTab = parts[1] || "all"; nav("/admin/jobs"); }
+        else { state.invFilters = { q: "", status: parts[1] || "", from: "", to: "" }; nav("/admin/invoices"); }
+      });
+    });
+  }
+
   /* ================= jobs ================= */
   var JOB_STATUSES = ["scheduled", "in_progress", "needs_invoice", "invoiced", "paid"];
   var JOB_LABELS = { scheduled: "Scheduled", in_progress: "In Progress", needs_invoice: "Ready to invoice", invoiced: "Invoiced", paid: "Paid" };
@@ -1466,7 +1544,7 @@
   async function route() {
     window.onbeforeunload = null;
     var p = currentPath();
-    if (p === "/admin" || p === "") { nav("/admin/jobs"); return; }
+    if (p === "/admin" || p === "") { nav("/admin/home"); return; }
     if (p === "/admin/login") { viewLogin(); return; }
 
     if (!state.email) {
@@ -1476,6 +1554,7 @@
         return;
       }
     }
+    if (p === "/admin/home") return viewHome();
     if (p === "/admin/jobs") return viewJobs();
     if (p === "/admin/invoices") return viewInvoices();
     if (p === "/admin/invoices/new") return viewInvoiceEditor("new");
@@ -1484,7 +1563,7 @@
     if (p === "/admin/clients") return viewClients();
     if (p === "/admin/pricing") return viewPricing();
     if (p === "/admin/settings") return viewSettings();
-    nav("/admin/jobs");
+    nav("/admin/home");
   }
 
   route();
