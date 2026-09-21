@@ -225,15 +225,14 @@ td.num, th.num { text-align: right; white-space: nowrap; font-variant-numeric: t
 @media (min-width: 1100px) {
   .pdfpane {
     display: flex; flex-direction: column; position: fixed; top: 0; right: 0; bottom: 0;
-    width: 40vw; z-index: 30; background: #57544c; border-left: 1px solid var(--line-strong);
+    width: 40vw; z-index: 30; background: #edf0e5; border-left: 1px solid var(--line-strong);
   }
   .pdfpane__bar {
     display: flex; align-items: center; gap: .6rem;
     background: var(--surface); border-bottom: 1px solid var(--line); padding: .45rem .9rem;
   }
   .pdfpane__bar .btnrow { margin-left: auto; }
-  .pdfpane iframe { flex: 1; width: 100%; border: 0; }
-  .pdfpane__empty { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; color: #d9d6cd; text-align: center; font-size: .9rem; }
+  .pdfpane .preview__scroll { padding: 1.2rem 1.2rem 2rem; }
   body.with-pdfpane .content { margin-right: 40vw; }
   body.with-pdfpane .main { max-width: none; margin: 0; }
   body.with-pdfpane .editor-layout { grid-template-columns: minmax(0, 1fr); }
@@ -257,52 +256,69 @@ td.num, th.num { text-align: right; white-space: nowrap; font-variant-numeric: t
 @media (max-width: 899px) { .preview { width: 100%; } }
 @media (max-width: 599px) { .preview__bar .hint { display: none; } }
 
-/* The paper itself — mirrors the pdfkit layout and palette */
+/* The sheet — clean document style with the brand green accent,
+   re-rendered on every keystroke from the form state */
 .invoice-paper {
-  position: relative; overflow: hidden; background: #fff; color: #22302a;
-  max-width: 620px; margin: 0 auto; padding: 2rem 2.2rem 2.4rem;
-  border: 1px solid var(--line); border-radius: 4px; box-shadow: 0 2px 10px rgba(38, 48, 42, .12);
-  font-size: .82rem; line-height: 1.45;
+  position: relative; background: #fff; color: var(--ink);
+  max-width: 680px; margin: 0 auto; padding: 2rem 2.2rem 1.4rem;
+  border: 1px solid var(--line); border-top: 4px solid var(--green);
+  border-radius: 10px; box-shadow: 0 4px 18px rgba(38, 48, 42, .10);
+  font-size: .8rem; line-height: 1.5;
 }
-.ip-watermark { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-.ip-watermark span { font-size: clamp(4rem, 16vw, 6.5rem); font-weight: 800; letter-spacing: .08em; color: rgba(29, 53, 39, .07); transform: rotate(-30deg); }
-.ip-head { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 1.2rem; }
-.ip-biz { font-size: .76rem; color: #64715f; }
-.ip-biz img { height: 36px; margin-bottom: .55rem; }
-.ip-biz strong { display: block; color: #22302a; font-size: .85rem; }
-.ip-meta { text-align: right; color: #64715f; font-size: .76rem; flex: none; }
-.ip-title { font-size: 1.45rem; font-weight: 800; color: #1d3527; letter-spacing: .02em; margin-bottom: .3rem; }
-.ip-paid { display: inline-block; border: 2px solid #2e5138; color: #2e5138; font-weight: 800; font-size: .8rem; border-radius: 6px; padding: .1rem .7rem; margin-bottom: .3rem; }
-.ip-parties {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-  background: #fdfcf8; border: 1px solid #d8d2c0; border-radius: 8px;
-  padding: .8rem 1rem; margin-bottom: 1.2rem;
+.ip-stamp {
+  position: absolute; top: 1.9rem; right: 1.5rem; transform: rotate(14deg);
+  border: 2px solid #a9b0a4; color: #97a094; border-radius: 4px;
+  font-size: .76rem; font-weight: 800; letter-spacing: .22em;
+  padding: .16rem .45rem .16rem .65rem; opacity: .9;
 }
-.ip-parties h4 { margin: 0 0 .25rem; font-size: .66rem; letter-spacing: .06em; color: #64715f; }
-.ip-pre { white-space: pre-wrap; word-break: break-word; margin: 0 0 .4rem; font-size: .8rem; }
-.ip-h2 { color: #1d3527; font-size: .95rem; font-weight: 700; margin: 1.1rem 0 .45rem; }
-.ip-scope h5 { margin: .55rem 0 .1rem; font-size: .82rem; color: #22302a; }
-.ip-scope ul { margin: .15rem 0 .35rem 1.15rem; padding: 0; }
-.ip-sub { color: #64715f; font-size: .7rem; font-weight: 700; margin: .25rem 0 .05rem; }
-.ip-note { color: #64715f; font-style: italic; font-size: .74rem; }
-.ip-tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.ip-stamp--paid { border-color: var(--green); color: var(--green); }
+.ip-label {
+  font-size: .62rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  color: #78816f; margin: 0 0 .3rem;
+}
+.ip-head { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+.ip-brand img { height: 42px; margin-bottom: .5rem; }
+.ip-brand strong { display: block; font-size: .95rem; letter-spacing: .04em; }
+.ip-meta { text-align: right; color: #78816f; font-size: .76rem; flex: none; padding-top: .8rem; }
+.ip-meta strong { color: var(--ink); }
+.ip-title { font-size: 1.6rem; font-weight: 800; color: var(--ink); letter-spacing: -.01em; margin-bottom: .25rem; }
+.ip-parties { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.1rem; }
+.ip-block { margin-bottom: 1.1rem; }
+.ip-pre { white-space: pre-wrap; word-break: break-word; margin: 0; font-size: .78rem; }
+.ip-scope h5 { margin: .5rem 0 .1rem; font-size: .8rem; color: var(--ink); }
+.ip-scope ul { margin: .15rem 0 .35rem 1.1rem; padding: 0; font-size: .78rem; }
+.ip-sub { color: #78816f; font-size: .68rem; font-weight: 700; margin: .25rem 0 .05rem; }
+.ip-note { color: #78816f; font-style: italic; font-size: .74rem; }
+.ip-tablewrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: .4rem; }
 .ip-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
-.ip-table th { background: #1d3527; color: #fff; font-size: .7rem; letter-spacing: .02em; text-transform: none; padding: .35rem .5rem; border-bottom: 0; }
-.ip-table td { padding: .38rem .5rem; border-bottom: 1px solid #d8d2c0; vertical-align: top; }
+.ip-table th {
+  background: none; color: #78816f; font-size: .62rem; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; text-align: left;
+  padding: .3rem .4rem .45rem; border-bottom: 1.5px solid var(--ink); white-space: nowrap;
+}
+.ip-table td { padding: .5rem .4rem; border-bottom: 1px solid var(--line); vertical-align: top; }
 .ip-table tbody tr:hover td { background: transparent; }
-.ip-table tbody tr:nth-child(even) td, .ip-table tbody tr:nth-child(even):hover td { background: #f6f3ea; }
-.ip-totals { margin: .9rem 0 0 auto; width: 240px; max-width: 100%; font-variant-numeric: tabular-nums; font-size: .8rem; }
-.ip-totals div { display: flex; justify-content: space-between; gap: .8rem; padding: .14rem 0; }
-.ip-totals .grand { border-top: 2px solid #1d3527; margin-top: .25rem; padding-top: .4rem; font-weight: 800; color: #1d3527; font-size: .95rem; }
-.ip-foot { margin-top: 1.8rem; border-top: 1px solid #d8d2c0; padding-top: .45rem; color: #64715f; font-size: .68rem; }
+.ip-table th.num, .ip-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.ip-totals { margin: .8rem 0 0 auto; width: 260px; max-width: 100%; font-variant-numeric: tabular-nums; font-size: .8rem; }
+.ip-totals div { display: flex; justify-content: space-between; gap: .8rem; padding: .16rem 0; }
+.ip-totals .grand { border-top: 2px solid var(--ink); margin-top: .3rem; padding-top: .45rem; font-weight: 800; color: var(--ink); font-size: 1rem; }
+.ip-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 1.5rem 0 0; }
+.ip-bottom + .ip-block { margin-top: 1.1rem; }
+.ip-foot {
+  display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  margin-top: 1.8rem; border-top: 1px solid var(--line); padding-top: .55rem;
+  color: #78816f; font-size: .68rem;
+}
 @media (max-width: 599px) {
   .preview__scroll { padding: .6rem; }
-  .invoice-paper { padding: 1.1rem 1rem 1.5rem; font-size: .78rem; }
-  .ip-head { flex-wrap: wrap; }
-  .ip-title { font-size: 1.1rem; }
-  .ip-parties { grid-template-columns: 1fr; gap: .6rem; }
-  .ip-table { min-width: 460px; }
-  .ip-tablewrap { margin: 0 -1rem; padding: 0 1rem; }
+  .invoice-paper { padding: 1.2rem 1rem 1rem; font-size: .78rem; }
+  .ip-head { flex-direction: column; gap: .4rem; }
+  .ip-meta { text-align: left; padding-top: 0; }
+  .ip-title { font-size: 1.15rem; }
+  .ip-stamp { top: 1.2rem; }
+  .ip-parties, .ip-bottom { grid-template-columns: 1fr; gap: .8rem; }
+  .ip-table { min-width: 440px; }
+  .ip-tablewrap { margin-left: -1rem; margin-right: -1rem; padding: 0 1rem; }
 }
 
 /* ---------- Login ---------- */

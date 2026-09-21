@@ -400,7 +400,8 @@
         }
         dirty = false;
         setSaveState("Saved ✓", "saved");
-        refreshPdfPane();
+        /* first save assigns the id — rebuild the pane bar so the PDF links appear */
+        if (!document.getElementById("pane-pdf-open")) renderPreviewPane();
         if (!silent) toast("Draft saved");
         return true;
       } catch (e) {
@@ -525,7 +526,7 @@
         '<div class="pdfpane" id="pdfpane"></div>';
       document.body.classList.add("with-pdfpane");
 
-      renderPdfPane();
+      renderPreviewPane();
       renderScope();
       renderItems();
       renderTotals();
@@ -533,28 +534,18 @@
       bindEditor();
     }
 
-    /* ----- docked PDF preview (wide screens) ----- */
-    function pdfSrc() {
-      return "/api/invoices/pdf?id=" + inv.id + "&ts=" + Date.now() + "#toolbar=0&navpanes=0";
-    }
-    function renderPdfPane() {
+    /* ----- docked live preview (wide screens) ----- */
+    function renderPreviewPane() {
       var pane = document.getElementById("pdfpane");
       if (!pane) return;
-      if (!inv.id) {
-        pane.innerHTML = '<div class="pdfpane__bar"><strong>PDF preview</strong></div>' +
-          '<div class="pdfpane__empty">Start filling in the invoice —<br>the PDF appears here after the first auto-save.</div>';
-        return;
-      }
-      pane.innerHTML = '<div class="pdfpane__bar"><strong>PDF preview</strong>' +
-        '<span class="hint">Refreshes after each auto-save</span>' +
-        '<span class="btnrow"><a class="btn btn--soft btn--sm" href="/api/invoices/pdf?id=' + inv.id + '" target="_blank" rel="noopener">Open</a>' +
-        '<a class="btn btn--ghost btn--sm" href="/api/invoices/pdf?id=' + inv.id + '&download=1">Download</a></span></div>' +
-        '<iframe id="pdfframe" title="Invoice PDF preview" src="' + pdfSrc() + '"></iframe>';
-    }
-    function refreshPdfPane() {
-      var f = document.getElementById("pdfframe");
-      if (f) f.src = pdfSrc();
-      else renderPdfPane();
+      pane.innerHTML = '<div class="pdfpane__bar"><strong>Preview</strong>' +
+        '<span class="hint">Updates as you type</span>' +
+        '<span class="btnrow">' + (inv.id ?
+          '<a class="btn btn--soft btn--sm" id="pane-pdf-open" href="/api/invoices/pdf?id=' + inv.id + '" target="_blank" rel="noopener">Open PDF</a>' +
+          '<a class="btn btn--ghost btn--sm" href="/api/invoices/pdf?id=' + inv.id + '&download=1">Download</a>' : "") +
+        "</span></div>" +
+        '<div class="preview__scroll"><div class="invoice-paper" id="pane-paper"></div></div>';
+      updatePreview();
     }
 
     /* ----- scope sections ----- */
@@ -824,44 +815,52 @@
     }
 
     /* ----- live invoice preview -----
-       Client-side rendition of the pdfkit layout so the invoice can be
-       checked while it's being written — before anything is saved. */
+       Client-side rendition of the invoice that tracks the form on
+       every keystroke — no save round-trip. The PDF stays the final
+       document; this mirrors its content in a cleaner document style. */
     function previewHtml() {
       collectSafe();
       var t = calcTotals(inv);
       var s = state.settings || {};
       var c = inv.client_snapshot || {};
       var dmy = function (d) {
-        if (!d) return "—";
+        if (!d) return "";
         var p = String(d).slice(0, 10).split("-");
         return p[2] + "/" + p[1] + "/" + p[0];
       };
       var h = "";
-      if (inv.status === "draft") h += '<div class="ip-watermark" aria-hidden="true"><span>DRAFT</span></div>';
+      if (inv.status === "draft") h += '<div class="ip-stamp" aria-hidden="true">DRAFT</div>';
+      else if (inv.status === "paid") h += '<div class="ip-stamp ip-stamp--paid" aria-hidden="true">PAID</div>';
+      else if (inv.status === "void") h += '<div class="ip-stamp" aria-hidden="true">VOID</div>';
 
-      var bizLines = [];
-      if (s.legal_name && s.legal_name !== s.trading_name) bizLines.push(esc(s.legal_name));
-      if (s.abn) bizLines.push("ABN " + esc(s.abn));
-      if (s.address) bizLines.push(esc(s.address));
-      var contact = [s.phone, s.email].filter(Boolean).map(esc).join(" · ");
-      if (contact) bizLines.push(contact);
-      h += '<div class="ip-head"><div class="ip-biz">' +
+      h += '<div class="ip-head"><div class="ip-brand">' +
         '<img src="/assets/logo-turf-and-landscaping.png" alt="" />' +
-        "<strong>" + esc(s.trading_name || s.legal_name || "") + "</strong>" + bizLines.join("<br>") + "</div>" +
-        '<div class="ip-meta">' + (inv.status === "paid" ? '<span class="ip-paid">PAID</span><br>' : "") +
-        '<div class="ip-title">' + (s.gst_registered ? "TAX INVOICE" : "INVOICE") + "</div>" +
-        esc(inv.invoice_no ? "Invoice no: " + inv.invoice_no : "Draft — no number assigned") + "<br>" +
-        "Issue date: " + dmy(inv.issue_date) + "<br>Due date: " + dmy(inv.due_date) + "</div></div>";
+        "<strong>" + esc(s.trading_name || s.legal_name || "") + "</strong></div>" +
+        '<div class="ip-meta"><div class="ip-title">' + (s.gst_registered ? "Tax Invoice" : "Invoice") + "</div>" +
+        "<strong>" + esc(inv.invoice_no || "Draft — no number yet") + "</strong><br>" +
+        "Issued " + (dmy(inv.issue_date) || "on issue") + "<br>" +
+        (inv.due_date ? "Due " + dmy(inv.due_date)
+          : (inv.payment_terms ? "Due " + esc(inv.payment_terms) + " from issue" : "Due —")) +
+        "</div></div>";
 
+      var from = [];
+      if (s.legal_name && s.legal_name !== s.trading_name) from.push(s.legal_name);
+      else if (s.trading_name || s.legal_name) from.push(s.trading_name || s.legal_name);
+      if (s.abn) from.push("ABN " + s.abn);
+      if (s.address) from.push(s.address);
+      if (s.email) from.push(s.email);
+      if (s.phone) from.push(s.phone);
       var bill = [c.business, c.name, inv.billing_address || c.address,
         c.abn ? "ABN " + c.abn : "", c.email, c.mobile].filter(Boolean).join("\n");
-      var proj = [inv.project_address || "—", inv.po_number ? "PO: " + inv.po_number : "",
-        inv.customer_ref ? "Ref: " + inv.customer_ref : ""].filter(Boolean).join("\n");
-      h += '<div class="ip-parties"><div><h4>BILL TO</h4><p class="ip-pre">' + esc(bill || "—") + "</p></div>" +
-        '<div><h4>PROJECT / SITE</h4><p class="ip-pre">' + esc(proj) + "</p></div></div>";
+      h += '<div class="ip-parties"><div><p class="ip-label">From</p><p class="ip-pre">' + esc(from.join("\n")) + "</p></div>" +
+        '<div><p class="ip-label">Bill to</p><p class="ip-pre">' + esc(bill || "—") + "</p></div></div>";
+
+      var proj = [inv.project_address, inv.po_number ? "PO: " + inv.po_number : "",
+        inv.customer_ref ? "Ref: " + inv.customer_ref : ""].filter(Boolean).join("  ·  ");
+      if (proj) h += '<div class="ip-block"><p class="ip-label">Project / site</p><p class="ip-pre">' + esc(proj) + "</p></div>";
 
       if (inv.scope_sections.length) {
-        h += '<div class="ip-h2">Scope of Works</div><div class="ip-scope">';
+        h += '<div class="ip-block"><p class="ip-label">Scope of works</p><div class="ip-scope">';
         inv.scope_sections.forEach(function (sec) {
           if (sec.heading) h += "<h5>" + esc(sec.heading) + "</h5>";
           if (sec.body) h += '<p class="ip-pre">' + esc(sec.body) + "</p>";
@@ -876,33 +875,36 @@
           list(sec.exclusions, "Exclusions");
           if (sec.notes) h += '<p class="ip-note">' + esc(sec.notes) + "</p>";
         });
-        h += "</div>";
+        h += "</div></div>";
       }
 
-      if (inv.items.length) {
-        h += '<div class="ip-h2">Pricing</div><div class="ip-tablewrap"><table class="ip-table"><thead><tr>' +
-          '<th style="text-align:left">Description</th><th class="num">Qty</th><th style="text-align:left">Unit</th>' +
-          '<th class="num">Unit price</th><th class="num">Disc.</th><th class="num">Amount</th></tr></thead><tbody>';
-        inv.items.forEach(function (it) {
-          var disc = it.discount_pct ? Number(it.discount_pct) + "%" : (it.discount_cents ? money(it.discount_cents) : "—");
-          h += "<tr><td>" + esc(it.description || "—") +
-            (it.taxable === false && inv.gst_enabled ? ' <span class="ip-note">(GST-free)</span>' : "") + "</td>" +
-            '<td class="num">' + Number(it.quantity || 0) + "</td><td>" + esc(it.unit || "") + "</td>" +
-            '<td class="num">' + money(it.unit_price_cents) + '</td><td class="num">' + disc + "</td>" +
-            '<td class="num">' + money(it._line_cents || 0) + "</td></tr>";
-        });
-        h += "</tbody></table></div>";
+      var hasDisc = inv.items.some(function (it) { return it.discount_pct || it.discount_cents; });
+      h += '<div class="ip-tablewrap"><table class="ip-table"><thead><tr>' +
+        '<th>Description</th><th class="num">Qty</th><th>Unit</th><th class="num">Rate</th>' +
+        (hasDisc ? '<th class="num">Disc.</th>' : "") + '<th class="num">Amount</th></tr></thead><tbody>';
+      if (!inv.items.length) {
+        h += '<tr><td colspan="' + (hasDisc ? 6 : 5) + '"><span class="ip-note">No line items yet</span></td></tr>';
       }
+      inv.items.forEach(function (it) {
+        var disc = it.discount_pct ? Number(it.discount_pct) + "%" : (it.discount_cents ? money(it.discount_cents) : "—");
+        h += "<tr><td>" + esc(it.description || "—") +
+          (it.taxable === false && inv.gst_enabled ? ' <span class="ip-note">(GST-free)</span>' : "") + "</td>" +
+          '<td class="num">' + Number(it.quantity || 0) + "</td><td>" + esc(it.unit || "") + "</td>" +
+          '<td class="num">' + money(it.unit_price_cents) + "</td>" +
+          (hasDisc ? '<td class="num">' + disc + "</td>" : "") +
+          '<td class="num">' + money(it._line_cents || 0) + "</td></tr>";
+      });
+      h += "</tbody></table></div>";
 
       h += '<div class="ip-totals">';
-      h += "<div><span>" + (inv.gst_enabled ? "Subtotal (ex. GST)" : "Subtotal") + "</span><span>" + money(t.subtotal_cents) + "</span></div>";
+      h += "<div><span>Subtotal" + (inv.gst_enabled ? " (ex. GST)" : "") + "</span><span>" + money(t.subtotal_cents) + "</span></div>";
       if (t.invoice_discount_cents > 0) {
-        h += "<div><span>" + esc(inv.discount_label || "Discount") + "</span><span>" +
-          (inv.discount_pct ? Number(inv.discount_pct) + "%" : "-" + money(t.invoice_discount_cents)) + "</span></div>";
+        h += "<div><span>" + esc(inv.discount_label || "Discount") +
+          (inv.discount_pct ? " (" + Number(inv.discount_pct) + "%)" : "") +
+          "</span><span>-" + money(t.invoice_discount_cents) + "</span></div>";
       }
       if (inv.gst_enabled) h += "<div><span>GST</span><span>" + money(t.gst_cents) + "</span></div>";
-      h += '<div class="grand"><span>' + (inv.gst_enabled ? "Total (incl. GST)" : "Total") + "</span><span>" + money(t.total_cents) + "</span></div>";
-      if (inv.gst_enabled && t.gst_cents > 0) h += '<div class="ip-note" style="justify-content:flex-end">Total includes GST</div>';
+      h += '<div class="grand"><span>Total due (AUD)</span><span>' + money(t.total_cents) + "</span></div>";
       if (inv.paid_cents > 0) {
         h += "<div><span>Amount paid</span><span>-" + money(inv.paid_cents) + "</span></div>";
         h += "<div><strong>Balance due</strong><strong>" + money(t.total_cents - inv.paid_cents) + "</strong></div>";
@@ -910,37 +912,41 @@
       h += "</div>";
 
       if (inv.payments && inv.payments.length) {
-        h += '<div class="ip-h2">Payments received</div>' + inv.payments.map(function (p) {
+        h += '<div class="ip-block"><p class="ip-label">Payments received</p>' + inv.payments.map(function (p) {
           return '<p class="ip-pre">' + dmy(p.paid_on) + "  ·  " + money(p.amount_cents) + "  ·  " + esc(p.method || "") +
             (p.reference ? "  ·  " + esc(p.reference) : "") + "</p>";
-        }).join("");
+        }).join("") + "</div>";
       }
 
       var bank = [s.bank_name, s.account_name, s.bsb ? "BSB: " + s.bsb : "",
         s.account_number ? "Account: " + s.account_number : ""].filter(Boolean).join("\n");
-      var block = function (label, text) {
-        if (!text) return;
-        h += '<div class="ip-h2">' + label + '</div><p class="ip-pre">' + esc(text) + "</p>";
-      };
-      block("Payment details", inv.payment_instructions || bank || "");
-      block("Payment terms", inv.payment_terms || s.payment_terms || "");
-      block("Notes", inv.notes);
-      block("Terms &amp; conditions", inv.terms || s.default_terms || "");
+      var pay = inv.payment_instructions || bank || "";
+      if (inv.invoice_no && pay) pay += "\nReference: " + inv.invoice_no;
+      var terms = inv.terms || s.default_terms || "";
+      if (pay || terms) {
+        h += '<div class="ip-bottom">' +
+          '<div><p class="ip-label">Payment details</p><p class="ip-pre">' + esc(pay || "—") + "</p></div>" +
+          '<div><p class="ip-label">Terms</p><p class="ip-pre">' + esc(terms || "—") + "</p></div></div>";
+      }
+      if (inv.notes) h += '<div class="ip-block"><p class="ip-label">Notes</p><p class="ip-pre">' + esc(inv.notes) + "</p></div>";
 
-      var foot = [s.trading_name, s.phone, s.email, s.website].filter(Boolean).join("  ·  ");
-      if (foot) h += '<div class="ip-foot">' + esc(foot) + "</div>";
+      h += '<div class="ip-foot"><span>' + esc([s.trading_name, s.abn ? "ABN " + s.abn : ""].filter(Boolean).join(" · ")) +
+        "</span><span>" + esc([s.email, s.phone].filter(Boolean).join(" · ")) + "</span></div>";
       return h;
     }
 
     var previewTimer = null;
     function updatePreview() {
-      var paper = state._previewEl && state._previewEl.querySelector("#pv-paper");
-      if (paper) paper.innerHTML = previewHtml();
+      var pane = document.getElementById("pane-paper");
+      var drawer = state._previewEl && state._previewEl.querySelector("#pv-paper");
+      if (!pane && !drawer) return;
+      var html = previewHtml();
+      if (pane) pane.innerHTML = html;
+      if (drawer) drawer.innerHTML = html;
     }
     function schedulePreview() {
-      if (!state._previewEl) return;
       clearTimeout(previewTimer);
-      previewTimer = setTimeout(updatePreview, 200);
+      previewTimer = setTimeout(updatePreview, 120);
     }
     function closePreview() {
       if (!state._previewEl) return;
