@@ -218,6 +218,29 @@ td.num, th.num { text-align: right; white-space: nowrap; font-variant-numeric: t
 .savestate.saved { color: var(--ok); }
 .savestate.error { color: var(--error); }
 
+/* ---------- Docked PDF preview (invoice editor, wide screens) ----------
+   The real generated PDF, pinned to the right 40% of the viewport.
+   The form column shifts left and stacks single-column to make room. */
+.pdfpane { display: none; }
+@media (min-width: 1100px) {
+  .pdfpane {
+    display: flex; flex-direction: column; position: fixed; top: 0; right: 0; bottom: 0;
+    width: 40vw; z-index: 30; background: #57544c; border-left: 1px solid var(--line-strong);
+  }
+  .pdfpane__bar {
+    display: flex; align-items: center; gap: .6rem;
+    background: var(--surface); border-bottom: 1px solid var(--line); padding: .45rem .9rem;
+  }
+  .pdfpane__bar .btnrow { margin-left: auto; }
+  .pdfpane iframe { flex: 1; width: 100%; border: 0; }
+  .pdfpane__empty { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem; color: #d9d6cd; text-align: center; font-size: .9rem; }
+  body.with-pdfpane .content { margin-right: 40vw; }
+  body.with-pdfpane .main { max-width: none; margin: 0; }
+  body.with-pdfpane .editor-layout { grid-template-columns: minmax(0, 1fr); }
+  body.with-pdfpane .editor-side { position: static; }
+  body.with-pdfpane #act-viewinv { display: none; }
+}
+
 /* ---------- Live invoice preview (editor drawer) ---------- */
 .preview {
   position: fixed; top: 0; right: 0; bottom: 0; z-index: 45;

@@ -90,7 +90,8 @@
      account grouped below). Mobile: slim top bar + horizontally scrolling
      nav. Same markup, CSS decides which chrome shows. */
   function shell(active, inner) {
-    /* the invoice-preview drawer lives on <body>, so drop it on any navigation */
+    /* invoice-editor preview chrome lives outside #view — drop it on any navigation */
+    document.body.classList.remove("with-pdfpane");
     if (state._previewEl) {
       if (state._previewEl._esc) document.removeEventListener("keydown", state._previewEl._esc);
       state._previewEl.remove();
@@ -399,6 +400,7 @@
         }
         dirty = false;
         setSaveState("Saved ✓", "saved");
+        refreshPdfPane();
         if (!silent) toast("Draft saved");
         return true;
       } catch (e) {
@@ -519,13 +521,40 @@
         '<p class="hint" style="margin-top:.8rem">Invoice settings should be confirmed with your accountant or bookkeeper.</p></div>';
 
       document.getElementById("view").innerHTML = head + '<div class="editor-layout"><div>' + main + "</div>" + side + "</div>" +
-        '<div class="stickybar" id="sticky-actions"></div>';
+        '<div class="stickybar" id="sticky-actions"></div>' +
+        '<div class="pdfpane" id="pdfpane"></div>';
+      document.body.classList.add("with-pdfpane");
 
+      renderPdfPane();
       renderScope();
       renderItems();
       renderTotals();
       renderActions();
       bindEditor();
+    }
+
+    /* ----- docked PDF preview (wide screens) ----- */
+    function pdfSrc() {
+      return "/api/invoices/pdf?id=" + inv.id + "&ts=" + Date.now() + "#toolbar=0&navpanes=0";
+    }
+    function renderPdfPane() {
+      var pane = document.getElementById("pdfpane");
+      if (!pane) return;
+      if (!inv.id) {
+        pane.innerHTML = '<div class="pdfpane__bar"><strong>PDF preview</strong></div>' +
+          '<div class="pdfpane__empty">Start filling in the invoice —<br>the PDF appears here after the first auto-save.</div>';
+        return;
+      }
+      pane.innerHTML = '<div class="pdfpane__bar"><strong>PDF preview</strong>' +
+        '<span class="hint">Refreshes after each auto-save</span>' +
+        '<span class="btnrow"><a class="btn btn--soft btn--sm" href="/api/invoices/pdf?id=' + inv.id + '" target="_blank" rel="noopener">Open</a>' +
+        '<a class="btn btn--ghost btn--sm" href="/api/invoices/pdf?id=' + inv.id + '&download=1">Download</a></span></div>' +
+        '<iframe id="pdfframe" title="Invoice PDF preview" src="' + pdfSrc() + '"></iframe>';
+    }
+    function refreshPdfPane() {
+      var f = document.getElementById("pdfframe");
+      if (f) f.src = pdfSrc();
+      else renderPdfPane();
     }
 
     /* ----- scope sections ----- */
