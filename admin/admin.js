@@ -90,6 +90,12 @@
      account grouped below). Mobile: slim top bar + horizontally scrolling
      nav. Same markup, CSS decides which chrome shows. */
   function shell(active, inner) {
+    /* the invoice-preview drawer lives on <body>, so drop it on any navigation */
+    if (state._previewEl) {
+      if (state._previewEl._esc) document.removeEventListener("keydown", state._previewEl._esc);
+      state._previewEl.remove();
+      state._previewEl = null;
+    }
     var navPrimary =
       navLink("/admin/home", "Home", active === "home") +
       navLink("/admin/jobs", "Jobs", active === "jobs") +
@@ -367,6 +373,7 @@
       setSaveState("Unsaved changes…", "saving");
       clearTimeout(saveTimer);
       saveTimer = setTimeout(saveDraft, 1500);
+      schedulePreview();
     }
     function setSaveState(text, cls) {
       var el = document.getElementById("savestate");
@@ -687,6 +694,7 @@
       var b = [];
       if (editable) {
         b.push('<button class="btn btn--primary" id="act-save">Save</button>');
+        b.push('<button class="btn btn--soft" id="act-viewinv">Preview invoice</button>');
         if (inv.id) {
           b.push('<button class="btn btn--soft" id="act-preview">Preview PDF</button>');
           b.push('<button class="btn btn--soft" id="act-download">Download PDF</button>');
@@ -696,6 +704,7 @@
           b.push('<button class="btn btn--danger" id="act-del">Delete</button>');
         }
       } else {
+        b.push('<button class="btn btn--soft" id="act-viewinv">Preview invoice</button>');
         b.push('<a class="btn btn--soft" href="/api/invoices/pdf?id=' + inv.id + '" target="_blank" rel="noopener">Preview PDF</a>');
         b.push('<a class="btn btn--primary" href="/api/invoices/pdf?id=' + inv.id + '&download=1">Download PDF</a>');
         b.push('<button class="btn btn--soft" id="act-print">Print</button>');
@@ -709,6 +718,7 @@
 
       var on = function (id2, fn) { var el = document.getElementById(id2); if (el) el.addEventListener("click", fn); };
       on("act-save", function () { saveDraft(); });
+      on("act-viewinv", togglePreview);
       on("act-preview", async function () {
         if (await saveDraft(true)) window.open("/api/invoices/pdf?id=" + inv.id, "_blank");
       });
@@ -768,6 +778,7 @@
         var sb = [];
         if (editable) {
           sb.push('<button class="btn btn--primary" data-proxy="act-save">Save draft</button>');
+          sb.push('<button class="btn btn--soft" data-proxy="act-viewinv">Preview</button>');
           if (inv.id) sb.push('<button class="btn btn--ghost" data-proxy="act-issue">Issue</button>');
         } else {
           sb.push('<a class="btn btn--primary" href="/api/invoices/pdf?id=' + inv.id + '&download=1">Download PDF</a>');
@@ -781,6 +792,151 @@
           });
         });
       }
+    }
+
+    /* ----- live invoice preview -----
+       Client-side rendition of the pdfkit layout so the invoice can be
+       checked while it's being written — before anything is saved. */
+    function previewHtml() {
+      collectSafe();
+      var t = calcTotals(inv);
+      var s = state.settings || {};
+      var c = inv.client_snapshot || {};
+      var dmy = function (d) {
+        if (!d) return "—";
+        var p = String(d).slice(0, 10).split("-");
+        return p[2] + "/" + p[1] + "/" + p[0];
+      };
+      var h = "";
+      if (inv.status === "draft") h += '<div class="ip-watermark" aria-hidden="true"><span>DRAFT</span></div>';
+
+      var bizLines = [];
+      if (s.legal_name && s.legal_name !== s.trading_name) bizLines.push(esc(s.legal_name));
+      if (s.abn) bizLines.push("ABN " + esc(s.abn));
+      if (s.address) bizLines.push(esc(s.address));
+      var contact = [s.phone, s.email].filter(Boolean).map(esc).join(" · ");
+      if (contact) bizLines.push(contact);
+      h += '<div class="ip-head"><div class="ip-biz">' +
+        '<img src="/assets/logo-turf-and-landscaping.png" alt="" />' +
+        "<strong>" + esc(s.trading_name || s.legal_name || "") + "</strong>" + bizLines.join("<br>") + "</div>" +
+        '<div class="ip-meta">' + (inv.status === "paid" ? '<span class="ip-paid">PAID</span><br>' : "") +
+        '<div class="ip-title">' + (s.gst_registered ? "TAX INVOICE" : "INVOICE") + "</div>" +
+        esc(inv.invoice_no ? "Invoice no: " + inv.invoice_no : "Draft — no number assigned") + "<br>" +
+        "Issue date: " + dmy(inv.issue_date) + "<br>Due date: " + dmy(inv.due_date) + "</div></div>";
+
+      var bill = [c.business, c.name, inv.billing_address || c.address,
+        c.abn ? "ABN " + c.abn : "", c.email, c.mobile].filter(Boolean).join("\n");
+      var proj = [inv.project_address || "—", inv.po_number ? "PO: " + inv.po_number : "",
+        inv.customer_ref ? "Ref: " + inv.customer_ref : ""].filter(Boolean).join("\n");
+      h += '<div class="ip-parties"><div><h4>BILL TO</h4><p class="ip-pre">' + esc(bill || "—") + "</p></div>" +
+        '<div><h4>PROJECT / SITE</h4><p class="ip-pre">' + esc(proj) + "</p></div></div>";
+
+      if (inv.scope_sections.length) {
+        h += '<div class="ip-h2">Scope of Works</div><div class="ip-scope">';
+        inv.scope_sections.forEach(function (sec) {
+          if (sec.heading) h += "<h5>" + esc(sec.heading) + "</h5>";
+          if (sec.body) h += '<p class="ip-pre">' + esc(sec.body) + "</p>";
+          var list = function (arr, label) {
+            var li = (arr || []).filter(Boolean);
+            if (!li.length) return;
+            if (label) h += '<div class="ip-sub">' + label + "</div>";
+            h += "<ul>" + li.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>";
+          };
+          list(sec.bullets, "");
+          list(sec.inclusions, "Inclusions");
+          list(sec.exclusions, "Exclusions");
+          if (sec.notes) h += '<p class="ip-note">' + esc(sec.notes) + "</p>";
+        });
+        h += "</div>";
+      }
+
+      if (inv.items.length) {
+        h += '<div class="ip-h2">Pricing</div><div class="ip-tablewrap"><table class="ip-table"><thead><tr>' +
+          '<th style="text-align:left">Description</th><th class="num">Qty</th><th style="text-align:left">Unit</th>' +
+          '<th class="num">Unit price</th><th class="num">Disc.</th><th class="num">Amount</th></tr></thead><tbody>';
+        inv.items.forEach(function (it) {
+          var disc = it.discount_pct ? Number(it.discount_pct) + "%" : (it.discount_cents ? money(it.discount_cents) : "—");
+          h += "<tr><td>" + esc(it.description || "—") +
+            (it.taxable === false && inv.gst_enabled ? ' <span class="ip-note">(GST-free)</span>' : "") + "</td>" +
+            '<td class="num">' + Number(it.quantity || 0) + "</td><td>" + esc(it.unit || "") + "</td>" +
+            '<td class="num">' + money(it.unit_price_cents) + '</td><td class="num">' + disc + "</td>" +
+            '<td class="num">' + money(it._line_cents || 0) + "</td></tr>";
+        });
+        h += "</tbody></table></div>";
+      }
+
+      h += '<div class="ip-totals">';
+      h += "<div><span>" + (inv.gst_enabled ? "Subtotal (ex. GST)" : "Subtotal") + "</span><span>" + money(t.subtotal_cents) + "</span></div>";
+      if (t.invoice_discount_cents > 0) {
+        h += "<div><span>" + esc(inv.discount_label || "Discount") + "</span><span>" +
+          (inv.discount_pct ? Number(inv.discount_pct) + "%" : "-" + money(t.invoice_discount_cents)) + "</span></div>";
+      }
+      if (inv.gst_enabled) h += "<div><span>GST</span><span>" + money(t.gst_cents) + "</span></div>";
+      h += '<div class="grand"><span>' + (inv.gst_enabled ? "Total (incl. GST)" : "Total") + "</span><span>" + money(t.total_cents) + "</span></div>";
+      if (inv.gst_enabled && t.gst_cents > 0) h += '<div class="ip-note" style="justify-content:flex-end">Total includes GST</div>';
+      if (inv.paid_cents > 0) {
+        h += "<div><span>Amount paid</span><span>-" + money(inv.paid_cents) + "</span></div>";
+        h += "<div><strong>Balance due</strong><strong>" + money(t.total_cents - inv.paid_cents) + "</strong></div>";
+      }
+      h += "</div>";
+
+      if (inv.payments && inv.payments.length) {
+        h += '<div class="ip-h2">Payments received</div>' + inv.payments.map(function (p) {
+          return '<p class="ip-pre">' + dmy(p.paid_on) + "  ·  " + money(p.amount_cents) + "  ·  " + esc(p.method || "") +
+            (p.reference ? "  ·  " + esc(p.reference) : "") + "</p>";
+        }).join("");
+      }
+
+      var bank = [s.bank_name, s.account_name, s.bsb ? "BSB: " + s.bsb : "",
+        s.account_number ? "Account: " + s.account_number : ""].filter(Boolean).join("\n");
+      var block = function (label, text) {
+        if (!text) return;
+        h += '<div class="ip-h2">' + label + '</div><p class="ip-pre">' + esc(text) + "</p>";
+      };
+      block("Payment details", inv.payment_instructions || bank || "");
+      block("Payment terms", inv.payment_terms || s.payment_terms || "");
+      block("Notes", inv.notes);
+      block("Terms &amp; conditions", inv.terms || s.default_terms || "");
+
+      var foot = [s.trading_name, s.phone, s.email, s.website].filter(Boolean).join("  ·  ");
+      if (foot) h += '<div class="ip-foot">' + esc(foot) + "</div>";
+      return h;
+    }
+
+    var previewTimer = null;
+    function updatePreview() {
+      var paper = state._previewEl && state._previewEl.querySelector("#pv-paper");
+      if (paper) paper.innerHTML = previewHtml();
+    }
+    function schedulePreview() {
+      if (!state._previewEl) return;
+      clearTimeout(previewTimer);
+      previewTimer = setTimeout(updatePreview, 200);
+    }
+    function closePreview() {
+      if (!state._previewEl) return;
+      if (state._previewEl._esc) document.removeEventListener("keydown", state._previewEl._esc);
+      state._previewEl.remove();
+      state._previewEl = null;
+    }
+    function togglePreview() {
+      if (state._previewEl) { closePreview(); return; }
+      var div = document.createElement("div");
+      div.className = "preview";
+      div.setAttribute("role", "dialog");
+      div.setAttribute("aria-label", "Invoice preview");
+      div.innerHTML = '<div class="preview__bar"><strong>Preview</strong>' +
+        '<span class="hint">' + (editable ? "Updates live as you edit. The downloaded PDF is the final document." : "How this invoice looks as a PDF.") + "</span>" +
+        '<span class="btnrow">' +
+        (inv.id ? '<a class="btn btn--soft btn--sm" href="/api/invoices/pdf?id=' + inv.id + '" target="_blank" rel="noopener">Open PDF</a>' : "") +
+        '<button class="btn btn--ghost btn--sm" id="pv-close">Close</button></span></div>' +
+        '<div class="preview__scroll"><div class="invoice-paper" id="pv-paper"></div></div>';
+      div._esc = function (e) { if (e.key === "Escape") closePreview(); };
+      document.addEventListener("keydown", div._esc);
+      document.body.appendChild(div);
+      state._previewEl = div;
+      div.querySelector("#pv-close").addEventListener("click", closePreview);
+      updatePreview();
     }
 
     function paymentModal() {
