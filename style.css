@@ -1646,23 +1646,3 @@ body.nav-open .site-header:not(.is-scrolled) .brand__logo--light { display: none
   .legal-layout { grid-template-columns: 15rem minmax(0, 42rem); gap: 3.4rem; }
   .legal-toc { position: sticky; top: calc(var(--header-h) + 1.6rem); }
 }
-
-/* Original client photography: preserve the portrait composition beside copy. */
-.home .hero { background: #13271d; }
-.home .hero__media { left: 44%; }
-.home .hero__media img { object-position: 50% 62%; }
-.home .hero::after {
-  background: linear-gradient(90deg, #13271d 0%, #13271d 39%, rgba(19,39,29,.88) 46%, rgba(19,39,29,0) 64%),
-    linear-gradient(180deg, rgba(10,22,15,.36), transparent 25%);
-}
-.home .hero__inner { min-height: min(82vh, 52rem); padding-block: 5rem 7rem; }
-.home .hero h1 { font-size: clamp(2.5rem, 4.6vw, 4.25rem); max-width: 15ch; }
-.home .hero__sub { max-width: 25rem; }
-@media (max-width: 819px) {
-  .home .hero__media { left: 0; }
-  .home .hero__media img { object-position: 50% 64%; }
-  .home .hero::after { background: linear-gradient(180deg, rgba(13,24,17,.72), rgba(13,24,17,.67) 42%, rgba(13,24,17,.12) 74%, rgba(13,24,17,.06)); }
-  .home .hero__inner { min-height: 100svh; justify-content: flex-start; padding-block: 2rem 17rem; }
-  .home .hero h1 { font-size: clamp(2.15rem, 8.7vw, 2.9rem); }
-  .home .hero__sub { max-width: 29rem; }
-}
