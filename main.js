@@ -415,8 +415,8 @@
   var root = document.querySelector("[data-reviews]");
   if (!root) return;
   var track = root.querySelector("[data-reviews-track]");
-  var prev = root.querySelector("[data-reviews-prev]");
-  var next = root.querySelector("[data-reviews-next]");
+  var scroller = root.querySelector(".reviews__scroller");
+  var pauseBtn = root.querySelector("[data-reviews-pause]");
   var STAR = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.6 7.2.6-5.4 4.8 1.6 7-6.4-3.8L5.2 21l1.6-7L1.4 9.2l7.2-.6z"/></svg>';
   var G = '<svg class="review__g" viewBox="0 0 24 24" role="img" aria-label="Google review"><circle cx="12" cy="12" r="11" fill="#fff" stroke="#e2dcc9"/><text x="12" y="16.6" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-size="13" font-weight="700" fill="#4285f4">G</text></svg>';
   function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
@@ -429,15 +429,36 @@
       '</li>';
   }).join("");
 
-  var step = function () { var c = track.children; return c.length > 1 ? c[1].offsetLeft - c[0].offsetLeft : track.clientWidth; };
-  var sync = function () {
-    var max = track.scrollWidth - track.clientWidth - 1;
-    if (prev) prev.disabled = track.scrollLeft <= 0;
-    if (next) next.disabled = track.scrollLeft >= max;
+  /* Continuous marquee: the card set is cloned once (clones aria-hidden)
+     and the track slides by exactly one set width on a linear loop.
+     Hover/focus pauses it, the proof-row button toggles it, and users
+     with reduced motion keep the plain swipeable strip instead. */
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (reduce.matches) {
+    if (pauseBtn) pauseBtn.hidden = true;
+    return;
+  }
+  scroller.classList.add("reviews__scroller--marquee");
+  track.classList.add("reviews__track--marquee");
+  Array.prototype.slice.call(track.children).forEach(function (li) {
+    var clone = li.cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
+    track.appendChild(clone);
+  });
+  var PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z"/></svg>';
+  var PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+  var measure = function () {
+    var gap = parseFloat(getComputedStyle(track).columnGap) || 12;
+    var shift = (track.scrollWidth + gap) / 2;   /* one set + the seam gap */
+    track.style.setProperty("--marquee-shift", -shift + "px");
+    track.style.setProperty("--marquee-time", Math.round(shift / 42) + "s");
   };
-  if (prev) prev.addEventListener("click", function () { track.scrollBy({ left: -step() * 2, behavior: "smooth" }); });
-  if (next) next.addEventListener("click", function () { track.scrollBy({ left: step() * 2, behavior: "smooth" }); });
-  track.addEventListener("scroll", sync, { passive: true });
-  window.addEventListener("resize", sync);
-  sync();
+  measure();
+  window.addEventListener("resize", measure);
+  if (pauseBtn) pauseBtn.addEventListener("click", function () {
+    var paused = track.classList.toggle("is-paused");
+    pauseBtn.setAttribute("aria-pressed", String(paused));
+    pauseBtn.setAttribute("aria-label", paused ? "Play reviews" : "Pause reviews");
+    pauseBtn.innerHTML = paused ? PLAY : PAUSE;
+  });
 })();

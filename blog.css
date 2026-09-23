@@ -2,7 +2,7 @@
    Scoped styles for /blog and /blog/<slug> ONLY. Loaded exclusively by
    those generated pages, so nothing here can affect the homepage, /quote,
    /services or /projects. Reuses the global tokens and the .editorial
-   type language (Playfair 600 headings, Poppins for CTAs and labels).
+   type language (Poppins headings site-wide, matching the hero).
    ===================================================================== */
 
 /* ---------- Index: intro ----------

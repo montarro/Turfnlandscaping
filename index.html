@@ -47,8 +47,7 @@
 
   <link rel="icon" href="/assets/favicon.png?v=3" type="image/png" sizes="192x192" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180" />
-  <link rel="preload" as="image" href="/assets/images/hero-frontyard-lawn-flower-borders.webp" media="(min-width: 820px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="/assets/images/hero-stepping-stone-path-mobile.webp" media="(max-width: 819px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/images/hero-real-lit-front-garden.webp" fetchpriority="high" />
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-800.woff2" crossorigin />
   <link rel="stylesheet" href="/style.css" />
 
@@ -273,25 +272,11 @@
     <!-- ============ HERO ============ -->
     <section class="hero" aria-label="Introduction">
       <div class="hero__media">
-        <!-- Desktop: the front-yard photo (assets/images/frontyard hero.webp,
-             878x1078) at native resolution, no upscaling or sharpening (both
-             a GAN upscale and a sharpened 2x resize made the grass read as
-             rendered), cropped to the lower band from y=410 (picket fence and
-             roses, lawn, raised bed, rose border).
-             Phones: a different photo — the stepping-stone path (retaining web/
-             image 4.webp, 819x1102), resized the same way to 1638x2204 and cut
-             9:16 down the left edge so the path leads to the raised veg bed.
-             WebP first, JPG fallback for browsers without WebP. The alt is
-             swapped to match on phones by the small script below. -->
-        <picture>
-          <source media="(max-width: 819px)" type="image/webp" srcset="/assets/images/hero-stepping-stone-path-mobile.webp" width="1080" height="1920" />
-          <source type="image/webp" srcset="/assets/images/hero-frontyard-lawn-flower-borders.webp" width="878" height="494" />
-          <img src="/assets/images/hero-frontyard-lawn-flower-borders.jpg"
-               alt="Newly landscaped front yard in Melbourne's west with fresh turf, rose garden beds and white picket fence by Bastiano Landscaping"
-               data-alt-mobile="Bluestone stepping-stone path with white pebble borders leading past a new lawn to a raised vegetable bed, landscaped by Bastiano Landscaping"
-               width="878" height="494" fetchpriority="high" />
-        </picture>
-        <script>(function(){var i=document.querySelector(".hero__media img");if(!i)return;var d=i.getAttribute("alt"),m=i.getAttribute("data-alt-mobile"),q=window.matchMedia("(max-width: 819px)");function s(){i.setAttribute("alt",q.matches?m:d);}s();q.addEventListener?q.addEventListener("change",s):q.addListener(s);})();</script>
+        <!-- Sebastian's original camera photo: PXL_20260807_080359768~2.jpg.
+             Resized and compressed only; no AI generation, fill or upscaling. -->
+        <img src="/assets/images/hero-real-lit-front-garden.webp"
+             alt="Completed front garden with an illuminated stepping-stone path, timber retaining wall, new lawn and flower border by Bastiano Landscaping"
+             width="1600" height="2125" fetchpriority="high" />
       </div>
       <div class="wrap hero__inner">
         <p class="hero__location">Melbourne, Victoria</p>
@@ -345,7 +330,6 @@
             <img src="/assets/images/photo-curved-retaining-wall.webp" alt="Curved stone retaining wall wrapping a mulched garden bed" loading="lazy" width="1200" height="900" />
           </figure>
           <div class="sol-feature__copy">
-            <span class="sol-num" aria-hidden="true">01</span>
             <h3>Complete Outdoor Transformations</h3>
             <p>Bring the entire space together with turf, planting, paving, retaining structures and finishing details planned as one cohesive project.</p>
             <a class="btn btn--outline-light" href="/services/complete-landscape-transformations">Explore Complete Transformations</a>
@@ -355,25 +339,25 @@
         <div class="sol-grid2 reveal">
           <article class="sol-item">
             <figure><picture><source type="image/webp" srcset="/assets/images/card-turf-installation.webp" width="1480" height="832" /><img src="/assets/images/card-turf-installation.jpg" alt="Front yard transformed with new turf and a curved brick path by Bastiano Landscaping" loading="lazy" width="1480" height="832" /></picture></figure>
-            <div class="sol-item__head"><span class="sol-num" aria-hidden="true">02</span><h3>New Lawn Installation &amp; Replacement</h3></div>
+            <div class="sol-item__head"><h3>New Lawn Installation &amp; Replacement</h3></div>
             <p>A fresh, healthy lawn with properly prepared natural or synthetic turf.</p>
             <a class="sol-link" href="/services/turf-installation">View Solution <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           </article>
           <article class="sol-item">
             <figure><img src="/assets/images/photo-stone-paver-pergola.webp" alt="Stone paver patio beneath a timber pergola" loading="lazy" width="1200" height="900" /></figure>
-            <div class="sol-item__head"><span class="sol-num" aria-hidden="true">03</span><h3>Custom Landscaping</h3></div>
+            <div class="sol-item__head"><h3>Custom Landscaping</h3></div>
             <p>Retaining walls, paving, paths and edging constructed with careful preparation and lasting materials.</p>
             <a class="sol-link" href="/services/hard-landscaping">View Solution <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           </article>
           <article class="sol-item">
             <figure><picture><source type="image/webp" srcset="/assets/images/card-garden-improvements.webp" width="1480" height="832" /><img src="/assets/images/card-garden-improvements.jpg" alt="Backyard garden with planted borders, raised veg beds and stepping-stone path by Bastiano Landscaping" loading="lazy" width="1480" height="832" /></picture></figure>
-            <div class="sol-item__head"><span class="sol-num" aria-hidden="true">04</span><h3>Garden Improvements</h3></div>
+            <div class="sol-item__head"><h3>Garden Improvements</h3></div>
             <p>Refresh an existing yard with new garden beds, plants, mulch, edging and practical improvements.</p>
             <a class="sol-link" href="/services/garden-planting">View Solution <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           </article>
           <article class="sol-item">
             <figure><img src="/assets/images/ill-plants-mulch.webp" alt="Neat mulched garden bed with flowering shrubs beside a healthy lawn" loading="lazy" width="1200" height="900" /></figure>
-            <div class="sol-item__head"><span class="sol-num" aria-hidden="true">05</span><h3>Ongoing Property Care</h3></div>
+            <div class="sol-item__head"><h3>Ongoing Property Care</h3></div>
             <p>Regular mowing, hedging, pruning, weeding and garden upkeep that keeps the property looking its best.</p>
             <a class="sol-link" href="/services/property-maintenance">View Solution <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           </article>
@@ -407,13 +391,12 @@
             <strong>4.8<span class="reviews__of">/5</span></strong>
             <span class="reviews__proof-stars" aria-label="Rated 4.8 out of 5 stars">★★★★★</span>
             <a href="https://www.google.com/maps/place/Turf+And+Landscaping/@-37.7205191,144.8823457,10z/data=!4m8!3m7!1s0x6ac0798ccb3a92f1:0xd24aee4a9f550228!8m2!3d-37.7205191!4d144.8823457!9m1!1b1!16s%2Fg%2F11x6yqvljl?hl=en-GB" target="_blank" rel="noopener">Read them on Google</a>
+            <button class="reviews__pause" type="button" data-reviews-pause aria-pressed="false" aria-label="Pause reviews"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5h3v14H8zM13 5h3v14h-3z"/></svg></button>
           </p>
           <div class="reviews__scroller">
-            <button class="reviews__btn reviews__btn--prev" type="button" data-reviews-prev aria-label="Previous reviews"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
             <ul class="reviews__track" data-reviews-track aria-label="Customer reviews">
               <noscript><li class="review review--static"><p>Our latest customer reviews are on <a href="https://www.google.com/maps/place/Turf+And+Landscaping/@-37.7205191,144.8823457,10z/data=!4m8!3m7!1s0x6ac0798ccb3a92f1:0xd24aee4a9f550228!8m2!3d-37.7205191!4d144.8823457!9m1!1b1!16s%2Fg%2F11x6yqvljl?hl=en-GB" target="_blank" rel="noopener">Google</a>.</p></li></noscript>
             </ul>
-            <button class="reviews__btn reviews__btn--next" type="button" data-reviews-next aria-label="Next reviews"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
           </div>
         </div>
         <div class="reviews__cta reveal">
