@@ -202,7 +202,7 @@ p  { margin: 0 0 1rem; }
   max-width: var(--wrap); margin-inline: auto;
   background: rgba(250, 247, 239, .92);
   -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-  border: 1px solid var(--line); border-radius: 999px;
+  border: 1px solid var(--line); border-radius: var(--r-btn);
   box-shadow: var(--shadow-md);
   height: var(--header-h);
   display: flex; align-items: center; gap: 1rem;
