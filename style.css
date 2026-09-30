@@ -286,8 +286,8 @@ body.nav-open { overflow: hidden; }
   text-decoration: none; border-bottom: 1px solid var(--line);
 }
 .mobile-nav__group a:last-of-type { border-bottom: 0; }
-/* .mobile-nav a outranks .btn--primary, so restate the button's white text */
-.mobile-nav .btn { margin-top: 1rem; border-bottom: 0; color: #fff; }
+/* .mobile-nav a outranks .btn, so restate the button's layout, padding and white text */
+.mobile-nav .btn { display: flex; justify-content: center; padding: .9rem 1.6rem; margin-top: 1rem; border-bottom: 0; color: #fff; }
 
 /* ---------- Hero (photo background, centred composition) ---------- */
 .hero {
