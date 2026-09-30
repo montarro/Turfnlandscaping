@@ -897,7 +897,7 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
   .region-grid { grid-template-columns: repeat(2, 1fr); }
   .founder__inner { grid-template-columns: .85fr 1.15fr; gap: 3.5rem; }
   .founder__portrait { max-width: 24rem; }
-  .footer__grid { grid-template-columns: 1.5fr 1fr 1fr 1.2fr; }
+  .footer__grid { grid-template-columns: minmax(0, 1fr) auto; column-gap: 4rem; }
   .tf__slide { flex-basis: 88%; }
   .tf__track { padding-inline: 6%; }
 }
