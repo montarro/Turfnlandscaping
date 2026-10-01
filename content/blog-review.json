@@ -1,8 +1,14 @@
 {
-  "_comment": "Blog review round for Sebastian. Slugs must match content/blog/*.md. Read by scripts/build-review.js (the /review pages) and api/review.js (feedback storage). Changing this list never publishes anything.",
+  "_comment": "Blog review list for Sebastian. Slugs must match content/blog/*.md. Read by scripts/build-review.js (the /review pages) and api/review.js (feedback storage — one Blob record per slug, so removing a slug hides its history from the page but never deletes it). Changing this list never publishes anything. History: round 1 (best-time-to-lay-turf-melbourne, how-to-plan-complete-landscaping-project, pavers-vs-stepping-stones-garden-path) approved by Sebastian on 14 Sep 2026 and published that day. Round 2 (why-new-turf-fails, low-maintenance-landscaping-ideas-melbourne, small-backyard-landscaping-ideas-melbourne) published 2 Oct 2026 without a recorded review — their verdicts stay open on the page. Round 3 (the last three drafts) is next.",
   "reviewer": "Sebastian",
-  "round": "Next three scheduled articles",
+  "round": "Round 3 is next · round 2 is live and still open for your verdict",
   "slugs": [
+    "why-new-turf-fails",
+    "low-maintenance-landscaping-ideas-melbourne",
+    "small-backyard-landscaping-ideas-melbourne",
+    "choose-plants-and-mulch-melbourne-garden",
+    "commercial-landscaping-scope-checklist-melbourne",
+    "new-landscape-maintenance-guide",
     "best-time-to-lay-turf-melbourne",
     "how-to-plan-complete-landscaping-project",
     "pavers-vs-stepping-stones-garden-path"

@@ -49,7 +49,8 @@ const all = fs.readdirSync(POSTS_DIR).filter((f) => /^\d+-.*\.md$/.test(f)).map(
 const articles = CONFIG.slugs.map((slug, i) => {
   const a = all.find((p) => p.slug === slug);
   if (!a) throw new Error(`blog-review.json: no article with slug "${slug}"`);
-  // A published article stays on the page (notes still welcome) but loses its verdict buttons.
+  // A published article keeps its verdict buttons: an article that went live
+  // before Sebastian reviewed it can still be approved or sent back.
   return Object.assign({ n: i + 1 }, a);
 });
 
@@ -188,14 +189,16 @@ function reviewerPage() {
           <button class="btn btn--ghost" type="button" data-add>Add note</button>
         </div>
 
-        ${a.published ? `<p class="hint">This article is now live on the website. Notes are still welcome and we can update it any time.</p>` : `<div class="status">
+        <div class="status">
           <h3 style="margin-top:0">Your verdict</h3>
           <div class="row">
             <button class="btn btn--ok" type="button" data-status="approved">✓ Approve</button>
             <button class="btn btn--warn" type="button" data-status="changes">Changes requested</button>
           </div>
-          <p class="hint">Approving does not publish anything — we schedule each article once you're happy with it.</p>
-        </div>`}
+          <p class="hint">${a.published
+            ? "This article is already live on the website. If anything is wrong, request changes and we will update it."
+            : "Approving does not publish anything — we schedule each article once you're happy with it."}</p>
+        </div>
       </div>
     </article>`).join("\n");
 
@@ -204,7 +207,7 @@ function reviewerPage() {
   <main class="wrap" id="main">
     <div class="intro">
       <p><strong>Hi ${esc(CONFIG.reviewer)} — your articles are below.</strong></p>
-      <p>Anything still waiting on you shows <strong>Approve</strong> and <strong>Changes requested</strong> buttons — read it, add any notes, then tap one. Articles marked as live are already published. Everything saves straight away and we see it on our side.</p>
+      <p>Read each article, add any notes, then tap <strong>Approve</strong> or <strong>Changes requested</strong>. Articles marked “Published” are already live, so a correction there is the most urgent. Everything saves straight away and we see it on our side.</p>
     </div>
     ${cards}
     <article class="card" id="card-_ideas" data-slug="_ideas">
@@ -286,7 +289,7 @@ function ownerPage() {
   </main>
 `;
 
-  const meta = JSON.stringify(articles.map((a) => ({ slug: a.slug, title: a.title, n: a.n })));
+  const meta = JSON.stringify(articles.map((a) => ({ slug: a.slug, title: a.title, n: a.n, published: a.published })));
   const script = COMMON_JS + `
   var META = ${meta};
   function load() {
@@ -301,7 +304,7 @@ function ownerPage() {
         return '<article class="card" id="a-' + m.slug + '"><div class="card__body">' +
           '<p class="kicker">Article ' + m.n + '</p><h2>' + esc(m.title) + '</h2>' +
           '<div class="row">' + badge(r.status) + (r.status_at ? '<span class="hint" style="margin:0">set ' + when(r.status_at) + '</span>' : '') +
-          '<a class="btn btn--ghost" href="/blog/' + m.slug + '" target="_blank" rel="noopener">Open draft ↗</a></div>' +
+          '<a class="btn btn--ghost" href="/blog/' + m.slug + '" target="_blank" rel="noopener">' + (m.published ? 'Open article ↗' : 'Open draft ↗') + '</a></div>' +
           '<h3>Notes (' + r.notes.length + ')</h3><ul class="notes">' +
           (r.notes.length ? r.notes.map(function (n) { return '<li class="note"><p>' + esc(n.text) + '</p><div class="meta"><span>' + esc(n.by) + ' · ' + when(n.at) + '</span></div></li>'; }).join("") : '<li class="empty">No notes yet.</li>') +
           '</ul></div></article>';
@@ -321,4 +324,4 @@ function ownerPage() {
 fs.mkdirSync(path.join(OUTDIR, "review"), { recursive: true });
 fs.writeFileSync(path.join(OUTDIR, "review.html"), reviewerPage());
 fs.writeFileSync(path.join(OUTDIR, "review", "owner.html"), ownerPage());
-console.log(`Review area: /review + /review/owner for ${articles.length} draft(s): ${articles.map((a) => a.slug).join(", ")}`);
+console.log(`Review area: /review + /review/owner for ${articles.length} article(s): ${articles.map((a) => a.slug + (a.published ? " (live)" : "")).join(", ")}`);

@@ -69,23 +69,9 @@ const TOPIC_OF_SERVICE = {
 };
 const TOPIC_ORDER = ["Turf", "Landscaping & Design", "Paving & Structures", "Plants & Gardens", "Maintenance & Aftercare", "Commercial"];
 
-/* Service name -> live route, for the "related services" links on an article. */
-const SERVICE_ROUTE = {
-  "Natural Turf": "/services/natural-turf-installation",
-  "Synthetic Turf": "/services/synthetic-turf-installation",
-  "Turf Repair and Patching": "/services/turf-repair-patching",
-  "Custom Landscaping": "/services/complete-landscape-transformations",
-  "Garden Design": "/services/garden-design",
-  "Hard Landscaping": "/services/hard-landscaping",
-  "Pavers and Stepping Stones": "/services/paving",
-  "Retaining Walls": "/services/retaining-walls",
-  "Plants and Mulch": "/services/plants-garden-beds-mulch",
-  "Soft Landscaping": "/services/soft-landscaping",
-  "Property Maintenance": "/services/property-maintenance",
-  "Garden Care": "/services/garden-care",
-  "Lawn Mowing": "/services/lawn-mowing",
-  "Commercial Landscaping": "/services/property-maintenance",
-};
+/* Service name -> live route, for the "related services" links on an article.
+   Shared with build-service-pages.js (its "Related advice" links). */
+const { SERVICE_ROUTE } = require("./blog-index.js");
 
 /* ---------- helpers ---------- */
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -304,6 +290,15 @@ function relatedTo(post) {
 /* ---------- shared markup ---------- */
 const heroImg = (p) => `/assets/images/blog-${p.slug}.webp`;
 const cardImg = (p) => `/assets/images/blog-${p.slug}-card.webp`;
+/* Smaller copies of the 1600px hero written by gen-blog-heroes.js, so phones
+   do not download the desktop file for the page's largest image. Only sizes
+   that actually exist are offered. */
+const IMG_DIR = path.join(ROOT, "assets", "images");
+function heroSrcset(p) {
+  const widths = [800, 1200].filter((w) => fs.existsSync(path.join(IMG_DIR, `blog-${p.slug}-${w}.webp`)));
+  if (!widths.length) return "";
+  return ` srcset="${widths.map((w) => `/assets/images/blog-${p.slug}-${w}.webp ${w}w`).join(", ")}, ${heroImg(p)} 1600w"`;
+}
 const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -312,7 +307,7 @@ function humanDate(iso) {
   return `${d} ${MONTHS[m - 1]} ${y}`;
 }
 
-function head({ title, desc, canonical, image, ld, ogType = "website", robots = "index, follow" }) {
+function head({ title, desc, canonical, image, imageAlt, ld, ogType = "website", robots = "index, follow" }) {
   return `<!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -346,13 +341,19 @@ function head({ title, desc, canonical, image, ld, ogType = "website", robots = 
   <meta property="og:description" content="${esc(desc)}" />
   <meta property="og:url" content="${canonical}" />
   <meta property="og:image" content="${SITE}${image}" />
+  <meta property="og:image:width" content="1600" />
+  <meta property="og:image:height" content="1067" />
+  <meta property="og:image:alt" content="${esc(imageAlt)}" />
   <meta property="og:locale" content="en_AU" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="${esc(title)}" />
   <meta name="twitter:description" content="${esc(desc)}" />
   <meta name="twitter:image" content="${SITE}${image}" />
+  <meta name="twitter:image:alt" content="${esc(imageAlt)}" />
   <link rel="icon" href="/assets/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/assets/favicon.png" />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-800.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-700.woff2" crossorigin />
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/service-pages.css" />
   <link rel="stylesheet" href="/blog.css" />
@@ -386,7 +387,8 @@ function ctaBand(heading, body) {
 function indexPage() {
   const canonical = `${SITE}/blog`;
   const featured = live[0];
-  const rest = live.slice(1);
+  // newest first, so a just-published article is the first card people see
+  const rest = live.slice(1).sort((a, b) => b.datePublished.localeCompare(a.datePublished) || a.file.localeCompare(b.file));
   const ld = {
     "@context": "https://schema.org",
     "@graph": [
@@ -415,9 +417,9 @@ function indexPage() {
   };
 
   return head({
-    title: "Landscaping & Turf Advice for Melbourne Properties | Bastiano Landscaping",
+    title: "Landscaping & Turf Advice for Melbourne | Bastiano Landscaping",
     desc: "Practical turf, paving, retaining wall and garden advice for Melbourne homes and properties — written by Sebastian Caus, owner of Bastiano Landscaping.",
-    canonical, image: heroImg(featured), ld,
+    canonical, image: heroImg(featured), imageAlt: featured.heroAlt, ld,
   }) + `
 ${CHROME.HEADER}
   <main id="main">
@@ -433,7 +435,7 @@ ${CHROME.HEADER}
       <div class="wrap">
         <article class="bl-featured">
           <a class="bl-featured__media" href="/blog/${featured.slug}" tabindex="-1" aria-hidden="true">
-            <img src="${heroImg(featured)}" alt="" width="1600" height="1067" fetchpriority="high" />
+            <img src="${heroImg(featured)}"${heroSrcset(featured)} sizes="(min-width: 1240px) 620px, (min-width: 900px) 50vw, 94vw" alt="" width="1600" height="1067" fetchpriority="high" />
           </a>
           <div class="bl-featured__body">
             <span class="bl-kicker">Start here</span>
@@ -488,11 +490,12 @@ function articlePage(p) {
         "@type": "BlogPosting",
         headline: p.title,
         description: p.metaDescription,
-        image: SITE + heroImg(p),
+        // 3:2 hero and 4:3 card — Google picks the crop that suits the surface
+        image: [SITE + heroImg(p), SITE + cardImg(p)],
         datePublished: p.datePublished,
         dateModified: p.dateReviewed,
         inLanguage: "en-AU",
-        author: { "@type": "Person", name: AUTHOR, jobTitle: "Owner, Bastiano Landscaping" },
+        author: { "@type": "Person", name: AUTHOR, jobTitle: "Owner, Bastiano Landscaping", url: SITE + "/#who-we-are" },
         publisher: {
           "@type": "Organization",
           name: "Bastiano Landscaping",
@@ -517,7 +520,7 @@ function articlePage(p) {
   return head({
     title: p.metaTitle + " | Bastiano Landscaping",
     desc: p.metaDescription,
-    canonical, image: heroImg(p), ld, ogType: "article",
+    canonical, image: heroImg(p), imageAlt: p.heroAlt, ld, ogType: "article",
     robots: p.published ? "index, follow" : "noindex, nofollow",
   }) + `
 ${CHROME.HEADER}
@@ -544,8 +547,8 @@ ${CHROME.HEADER}
 
       <figure class="bl-hero">
         <div class="wrap">
-          <img src="${heroImg(p)}" alt="${esc(p.heroAlt)}" width="1600" height="1067" fetchpriority="high" />
-          <figcaption>${esc(p.heroAlt)} — a completed Bastiano Landscaping project.</figcaption>
+          <img src="${heroImg(p)}"${heroSrcset(p)} sizes="(min-width: 1240px) 1176px, 94vw" alt="${esc(p.heroAlt)}" width="1600" height="1067" fetchpriority="high" />
+          <figcaption>${esc(p.heroCaption || `${p.heroAlt} — a completed Bastiano Landscaping project.`)}</figcaption>
         </div>
       </figure>
 
