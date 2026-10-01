@@ -118,7 +118,7 @@ function ctaBand() {
 function card(p) {
   return `<article class="pj-card" data-categories="${p.categories.join("|")}">
     <a class="pj-card__media" href="/projects/${p.slug}" tabindex="-1" aria-hidden="true">
-      <img src="${img(p.hero)}" alt="" loading="lazy" width="1200" height="900" />
+      <img src="${img(p.hero)}"${CHROME.cardSrcset(img(p.hero))} alt="" loading="lazy" width="1200" height="900" />
     </a>
     <div class="pj-card__body">
       <div class="pj-card__tags">${p.categories.map((c) => `<span>${c}</span>`).join("")}</div>
@@ -206,6 +206,9 @@ function detailPage(p, prev, next) {
      the same job); otherwise its single before/after pair is used. They
      open the main column, ahead of The brief, in the standard slider. */
   const comparisons = p.comparisons || (p.before && p.after ? [{ before: p.before, after: p.after }] : []);
+  // photos this page already loads full-size (hero, sliders): the gallery
+  // reuses that cached file instead of fetching an 800px copy as well
+  const fullSize = new Set([p.hero, ...comparisons.flatMap((c) => [c.before.img, c.after.img])]);
   return head({
     title: `${p.title} | Bastiano Landscaping`,
     desc: p.metaDescription || p.summary,
@@ -252,7 +255,7 @@ ${HEADER}
 
           <h2 class="pj-h2">Project gallery</h2>
           <div class="pj-gallery">
-            ${p.gallery.map((g) => `<figure><img src="${img(g.img)}" alt="${g.alt}" loading="lazy" width="1200" height="900" /></figure>`).join("\n            ")}
+            ${p.gallery.map((g) => `<figure><img src="${img(g.img)}"${fullSize.has(g.img) ? "" : CHROME.cardSrcset(img(g.img), "(min-width: 700px) 380px, 92vw")} alt="${g.alt}" loading="lazy" width="1200" height="900" /></figure>`).join("\n            ")}
           </div>
 
           <div class="pj-pagenav">

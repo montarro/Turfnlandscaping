@@ -191,8 +191,10 @@ function servicePage(s) {
   }
 
   if (s.gallery) {
+    // photos already loaded full-size on this page reuse that file
+    const fullSize = new Set([s.image, s.beforeAfter && s.beforeAfter.before.img, s.beforeAfter && s.beforeAfter.after.img]);
     body += `<div class="prose"><h2>From our recent work</h2></div>
-    <div class="pj-gallery">${s.gallery.map((g) => `<figure><img src="${img(g.img)}" alt="${g.alt}" loading="lazy" width="1200" height="900" /></figure>`).join("")}</div>`;
+    <div class="pj-gallery">${s.gallery.map((g) => `<figure><img src="${img(g.img)}"${fullSize.has(g.img) ? "" : CHROME.cardSrcset(img(g.img), "(min-width: 700px) 380px, 92vw")} alt="${g.alt}" loading="lazy" width="1200" height="900" /></figure>`).join("")}</div>`;
   }
 
   if (s.faqs) {
@@ -279,7 +281,7 @@ const HOME_SERVICES = [
 function homeHubCard(c) {
   if (!ALL.some((s) => s.slug === c.slug)) throw new Error(`hub: no service page for ${c.slug}`);
   return `<a class="pj-card sp-hubcard" href="/services/${c.slug}">
-    <span class="pj-card__media"><img src="${img(c.image)}" alt="" loading="lazy" width="1200" height="900" /></span>
+    <span class="pj-card__media"><img src="${img(c.image)}"${CHROME.cardSrcset(img(c.image))} alt="" loading="lazy" width="1200" height="900" /></span>
     <span class="pj-card__body">
       <h3>${c.label}</h3>
       <p>${c.blurb}</p>

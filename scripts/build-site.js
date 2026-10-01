@@ -82,6 +82,9 @@ if (fs.existsSync(SRC_IMG)) {
 // Real client photos (assets/photos/) win over everything above.
 execFileSync("node", [path.join(__dirname, "apply-photos.js")], { stdio: "inherit", env });
 
+// 800px copies for the srcsets the pages ask for (needs every image in place).
+execFileSync("node", [path.join(__dirname, "gen-responsive.js")], { stdio: "inherit", env });
+
 // Last: the hand-maintained sitemap must list exactly the indexable pages.
 execFileSync("node", [path.join(__dirname, "check-sitemap.js")], { stdio: "inherit", env });
 

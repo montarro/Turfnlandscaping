@@ -179,4 +179,14 @@ function beforeAfterBlock({ before, after, heading = "Before &amp; after", headi
 </div>`;
 }
 
-module.exports = { HEADER, FOOTER, FOOTER_SCRIPTS, PHONE_DISPLAY, PHONE_TEL, beforeAfterBlock };
+/* srcset for a 1200x900 card or gallery photo. The 800px copy is written
+   by scripts/gen-responsive.js after the images are in place (it reads the
+   -800 names back out of the built HTML), so phones at 2x get an 800px file
+   instead of the full 1200px one. sizes defaults to a card in the 1/2/3-column
+   project grid. */
+function cardSrcset(src, sizes = "(min-width: 1020px) 380px, (min-width: 700px) 46vw, 92vw") {
+  const small = src.replace(/\.webp$/, "-800.webp");
+  return small === src ? "" : ` srcset="${small} 800w, ${src} 1200w" sizes="${sizes}"`;
+}
+
+module.exports = { HEADER, FOOTER, FOOTER_SCRIPTS, PHONE_DISPLAY, PHONE_TEL, beforeAfterBlock, cardSrcset };
