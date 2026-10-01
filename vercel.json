@@ -106,6 +106,12 @@
       "permanent": false
     },
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "^www\\.bastianolandscaping\\.com\\.au$" }],
+      "destination": "https://bastianolandscaping.com.au/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "^www\\.bastianolandscaping\\.com\\.au$" }],
       "destination": "https://bastianolandscaping.com.au/:path*",
