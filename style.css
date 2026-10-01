@@ -245,49 +245,106 @@ p  { margin: 0 0 1rem; }
   width: 46px; height: 46px; border: 1px solid var(--line); background: var(--white-warm);
   border-radius: 50%; cursor: pointer; color: var(--forest-900);
 }
-.nav-toggle svg { width: 21px; height: 21px; }
-.nav-toggle .icon-close { display: none; }
-.nav-toggle[aria-expanded="true"] .icon-open { display: none; }
-.nav-toggle[aria-expanded="true"] .icon-close { display: block; }
+/* Hamburger: three bars that fold into an X while the menu is open */
+.nav-toggle, .mnav__link { -webkit-tap-highlight-color: transparent; }
+.nav-toggle__bars { position: relative; display: block; width: 20px; height: 14px; }
+.nav-toggle__bars > span {
+  position: absolute; left: 0; width: 100%; height: 2px; border-radius: 2px; background: currentColor;
+  transition: transform .4s cubic-bezier(.65, 0, .35, 1), opacity .25s ease;
+}
+.nav-toggle__bars > span:nth-child(1) { top: 0; }
+.nav-toggle__bars > span:nth-child(2) { top: 6px; }
+.nav-toggle__bars > span:nth-child(3) { top: 12px; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars > span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars > span:nth-child(2) { opacity: 0; transform: scaleX(.2); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars > span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-/* Mobile dropdown panel */
+/* ---------- Mobile menu ----------
+   A full-screen panel that slides down from behind the floating capsule
+   (the capsule sits above it at z 100, so its X stays visible). Closed, it is
+   parked above the screen and — once the slide-up has finished — hidden, so
+   nothing in it can be tabbed to or read out. main.js sets data-open. */
 .mobile-nav {
-  display: none;
-  pointer-events: auto;
-  max-width: var(--wrap); margin: .5rem auto 0;
-  background: var(--white-warm); border: 1px solid var(--line);
-  border-radius: var(--r-lg); box-shadow: var(--shadow-lg);
-  padding: .7rem 1.2rem 1.2rem;
-}
-/* Open state covers the whole screen and scrolls internally, so every item
-   is reachable however long the menu is. The floating header capsule (z 100)
-   stays on top, keeping the X button tappable. */
-.mobile-nav[data-open="true"] {
-  display: block;
   position: fixed; inset: 0; z-index: 99;
-  max-width: none; margin: 0;
-  border: 0; border-radius: 0;
-  padding: calc(var(--header-h) + 1.8rem) 1.2rem 1.6rem;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  pointer-events: auto;
+  background: var(--cream);
+  overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+  transform: translateY(-100%);
+  visibility: hidden;
+  transition: transform .5s cubic-bezier(.7, 0, .2, 1), visibility 0s linear .5s;
 }
-/* The page behind must not scroll while the menu is open. */
-body.nav-open { overflow: hidden; }
-.mobile-nav__group { padding-top: .9rem; }
-.mobile-nav__group:first-child { padding-top: .4rem; }
-.mobile-nav__label {
-  display: block; font-family: var(--font-display); font-size: .72rem; font-weight: 700;
-  letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
-  padding: .35rem .25rem;
+.mobile-nav[data-open="true"] {
+  transform: none; visibility: visible;
+  transition: transform .6s cubic-bezier(.7, 0, .2, 1), visibility 0s;
 }
-.mobile-nav a {
-  display: block; padding: .7rem .25rem; color: var(--forest-900);
-  font-family: var(--font-display); font-weight: 600;
-  text-decoration: none; border-bottom: 1px solid var(--line);
+.mnav {
+  min-height: 100%; display: flex; flex-direction: column;
+  max-width: 34rem; margin-inline: auto;
+  padding: calc(var(--header-h) + .9rem + 1.5rem) max(var(--gutter), 1.25rem) calc(1.6rem + env(safe-area-inset-bottom, 0px));
 }
-.mobile-nav__group a:last-of-type { border-bottom: 0; }
-/* .mobile-nav a outranks .btn, so restate the button's layout, padding and white text */
-.mobile-nav .btn { display: flex; justify-content: center; padding: .9rem 1.6rem; margin-top: 1rem; border-bottom: 0; color: #fff; }
+.mnav__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.mnav__item { border-bottom: 1px solid var(--line); }
+.mnav__link {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  width: 100%; padding: 1rem .2rem; margin: 0;
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(1.3rem, 5.4vw, 1.6rem);
+  line-height: 1.15; letter-spacing: -.01em; text-align: left;
+  color: var(--forest-900); text-decoration: none;
+  background: none; border: 0; border-radius: 0; cursor: pointer;
+}
+.mnav__link:hover { color: var(--forest-700); }
+.mnav__toggle svg { width: 1.15rem; height: 1.15rem; flex: none; color: var(--forest-600); transition: transform .4s cubic-bezier(.4, 0, .2, 1); }
+.mnav__toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+/* Dropdown: grid rows 0fr -> 1fr animates the real height (no max-height
+   guess); the links stay hidden — untabbable — until it is open. */
+.mnav__sub { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s cubic-bezier(.4, 0, .2, 1); }
+.mnav__group.is-open .mnav__sub { grid-template-rows: 1fr; }
+.mnav__sub-in { min-height: 0; overflow: hidden; visibility: hidden; transition: visibility 0s linear .4s; }
+.mnav__group.is-open .mnav__sub-in { visibility: visible; transition: visibility 0s; }
+.mnav__sub-in a {
+  display: block; padding: .6rem .2rem .6rem 1rem;
+  font-family: var(--font-display); font-weight: 600; font-size: 1.05rem;
+  color: var(--forest-800); text-decoration: none;
+}
+.mnav__sub-in a:last-child { margin-bottom: .75rem; }
+.mnav__sub-in a:hover { color: var(--leaf-deep); }
+.mnav__foot { margin-top: auto; padding-top: 2rem; display: grid; gap: .5rem; }
+.mnav__quote { justify-content: center; margin-bottom: .5rem; }
+.mnav__contact {
+  display: block; padding: .35rem .2rem; width: fit-content;
+  font-family: var(--font-display); font-weight: 600; color: var(--forest-800); text-decoration: none;
+}
+.mnav__contact:hover { color: var(--leaf-deep); }
+.mnav__link:focus-visible, .mnav__sub-in a:focus-visible, .mnav__contact:focus-visible {
+  outline: 2px solid var(--leaf-deep); outline-offset: 2px; border-radius: 6px;
+}
+/* Rows rise in one after another once the panel is mostly down; on close
+   they simply fade with the panel. */
+.mnav__item, .mnav__foot > * { opacity: 0; transform: translateY(14px); transition: opacity .2s ease, transform .2s ease; }
+.mobile-nav[data-open="true"] .mnav__item,
+.mobile-nav[data-open="true"] .mnav__foot > * {
+  opacity: 1; transform: none;
+  transition: opacity .45s ease, transform .6s cubic-bezier(.16, 1, .3, 1);
+}
+.mobile-nav[data-open="true"] .mnav__item:nth-child(1) { transition-delay: .22s; }
+.mobile-nav[data-open="true"] .mnav__item:nth-child(2) { transition-delay: .27s; }
+.mobile-nav[data-open="true"] .mnav__item:nth-child(3) { transition-delay: .32s; }
+.mobile-nav[data-open="true"] .mnav__item:nth-child(4) { transition-delay: .37s; }
+.mobile-nav[data-open="true"] .mnav__foot > :nth-child(1) { transition-delay: .42s; }
+.mobile-nav[data-open="true"] .mnav__foot > :nth-child(2) { transition-delay: .46s; }
+.mobile-nav[data-open="true"] .mnav__foot > :nth-child(3) { transition-delay: .5s; }
+/* The page behind must not scroll while the menu is open (main.js). Only the
+   root is locked: overflow on body as well would make body the scroll
+   container of the sticky header, which would then jump off-screen when the
+   menu is opened part-way down a page. */
+html.nav-lock { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav, .mobile-nav[data-open="true"],
+  .mnav__item, .mnav__foot > *, .mobile-nav[data-open="true"] .mnav__item, .mobile-nav[data-open="true"] .mnav__foot > *,
+  .mnav__sub, .mnav__sub-in, .mnav__toggle svg, .nav-toggle__bars > span {
+    transition-duration: 0s !important; transition-delay: 0s !important;
+  }
+}
 
 /* ---------- Hero (photo background, centred composition) ---------- */
 .hero {
@@ -884,7 +941,7 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
      style their own hover */
   .primary-nav > a:hover, .primary-nav > a:focus-visible,
   .primary-nav .nav-drop__toggle:hover, .primary-nav .nav-drop__toggle:focus-visible { background: var(--white-warm); color: var(--forest-800); box-shadow: var(--shadow-sm); }
-  .nav-toggle { display: none; }
+  .nav-toggle, .mobile-nav { display: none; }
   body { padding-bottom: 0; }
 }
 
@@ -1220,17 +1277,6 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
 }
 .nav-drop__menu .nav-drop__all:hover svg, .nav-drop__menu .nav-drop__all:focus-visible svg { transform: translateX(3px); }
 
-/* Mobile services accordion inside the mobile nav */
-.mobile-nav__acc { border: 1px solid var(--line); border-radius: 12px; background: var(--white-warm); margin-bottom: .5rem; overflow: hidden; }
-.mobile-nav__acc summary {
-  display: flex; align-items: center; justify-content: space-between; gap: .6rem;
-  padding: .72rem .9rem; cursor: pointer; list-style: none;
-  font-family: var(--font-display); font-weight: 600; color: var(--forest-900);
-}
-.mobile-nav__acc summary::-webkit-details-marker { display: none; }
-.mobile-nav__acc summary svg { width: 1rem; height: 1rem; flex: none; transition: transform .2s ease; }
-.mobile-nav__acc[open] summary svg { transform: rotate(180deg); }
-.mobile-nav__acc a { display: block; padding: .55rem .9rem; border-top: 1px solid var(--line); }
 
 /* =====================================================================
    What we do & why — editorial split: copy left, tall photo right
@@ -1313,7 +1359,10 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
     linear-gradient(180deg, rgba(13,24,17,.28) 0%, rgba(13,24,17,0) 32%);
 }
 .home .hero__media img { object-position: 50% 50%; }   /* front-yard photo: fence and roses left, rose bed right — keep both */
-@media (max-width: 819px) { .home .hero__media img { object-position: 50% 50%; } }
+/* Phones get the 9:16 crop of the same photo; on a tall screen it is cropped
+   at the sides, so bias it left to keep the whole front door in frame with
+   the stepping-stone path and the planting either side of it. */
+@media (max-width: 819px) { .home .hero__media img { object-position: 35% 50%; } }
 .home .hero__inner {
   align-items: flex-start; text-align: left;
   min-height: min(86vh, 56rem);
@@ -1350,6 +1399,44 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
 }
 .home .hero__ctas { justify-content: flex-start; margin-bottom: 0; }
 
+/* Masked line reveal on arrival. CSS-only so it also works without JS;
+   the default is fully visible for reduced-motion users and older browsers. */
+.home .hero__line { display: block; }
+.home .hero__line > span { display: block; }
+@media (prefers-reduced-motion: no-preference) {
+  .home .hero__line {
+    overflow: hidden;
+    padding-bottom: .14em;
+    margin-bottom: -.14em;
+  }
+  /* Each line rises out of its own mask, .1s apart (the reference staggers
+     its lines the same way); the copy and buttons follow, everything settled
+     by ~1.2s. Nothing waits on this — the buttons work from the first frame. */
+  .home .hero__line > span {
+    animation: hero-line-rise .95s cubic-bezier(.16, 1, .3, 1) .08s backwards;
+  }
+  .home .hero__line:nth-child(2) > span { animation-delay: .18s; }
+  .home .hero__line:nth-child(3) > span { animation-delay: .28s; }
+  .home .hero__location,
+  .home .hero__sub,
+  .home .hero__ctas {
+    animation: hero-copy-arrive .75s cubic-bezier(.16, 1, .3, 1) backwards;
+  }
+  .home .hero__location { animation-delay: 0s; }
+  .home .hero__sub { animation-delay: .38s; }
+  .home .hero__ctas { animation-delay: .48s; }
+  /* Keyboard focus must never land on an invisible action during the delay. */
+  .home .hero__ctas:focus-within { animation: none; }
+}
+@keyframes hero-line-rise {
+  from { transform: translateY(115%); }
+  to { transform: translateY(0); }
+}
+@keyframes hero-copy-arrive {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Homepage section headings use the same Poppins as the hero (base h2 rule) */
 
 
@@ -1365,12 +1452,14 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
     background:
       linear-gradient(180deg, rgba(13,24,17,.42) 0%, rgba(13,24,17,.56) 30%, rgba(13,24,17,.52) 66%, rgba(13,24,17,.08) 100%);
   }
-  /* Fill the whole first screen with the hero video on mobile
-     (svh = small viewport height, stable while the browser bar shows) */
+  /* Include the header in the first-screen height and leave a 24px glimpse
+     of the next section. svh accounts for the mobile browser bars. */
   .home .hero__inner {
-    min-height: 100vh; min-height: 100svh; padding-inline: max(var(--gutter), 16px);
-    /* heavier bottom padding floats the whole copy block higher in the frame */
-    padding-block: 1.5rem 13rem;
+    min-height: calc(100vh - var(--header-h) - .9rem - 24px);
+    min-height: calc(100svh - var(--header-h) - .9rem - 24px);
+    padding-inline: max(var(--gutter), 16px);
+    padding-block: 1.5rem 3rem;
+    padding-bottom: clamp(2rem, 7svh, 4rem);
   }
   .home .hero h1 { font-size: clamp(2.2rem, 9.5vw, 2.9rem); }
   .home .hero__ctas { width: auto; }
@@ -1602,6 +1691,12 @@ body.nav-open .site-header:not(.is-scrolled) .site-header__inner {
 }
 body.nav-open .site-header:not(.is-scrolled) .brand__logo--dark { display: block; }
 body.nav-open .site-header:not(.is-scrolled) .brand__logo--light { display: none; }
+/* ...and the phone number, white over the hero, turns dark again on the solid
+   capsule (from 820px, where it shows as text rather than the round icon). */
+@media (min-width: 820px) {
+  body.nav-open .site-header:not(.is-scrolled) .header-phone,
+  body.nav-open .site-header:not(.is-scrolled) .header-phone:hover { color: var(--forest-900); }
+}
 
 /* =====================================================================
    Legal pages (/privacy-policy) — plain reading layout: quiet page head,

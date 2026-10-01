@@ -164,26 +164,102 @@
     updateHeader();
   }
 
-  /* ---------- Mobile navigation ---------- */
+  /* ---------- Mobile navigation ----------
+     The panel's slide, the staggered rows and the burger-to-X are CSS
+     transitions keyed off data-open / aria-expanded (style.css); this only
+     keeps state, focus and scrolling right. */
   var toggle = document.querySelector(".nav-toggle");
   var mobileNav = document.getElementById("mobile-nav");
 
   if (toggle && mobileNav) {
-    toggle.addEventListener("click", function () {
-      var open = mobileNav.getAttribute("data-open") === "true";
-      mobileNav.setAttribute("data-open", String(!open));
-      toggle.setAttribute("aria-expanded", String(!open));
-      // the open menu scrolls internally; the page behind stays put
-      document.body.classList.toggle("nav-open", !open);
+    var root = document.documentElement;
+    var headerEl = document.querySelector(".site-header");
+    var groups = Array.prototype.slice.call(mobileNav.querySelectorAll("[data-mnav-group]"));
+    var desktopMq = window.matchMedia("(min-width: 1280px)");
+    var collapseTimer = null;
+    var savedY = 0;
+    var isOpen = function () { return mobileNav.getAttribute("data-open") === "true"; };
+
+    var setGroup = function (group, open) {
+      group.classList.toggle("is-open", open);
+      group.querySelector(".mnav__toggle").setAttribute("aria-expanded", String(open));
+    };
+
+    // Tab order while open: the capsule (logo, call, X) plus whatever in the
+    // panel is actually visible — collapsed dropdown links are skipped.
+    var focusables = function () {
+      return Array.prototype.slice.call(headerEl.querySelectorAll("a[href], button")).filter(function (el) {
+        if (el.disabled || !el.getClientRects().length) return false;
+        return getComputedStyle(el).visibility === "visible";
+      });
+    };
+
+    var setMenu = function (open, opts) {
+      opts = opts || {};
+      if (open === isOpen()) return; // a repeated tap or duplicate event changes nothing
+      clearTimeout(collapseTimer);
+      mobileNav.setAttribute("data-open", String(open));
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      document.body.classList.toggle("nav-open", open);
+      if (open) {
+        // lock the page behind; pad for a disappearing desktop scrollbar so nothing shifts
+        savedY = window.scrollY;
+        var gap = window.innerWidth - root.clientWidth;
+        root.style.paddingRight = gap > 0 ? gap + "px" : "";
+        root.classList.add("nav-lock");
+        mobileNav.scrollTop = 0;
+        var first = mobileNav.querySelector(".mnav__link");
+        if (first) first.focus({ preventScroll: true });
+      } else {
+        root.classList.remove("nav-lock");
+        root.style.paddingRight = "";
+        // a locked page can still be moved by focus scrolling; put it back where it was
+        if (Math.abs(window.scrollY - savedY) > 1) window.scrollTo({ top: savedY, left: 0, behavior: "instant" });
+        if (opts.returnFocus) toggle.focus({ preventScroll: true });
+        // fold any open dropdown once the panel has slid away, not while it is visible
+        collapseTimer = setTimeout(function () {
+          if (!isOpen()) groups.forEach(function (g) { setGroup(g, false); });
+        }, 520);
+      }
+    };
+
+    toggle.addEventListener("click", function () { setMenu(!isOpen()); });
+
+    groups.forEach(function (group) {
+      group.querySelector(".mnav__toggle").addEventListener("click", function () {
+        setGroup(group, !group.classList.contains("is-open"));
+      });
     });
-    // Close the drawer after tapping a link
+
+    // Tapping a link closes the menu first, so the lock is gone before the
+    // browser follows it (homepage # links then scroll normally).
     mobileNav.addEventListener("click", function (e) {
-      if (e.target.closest("a")) {
-        mobileNav.setAttribute("data-open", "false");
-        toggle.setAttribute("aria-expanded", "false");
-        document.body.classList.remove("nav-open");
+      if (e.target.closest("a")) setMenu(false);
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (!isOpen()) return;
+      if (e.key === "Escape" || e.key === "Esc") {
+        e.preventDefault();
+        setMenu(false, { returnFocus: true });
+      } else if (e.key === "Tab") {
+        // Every Tab is handled here while open: it keeps focus in the menu
+        // and the capsule, and preventScroll stops the browser scrolling the
+        // locked page behind to "reveal" the sticky header's links.
+        var items = focusables();
+        if (!items.length) return;
+        e.preventDefault();
+        var at = items.indexOf(document.activeElement);
+        var next = at === -1 ? (e.shiftKey ? items.length - 1 : 0) : (at + (e.shiftKey ? -1 : 1) + items.length) % items.length;
+        items[next].focus({ preventScroll: true });
       }
     });
+
+    // Widening past the hamburger breakpoint (rotation, resize) closes it cleanly.
+    var onDesktop = function (e) { if (e.matches) setMenu(false); };
+    if (desktopMq.addEventListener) desktopMq.addEventListener("change", onDesktop);
+    else if (desktopMq.addListener) desktopMq.addListener(onDesktop);
   }
 
   /* ---------- Quote form ---------- */

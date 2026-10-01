@@ -8,8 +8,9 @@ const PHONE_TEL = "+61457357085";
 
 const chev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
 
-/* One source of truth for the services menu (desktop dropdown + mobile
-   accordion). Every href must be a live route under /services/. */
+/* One source of truth for the desktop services mega-menu. Every href must
+   be a live route under /services/. (The mobile menu links the services
+   overview instead of listing them.) */
 const SERVICE_GROUPS = [
   {
     label: "Turf",
@@ -50,12 +51,44 @@ ${g.links.map(([href, name]) => `          <a href="${href}">${name}</a>`).join(
         </div>`
 ).join("\n");
 
-const mobileAccordions = SERVICE_GROUPS.map(
-  (g) => `      <details class="mobile-nav__acc">
-        <summary>${g.label} ${chev}</summary>
-${g.links.map(([href, name]) => `        <a href="${href}">${name}</a>`).join("\n")}
-      </details>`
-).join("\n");
+/* ---------- Mobile menu ----------
+   One source for every page: generated pages get it through HEADER, and
+   build-site.js injects it into the hand-written pages (index, quote,
+   privacy-policy, 404) at their <!-- @nav-toggle --> / <!-- @mobile-nav -->
+   markers, so the copies can no longer drift apart.
+
+   Four top-level rows. "Our Services" is one direct link to the services
+   overview (the full list lives there and in the desktop mega-menu); the
+   secondary homepage links are grouped under About Us. Behaviour (open and
+   close, focus, Escape, scroll lock, the About Us dropdown) is in main.js. */
+const NAV_TOGGLE = `<button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false">
+          <span class="nav-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>`;
+
+const MOBILE_NAV = `<nav class="mobile-nav" id="mobile-nav" data-open="false" aria-label="Mobile">
+      <div class="mnav">
+        <ul class="mnav__list">
+          <li class="mnav__item"><a class="mnav__link" href="/services">Our Services</a></li>
+          <li class="mnav__item"><a class="mnav__link" href="/projects">Our Projects</a></li>
+          <li class="mnav__item"><a class="mnav__link" href="/blog">Advice</a></li>
+          <li class="mnav__item mnav__group" data-mnav-group>
+            <button class="mnav__link mnav__toggle" type="button" aria-expanded="false" aria-controls="mnav-about">About Us ${chev}</button>
+            <div class="mnav__sub" id="mnav-about">
+              <div class="mnav__sub-in">
+                <a href="/#who-we-are">Who We Are</a>
+                <a href="/#areas">Service Areas</a>
+                <a href="/#faq">FAQ</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="mnav__foot">
+          <a class="btn btn--primary btn--block mnav__quote" href="/quote">Request a Free Quote</a>
+          <a class="mnav__contact" href="tel:${PHONE_TEL}">Call ${PHONE_DISPLAY}</a>
+          <a class="mnav__contact" href="mailto:info@bastianolandscaping.com.au">info@bastianolandscaping.com.au</a>
+        </div>
+      </div>
+    </nav>`;
 
 const HEADER = `
   <a class="skip-link" href="#main">Skip to content</a>
@@ -84,33 +117,10 @@ ${dropColumns}
           <span>0457&nbsp;357&nbsp;085</span>
         </a>
         <a class="header-call" href="/quote">Free Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
-        <button class="nav-toggle" type="button" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false">
-          <svg class="icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-          <svg class="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-        </button>
+        ${NAV_TOGGLE}
       </div>
     </div>
-    <nav class="mobile-nav" id="mobile-nav" data-open="false" aria-label="Mobile">
-      <div class="mobile-nav__group">
-        <span class="mobile-nav__label">Menu</span>
-        <a href="/#who-we-are">Who We Are</a>
-        <a href="/services">Our Services</a>
-        <a href="/projects">Our Projects</a>
-        <a href="/blog">Advice</a>
-        <a href="/#areas">Service Areas</a>
-        <a href="/#faq">FAQ</a>
-      </div>
-      <div class="mobile-nav__group">
-        <span class="mobile-nav__label">Services</span>
-${mobileAccordions}
-      </div>
-      <div class="mobile-nav__group">
-        <span class="mobile-nav__label">Get in touch</span>
-        <a href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a>
-        <a href="mailto:info@bastianolandscaping.com.au">info@bastianolandscaping.com.au</a>
-      </div>
-      <a class="btn btn--primary btn--block" href="/quote">Request a Quote</a>
-    </nav>
+    ${MOBILE_NAV}
   </header>`;
 
 const FOOTER = `
@@ -189,4 +199,4 @@ function cardSrcset(src, sizes = "(min-width: 1020px) 380px, (min-width: 700px) 
   return small === src ? "" : ` srcset="${small} 800w, ${src} 1200w" sizes="${sizes}"`;
 }
 
-module.exports = { HEADER, FOOTER, FOOTER_SCRIPTS, PHONE_DISPLAY, PHONE_TEL, beforeAfterBlock, cardSrcset };
+module.exports = { HEADER, FOOTER, FOOTER_SCRIPTS, NAV_TOGGLE, MOBILE_NAV, PHONE_DISPLAY, PHONE_TEL, beforeAfterBlock, cardSrcset };

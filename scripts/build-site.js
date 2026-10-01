@@ -28,6 +28,22 @@ fs.mkdirSync(DIST, { recursive: true });
 // Static, hand-written files
 ["index.html", "quote.html", "privacy-policy.html", "404.html", "style.css", "service-pages.css", "projects.css", "projects.js", "blog.css", "blog.js", "main.js", "quote.js", "robots.txt", "sitemap.xml"].forEach(copy);
 
+// The mobile menu and its toggle are written once, in chrome.js; the
+// hand-written pages carry markers that are filled in here so all pages
+// share identical markup. A missing marker fails the build.
+const CHROME = require("./chrome.js");
+for (const rel of ["index.html", "quote.html", "privacy-policy.html", "404.html"]) {
+  const file = path.join(DIST, rel);
+  let html = fs.readFileSync(file, "utf8");
+  for (const [marker, markup] of [["@nav-toggle", CHROME.NAV_TOGGLE], ["@mobile-nav", CHROME.MOBILE_NAV]]) {
+    const re = new RegExp(`<!-- ${marker}:[^>]*-->`);
+    if (!re.test(html)) throw new Error(`${rel}: missing <!-- ${marker}: ... --> marker`);
+    html = html.replace(re, () => markup);
+  }
+  fs.writeFileSync(file, html);
+}
+console.log("injected the shared mobile menu into the hand-written pages");
+
 // Whole assets/ tree (logos, favicon, photography) — copying the directory
 // rather than a hand-maintained list means any new asset ships automatically.
 // Raw-source folders that must never ship to the public CDN: assets/photos is
