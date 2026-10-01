@@ -35,7 +35,7 @@ const FOOTER = CHROME.FOOTER + `
 </body>
 </html>`;
 
-function head({ title, desc, canonical, image, ld }) {
+function head({ title, desc, canonical, image, imageAlt, ld }) {
   return `<!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -69,8 +69,16 @@ function head({ title, desc, canonical, image, ld }) {
   <meta property="og:description" content="${desc}" />
   <meta property="og:url" content="${canonical}" />
   <meta property="og:image" content="${SITE}${image}" />
+  <meta property="og:image:alt" content="${imageAlt}" />
+  <meta property="og:locale" content="en_AU" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="/assets/favicon.png" type="image/png" />
+  <meta name="twitter:title" content="${title}" />
+  <meta name="twitter:description" content="${desc}" />
+  <meta name="twitter:image" content="${SITE}${image}" />
+  <link rel="icon" href="/assets/favicon.png?v=3" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180" />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-800.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-700.woff2" crossorigin />
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/service-pages.css" />
   <link rel="stylesheet" href="/projects.css" />
@@ -79,6 +87,15 @@ function head({ title, desc, canonical, image, ld }) {
   </script>
 </head>
 <body class="editorial">`;
+}
+
+/* The hero is the page's main photo, so it carries the description of that
+   same photo from the gallery (minus the "After:" label) rather than alt="". */
+function heroAlt(p) {
+  const g = (p.gallery || []).find((x) => x.img === p.hero);
+  const alt = (g && g.alt) || (p.after && p.after.alt) || p.title;
+  const clean = alt.replace(/^After:\s*/i, "");
+  return clean.charAt(0).toUpperCase() + clean.slice(1);
 }
 
 const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
@@ -132,8 +149,8 @@ function hubPage() {
   };
   return head({
     title: "Completed Landscaping Projects Melbourne | Bastiano Landscaping",
-    desc: "Real completed projects: turf installation, retaining walls, planters and garden transformations across Melbourne's west and inner suburbs. See the work for yourself.",
-    canonical, image: img(HUB_HERO), ld,
+    desc: "Real completed projects: turf installation, retaining walls, planters and garden transformations across Melbourne's west and inner suburbs.",
+    canonical, image: img(HUB_HERO), imageAlt: "Completed landscaping project with new lawn and garden beds", ld,
   }) + `
 ${HEADER}
   <main id="main">
@@ -160,6 +177,7 @@ ${HEADER}
           ${PROJECTS.map(card).join("\n          ")}
         </div>
         <p class="pj-empty" id="pj-empty" hidden>No projects in this category yet — check back soon.</p>
+        ${pairs.length >= 5 ? `<p class="pj-more">Want to compare the changes side by side? <a href="/before-and-after">See every before and after</a>.</p>` : ""}
       </div>
     </section>
 ${ctaBand()}
@@ -190,13 +208,13 @@ function detailPage(p, prev, next) {
   const comparisons = p.comparisons || (p.before && p.after ? [{ before: p.before, after: p.after }] : []);
   return head({
     title: `${p.title} | Bastiano Landscaping`,
-    desc: p.summary,
-    canonical, image: img(p.hero), ld,
+    desc: p.metaDescription || p.summary,
+    canonical, image: img(p.hero), imageAlt: heroAlt(p), ld,
   }) + `
 ${HEADER}
   <main id="main">
     <section class="page-hero">
-      <div class="page-hero__media"><img src="${img(p.hero)}" alt="${p.gallery[0] ? "" : ""}" width="1200" height="900" fetchpriority="high" /></div>
+      <div class="page-hero__media"><img src="${img(p.hero)}" alt="${heroAlt(p)}" width="1200" height="900" fetchpriority="high" /></div>
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/projects">Projects</a><span>/</span>${p.title}</nav>
         <h1>${p.title}</h1>
@@ -311,7 +329,7 @@ function beforeAfterPage() {
   <!-- End Meta Pixel Code -->
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Landscaping Before &amp; After Transformations | Bastiano Landscaping</title>
-  <meta name="description" content="See genuine before-and-after turf, paving, retaining-wall and garden transformations completed across Melbourne's west and inner suburbs." />
+  <meta name="description" content="See genuine before-and-after turf, retaining-wall, planter and garden-bed transformations completed across Melbourne's west and inner suburbs." />
   <link rel="canonical" href="${canonical}" />
   <meta name="theme-color" content="#1d3527" />
   <meta name="robots" content="${published ? "index, follow" : "noindex, follow"}" />
@@ -320,7 +338,12 @@ function beforeAfterPage() {
   <meta property="og:description" content="Genuine before-and-after landscaping transformations from Melbourne's west and inner suburbs." />
   <meta property="og:url" content="${canonical}" />
   <meta property="og:image" content="${SITE}${img(pairs[0] ? pairs[0].after.img : PROJECTS[0].hero)}" />
-  <link rel="icon" href="/assets/favicon.png" type="image/png" />
+  <meta property="og:locale" content="en_AU" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/assets/favicon.png?v=3" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180" />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-800.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-700.woff2" crossorigin />
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/service-pages.css" />
   <link rel="stylesheet" href="/projects.css" />

@@ -47,6 +47,15 @@
       ]
     },
     {
+      "source": "/api/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
       "source": "/review(/.*)?",
       "headers": [
         {
@@ -76,10 +85,31 @@
       "permanent": true
     },
     {
+      "source": "/services/natural-turf",
+      "destination": "/services/natural-turf-installation",
+      "permanent": true
+    },
+    {
+      "source": "/services/synthetic-turf",
+      "destination": "/services/synthetic-turf-installation",
+      "permanent": true
+    },
+    {
+      "source": "/suburbs/werribee",
+      "destination": "/",
+      "permanent": true
+    },
+    {
       "source": "/admin/:path*",
       "has": [{ "type": "host", "value": "^(www\\.)?bastianolandscaping\\.com\\.au$" }],
       "destination": "https://app.bastianolandscaping.com.au/:path*",
       "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "^www\\.bastianolandscaping\\.com\\.au$" }],
+      "destination": "https://bastianolandscaping.com.au/:path*",
+      "permanent": true
     },
     {
       "source": "/:path*",

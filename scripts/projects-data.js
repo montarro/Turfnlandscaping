@@ -47,6 +47,7 @@ module.exports = [
     title: "Instant Turf & Feature Planter with Garden Lighting",
     categories: ["Turf", "Hard Landscaping", "Garden Transformations"],
     summary: "Fresh instant turf framed by a stained sleeper planter, shaped red-mulch beds, a white-pebble stepping-stone path and low-voltage garden lighting that brings the yard to life after dark.",
+    metaDescription: "Fresh instant turf framed by a stained sleeper planter, red-mulch beds, a white-pebble stepping-stone path and low-voltage lighting for the garden after dark.",
     challenge: "A tired front yard: patchy lawn, scattered pavers, an ageing river-pebble strip and declining shrubs. The established roses and the rock feature were worth keeping; the rest needed a new lawn, defined garden edges, planting and a finish that would look as good at night as it does during the day.",
     scope: [
       "Old lawn, loose pavers and river pebbles removed",
@@ -122,6 +123,7 @@ module.exports = [
     title: "Courtyard Garden Refresh — Turf, Pebbles & Planting",
     categories: ["Turf", "Garden Transformations"],
     summary: "An overgrown courtyard bed around an established tree cleared and re-laid as a neat square of natural turf, edged in white pebbles and flowers, with the timber sleeper path kept.",
+    metaDescription: "An overgrown courtyard bed around an established tree, cleared and re-laid as a neat square of natural turf edged in white pebbles, with the sleeper path kept.",
     challenge: "The bed beside the house had grown wild: weeds and self-sown growth had taken over the soil around the tree, and the timber sleeper path running past it had all but disappeared into the mess.",
     scope: [
       "Cleared the overgrowth and weeds back to bare soil",

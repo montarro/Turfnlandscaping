@@ -84,3 +84,12 @@
 .sp-hubcard { text-decoration: none; color: inherit; }
 .sp-hubcard h3 { color: var(--forest-900); }
 @media (min-width: 560px) { .sp-options { grid-template-columns: 1fr 1fr; } }
+
+/* ---------- Services hub: full list under the photo grid ---------- */
+.sp-all-section { padding-top: 0; }
+.sp-all { display: grid; gap: 1.8rem 2rem; grid-template-columns: 1fr; }
+.sp-all h3 { font-size: 1.05rem; margin: 0; }
+.sp-all .sp-related { grid-template-columns: 1fr; gap: .55rem; margin-top: .8rem; }
+.sp-all .sp-related a { padding: .8rem 1rem; font-size: .95rem; }
+@media (min-width: 700px) { .sp-all { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1140px) { .sp-all { grid-template-columns: repeat(4, 1fr); } }

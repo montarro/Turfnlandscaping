@@ -93,7 +93,8 @@
 .bl-card__body { padding-top: 1rem; display: flex; flex-direction: column; flex: 1; }
 .bl-card__topic {
   font-family: var(--font-display); font-weight: 700; font-size: .74rem;
-  letter-spacing: .16em; text-transform: uppercase; color: var(--leaf-deep);
+  letter-spacing: .16em; text-transform: uppercase;
+  color: #4f7329; /* --leaf-deep darkened: small caps text needs 4.5:1 on cream */
   margin-bottom: .5rem;
 }
 .bl-card__body h3 { font-size: 1.22rem; line-height: 1.25; margin-bottom: .45rem; text-wrap: balance; }

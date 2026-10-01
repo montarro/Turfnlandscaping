@@ -9,6 +9,7 @@
 const fs = require("fs");
 const path = require("path");
 const DATA = require("./services-data.js");
+const BLOG = require("./blog-index.js");
 
 const ROOT = path.join(__dirname, "..");
 const OUTDIR = process.env.OUTDIR || ROOT;
@@ -20,6 +21,15 @@ const ALL = [...DATA.primary, ...DATA.secondary, ...DATA.extra];
 const bySlug = {};
 ALL.forEach((s) => { bySlug[s.slug] = s; });
 const img = (name) => `/assets/images/${name}.webp`;
+
+/* Three service images are still the branded gradients gen-images.js draws
+   until a real photo lands in assets/photos/ (slots soft / design / turf —
+   see apply-photos.js). They work as a hero backdrop, but they show no
+   work: the hero gets alt="" and shares use the branded logo card. */
+const PLACEHOLDER_SLOTS = { "service-soft-landscaping": "soft", "service-garden-design": "design", "service-natural-turf-solutions": "turf" };
+const isPlaceholder = (name) => PLACEHOLDER_SLOTS[name] &&
+  ![".jpg", ".jpeg", ".png", ".webp"].some((ext) => fs.existsSync(path.join(ROOT, "assets", "photos", PLACEHOLDER_SLOTS[name] + ext)));
+const SHARE_CARD = { image: "/assets/images/og-bastiano-landscaping.jpg", alt: "Bastiano Landscaping logo" };
 const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
 /* ---------- shared chrome ---------- */
@@ -35,7 +45,15 @@ const FOOTER = CHROME.FOOTER + `
 </body>
 </html>`;
 
-function head({ title, desc, canonical, image, ld }) {
+/* Google shows roughly the first 155-160 characters of a description, so
+   take the fullest wording that fits rather than letting the phone number
+   at the end get cut off. */
+const DESC_MAX = 160;
+function fitDesc(lead, endings) {
+  return endings.map((e) => `${lead} ${e}`).find((d) => d.length <= DESC_MAX) || lead;
+}
+
+function head({ title, desc, canonical, image, imageAlt, ld }) {
   return `<!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -69,8 +87,16 @@ function head({ title, desc, canonical, image, ld }) {
   <meta property="og:description" content="${desc}" />
   <meta property="og:url" content="${canonical}" />
   <meta property="og:image" content="${SITE}${image}" />
+  <meta property="og:image:alt" content="${imageAlt}" />
+  <meta property="og:locale" content="en_AU" />
   <meta name="twitter:card" content="summary_large_image" />
-  <link rel="icon" href="/assets/favicon.png" type="image/png" />
+  <meta name="twitter:title" content="${title}" />
+  <meta name="twitter:description" content="${desc}" />
+  <meta name="twitter:image" content="${SITE}${image}" />
+  <link rel="icon" href="/assets/favicon.png?v=3" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180" />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-800.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/poppins-700.woff2" crossorigin />
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/service-pages.css" />
   <link rel="stylesheet" href="/projects.css" />
@@ -100,11 +126,17 @@ function ctaBand(title) {
 function servicePage(s) {
   const canonical = `${SITE}/services/${s.slug}`;
   const title = `${s.name.replace(/&/g, "&amp;")} Melbourne | Bastiano Landscaping`;
-  const desc = `${s.tagline} Serving Melbourne's west and inner suburbs. Free, no-obligation quotes — call ${PHONE_DISPLAY}.`;
+  const desc = fitDesc(s.tagline, [
+    `Serving Melbourne's west and inner suburbs. Free, no-obligation quotes — call ${PHONE_DISPLAY}.`,
+    `Serving Melbourne's west and inner suburbs. Free quotes — call ${PHONE_DISPLAY}.`,
+    `Melbourne's west and inner suburbs. Free quotes: ${PHONE_DISPLAY}.`,
+    `Free quotes across Melbourne's west and inner suburbs.`,
+  ]);
   const graph = [
     { "@type": "Service", name: s.name, serviceType: s.name, description: s.tagline, url: canonical,
-      provider: { "@type": "HomeAndConstructionBusiness", name: "Bastiano Landscaping", telephone: PHONE_TEL, url: SITE + "/",
-        areaServed: "Melbourne's west and inner suburbs, VIC" } },
+      // same @id as the homepage LocalBusiness, so Google reads one business, not 23
+      provider: { "@type": "HomeAndConstructionBusiness", "@id": SITE + "/#business", name: "Bastiano Landscaping", telephone: PHONE_TEL, url: SITE + "/" },
+      areaServed: "Melbourne's west and inner suburbs, VIC" },
     { "@type": "BreadcrumbList", itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
       { "@type": "ListItem", position: 2, name: "Services", item: SITE + "/services" },
@@ -176,11 +208,24 @@ function servicePage(s) {
     return r ? `<a href="/services/${r.slug}">${r.name.replace(/&/g, "&amp;")} ${arrow}</a>` : "";
   }).join("")}</div>`;
 
-  return head({ title, desc, canonical, image: img(s.image || "hero-landscaping-northwest-melbourne"), ld }) + `
+  /* Published articles written about this service — the articles already
+     link here, so this closes the loop for readers (and crawlers) arriving
+     on the service page. Drafts never appear. */
+  const advice = BLOG.publishedPosts().filter((p) => p.routes.includes(`/services/${s.slug}`)).slice(0, 3);
+  if (advice.length) {
+    body += `<div class="prose"><h2>Related advice</h2></div>
+  <div class="sp-related">${advice.map((p) => `<a href="/blog/${p.slug}">${p.title.replace(/&/g, "&amp;")} ${arrow}</a>`).join("")}</div>`;
+  }
+
+  const placeholder = !s.image || isPlaceholder(s.image);
+  const heroAlt = placeholder ? "" : `${s.name.replace(/&/g, "&amp;")} by Bastiano Landscaping`;
+  return head({ title, desc, canonical,
+    image: placeholder ? SHARE_CARD.image : img(s.image),
+    imageAlt: placeholder ? SHARE_CARD.alt : heroAlt, ld }) + `
 ${HEADER}
   <main id="main">
     <section class="page-hero${s.image ? "" : " page-hero--plain"}">
-      ${s.image ? `<div class="page-hero__media"><img src="${img(s.image)}" alt="${s.name.replace(/&/g, "&amp;")} by Bastiano Landscaping" width="1200" height="900" fetchpriority="high" /></div>` : ""}
+      ${s.image ? `<div class="page-hero__media"><img src="${img(s.image)}" alt="${heroAlt}" width="1200" height="900" fetchpriority="high" /></div>` : ""}
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/services">Services</a><span>/</span>${s.name.replace(/&/g, "&amp;")}</nav>
         <h1>${s.name.replace(/&/g, "&amp;")}</h1>
@@ -243,6 +288,26 @@ function homeHubCard(c) {
   </a>`;
 }
 
+/* Every service page, grouped, under the photo grid — the grid shows the
+   seven headline services, this list makes the other pages one click from
+   the hub instead of reachable only through related links. The build fails
+   if a service page is missing from it or listed twice. */
+const HUB_GROUPS = [
+  ["Turf", ["natural-turf-installation", "synthetic-turf-installation", "turf-installation", "turf-preparation-levelling-drainage", "turf-repair-patching"]],
+  ["Landscape construction", ["complete-landscape-transformations", "garden-design", "hard-landscaping", "paving", "stepping-stone-paths", "retaining-walls", "timber-decking", "landscaping-features"]],
+  ["Gardens &amp; planting", ["soft-landscaping", "plants-garden-beds-mulch", "garden-planting", "mulching", "irrigation-repairs"]],
+  ["Property care", ["property-maintenance", "lawn-mowing", "garden-care", "hedge-trimming-pruning", "weed-control-spraying"]],
+];
+{
+  const listed = HUB_GROUPS.flatMap(([, slugs]) => slugs);
+  const missing = ALL.map((x) => x.slug).filter((slug) => !listed.includes(slug));
+  const unknown = listed.filter((slug) => !bySlug[slug]);
+  const twice = listed.filter((slug, i) => listed.indexOf(slug) !== i);
+  if (missing.length || unknown.length || twice.length) {
+    throw new Error(`services hub list out of step — missing: ${missing.join(", ")}; unknown: ${unknown.join(", ")}; duplicated: ${twice.join(", ")}`);
+  }
+}
+
 function hubPage() {
   const canonical = `${SITE}/services`;
   const ld = {
@@ -257,9 +322,9 @@ function hubPage() {
     ],
   };
   return head({
-    title: "Bastiano Landscaping Services Melbourne | Bastiano Landscaping",
-    desc: "Every service under one team: natural and synthetic turf, retaining walls, paving, garden design, planting, mulch and full property maintenance across Melbourne's west and inner suburbs.",
-    canonical, image: img("hero-landscaping-northwest-melbourne"), ld,
+    title: "Landscaping &amp; Turf Services in Melbourne | Bastiano Landscaping",
+    desc: "Natural and synthetic turf, retaining walls, paving, garden design, planting and property maintenance — one team across Melbourne's west and inner suburbs.",
+    canonical, image: img("hero-landscaping-northwest-melbourne"), imageAlt: "Landscaped backyard with fresh turf and garden beds in Melbourne's west", ld,
   }) + `
 ${HEADER}
   <main id="main">
@@ -285,6 +350,21 @@ ${HEADER}
         </div>
         <div class="pj-grid">
           ${HOME_SERVICES.map(homeHubCard).join("\n          ")}
+        </div>
+      </div>
+    </section>
+
+    <section class="section sp-all-section" aria-labelledby="all-services-h">
+      <div class="wrap">
+        <div class="section__head">
+          <h2 id="all-services-h">Every service we offer</h2>
+          <p class="lead">Each service has its own page explaining what is included, how the work is done and the questions we are asked most.</p>
+        </div>
+        <div class="sp-all">
+          ${HUB_GROUPS.map(([label, slugs]) => `<div>
+            <h3>${label}</h3>
+            <div class="sp-related">${slugs.map((slug) => `<a href="/services/${slug}">${bySlug[slug].name.replace(/&/g, "&amp;")} ${arrow}</a>`).join("")}</div>
+          </div>`).join("\n          ")}
         </div>
       </div>
     </section>

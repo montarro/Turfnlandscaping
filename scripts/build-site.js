@@ -82,4 +82,7 @@ if (fs.existsSync(SRC_IMG)) {
 // Real client photos (assets/photos/) win over everything above.
 execFileSync("node", [path.join(__dirname, "apply-photos.js")], { stdio: "inherit", env });
 
+// Last: the hand-maintained sitemap must list exactly the indexable pages.
+execFileSync("node", [path.join(__dirname, "check-sitemap.js")], { stdio: "inherit", env });
+
 console.log("Build complete ->", DIST);

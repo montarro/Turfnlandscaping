@@ -423,7 +423,7 @@
   track.innerHTML = REVIEWS.map(function (r) {
     return '<li class="review' + (r.photo ? " review--photo" : "") + '">' +
       (r.photo ? '<figure class="review__photo"><img src="' + esc(r.photo) + '" alt="" loading="lazy" /></figure>' : "") +
-      '<div class="review__top"><span class="review__stars" aria-label="Rated 5 out of 5 stars">' + STAR + STAR + STAR + STAR + STAR + '</span>' + G + '</div>' +
+      '<div class="review__top"><span class="review__stars" role="img" aria-label="Rated 5 out of 5 stars">' + STAR + STAR + STAR + STAR + STAR + '</span>' + G + '</div>' +
       '<blockquote class="review__text">' + esc(r.quote) + '</blockquote>' +
       '<footer class="review__who"><strong>' + esc(r.name) + '</strong><span>Google review</span></footer>' +
       '</li>';
