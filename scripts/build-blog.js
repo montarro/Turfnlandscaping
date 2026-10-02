@@ -70,7 +70,7 @@ const TOPIC_OF_SERVICE = {
 const TOPIC_ORDER = ["Turf", "Landscaping & Design", "Paving & Structures", "Plants & Gardens", "Maintenance & Aftercare", "Commercial"];
 
 /* Service name -> live route, for the "related services" links on an article.
-   Shared with build-service-pages.js (its "Related advice" links). */
+   Shared with build-service-pages.js (its "Related guides" links). */
 const { SERVICE_ROUTE } = require("./blog-index.js");
 
 /* ---------- helpers ---------- */
@@ -394,9 +394,9 @@ function indexPage() {
     "@graph": [
       {
         "@type": "Blog",
-        name: "Landscaping Advice — Bastiano Landscaping",
+        name: "Landscaping Tips & Guides — Bastiano Landscaping",
         url: canonical,
-        description: "Practical turf and landscaping advice for Melbourne properties, written by Sebastian Caus.",
+        description: "Practical turf and landscaping tips and guides for Melbourne properties.",
         publisher: { "@type": "Organization", name: "Bastiano Landscaping", url: SITE },
         blogPost: live.map((p) => ({
           "@type": "BlogPosting",
@@ -410,24 +410,24 @@ function indexPage() {
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
-          { "@type": "ListItem", position: 2, name: "Advice", item: canonical },
+          { "@type": "ListItem", position: 2, name: "Guides", item: canonical },
         ],
       },
     ],
   };
 
   return head({
-    title: "Landscaping & Turf Advice for Melbourne | Bastiano Landscaping",
-    desc: "Practical turf, paving, retaining wall and garden advice for Melbourne homes and properties — written by Sebastian Caus, owner of Bastiano Landscaping.",
+    title: "Landscaping Tips & Guides for Melbourne | Bastiano Landscaping",
+    desc: "Practical tips and guides on turf, paving, retaining walls and garden care for Melbourne homes and properties, from Bastiano Landscaping.",
     canonical, image: heroImg(featured), imageAlt: featured.heroAlt, ld,
   }) + `
 ${CHROME.HEADER}
   <main id="main">
     <section class="section bl-intro">
       <div class="wrap">
-        <nav class="breadcrumb breadcrumb--onlight" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Advice</nav>
-        <h1>Landscaping <em class="accent-i">Advice</em></h1>
-        <p class="bl-intro__lead">Practical guidance on turf, paving, retaining walls and garden care for Melbourne properties — the questions we are asked most often on site, answered properly. Written by Sebastian Caus, owner of Bastiano Landscaping.</p>
+        <nav class="breadcrumb breadcrumb--onlight" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span>Guides</nav>
+        <h1>Landscaping <em class="accent-i">Tips&nbsp;&amp;&nbsp;Guides</em></h1>
+        <p class="bl-intro__lead">Practical guidance on turf, paving, retaining walls and garden care for Melbourne properties — the questions we are asked most often on site, answered properly.</p>
       </div>
     </section>
 
@@ -442,7 +442,7 @@ ${CHROME.HEADER}
             <h2><a href="/blog/${featured.slug}">${esc(featured.title)}</a></h2>
             <p>${esc(featured.standfirst)}</p>
             <div class="bl-meta">
-              <span>${esc(featured.topics[0] || "Advice")}</span>
+              <span>${esc(featured.topics[0] || "Guides")}</span>
               <span>${featured.readMinutes} min read</span>
             </div>
             <a class="bl-more" href="/blog/${featured.slug}">Read the guide ${arrow}</a>
@@ -453,7 +453,7 @@ ${CHROME.HEADER}
 
     <section class="section">
       <div class="wrap">
-        <div class="bl-filters" role="group" aria-label="Filter advice by topic">
+        <div class="bl-filters" role="group" aria-label="Filter guides by topic">
           <button class="bl-filter active" data-filter="all" aria-pressed="true">All Topics</button>
           ${usedTopics.map((t) => `<button class="bl-filter" data-filter="${esc(t)}" aria-pressed="false">${esc(t)}</button>`).join("\n          ")}
         </div>
@@ -474,7 +474,7 @@ function indexCard(p) {
               <img src="${cardImg(p)}" alt="" loading="lazy" width="800" height="600" />
             </a>
             <div class="bl-card__body">
-              <span class="bl-card__topic">${esc(p.topics[0] || "Advice")}</span>
+              <span class="bl-card__topic">${esc(p.topics[0] || "Guides")}</span>
               <h3><a href="/blog/${p.slug}">${esc(p.title)}</a></h3>
               <p>${esc(p.standfirst)}</p>
               <div class="bl-meta"><span>${p.readMinutes} min read</span></div>
@@ -508,7 +508,7 @@ function articlePage(p) {
         "@type": "BreadcrumbList",
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "Home", item: SITE + "/" },
-          { "@type": "ListItem", position: 2, name: "Advice", item: SITE + "/blog" },
+          { "@type": "ListItem", position: 2, name: "Guides", item: SITE + "/blog" },
           { "@type": "ListItem", position: 3, name: p.title, item: canonical },
         ],
   };
@@ -528,7 +528,7 @@ ${CHROME.HEADER}
     <article class="bl-article">
       <header class="bl-head">
         <div class="wrap bl-head__inner">
-          <nav class="breadcrumb breadcrumb--onlight" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/blog">Advice</a><span>/</span>${esc(p.title)}</nav>
+          <nav class="breadcrumb breadcrumb--onlight" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/blog">Guides</a><span>/</span>${esc(p.title)}</nav>
           <h1>${esc(p.title)}</h1>
           <p class="bl-standfirst">${esc(p.standfirst)}</p>
           <div class="bl-byline">

@@ -215,7 +215,7 @@ function servicePage(s) {
      on the service page. Drafts never appear. */
   const advice = BLOG.publishedPosts().filter((p) => p.routes.includes(`/services/${s.slug}`)).slice(0, 3);
   if (advice.length) {
-    body += `<div class="prose"><h2>Related advice</h2></div>
+    body += `<div class="prose"><h2>Related guides</h2></div>
   <div class="sp-related">${advice.map((p) => `<a href="/blog/${p.slug}">${p.title.replace(/&/g, "&amp;")} ${arrow}</a>`).join("")}</div>`;
   }
 

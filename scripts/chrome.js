@@ -70,7 +70,7 @@ const MOBILE_NAV = `<nav class="mobile-nav" id="mobile-nav" data-open="false" ar
         <ul class="mnav__list">
           <li class="mnav__item"><a class="mnav__link" href="/services">Our Services</a></li>
           <li class="mnav__item"><a class="mnav__link" href="/projects">Our Projects</a></li>
-          <li class="mnav__item"><a class="mnav__link" href="/blog">Advice</a></li>
+          <li class="mnav__item"><a class="mnav__link" href="/blog">Guides</a></li>
           <li class="mnav__item mnav__group" data-mnav-group>
             <button class="mnav__link mnav__toggle" type="button" aria-expanded="false" aria-controls="mnav-about">About Us ${chev}</button>
             <div class="mnav__sub" id="mnav-about">
@@ -108,7 +108,7 @@ ${dropColumns}
         </div>
         <a href="/#areas">Service Areas</a>
         <a href="/projects">Our Projects</a>
-        <a href="/blog">Advice</a>
+        <a href="/blog">Guides</a>
         <a href="/#faq">FAQ</a>
       </nav>
       <div class="header-cta">
