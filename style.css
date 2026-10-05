@@ -396,6 +396,12 @@ html.nav-lock { overflow: hidden; }
 .quote-section .hero__trust li { display: flex; align-items: center; gap: .6rem; color: var(--ink); font-weight: 600; font-size: .98rem; }
 .quote-section .hero__trust svg { width: 1.3rem; height: 1.3rem; color: var(--forest-600); flex: none; }
 .hero__panel { max-width: 36rem; }
+.quote-cta .hero__trust { margin-bottom: 1.6rem; }
+.quote-cta .hero__trust li { align-items: flex-start; }
+.quote-cta .hero__trust svg { margin-top: .05rem; }
+.quote-cta .btn { text-align: center; }
+.quote-cta__call { margin: 1rem 0 0; text-align: center; color: var(--muted); font-size: .95rem; }
+.quote-cta__call a { color: var(--forest-900); font-weight: 600; }
 
 /* ---------- Quote form ---------- */
 .form {
