@@ -11,6 +11,52 @@
      and .reveal content just stays visible (see .js .reveal in style.css). */
   document.documentElement.classList.add("js");
 
+  /* ---------- Lead source ----------
+     Remembers how this visitor reached the site — campaign tags (utm_*),
+     an ad click ID (Google gclid, Meta fbclid, Microsoft msclkid), the
+     referring site, or Instagram/Facebook's in-app browser — so the quote
+     form can tell GoHighLevel where the lead came from (quote.js sends it,
+     the quote worker turns it into a channel such as "Instagram").
+     Kept in this browser only (localStorage, 90 days): the first arrival
+     and the latest one that wasn't direct. No personal details. */
+  (function () {
+    var KEY = "bl_lead_source_v1";
+    var params;
+    try { params = new URLSearchParams(window.location.search); } catch (e) { return; }
+    var own = window.location.hostname.replace(/^www\./, "").toLowerCase();
+    var ref = "";
+    try { if (document.referrer) ref = new URL(document.referrer).hostname.toLowerCase(); } catch (e) {}
+    var refBase = ref.replace(/^www\./, "");
+    /* Our own pages and subdomains (e.g. the staff app) are not sources. */
+    var internal = !!ref && (refBase === own || refBase.slice(-own.length - 1) === "." + own);
+
+    var touch = { at: new Date().toISOString(), landing: window.location.pathname.slice(0, 150) };
+    var tagged = false;
+    ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "gbraid", "wbraid", "fbclid", "msclkid"].forEach(function (k) {
+      var v = params.get(k);
+      if (v) { touch[k] = v.slice(0, 150); tagged = true; }
+    });
+    /* An ordinary click between our own pages is not a new arrival. */
+    if (internal && !tagged) return;
+    if (ref && !internal) touch.referrer = ref.slice(0, 100);
+    var ua = navigator.userAgent || "";
+    if (/Instagram/i.test(ua)) touch.app = "instagram";
+    else if (/FBAN|FBAV|FB_IAB|FBIOS|FB4A/i.test(ua)) touch.app = "facebook";
+    var external = tagged || !!touch.referrer || !!touch.app;
+
+    var store = {};
+    try { store = JSON.parse(window.localStorage.getItem(KEY) || "{}") || {}; } catch (e) { store = {}; }
+    var fresh = function (t) { return !!t && Date.now() - Date.parse(t.at) < 90 * 864e5; };
+    /* After 90 days the first visit is forgotten; a recent outside visit
+       (if any) becomes the new first one. */
+    if (!fresh(store.first)) {
+      store = fresh(store.last) ? { first: store.last, last: store.last }
+        : { first: external ? touch : { at: touch.at, landing: touch.landing, direct: true } };
+    }
+    if (external) store.last = touch;
+    try { window.localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {}
+  })();
+
   /* -------------------------------------------------------------------
      QUOTE FORM WEBHOOK
      Paste the webhook URL supplied by the client between the quotes.

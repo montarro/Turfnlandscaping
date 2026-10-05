@@ -15,6 +15,14 @@
                            when this is set
      ALLOWED_ORIGINS       optional comma-separated override of the
                            browser origins allowed to submit
+
+   Lead source: the site sends an "attribution" field (recorded by
+   main.js when the visitor arrived). It becomes a lead-source-* tag
+   (e.g. lead-source-instagram), a "Lead source:" line at the top of the
+   note and a suffix on the opportunity name. Optional contact custom
+   fields "Lead Source", "First Lead Source" and "Lead Source Details"
+   fill automatically if they exist in GHL. /health reports
+   features.leadSource so a deploy can be confirmed.
    ===================================================================== */
 
 const GHL_BASE = "https://services.leadconnectorhq.com";
@@ -40,7 +48,7 @@ const FILE_TYPES = {
    in the body is rejected. */
 const KNOWN_KEYS = new Set([
   "payload", "photos", "source_page", "submitted_at", "company_website",
-  "cf-turnstile-response",
+  "cf-turnstile-response", "attribution",
   "customer_type", "service", "addons", "required_services", "suburb",
   "approx_size", "description", "timing", "surface", "access", "material",
   "business_name", "org_type", "engagement", "maintenance_program",
@@ -114,6 +122,8 @@ export default {
           GHL_WORKFLOW_ID: !!env.GHL_WORKFLOW_ID,
           TURNSTILE: !!env.TURNSTILE_SECRET_KEY,
         },
+        /* feature flag, so a deploy can be confirmed from outside */
+        features: { leadSource: true },
       });
     }
 
@@ -201,6 +211,11 @@ async function handleQuote(request, env, origin, ctx) {
      field never maps. */
   if (!a.source_page) a.source_page = String(form.get("source_page") || "").slice(0, 200);
 
+  /* Where the lead came from (Google, Instagram, an ad…), from what the
+     site recorded on the visitor's arrival. Never blocks a submission:
+     anything missing or malformed just reads as "Direct / unknown". */
+  const leadSource = readAttribution(form.get("attribution"), request.headers.get("User-Agent"));
+
   /* ---- server-side validation, mirroring the wizard's rules ---- */
   const type = a.customer_type;
   if (type !== "residential" && type !== "commercial") return fail(400, "Please choose residential or commercial.");
@@ -258,6 +273,7 @@ async function handleQuote(request, env, origin, ctx) {
 
   const { customFields, unmappedAnswers, missingFields } = mapCustomFields(a, fieldIndex, isRes);
   if (missingFields.length) report.push("missing GHL custom fields: " + missingFields.join(", "));
+  customFields.push(...leadSourceFields(leadSource, fieldIndex));
 
   /* 2. upsert contact (dedupes on email/phone inside GHL) */
   const nameParts = String(a.name).trim().split(/\s+/);
@@ -271,7 +287,7 @@ async function handleQuote(request, env, origin, ctx) {
       email,
       phone,
       source: "Website quote form",
-      tags: [isRes ? "quote-residential" : "quote-commercial"],
+      tags: [isRes ? "quote-residential" : "quote-commercial", leadSource.tag],
       companyName: !isRes ? String(a.business_name).trim() : undefined,
       customFields,
     });
@@ -310,7 +326,7 @@ async function handleQuote(request, env, origin, ctx) {
 
   /* 4. note with the full quote summary (nothing is silently dropped) */
   try {
-    await ghl.post(`/contacts/${contactId}/notes`, { body: buildSummary(a, isRes, files, unmappedAnswers) });
+    await ghl.post(`/contacts/${contactId}/notes`, { body: buildSummary(a, isRes, files, unmappedAnswers, leadSource) });
   } catch (e) { report.push("note failed: " + trim(e)); }
 
   /* 5. opportunity — every genuine request gets its own */
@@ -325,7 +341,7 @@ async function handleQuote(request, env, origin, ctx) {
         pipelineId: pipe.pipelineId,
         pipelineStageId: pipe.stageId,
         contactId,
-        name: `Website Quote — ${isRes ? "Residential" : "Commercial"} — ${String(a.name).trim()}${a.suburb ? " (" + String(a.suburb).trim() + ")" : ""}`,
+        name: `Website Quote — ${isRes ? "Residential" : "Commercial"} — ${String(a.name).trim()}${a.suburb ? " (" + String(a.suburb).trim() + ")" : ""} · ${leadSource.channel}`,
         status: "open",
         source: "Website quote form",
       });
@@ -368,7 +384,7 @@ async function handleQuote(request, env, origin, ctx) {
   }
 
   log("info", {
-    event: "quote_submitted", type, service: a.service, contactId,
+    event: "quote_submitted", type, service: a.service, contactId, leadSource: leadSource.channel,
     files: files.length, uploaded: uploadedCount,
     opportunity: opportunityOk, degraded: failures.length > 0, report,
   });
@@ -582,9 +598,17 @@ async function resolvePipeline(ghl, env) {
   return value;
 }
 
-function buildSummary(a, isRes, files, unmappedAnswers) {
+function buildSummary(a, isRes, files, unmappedAnswers, leadSource) {
   const line = (label, v) => (v == null || v === "" || (Array.isArray(v) && !v.length)) ? "" : `${label}: ${Array.isArray(v) ? v.join(", ") : v}\n`;
   let s = `WEBSITE QUOTE SUBMISSION — ${isRes ? "RESIDENTIAL" : "COMMERCIAL"}\n`;
+  if (leadSource) {
+    s += `Lead source: ${leadSource.channel}\n`;
+    s += line("How they arrived", describeTouch(leadSource.last));
+    if (leadSource.firstChannel && (leadSource.firstChannel !== leadSource.channel || leadSource.first.at !== (leadSource.last || {}).at)) {
+      s += line("First found us", `${leadSource.firstChannel}${describeTouch(leadSource.first) ? " — " + describeTouch(leadSource.first) : ""}`);
+    }
+    s += "\n";
+  }
   s += line("Submitted", new Date().toISOString());
   s += line("Name", a.name);
   s += line("Mobile", a.mobile);
@@ -619,3 +643,144 @@ function buildSummary(a, isRes, files, unmappedAnswers) {
   }
   return s.trim();
 }
+
+/* ---------------------------- lead source ---------------------------- */
+/* The site (main.js) records the visitor's first arrival and their latest
+   non-direct one; quote.js sends both as the "attribution" form field.
+   Only these keys are kept, each short and plain text. */
+
+const TOUCH_KEYS = ["at", "landing", "referrer", "app", "direct", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "gclid", "gbraid", "wbraid", "fbclid", "msclkid"];
+
+const CHANNELS = {
+  googleAds: "Google Ads", googleSearch: "Google Search", gbp: "Google Business Profile",
+  instagram: "Instagram", instagramAds: "Instagram Ads", facebook: "Facebook", facebookAds: "Facebook Ads",
+  meta: "Facebook or Instagram", bing: "Bing", bingAds: "Microsoft Ads", otherSearch: "Other search engine",
+  ai: "AI assistant (ChatGPT etc.)", email: "Email", direct: "Direct / unknown",
+};
+
+function cleanTouch(t) {
+  if (!t || typeof t !== "object" || Array.isArray(t)) return null;
+  const out = {};
+  for (const k of TOUCH_KEYS) {
+    const v = t[k];
+    if (v == null || v === "") continue;
+    if (k === "direct") { if (v === true) out.direct = true; continue; }
+    const s = String(v).replace(/[\u0000-\u001f\u007f]/g, "").trim().slice(0, 150);
+    if (!s) continue;
+    if (k === "referrer" && !/^[a-z0-9.-]{1,100}$/i.test(s)) continue;
+    if (k === "landing" && !s.startsWith("/")) continue;
+    if (k === "app" && s !== "instagram" && s !== "facebook") continue;
+    if (k === "at" && isNaN(Date.parse(s))) continue;
+    out[k] = s;
+  }
+  return Object.keys(out).length ? out : null;
+}
+
+function inAppBrowser(userAgent) {
+  const ua = String(userAgent || "");
+  if (/Instagram/i.test(ua)) return "instagram";
+  if (/FBAN|FBAV|FB_IAB|FBIOS|FB4A/i.test(ua)) return "facebook";
+  return "";
+}
+
+/* One arrival → one plain-English channel. Order matters: ad click IDs
+   and campaign tags are deliberate, so they beat the referrer. */
+function classifyTouch(t) {
+  if (!t || t.direct) return CHANNELS.direct;
+  const src = String(t.utm_source || "").toLowerCase();
+  const tags = [src, t.utm_medium, t.utm_campaign].join(" ").toLowerCase();
+  const paid = /cpc|ppc|paid|(^|[^a-z])ads?([^a-z]|$)|display|cpm|cpv|retarget/.test(String(t.utm_medium || "").toLowerCase());
+  const ref = String(t.referrer || "").toLowerCase();
+
+  if (t.gclid || t.gbraid || t.wbraid) return CHANNELS.googleAds;
+  if (src) {
+    /* ChatGPT and Perplexity tag their own links (utm_source=chatgpt.com). */
+    if (/chatgpt|openai|perplexity|claude\.ai|gemini|copilot/.test(src)) return CHANNELS.ai;
+    if (/^(ig|instagram)([^a-z]|$)/.test(src)) return paid ? CHANNELS.instagramAds : CHANNELS.instagram;
+    if (/^(fb|facebook|meta|an|msg|messenger)$|^(facebook|meta)/.test(src)) return paid || src === "an" ? CHANNELS.facebookAds : CHANNELS.facebook;
+    if (/google/.test(src)) {
+      if (paid) return CHANNELS.googleAds;
+      return /gbp|gmb|business|maps/.test(tags) ? CHANNELS.gbp : CHANNELS.googleSearch;
+    }
+    if (/bing|microsoft/.test(src)) return paid ? CHANNELS.bingAds : CHANNELS.bing;
+    if (/mail|newsletter/.test(tags)) return CHANNELS.email;
+    return "Campaign: " + String(t.utm_source).slice(0, 60);
+  }
+  if (t.msclkid) return CHANNELS.bingAds;
+  if (t.app === "instagram" || /(^|\.)instagram\.com$|^com\.instagram\.android$/.test(ref)) return CHANNELS.instagram;
+  if (t.app === "facebook" || /(^|\.)(facebook\.com|fb\.com|fb\.me|messenger\.com)$|^com\.facebook\./.test(ref)) return CHANNELS.facebook;
+  if (t.fbclid) return CHANNELS.meta;
+  if (ref) {
+    /* Order matters: webmail and Gemini live on google.com / yahoo.com
+       subdomains, so they are checked before search. */
+    if (/(^|\.)(chatgpt\.com|openai\.com|perplexity\.ai|claude\.ai|gemini\.google\.com|copilot\.microsoft\.com)$/.test(ref)) return CHANNELS.ai;
+    if (/(^|\.)(mail\.google\.com|outlook\.live\.com|outlook\.office\.com|outlook\.office365\.com|mail\.yahoo\.com)$|^com\.google\.android\.gm$|^com\.microsoft\.office\.outlook$/.test(ref)) return CHANNELS.email;
+    /* The Google Maps app (Android) and maps/business.google.* are the
+       Business Profile; google.com itself is search (a Profile visit from
+       search results looks the same — hence the gbp UTM link). */
+    if (/(^|\.)(maps|business)\.google\.[a-z.]+$|^com\.google\.android\.apps\.maps$/.test(ref)) return CHANNELS.gbp;
+    if (/^(www\.)?google\.[a-z]{2,3}(\.[a-z]{2})?$|^com\.google\.android\.googlequicksearchbox$/.test(ref)) return CHANNELS.googleSearch;
+    if (/(^|\.)bing\.com$/.test(ref)) return CHANNELS.bing;
+    if (/(^|\.)(duckduckgo\.com|yahoo\.com|ecosia\.org|search\.brave\.com|baidu\.com)$|(^|\.)yandex\./.test(ref)) return CHANNELS.otherSearch;
+    return "Website: " + ref.replace(/^www\./, "");
+  }
+  return CHANNELS.direct;
+}
+
+function channelTag(channel) {
+  if (channel.startsWith("Campaign:")) return "lead-source-campaign";
+  if (channel.startsWith("Website:")) return "lead-source-other-website";
+  if (channel === CHANNELS.ai) return "lead-source-ai-assistant";
+  return "lead-source-" + channel.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+function readAttribution(raw, userAgent) {
+  let store = null;
+  const text = typeof raw === "string" ? raw : "";
+  if (text && text.length <= 4000) { try { store = JSON.parse(text); } catch (e) { store = null; } }
+  const first = store && typeof store === "object" ? cleanTouch(store.first) : null;
+  let last = store && typeof store === "object" ? cleanTouch(store.last) : null;
+  /* Nothing stored (private browsing, storage blocked)? The submitting
+     browser itself can still say it is Instagram's or Facebook's. */
+  if (!last && (!first || first.direct)) {
+    const app = inAppBrowser(userAgent);
+    if (app) last = { app };
+  }
+  const arrival = last || first;
+  const channel = classifyTouch(arrival);
+  return { channel, tag: channelTag(channel), first, last: arrival, firstChannel: first ? classifyTouch(first) : null };
+}
+
+function describeTouch(t) {
+  if (!t) return "";
+  const bits = [];
+  if (t.landing) bits.push("landed on " + t.landing);
+  if (t.at) {
+    try { bits.push(new Date(t.at).toLocaleDateString("en-AU", { timeZone: "Australia/Melbourne", day: "numeric", month: "short", year: "numeric" })); } catch (e) {}
+  }
+  const camp = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].filter((k) => t[k]).map((k) => k.slice(4) + "=" + t[k]);
+  if (camp.length) bits.push("campaign tags " + camp.join(", "));
+  if (t.gclid || t.gbraid || t.wbraid) bits.push("Google Ads click");
+  if (t.msclkid) bits.push("Microsoft Ads click");
+  if (t.fbclid) bits.push("Meta (Facebook/Instagram) click");
+  if (t.referrer) bits.push("from " + t.referrer);
+  if (t.app) bits.push("in the " + (t.app === "instagram" ? "Instagram" : "Facebook") + " app");
+  return bits.join(" · ");
+}
+
+/* Optional GHL custom fields. Create any of these in GHL (Settings →
+   Custom Fields, on the contact) and they fill automatically; absent ones
+   are skipped quietly — the tag and the note always carry the source. */
+function leadSourceFields(leadSource, fieldIndex) {
+  if (!fieldIndex) return [];
+  const out = [];
+  const set = (names, value) => {
+    if (!value) return;
+    for (const n of names) { const hit = fieldIndex.get(normKey(n)); if (hit) { out.push({ id: hit.id, value }); return; } }
+  };
+  set(["Lead Source"], leadSource.channel);
+  set(["First Lead Source", "Lead Source First Visit"], leadSource.firstChannel || "");
+  set(["Lead Source Details"], [describeTouch(leadSource.last), leadSource.first && leadSource.first !== leadSource.last ? "first visit: " + (leadSource.firstChannel || "") + " " + describeTouch(leadSource.first) : ""].filter(Boolean).join("\n"));
+  return out;
+}
+

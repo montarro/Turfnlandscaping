@@ -578,6 +578,13 @@
     photoFiles.forEach(function (fl) { body.append("photos", fl, fl.name); });
     body.append("source_page", window.location.pathname);
     body.append("submitted_at", new Date().toISOString());
+    /* How this visitor found the site (recorded by main.js on arrival).
+       The worker turns it into the GHL lead-source tag; if storage is
+       blocked or empty it falls back to "Direct / unknown". */
+    try {
+      var leadSource = window.localStorage.getItem("bl_lead_source_v1");
+      if (leadSource && leadSource.length < 3000) body.append("attribution", leadSource);
+    } catch (e) {}
     var hp = document.getElementById("qf-hp");
     body.append("company_website", hp ? hp.value : "");
     if (window.turnstile && tsWidgetId !== null) {
