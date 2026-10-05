@@ -200,7 +200,7 @@
   </url>
   <url>
     <loc>https://bastianolandscaping.com.au/blog</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -255,6 +255,24 @@
   <url>
     <loc>https://bastianolandscaping.com.au/blog/small-backyard-landscaping-ideas-melbourne</loc>
     <lastmod>2026-10-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bastianolandscaping.com.au/blog/choose-plants-and-mulch-melbourne-garden</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bastianolandscaping.com.au/blog/commercial-landscaping-scope-checklist-melbourne</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bastianolandscaping.com.au/blog/new-landscape-maintenance-guide</loc>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>

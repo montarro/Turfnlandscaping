@@ -1,114 +1,108 @@
 ---
 title: "Commercial Landscaping Scope Checklist for Melbourne Properties"
 slug: "commercial-landscaping-scope-checklist-melbourne"
-metaTitle: "Commercial Landscaping Scope Checklist | Melbourne"
-metaDescription: "Prepare a clearer commercial landscaping brief covering sites, access, services, safety, timing, stakeholders, files and ongoing maintenance."
+metaTitle: "Commercial Landscaping Brief Checklist | Melbourne"
+metaDescription: "What a landscaper needs from a commercial brief to quote properly: the site, who signs off, one-off or ongoing, dimensions, access, safety, timing and aftercare."
 primaryKeyword: "commercial landscaping scope Melbourne"
 searchIntent: "commercial decision"
 author: "Sebastian Caus"
-published: false
-datePublished: ""
-dateReviewed: ""
-heroImage: "acreage-lawn-stepping-stone-path-landscaping.jpg"
-heroAlt: "Large landscaped lawn and stepping-stone path suitable for a managed property"
+published: true
+datePublished: "2026-10-05"
+dateReviewed: "2026-10-05"
+heroImage: "proj-school-grounds-turf-during-2.webp"
+heroAlt: "Bastiano Landscaping crew in hi-vis laying rolls of instant turf across school grounds, with the school building behind"
+heroCaption: "Our crew laying instant turf across school grounds — commercial work in progress, not a finished shot."
 relatedServices: ["Commercial Landscaping", "Property Maintenance"]
 suggestedInternalLinks: ["/commercial", "/services/property-maintenance", "/quote"]
-status: "Ready after Sebastian's commercial review"
+status: "Published 5 Oct 2026 — Sebastian's commercial review not yet recorded"
 ---
 
 # Commercial Landscaping Scope Checklist for Melbourne Properties
 
-A clear commercial landscaping brief helps contractors assess the correct site, understand decision-makers and identify access, timing and documentation requirements before pricing.
+Most commercial landscaping enquiries we receive are one or two lines long: "turf for a childcare centre", "garden beds at the front of the office", "ongoing maintenance for a block of units". That is a fine start, but it is not enough to price from, so the first site visit ends up being spent working out the basics.
 
-The brief does not need to solve the project. It should give enough context for an informed site visit and reveal the constraints that could affect delivery.
+A better brief does not need to solve the job. It needs to tell the contractor where the site is, who makes decisions, what the property is for, how we get in, and when it has to be done. This checklist covers what we need from a business, builder, property manager or owners corporation to come back with a useful quote.
 
-## 1. Identify the property and stakeholders
+## 1. The property and the people
 
-Include:
+- The business or organisation name, and the site address if it differs from the billing address.
+- What the property is: office, retail, childcare, school, medical, units, industrial, a display home or a new estate.
+- The main contact and their role, and who signs off on the scope and on any variations.
+- A site contact for the days we are on the ground, if that is a different person.
+- Anyone else with a say: a property manager, the builder, a body corporate committee or a council.
 
-- business or organisation name;
-- site address and any separate billing address;
-- property type;
-- primary contact and role;
-- who approves scope and variations;
-- site contact during construction; and
-- other stakeholders such as a property manager, builder or owners corporation.
+Working out who approves what before the job starts saves the most common delay on commercial work, which is waiting for an answer.
 
-Clarifying responsibility early reduces delays when access, materials or project decisions need approval.
+## 2. What you need the landscaping to do
 
-## 2. Describe the result required
+Tell us the result, not only the product. "Make the entrance presentable before the tenants move in", "stop the mud being walked into reception", "get the grounds to a standard we can maintain in two hours a fortnight" and "finish the landscaping for handover" all lead to different scopes, even when the materials overlap.
 
-State the business outcome, not only the requested products. Examples might include improving presentation at an entrance, making grounds easier to maintain, repairing worn turf, creating safer pedestrian movement or completing landscape works for handover.
+List the services you think you need, but let the site visit test that. Sometimes the turf a client asks for is not the answer because the drainage is.
 
-List the services you believe are required, but allow the site assessment to test the proposed solution.
+## 3. One-off, ongoing or both
 
-## 3. Define one-off and ongoing needs
+Be clear whether this is:
 
-Confirm whether the enquiry is for:
-
-- a one-off construction or improvement project;
-- rectification or repair;
-- recurring grounds maintenance; or
+- a one-off construction or improvement job;
+- a repair or rectification;
+- regular grounds maintenance; or
 - a project followed by ongoing care.
 
-For recurring maintenance, provide the expected frequency if known and any reporting, access or presentation standards.
+For maintenance, tell us how often you expect visits, and any standards the site has to meet, such as reporting to a property manager, keeping fire-access paths clear or presentation before inspections.
 
-## 4. Supply dimensions and documents
+## 4. Sizes and documents
 
-Useful information can include:
+Anything you have helps:
 
-- approximate areas or lengths;
-- site plans and landscape drawings;
-- photographs and marked-up images;
-- specifications or schedules;
-- relevant reports;
-- required completion or handover dates; and
-- known services or restricted zones.
+- rough areas or lengths (a lawn of about 400 square metres, 60 metres of garden edge);
+- site plans or landscape drawings;
+- photos, ideally wide shots with a note on what you want changed;
+- a specification, schedule or tender document if one exists;
+- any reports, such as a soil or arborist report;
+- the required completion or handover date; and
+- known underground services and areas we must not disturb.
 
-If accurate drawings are unavailable, wide photographs and approximate dimensions still help establish the scale for an initial discussion.
+No drawings is fine. Wide photos and a few paced-out measurements are enough to put a scale on the job for a first conversation.
 
-## 5. Explain access and operating constraints
+## 5. Access and how the site runs
 
-Commercial sites often remain active during work. Describe vehicle and equipment access, loading zones, lifts, stairs, security procedures, induction requirements and permitted working hours.
+Commercial sites usually stay open while we work. Tell us how vehicles and equipment get in, where we can unload, whether there are lifts or stairs, any security or sign-in procedure, induction requirements and the hours we are allowed on site.
 
-Also note:
+Also worth noting:
 
-- customer or resident movement;
-- noise-sensitive periods;
+- customer, resident or student movement through the work area;
+- times when noise is a problem;
 - parking restrictions;
-- material storage areas;
-- protection required for finished surfaces; and
-- waste removal requirements.
+- where materials and bins can sit;
+- finished surfaces that need protecting; and
+- how waste is to be removed.
 
-These details can affect the work method even when the landscape itself is straightforward.
+These things change how the work is done even when the landscaping itself is simple. Laying turf on school grounds, for example, is planned around school hours and pick-up times, not around the turf.
 
-## 6. Identify safety and compliance requirements
+## 6. Safety and compliance
 
-Provide the contractor requirements relevant to the organisation and site. These may include insurances, licences for particular work, site-specific safety documentation, inductions, engineering information, permits or coordination with other trades.
+Tell us what your organisation requires of contractors: insurance certificates, licences for particular work, site-specific safety documents, inductions, engineering for retaining walls over a certain height, permits, or coordination with other trades on site.
 
-Requirements differ by project. Confirm them before appointment so neither party relies on assumptions.
+Every site is different. Sorting this out before the job is awarded means neither side is relying on an assumption on day one.
 
-## 7. Clarify the programme
+## 7. The timeline
 
-Give a realistic target and explain why it matters. If landscaping must follow civil work or finish before inspection, occupancy or an event, include those dependencies.
+Give a realistic target date and say why it matters. If the landscaping has to follow civil works, or has to be finished before an inspection, a lease start or an event, say so. Tell us who will confirm the site is ready for us, and what happens to the date if the work before ours runs late.
 
-Identify who will advise when the site is ready and what happens if preceding work moves. Turf and planting are especially sensitive to delivery coordination and post-installation care.
+Turf and planting are the most sensitive part of the programme. Turf is cut to order and has to go down the day it arrives, and new plants need watering from the day they are in, so a slipping date affects them more than it affects paving or walls.
 
-## 8. Set communication expectations
+## 8. How you want to communicate
 
-Nominate how progress, approvals and issues should be recorded. For larger works, agree on the contact frequency and who receives updates.
+Nominate one person and one channel for approvals and questions. On larger jobs, agree how often you want an update and who receives it. Instructions from three different site representatives are the fastest way to end up with variations nobody budgeted for.
 
-Straightforward communication is part of project control. A single approved channel reduces conflicting instructions from multiple site representatives.
+## 9. Aftercare and handover
 
-## 9. Include aftercare and handover
+New turf needs daily watering for about the first three weeks and plants need regular water through their first summer. Decide now who does that: your existing maintenance contractor, your own staff, or us under a care programme. Grounds left to "whoever is around" are the ones we get called back to repair.
 
-Clarify whether handover needs maintenance instructions, product information, photographs, warranties supplied by manufacturers or a proposed care programme.
+At handover, say whether you need care instructions, plant lists, product details, photographs, manufacturer warranties or a proposed maintenance schedule.
 
-New turf and planting require attention after construction. Assign responsibility for watering and early care rather than assuming the site’s existing maintenance arrangement will cover it.
+## Sending the enquiry
 
-## Send a useful first enquiry
+The commercial path in our [quote form](/quote) asks for exactly this: the organisation and site, the type of organisation, whether it is a one-off or ongoing, the services needed, the area or dimensions, a scope description, the timeline, and supporting files such as photos, plans or scope documents.
 
-The commercial path in Bastiano Landscaping’s [quote form](/quote) allows organisations to provide the site, type of engagement, required services, approximate dimensions, scope, timing and supporting files.
-
-Sebastian can then review the information, arrange the appropriate site discussion and assess whether the work is a one-off project, an ongoing [property-maintenance requirement](/services/property-maintenance), or both.
-
+Sebastian reviews each one, arranges the site visit, and comes back with a quote that says whether the work is a one-off project, an ongoing [property-maintenance arrangement](/services/property-maintenance), or both.

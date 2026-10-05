@@ -1,102 +1,104 @@
 ---
 title: "How to Look After a Newly Landscaped Garden"
 slug: "new-landscape-maintenance-guide"
-metaTitle: "How to Care for a Newly Landscaped Garden"
-metaDescription: "A practical aftercare guide for new turf, plants, mulch, paving, irrigation and garden inspections during the first weeks and seasons."
+metaTitle: "How to Look After a Newly Landscaped Garden"
+metaDescription: "What to do in the first weeks and seasons after landscaping: watering new turf and plants, the first mow, mulch, irrigation checks, paving care and what to watch for."
 primaryKeyword: "new landscape maintenance"
 searchIntent: "post-purchase informational"
 author: "Sebastian Caus"
-published: false
-datePublished: ""
-dateReviewed: ""
-heroImage: "vegetable-garden-natural-turf-stepping-stones.jpg"
-heroAlt: "Established landscaped garden with turf raised beds and stepping stones"
+published: true
+datePublished: "2026-10-05"
+dateReviewed: "2026-10-05"
+heroImage: "photo-backyard-lawn-sprinkler-playhouse.webp"
+heroAlt: "Pop-up sprinkler with a marker flag watering a freshly laid natural lawn in a fenced backyard with a timber playhouse"
+heroCaption: "A freshly laid lawn being watered in. The marker flag shows where the new sprinkler head sits until the turf knits over."
 relatedServices: ["Garden Care", "Property Maintenance", "Lawn Mowing"]
 suggestedInternalLinks: ["/services/property-maintenance", "/services/lawn-mowing", "/services/irrigation-repairs", "/quote"]
-status: "Ready after Sebastian's horticultural review"
+status: "Published 5 Oct 2026 — Sebastian's horticultural review not yet recorded"
 ---
 
 # How to Look After a Newly Landscaped Garden
 
-A landscape is not finished in a biological sense on handover day. Turf needs to establish, plants need to root into the surrounding soil, mulch settles and irrigation settings need to be checked against real weather.
+The day we pack up is not the day the garden is finished. Turf takes four to six weeks to root in, plants take a season to settle, mulch sinks, and the irrigation settings we leave you with are a starting point until the weather has had its say.
 
-The first weeks are about consistent observation rather than constant intervention. Follow the project-specific instructions supplied for your materials and plants, and contact the landscaper early if something appears wrong.
+The first few weeks are about watching the garden and reacting early, not about constant fiddling. Follow the care notes we leave for your specific turf and plants, and call us as soon as something looks wrong rather than waiting to see if it sorts itself out.
 
-## Protect the site immediately after completion
+## Keep off it at first
 
-Keep unnecessary traffic off new turf and freshly mulched beds. Do not place heavy furniture, bins or equipment on surfaces that are still settling.
+Stay off new turf and freshly mulched beds for the first few weeks. Do not drag bins, wheelbarrows or furniture across a new lawn, and keep the dog off it if you can.
 
-Make sure other trades understand which areas are complete. A short access route across new lawn can quickly become a worn or compacted strip.
+If other trades are still coming through, show them which areas are finished. A single daily route across new turf becomes a worn, compacted strip within a fortnight. If a path has to be crossed, lay a plank over it.
 
-## Check new turf regularly
+## Water the turf properly
 
-New natural turf needs reliable moisture while roots establish. Inspect edges, corners and areas beside walls because they can dry differently from the centre.
+New natural turf needs daily watering for about the first three weeks. Keep the turf and the soil beneath it moist, not flooded. The surface can look fine while the soil underneath is dry, so lift a corner now and then: if the soil is dry, water for longer.
 
-Avoid treating a timer as proof that the whole lawn is receiving water. Look for missed irrigation zones and adjust according to weather and the specific aftercare plan.
+Check the edges, corners and the strips beside walls, fences and paths. They dry out faster than the middle, and they are the first places a new lawn browns off. A timer running is not proof the whole lawn is being watered; look for gaps in the coverage.
 
-Wait until the turf is anchored and the surface can support equipment before the first mow. Use sharp blades and avoid removing too much leaf at once. Over time, transition from establishment watering to an appropriate ongoing routine.
+From the third or fourth week, water less often but for longer, so the roots follow the moisture down. Under Victoria's permanent water saving rules, watering systems can run between 6pm and 10am. Most Melbourne water corporations allow extra daytime watering for newly laid lawn if you ask, and the exemption usually covers buffalo, couch and kikuyu. Our guide to [the best time to lay turf in Melbourne](/blog/best-time-to-lay-turf-melbourne) explains the rules.
 
-## Help plants establish
+## The first mow
 
-Check the soil near the root area rather than judging only by the mulch surface. Different parts of the garden may dry at different rates.
+Mow only once the turf passes the tug test: lift a corner gently, and if it holds, the roots have taken. That is often ten to fourteen days in warm weather and several weeks in the cold. Use a sharp blade on a high setting, and never take more than a third of the leaf off in one cut. Mowing early, or low, drags rolls out of place and scalps the joins.
 
-Watch for wilt, yellowing, damage, loose root balls or irrigation emitters that have moved. Some transplant response can occur, but worsening symptoms should be raised early.
+After that, settle into a normal routine. Our [lawn mowing](/services/lawn-mowing) page covers heights and frequency for the common Melbourne varieties. If the lawn is struggling despite the care, [why new turf fails](/blog/why-new-turf-fails) walks through the usual causes.
 
-Do not automatically add fertiliser or extra products unless they fit the planting plan. More intervention is not always better.
+## Help the plants settle in
 
-## Maintain mulch and garden beds
+Water new plants at the roots, not over the leaves, and check the soil under the mulch rather than the mulch surface. Beds in full sun and beds against a north or west wall dry out well before the shaded ones.
 
-Wind, birds, rain and watering can move fresh mulch. Rake it back into place where needed while keeping it away from stems, trunks, drainage points and building details.
+Some wilting on a hot afternoon in the first week is normal. Wilting that is there in the morning, yellowing leaves, a plant that rocks in the ground or an emitter that has moved off the root zone is not, and it is worth a call. Hold off on fertiliser and extra products unless they are part of the planting plan; new plants rarely need more than water.
 
-Remove young weeds before they establish large roots. A new garden may still receive wind-blown seed; mulch reduces pressure but does not eliminate ongoing care.
+## Keep the mulch where it belongs
 
-## Test irrigation in real conditions
+Wind, birds and watering move fresh mulch about. Rake it back into place as needed, and keep it clear of plant stems, tree trunks, drainage grates and the house. Pull young weeds while they are small; a new bed still catches wind-blown seed, and mulch slows weeds down without stopping them.
 
-Run each zone and observe it. Check for blocked, damaged or misdirected outlets, leaks, overspray on paving and dry gaps around plants.
+Organic mulch settles and breaks down. Expect to top it up to 50 to 75 mm once a year.
 
-Seasonal settings should change as weather and plant needs change. If the system no longer covers the landscape correctly, arrange [irrigation repair](/services/irrigation-repairs) before plants or lawn decline.
+## Run the irrigation and watch it
 
-## Clean paving and hard surfaces appropriately
+Run each zone and stand there while it runs. You are looking for blocked or broken heads, emitters pointing at paving, leaks, and dry patches between the sprinkler arcs. Do it again after the first heavy rain and the first hot week, because settling ground and growing plants change the coverage.
 
-Sweep loose soil and organic debris before they stain or wash into drainage points. Use cleaning methods suitable for the exact paving, stone, timber, coating and jointing material.
+Change the schedule with the seasons. A controller still on its summer setting in May wastes water and keeps clay soil soggy. If you would rather not think about it, a controller with a rain or soil-moisture sensor skips the cycles the garden does not need. If something has stopped working, book an [irrigation repair](/services/irrigation-repairs) before the lawn or plants start to show it.
 
-Avoid assuming that a strong pressure setting or chemical cleaner is safe. Check the material supplier or installer’s care advice first, especially for new surfaces.
+## Clean paving the right way
 
-## Inspect after heavy weather
+Sweep soil and leaf litter off new paving before it stains or washes into the drains. Check with us or the supplier before pressure-washing or using chemical cleaners; some pavers, sealers and jointing sands do not take it, and a strong setting can blast the sand out of fresh joints.
 
-After significant rain, look for water sitting where it should drain, soil washing out, mulch collecting at outlets or erosion around new edges.
+## Look again after bad weather
 
-After hot or windy conditions, check exposed turf and plants for rapid drying. Early observations help distinguish a one-off weather response from a developing level or irrigation problem.
+After heavy rain, walk the garden and look for water sitting where it should drain, soil washing out of beds, mulch piled up at the outlets and erosion along new edges. After a hot, windy spell, check the exposed turf and the plants on the windward side for drying out.
 
-## Use a simple maintenance rhythm
+Doing this in the first month tells you the difference between a one-off reaction to the weather and a level or drainage problem that needs fixing.
 
-### Weekly during early establishment
+## A simple routine
 
-- inspect moisture and irrigation coverage;
-- remove litter and obvious weeds;
-- check new turf edges and plant condition;
+**Weekly, while everything establishes**
+
+- check moisture and irrigation coverage;
+- pull obvious weeds and pick up litter;
+- look at the turf edges and the new plants;
 - keep drains and paths clear; and
-- report movement, leakage or persistent water.
+- report anything moving, leaking or sitting in water.
 
-### Monthly once established
+**Monthly, once it has settled**
 
-- review mowing and edging;
-- prune only where appropriate;
-- check irrigation operation;
-- rake or top up displaced mulch where needed; and
-- inspect paving joints, edges and garden borders.
+- mow and edge;
+- prune only what needs it;
+- run the irrigation and watch it;
+- rake or top up displaced mulch; and
+- check paving joints, edges and garden borders.
 
-### Seasonally
+**Each season**
 
-- adjust watering;
-- review plant growth and pruning needs;
-- assess lawn condition and mowing height;
-- clean accumulated debris; and
-- plan replacement, repair or improvement work before it becomes urgent.
+- adjust the watering;
+- review growth and pruning;
+- check the lawn's condition and mowing height;
+- clear built-up debris; and
+- plan any repairs or improvements before they become urgent.
 
-## Keep the handover information
+## Keep the handover notes
 
-Save plant names, product details, care notes, irrigation information and photographs. This helps future maintenance providers understand what was installed and makes it easier to source compatible materials for repair.
+Hang on to the plant names, product details, care notes, irrigation layout and a few photographs from handover. They make it much easier for whoever maintains the garden later to match materials and understand what was installed.
 
-If you would prefer scheduled support, Bastiano Landscaping offers [garden care and property maintenance](/services/property-maintenance), including related lawn and planting services. [Speak with Sebastian](/quote) about a practical care plan for the property rather than waiting for small issues to become expensive ones.
-
+If you would rather hand the routine to someone else, Bastiano Landscaping offers [garden care and property maintenance](/services/property-maintenance), including mowing and planting care. [Talk to Sebastian](/quote) about a plan for the property before small things become expensive ones.

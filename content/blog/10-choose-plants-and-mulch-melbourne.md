@@ -1,80 +1,83 @@
 ---
 title: "How to Choose Plants and Mulch for a Melbourne Garden"
 slug: "choose-plants-and-mulch-melbourne-garden"
-metaTitle: "Choosing Plants and Mulch for Melbourne Gardens"
-metaDescription: "Choose garden plants and mulch based on sunlight, soil, drainage, mature size, maintenance, moisture and the design of your Melbourne property."
+metaTitle: "Choosing Plants and Mulch for a Melbourne Garden"
+metaDescription: "How to pick plants and mulch that suit a Melbourne garden: sun, clay soil, hot north winds, mature size, upkeep, mulch depth and keeping it clear of stems."
 primaryKeyword: "plants and mulch Melbourne garden"
 searchIntent: "informational commercial"
 author: "Sebastian Caus"
-published: false
-datePublished: ""
-dateReviewed: ""
+published: true
+datePublished: "2026-10-05"
+dateReviewed: "2026-10-05"
 heroImage: "natural-turf-front-yard-flower-border.jpg"
-heroAlt: "Natural turf beside a planted and mulched front garden border"
+heroAlt: "New natural turf beside a mulched front garden border of lavender, roses and clipped shrubs along a brick home"
+heroCaption: "A front garden border of lavender, roses and clipped shrubs on fresh mulch beside new turf — one of our Melbourne front-yard jobs."
 relatedServices: ["Plants and Mulch", "Soft Landscaping", "Garden Design"]
 suggestedInternalLinks: ["/services/plants-mulch", "/services/garden-design", "/quote"]
-status: "Ready after Sebastian's horticultural review"
+status: "Published 5 Oct 2026 — Sebastian's horticultural review not yet recorded"
 ---
 
 # How to Choose Plants and Mulch for a Melbourne Garden
 
-Plants and mulch are often selected near the end of a landscaping project, but they should be considered much earlier. Planting changes privacy, shade, views and maintenance. Mulch affects the appearance and day-to-day behaviour of the garden bed.
+Plants and mulch usually get chosen at the end of a landscaping job, after the walls, paving and turf are in. They deserve more thought than that. Planting decides how much privacy and shade a garden gives, how it looks in winter, and how much work it asks of you every year. Mulch decides whether the beds hold water through a Melbourne summer or bake.
 
-The best combination responds to the specific site instead of following a generic plant list.
+This is the approach we take on our own jobs. None of it needs a horticulture degree, but it does mean looking at the actual site before picking anything.
 
-## Read the conditions before choosing a style
+## Start with the conditions, not the plant list
 
-Observe where the sun falls in the morning and afternoon, including seasonal changes. Note reflected heat from walls and paving, wind exposure, wet areas, dry zones and competition from established trees.
+Walk the garden at different times of day and note where the sun falls. In Melbourne the hard positions are west-facing beds, which get the full afternoon sun and the hot north winds in summer, and anything beside a pale wall or paving that reflects heat back onto the plants. South-facing beds and the ground under established trees stay shaded and damp for much of winter.
 
-Soil and drainage also matter. A plant labelled “full sun” may still struggle in heavy, waterlogged ground or an intensely reflected western position.
+Dig a hole or two as well. Much of Melbourne's west and north sits on heavy clay that holds water in winter and sets hard in summer. A plant sold as "full sun" can still fail in a bed that stays waterlogged for weeks. Where the clay is bad, the fix is in the preparation: gypsum to break it up, compost worked through, and in some beds a raised edge so the roots sit above the wet layer.
 
-Take this information to the design stage. It is easier to select suitable plants than to repeatedly replace plants chosen for appearance alone.
+Take those notes into the design. It is far cheaper to choose plants that suit the spot than to replace plants that were chosen for how they looked at the nursery.
 
-## Plan for mature size
+## Plan for the mature size
 
-Nursery plants are sold young. Check the expected mature height and width, then allow for access to paths, windows, fences, utilities and neighbouring areas.
+Nursery plants are young. Check the mature height and width on the label, then give each plant that much room from paths, windows, fences, the water meter and your neighbour's side of the boundary.
 
-Overplanting can provide an instant full appearance but may create crowding, poor airflow and constant pruning. Thoughtful spacing allows the design to develop without plants immediately competing for room.
+Overplanting looks full on day one and crowded within two years. Crowded plants compete for water, grow leggy and need constant cutting back. Spaced properly, a bed looks sparse for the first season and then fills in.
 
-Use taller plants to provide structure and privacy, medium plants to create mass, and lower plants or groundcovers to soften edges. Repetition helps the garden feel intentional.
+A simple structure works on most Melbourne blocks: taller plants at the back for screening, a medium layer for bulk, and groundcovers or low plants along the edge. Repeating a small number of plants, rather than one of everything, is what makes a garden look designed.
 
-## Match planting to the maintenance you want
+## Be honest about the upkeep
 
-Be honest about how much pruning, watering and seasonal clean-up you will do. A formal clipped garden can look beautiful but requires regular attention. A looser planting style may still need selective pruning, weed control and renewal.
+A clipped hedge and standard roses look sharp, but they need trimming several times a year. A looser mix of grasses and shrubs needs less, though it still needs weeding, an occasional cut-back and the odd replacement.
 
-Low maintenance does not mean no maintenance. It means the plant palette, spacing and access suit the owner’s routine or an agreed [garden-care plan](/services/property-maintenance).
+For low-upkeep beds in Melbourne, we lean on plants that handle dry summers once established: lomandra and dianella for grassy texture, westringia and correa for shape, grevilleas and kangaroo paw for colour, and lavender or salvias where the bed is sunny and well drained. Where screening matters, lilly pilly and photinia hedges are the usual choices. None of these are exotic; they are common because they cope.
 
-## Decide what mulch needs to do
+Low maintenance does not mean no maintenance. It means the plants, spacing and access suit how much time you actually have, or an agreed [garden-care plan](/services/property-maintenance) if you would rather not do it yourself.
 
-Mulch can help reduce moisture loss, moderate soil temperature, suppress some weed germination and create a finished surface. Different materials behave differently.
+## Decide what the mulch is for
 
-Organic mulch gradually breaks down and can contribute to soil condition. It will need topping up over time. Decorative stone or gravel has a longer-lasting mineral appearance but may collect debris, become hot and require a suitable underlying design.
+Mulch holds moisture in the soil, keeps the roots cooler, suppresses most weed seed and gives a bed a finished look. The materials behave differently:
 
-Colour should support the house, paving and planting. Very strong mulch colours can dominate the garden and draw attention away from plants.
+- **Organic mulch** (pine bark, hardwood chip, mulched garden prunings) breaks down over time and feeds the soil. It needs topping up, usually once a year.
+- **Pebbles and decorative stone** do not break down, but they catch leaf litter, get hot in full sun and need a weed-control base underneath. They suit small feature areas, pathways and beds beside paving better than large planted beds.
 
-## Apply mulch thoughtfully
+A coarse mulch lets water through and stays put in wind better than a fine one. Fine mulches can form a crust that sheds water, which is the opposite of what you want.
 
-More is not always better. Mulch should not be piled against plant stems, tree trunks, weep holes or materials that need ventilation. Keep drainage points visible and avoid creating a surface that directs water toward the house.
+Pick the colour to suit the house and paving. Very dark or very red mulch pulls the eye away from the plants, which can be a good or bad thing depending on the bed.
 
-Weeds already present should be addressed before mulching. Mulch reduces some future germination but does not correct an existing root system beneath the bed.
+## Lay it properly
 
-## Coordinate plants, irrigation and mulch
+Spread organic mulch 50 to 75 mm deep. Thinner than that and weeds get through; thicker and water struggles to reach the soil. Keep it clear of plant stems and tree trunks, otherwise it holds moisture against the bark and causes rot. Keep it off weep holes and below the level of any damp course on the house, and do not let it build up against timber fences or decking.
 
-Irrigation should deliver water where roots need it without constantly wetting paths or building edges. Newly installed plants may need closer attention while they establish, even when the long-term palette is relatively resilient.
+Weed the bed first. Mulch slows new weeds from germinating, but it does nothing about couch or kikuyu runners already in the soil. Those need to come out before the mulch goes down.
 
-Inspect the system after mulch is installed to confirm emitters have not been buried, blocked or moved. As plants mature, review coverage and scheduling.
+## Water the plants, not the paths
 
-## Create year-round structure
+Drip line under the mulch is the most efficient way to water a garden bed in Melbourne. It puts the water at the roots, loses little to evaporation, and nothing lands on the paving. Under Victoria's permanent water saving rules, watering systems can run between 6pm and 10am, so set the controller for the early morning.
 
-Flowers are only one part of a design. Foliage, branching form, texture and evergreen structure keep the garden coherent when seasonal features change.
+New plants need closer attention for the first few months, even varieties that will be tough once established. After the mulch goes down, check that the emitters have not been buried or kicked out of position, and look again as the plants grow and the coverage changes.
 
-Choose a limited number of focal moments rather than making every plant compete. A feature near the entry, a repeated border plant and a clear background layer are often more effective than many unrelated specimens.
+## Build in year-round structure
 
-## Consider the wider landscape
+Flowers come and go. What holds a garden together in July is foliage colour, evergreen shape and the lines of the beds themselves. Choose two or three points of interest, such as a feature plant at the entry, a repeated border plant and a solid background hedge, and let the rest support them.
 
-Planting should soften retaining walls, frame paths and transition between turf and built surfaces. It also affects sightlines, lighting and how safely people can move through the property.
+## Think about the beds before the paving goes in
 
-Plan garden-bed widths before paving and turf are finalised. Beds that are too narrow can restrict plant choice and expose more wall or fence than expected.
+Planting has to work with everything around it. It softens retaining walls, frames paths and steps, and eases the change from lawn to paving. It also affects sightlines, garden lighting and how safely people move through the property at night.
 
-Bastiano Landscaping can provide [plants and mulch](/services/plants-mulch) as part of soft landscaping or develop the complete [garden design](/services/garden-design). [Send photos showing the house, bed and sunlight—not only close-ups](/quote), so the planting can be considered in context.
+Set the bed widths before the paving and turf are finalised. A bed under 600 mm wide limits what will grow in it and leaves more bare fence showing than people expect. On our [front-garden planter project](/projects/front-garden-planter-transformation), the raised bed was sized first and the lawn and pebble border were cut to suit it, not the other way round.
 
+Bastiano Landscaping supplies and plants [garden beds and mulch](/services/plants-mulch) as part of soft landscaping, or can plan the whole thing through a [garden design](/services/garden-design). [Send a few photos that show the house, the bed and where the sun falls](/quote), rather than close-ups, and we can advise on what will suit.

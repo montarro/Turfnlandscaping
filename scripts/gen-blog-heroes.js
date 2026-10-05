@@ -32,6 +32,8 @@ const OUT = path.join(ROOT, "assets", "images");
 const RAW_DIRS = [
   path.join(ROOT, "assets", "images", "IMAGES OF FINISHED JOBS", "IMAGES NEW 31 AUG"),
   path.join(ROOT, "assets", "photos", "raw-14-sep"),
+  // client-supplied WebPs for the turf pages (committed, so these always exist)
+  path.join(ROOT, "assets", "images", "turf images web"),
 ];
 
 const field = (fm, key) => (fm.match(new RegExp(`^${key}:\\s*"(.*)"\\s*$`, "m")) || [])[1];
@@ -49,6 +51,10 @@ const CROP = {
   "how-to-plan-complete-landscaping-project": "bottom",
   // tall courtyard shot: keep the whole pebble-framed lawn square, the tree trunk and the sleeper path
   "small-backyard-landscaping-ideas-melbourne": { hero: 0.85, card: 0.8 },
+  // tall phone shot of the crew on the school grounds: keep the building, hoop and the kneeling worker
+  "commercial-landscaping-scope-checklist-melbourne": { hero: 0.4, card: 0.35 },
+  // sprinkler lawn: the head and its flag sit mid-frame; keep the playhouse and fence line above it
+  "new-landscape-maintenance-guide": { hero: 0.45, card: 0.45 },
 };
 
 const SIZES = {
