@@ -20,31 +20,17 @@ const OG = SITE + "/assets/images/og-bastiano-landscaping.jpg";
 const slug = (s) => s.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 /* ---------- Service area (authoritative, client-verified) ----------
-   Craigieburn / Mickleham / Sunbury / Melton / Point Cook are no longer
-   confirmed service areas and must not appear as claimed coverage
-   anywhere on the site unless separately re-verified by the client. */
+   Craigieburn / Mickleham / Sunbury / Melton are no longer confirmed
+   service areas and must not appear as claimed coverage anywhere on the
+   site unless separately re-verified by the client. Point Cook was dropped
+   with them in August 2026 and re-added on 12 October 2026 on Khaled's
+   confirmation (Brand-and-growth-plan.md); Sebastian's sign-off is still
+   to be recorded. Keep this list identical to index.html (#areas + schema). */
 const SERVICE_AREA_STATEMENT =
   "Serving Melbourne's western suburbs and selected inner-city, northern, eastern and bayside areas.";
 const SERVICE_AREA_STRIP =
   "Melbourne's West • Inner City • Inner North • Inner East & Bayside";
-const SERVICE_REGIONS = [
-  {
-    name: "Melbourne's West",
-    suburbs: ["Hoppers Crossing", "Werribee", "Altona Meadows", "Altona", "Newport", "Williamstown", "Yarraville", "Seddon", "Sunshine", "Caroline Springs", "Footscray", "Kingsville", "Maribyrnong", "Maidstone", "Spotswood", "Brooklyn"],
-  },
-  {
-    name: "Inner Melbourne",
-    suburbs: ["Docklands", "West Melbourne", "North Melbourne", "South Melbourne", "Port Melbourne", "East Melbourne", "Kensington", "Flemington", "Carlton"],
-  },
-  {
-    name: "Inner North",
-    suburbs: ["Brunswick", "Fitzroy", "Collingwood", "Abbotsford", "Clifton Hill"],
-  },
-  {
-    name: "Inner East, South and Bayside",
-    suburbs: ["Richmond", "Cremorne", "South Yarra", "Toorak", "Prahran", "Kew", "Brighton"],
-  },
-];
+const { REGIONS: SERVICE_REGIONS } = require("./areas-data.js");
 const AREA_SUBURBS = SERVICE_REGIONS.flatMap((r) => r.suburbs);
 
 /* ---------- Shared chrome ---------- */

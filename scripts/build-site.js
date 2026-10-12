@@ -72,6 +72,9 @@ execFileSync("node", [path.join(__dirname, "build-pages.js")], { stdio: "inherit
 // overlapping routes (retaining-walls, soft-landscaping) win.
 execFileSync("node", [path.join(__dirname, "build-service-pages.js")], { stdio: "inherit", env });
 execFileSync("node", [path.join(__dirname, "build-project-pages.js")], { stdio: "inherit", env });
+// Local area pages (/areas/<suburb>) — drafts are noindex until their local
+// evidence is confirmed; also checks the service-area register against index.html.
+execFileSync("node", [path.join(__dirname, "build-area-pages.js")], { stdio: "inherit", env });
 // Blog last of the page generators: it checks every internal link in the
 // drafts against the routes the generators above have just written.
 execFileSync("node", [path.join(__dirname, "build-blog.js")], { stdio: "inherit", env });
