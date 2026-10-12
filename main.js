@@ -57,6 +57,26 @@
     try { window.localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {}
   })();
 
+  /* ---------- Call clicks ----------
+     One analytics event per tap on a phone link, labelled with the part of
+     the page the link sits in. It counts taps on the link, not answered
+     calls, and carries nothing else. Skipped silently when analytics is
+     blocked (window.va is the queue stub every page sets before the
+     analytics script). */
+  document.addEventListener("click", function (e) {
+    var el = e.target;
+    var a = el && el.closest ? el.closest('a[href^="tel:"]') : null;
+    if (!a) return;
+    var spots = [[".mobile-nav", "mobile-nav"], [".site-header", "header"], [".site-footer", "footer"], [".cta-band", "cta-band"], [".page-hero", "page-hero"], [".hero", "hero"], [".sp-side", "sidebar"], [".bl-endcta", "article-end"], [".qdone", "quote-confirmation"]];
+    var location = "body";
+    for (var i = 0; i < spots.length; i++) {
+      if (a.closest(spots[i][0])) { location = spots[i][1]; break; }
+    }
+    try {
+      if (typeof window.va === "function") window.va("event", { name: "click_to_call", data: { location: location } });
+    } catch (err) {}
+  });
+
   /* ---------- Subtle entrance animation ---------- */
   var revealEls = document.querySelectorAll(".reveal:not(.is-visible)");
   if (revealEls.length && "IntersectionObserver" in window) {

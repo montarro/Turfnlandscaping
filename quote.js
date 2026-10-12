@@ -115,6 +115,37 @@
   var currentStep = 1;
   var submitting = false;
 
+  /* ---------- Enquiry measurement (Vercel Web Analytics) ----------
+     Counts only. An event carries at most two short values: the step
+     number, the customer type (residential or commercial), the service
+     chosen on step 1, or an error category. Never a name, contact detail,
+     address, note or file. window.va is the queue stub set in quote.html
+     before the analytics script loads; when analytics is blocked the call
+     is skipped and the form carries on exactly as before. */
+  var tracked = { start: false, steps: {}, lead: false };
+  function track(name, data) {
+    try {
+      if (typeof window.va !== "function") return;
+      window.va("event", data ? { name: name, data: data } : { name: name });
+    } catch (e) {}
+  }
+  /* quote_start: the first meaningful interaction, once per flow. */
+  function trackStart() {
+    if (tracked.start) return;
+    tracked.start = true;
+    track("quote_start");
+  }
+  /* quote_step_complete: a step validated and left, once per step per flow. */
+  function trackStep(n) {
+    if (tracked.steps[n]) return;
+    tracked.steps[n] = true;
+    track("quote_step_complete", { step: n, customer_type: answers.customer_type || "unknown" });
+  }
+  /* quote_error: a sanitised category only, never the message or field text. */
+  function trackError(category, step) {
+    track("quote_error", { category: category, step: step });
+  }
+
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -188,6 +219,7 @@
     stepsEl.querySelectorAll('input[name="ctype"]').forEach(function (input) {
       input.addEventListener("change", function () {
         answers.customer_type = input.value;
+        trackStart();
         if (servicesBox.hidden) {
           servicesBox.hidden = false;
           servicesBox.classList.add("qreveal");
@@ -196,17 +228,18 @@
       });
     });
     stepsEl.querySelectorAll('input[name="service"]').forEach(function (input) {
-      input.addEventListener("change", function () { answers.service = input.value; setError(""); });
+      input.addEventListener("change", function () { answers.service = input.value; trackStart(); setError(""); });
     });
     stepsEl.querySelector("[data-next]").addEventListener("click", function () {
-      if (!answers.customer_type) { setError("Please tell us whether this is for your home or a commercial property."); return; }
-      if (!answers.service) { setError("Please choose a service to continue."); return; }
+      if (!answers.customer_type) { setError("Please tell us whether this is for your home or a commercial property."); trackError("validation", 1); return; }
+      if (!answers.service) { setError("Please choose a service to continue."); trackError("validation", 1); return; }
       /* Commercial: make sure the primary service is pre-selected in required services */
       if (!isRes()) {
         var req = SERVICE_TO_REQ[answers.service];
         answers.required_services = answers.required_services || [];
         if (req && answers.required_services.indexOf(req) === -1) answers.required_services.push(req);
       }
+      trackStep(1);
       goTo(2);
     });
   }
@@ -375,7 +408,8 @@
     stepsEl.querySelector("[data-next]").addEventListener("click", function () {
       saveStep2();
       var missing = validateStep2();
-      if (missing) { setError(missing); return; }
+      if (missing) { setError(missing); trackError("validation", 2); return; }
+      trackStep(2);
       goTo(3);
     });
   }
@@ -557,7 +591,7 @@
     if (submitting) return;
     saveStep3();
     var bad = validateStep3();
-    if (bad) { setError(bad); return; }
+    if (bad) { setError(bad); trackError("validation", 3); return; }
 
     if (!WEBHOOK_URL) {
       setError("Thanks! Our online form isn't connected yet — please call us on " + PHONE_DISPLAY + " and we'll book your free on-site quote straight away. Your answers are kept on this page.");
@@ -594,13 +628,26 @@
     fetch(WEBHOOK_URL, { method: "POST", body: body })
       .then(function (res) {
         return res.json().catch(function () { return {}; }).then(function (data) {
-          if (res.ok && data.ok) { renderConfirmation(); return; }
+          if (res.ok && data.ok) {
+            /* generate_lead: one completed enquiry per flow. The submitting
+               guard above already stops a second request; this flag stops a
+               second event if a response ever arrives twice. */
+            if (!tracked.lead) {
+              tracked.lead = true;
+              track("generate_lead", { customer_type: answers.customer_type || "unknown", service: answers.service || "unknown" });
+            }
+            renderConfirmation();
+            return;
+          }
           /* The worker returns short customer-safe messages for
              validation problems; anything else gets the generic copy. */
-          throw new Error(res.status >= 400 && res.status < 500 && data.error ? data.error : "");
+          var err = new Error(res.status >= 400 && res.status < 500 && data.error ? data.error : "");
+          err.category = res.status >= 500 ? "server" : (res.status >= 400 ? "rejected" : "unexpected");
+          throw err;
         });
       })
       .catch(function (err) {
+        trackError((err && err.category) || "network", 3);
         submitting = false;
         btn.disabled = false;
         btn.innerHTML = 'Request My Free Quote <span class="btn__arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>';
