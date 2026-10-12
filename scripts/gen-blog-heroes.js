@@ -34,6 +34,8 @@ const RAW_DIRS = [
   path.join(ROOT, "assets", "photos", "raw-14-sep"),
   // client-supplied WebPs for the turf pages (committed, so these always exist)
   path.join(ROOT, "assets", "images", "turf images web"),
+  // the committed 4:3 project slot JPGs that apply-photos.js consumes
+  path.join(ROOT, "assets", "photos"),
 ];
 
 const field = (fm, key) => (fm.match(new RegExp(`^${key}:\\s*"(.*)"\\s*$`, "m")) || [])[1];
@@ -55,6 +57,23 @@ const CROP = {
   "commercial-landscaping-scope-checklist-melbourne": { hero: 0.4, card: 0.35 },
   // sprinkler lawn: the head and its flag sit mid-frame; keep the playhouse and fence line above it
   "new-landscape-maintenance-guide": { hero: 0.45, card: 0.45 },
+  // --- October 2026 drafts (growth plan round 4) ---
+  // 4:3 shot of turf slabs meeting the raked soil: keep the join line and the fence
+  "natural-turf-installation-cost-melbourne": { hero: 0.55, card: 0.5 },
+  // finished planter frontage: keep the wall, lawn and flowers rather than the sky
+  "landscaping-cost-melbourne": { hero: 0.6, card: 0.55 },
+  // tall phone shot of the planter wall under construction: keep the wall, soil and the house behind
+  "new-build-landscaping-checklist-melbourne": { hero: 0.5, card: 0.45 },
+  // tall backyard shot: keep the brick wall and the shadow it throws across the new turf
+  "best-turf-shaded-yard-melbourne": { hero: 0.55, card: 0.5 },
+  // tall fenced side yard: keep the fence line and the turf, trim the sky
+  "natural-vs-synthetic-turf-dogs-melbourne": { hero: 0.35, card: 0.3 },
+  // tall corner-block shot: the stained sleeper wall sits in the lower half
+  "timber-vs-concrete-sleeper-retaining-walls": { hero: 0.6, card: 0.55 },
+  // tall side-yard shot: keep the raised bed and the run of new turf
+  "narrow-side-yard-landscaping-melbourne": { hero: 0.45, card: 0.4 },
+  // tall new-build frontage: keep the stepping-stone path, lawn and house
+  "front-yard-landscaping-ideas-melbourne": { hero: 0.4, card: 0.35 },
 };
 
 const SIZES = {
