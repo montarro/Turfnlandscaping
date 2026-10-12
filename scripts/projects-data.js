@@ -4,13 +4,16 @@
    RULES: real photographs only; omit any field that isn't verified
    (no invented suburbs, sizes, prices or customer names); a
    before/after pair must be two photographs of the SAME project.
-   Dates come from the photo timestamps.
+   Dates come from the photo timestamps. `guides` lists article slugs
+   from content/blog; build-project-pages.js links only the published ones.
    ===================================================================== */
 
 module.exports = [
   {
     slug: "front-garden-planter-transformation",
     title: "Front Garden Transformation — Raised Planter & New Lawn",
+    // articles about this kind of work (drafts stay hidden until published)
+    guides: ["new-build-landscaping-checklist-melbourne", "how-to-plan-complete-landscaping-project", "does-yard-need-retaining-wall-melbourne", "landscaping-cost-melbourne"],
     categories: ["Retaining Walls", "Turf", "Garden Transformations"],
     summary: "A weed-covered mound on a new build turned into a raised sleeper planter with fresh turf, pebble borders and seasonal colour — finished in under two weeks.",
     challenge: "The front garden of this new build had been left as a bare, weed-covered mound — patchy soil, exposed irrigation line and no defined edge between the garden, driveway and footpath.",
@@ -45,6 +48,8 @@ module.exports = [
   {
     slug: "garden-lighting-turf-planter",
     title: "Instant Turf & Feature Planter with Garden Lighting",
+    // articles about this kind of work (drafts stay hidden until published)
+    guides: ["front-yard-landscaping-ideas-melbourne", "how-to-plan-complete-landscaping-project", "pavers-vs-stepping-stones-garden-path", "low-maintenance-landscaping-ideas-melbourne"],
     categories: ["Turf", "Hard Landscaping", "Garden Transformations"],
     summary: "Fresh instant turf framed by a stained sleeper planter, shaped red-mulch beds, a white-pebble stepping-stone path and low-voltage garden lighting that brings the yard to life after dark.",
     metaDescription: "Fresh instant turf framed by a stained sleeper planter, red-mulch beds, a white-pebble stepping-stone path and low-voltage lighting for the garden after dark.",
@@ -92,6 +97,8 @@ module.exports = [
   {
     slug: "front-garden-bed-refresh",
     title: "Front Garden Bed Refresh — Pebbles, Mulch & Planting",
+    // articles about this kind of work (drafts stay hidden until published)
+    guides: ["front-yard-landscaping-ideas-melbourne", "choose-plants-and-mulch-melbourne-garden", "low-maintenance-landscaping-ideas-melbourne"],
     categories: ["Garden Transformations"],
     summary: "A tired pebble bed beside the front entrance reshaped with curved edging, contrasting mulch and stone, and compact new planting around the existing tree.",
     challenge: "The small garden bed beside the driveway had become untidy, with ageing pebbles, sparse plants and no clear shape. The owners wanted a cleaner entrance while keeping the established tree and access to the existing services.",
@@ -121,6 +128,8 @@ module.exports = [
   {
     slug: "courtyard-garden-turf-refresh",
     title: "Courtyard Garden Refresh — Turf, Pebbles & Planting",
+    // articles about this kind of work (drafts stay hidden until published)
+    guides: ["best-turf-shaded-yard-melbourne", "small-backyard-landscaping-ideas-melbourne", "best-time-to-lay-turf-melbourne"],
     categories: ["Turf", "Garden Transformations"],
     summary: "An overgrown courtyard bed around an established tree cleared and re-laid as a neat square of natural turf, edged in white pebbles and flowers, with the timber sleeper path kept.",
     metaDescription: "An overgrown courtyard bed around an established tree, cleared and re-laid as a neat square of natural turf edged in white pebbles, with the sleeper path kept.",
@@ -151,6 +160,8 @@ module.exports = [
   {
     slug: "synthetic-turf-front-lawn",
     title: "Synthetic Turf Front Lawn",
+    // articles about this kind of work (drafts stay hidden until published)
+    guides: ["natural-vs-synthetic-turf-dogs-melbourne", "natural-vs-synthetic-turf-melbourne", "front-yard-landscaping-ideas-melbourne"],
     categories: ["Turf"],
     summary: "A dense, always-green synthetic lawn installed with clean timber edging and pebble borders — zero mowing, full kerb appeal.",
     challenge: "The owners wanted a lawn that stays green year-round without watering or weekend mowing, finished neatly against the existing established garden.",
@@ -178,6 +189,8 @@ module.exports = [
   {
     slug: "stained-sleeper-raised-garden",
     title: "Stained Sleeper Raised Garden & Instant Turf",
+    // articles about this kind of work (drafts stay hidden until published)
+    guides: ["timber-vs-concrete-sleeper-retaining-walls", "does-yard-need-retaining-wall-melbourne", "best-time-to-lay-turf-melbourne"],
     categories: ["Retaining Walls", "Turf"],
     summary: "A dark-stained sleeper retaining wall carving a level lawn out of a corner block, finished with pebble borders and flowering colour.",
     challenge: "A sloping corner frontage that needed to be levelled and framed so the new lawn would hold its shape — and look sharp from both streets.",
@@ -206,6 +219,8 @@ module.exports = [
   {
     slug: "natural-turf-installation",
     title: "Natural Turf Installation",
+    // articles about this kind of work (drafts stay hidden until published)
+    guides: ["natural-turf-installation-cost-melbourne", "best-time-to-lay-turf-melbourne", "why-new-turf-fails", "new-landscape-maintenance-guide"],
     categories: ["Turf", "Garden Transformations"],
     summary: "A bare, debris-strewn front yard cleared back to soil, levelled and laid with natural turf — an even, clean lawn running the full width of the street frontage.",
     challenge: "The whole front garden had been stripped back to bare ground: an open stretch of uneven dirt with timber offcuts and broken pavers left across it, between the house, the paling fence and the painted picket fence along the street.",
@@ -237,6 +252,8 @@ module.exports = [
   {
     slug: "backyard-natural-turf-installation",
     title: "Backyard Natural Turf Installation",
+    // articles about this kind of work (drafts stay hidden until published)
+    guides: ["natural-turf-installation-cost-melbourne", "best-time-to-lay-turf-melbourne", "why-new-turf-fails", "new-landscape-maintenance-guide"],
     categories: ["Turf", "Garden Transformations"],
     summary: "A bare, weed-covered backyard prepared and finished with a broad natural lawn, creating a cleaner and more usable space for the family.",
     challenge: "The backyard was mostly uneven soil and scattered weeds, leaving very little comfortable space for playing or spending time outside. The owners wanted a simple, practical lawn that made proper use of the available area.",

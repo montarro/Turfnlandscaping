@@ -58,4 +58,14 @@ function publishedPosts() {
     }));
 }
 
-module.exports = { SERVICE_ROUTE, publishedPosts };
+/* Every article, draft or live, so other generators can validate a slug
+   without accidentally linking to a draft. */
+function allPosts() {
+  return fs.readdirSync(POSTS_DIR)
+    .filter((f) => /^\d+-.*\.md$/.test(f))
+    .sort()
+    .map((f) => frontmatter(fs.readFileSync(path.join(POSTS_DIR, f), "utf8")))
+    .map((d) => ({ slug: d.slug, title: d.title, published: String(d.published).trim() === "true" }));
+}
+
+module.exports = { SERVICE_ROUTE, publishedPosts, allPosts };

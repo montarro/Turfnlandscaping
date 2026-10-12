@@ -93,3 +93,7 @@
 .sp-all .sp-related a { padding: .8rem 1rem; font-size: .95rem; }
 @media (min-width: 700px) { .sp-all { grid-template-columns: 1fr 1fr; } }
 @media (min-width: 1140px) { .sp-all { grid-template-columns: repeat(4, 1fr); } }
+
+/* ---------- Project cards inside a service page (build-service-pages.js) ---------- */
+.sp-projects { display: grid; gap: 1.2rem; grid-template-columns: 1fr; margin: .4rem 0 2rem; }
+@media (min-width: 700px) { .sp-projects { grid-template-columns: repeat(2, 1fr); } }

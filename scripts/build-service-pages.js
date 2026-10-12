@@ -10,6 +10,7 @@ const fs = require("fs");
 const path = require("path");
 const DATA = require("./services-data.js");
 const BLOG = require("./blog-index.js");
+const PROJECTS = require("./projects-data.js");
 
 const ROOT = path.join(__dirname, "..");
 const OUTDIR = process.env.OUTDIR || ROOT;
@@ -181,6 +182,18 @@ function servicePage(s) {
   if (s.prepDrainage) body += `<div class="prose"><h2>Preparation &amp; drainage</h2><p>${s.prepDrainage}</p></div>`;
   if (s.resiCom) body += `<div class="prose"><h2>Residential &amp; commercial</h2><p>${s.resiCom}</p></div>`;
 
+  /* Work is priced per site after a visit, so the page explains what moves
+     the number rather than publishing rates: [heading, text] pairs in the
+     same grid as the options block. */
+  if (s.costFactors) {
+    body += `<div class="prose"><h2>What affects the price</h2>${s.costFactorsIntro ? `<p>${s.costFactorsIntro}</p>` : ""}</div>
+    <div class="sp-options">${s.costFactors.map(([t, d]) => `<div class="sp-option"><h3>${t}</h3><p>${d}</p></div>`).join("")}</div>`;
+  }
+  if (s.quoteInfo) {
+    body += `<div class="prose"><h2>What to send us for an accurate quote</h2>${s.quoteInfoIntro ? `<p>${s.quoteInfoIntro}</p>` : ""}</div>
+    <ul class="sp-checklist">${s.quoteInfo.map((q) => `<li>${q}</li>`).join("")}</ul>`;
+  }
+
   if (m) {
     body += `<div class="prose"><h2>One-off or ongoing — how it works</h2>
     <p><strong>One-off visits.</strong> ${m.oneOff}</p>
@@ -195,6 +208,20 @@ function servicePage(s) {
     const fullSize = new Set([s.image, s.beforeAfter && s.beforeAfter.before.img, s.beforeAfter && s.beforeAfter.after.img]);
     body += `<div class="prose"><h2>From our recent work</h2></div>
     <div class="pj-gallery">${s.gallery.map((g) => `<figure><img src="${img(g.img)}"${fullSize.has(g.img) ? "" : CHROME.cardSrcset(img(g.img), "(min-width: 700px) 380px, 92vw")} alt="${g.alt}" loading="lazy" width="1200" height="900" /></figure>`).join("")}</div>`;
+  }
+
+  /* Case studies for this service: cards built from scripts/projects-data.js,
+     so a project's title, summary and hero can never drift from its page. */
+  if (s.projects) {
+    body += `<div class="prose"><h2>Projects like this</h2></div>
+    <div class="sp-projects">${s.projects.map((slug) => {
+      const p = PROJECTS.find((x) => x.slug === slug);
+      if (!p) throw new Error(`${s.slug}: projects lists "${slug}" but scripts/projects-data.js has no such project`);
+      return `<a class="pj-card sp-hubcard" href="/projects/${p.slug}">
+      <span class="pj-card__media"><img src="${img(p.hero)}"${CHROME.cardSrcset(img(p.hero), "(min-width: 1020px) 400px, (min-width: 700px) 46vw, 92vw")} alt="" loading="lazy" width="1200" height="900" /></span>
+      <span class="pj-card__body"><h3>${p.title}</h3><p>${p.summary}</p><span class="pj-card__link">View project ${arrow}</span></span>
+    </a>`;
+    }).join("")}</div>`;
   }
 
   if (s.faqs) {

@@ -9,6 +9,9 @@
 const fs = require("fs");
 const path = require("path");
 const PROJECTS = require("./projects-data.js");
+const BLOG = require("./blog-index.js");
+const LIVE_POSTS = BLOG.publishedPosts();
+const ALL_SLUGS = new Set(BLOG.allPosts().map((p) => p.slug));
 
 const ROOT = path.join(__dirname, "..");
 const OUTDIR = process.env.OUTDIR || ROOT;
@@ -209,6 +212,13 @@ function detailPage(p, prev, next) {
   // photos this page already loads full-size (hero, sliders): the gallery
   // reuses that cached file instead of fetching an 800px copy as well
   const fullSize = new Set([p.hero, ...comparisons.flatMap((c) => [c.before.img, c.after.img])]);
+  /* Guides written about this kind of work. Only published articles are
+     linked; a slug that is still a draft is skipped until it goes live, and
+     a slug that does not exist at all is a typo and fails the build. */
+  const guides = (p.guides || []).map((slug) => {
+    if (!ALL_SLUGS.has(slug)) throw new Error(`${p.slug}: guides lists "${slug}" but content/blog has no such article`);
+    return LIVE_POSTS.find((x) => x.slug === slug);
+  }).filter(Boolean).slice(0, 4);
   return head({
     title: `${p.title} | Bastiano Landscaping`,
     desc: p.metaDescription || p.summary,
@@ -257,6 +267,9 @@ ${HEADER}
           <div class="pj-gallery">
             ${p.gallery.map((g) => `<figure><img src="${img(g.img)}"${fullSize.has(g.img) ? "" : CHROME.cardSrcset(img(g.img), "(min-width: 700px) 380px, 92vw")} alt="${g.alt}" loading="lazy" width="1200" height="900" /></figure>`).join("\n            ")}
           </div>
+          ${guides.length ? `
+          <h2 class="pj-h2">Related guides</h2>
+          <div class="sp-related">${guides.map((g) => `<a href="/blog/${g.slug}">${g.title.replace(/&/g, "&amp;")} ${arrow}</a>`).join("")}</div>` : ""}
 
           <div class="pj-pagenav">
             ${prev ? `<a href="/projects/${prev.slug}">&larr; ${prev.title}</a>` : "<span></span>"}
