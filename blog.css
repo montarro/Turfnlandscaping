@@ -147,6 +147,18 @@
   font-size: .93em; word-break: break-word;
 }
 
+/* ---------- Draft-only editorial notes ----------
+   A "[[EDITORIAL: ...]]" line in a draft renders as this box so the reviewer
+   can see which fact is still missing. build-blog.js refuses to build an
+   article as published while one remains, so the box never reaches a live
+   page. */
+.bl-editorial {
+  margin: 1.4rem 0; padding: .85rem 1.05rem;
+  background: #fdf3d6; border: 1px solid #e6d08a; border-left-width: 5px; border-radius: var(--r-sm);
+  color: #5c4708; font-size: .92rem; line-height: 1.6;
+}
+.bl-editorial strong { color: #4a3a06; }
+
 /* ---------- Article: hero photo ---------- */
 .bl-hero { margin: 0 0 clamp(2rem, 5vw, 3.2rem); }
 .bl-hero img {

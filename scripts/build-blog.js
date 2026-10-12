@@ -165,6 +165,12 @@ function renderMarkdown(body, report) {
     }
     closeTable();
 
+    // [[EDITORIAL: ...]] — a note to the reviewer about a fact that is still
+    // missing. Shown in draft previews only: the publish guard below refuses
+    // to build an article as published while one remains in its body.
+    const ed = line.match(/^\[\[EDITORIAL:\s*(.*?)\]\]$/);
+    if (ed) { closeList(); out.push(`<p class="bl-editorial" role="note"><strong>Editorial note (draft only):</strong> ${inline(ed[1], report)}</p>`); continue; }
+
     const h = line.match(/^(#{2,3})\s+(.*)$/);
     if (h) { closeList(); const n = h[1].length; out.push(`<h${n}>${inline(h[2], report)}</h${n}>`); continue; }
 
@@ -211,7 +217,7 @@ const posts = fs.readdirSync(POSTS_DIR)
       services, topics,
       readMinutes: Math.max(3, Math.round(words / 210)),
       // first paragraph of the draft, used as the card standfirst
-      standfirst: (body.split(/\n\s*\n/).find((p) => p.trim() && !/^#/.test(p.trim())) || "").trim(),
+      standfirst: (body.split(/\n\s*\n/).find((p) => p.trim() && !/^#/.test(p.trim()) && !/^\[\[EDITORIAL:/.test(p.trim())) || "").trim(),
     };
   });
 
@@ -232,6 +238,12 @@ if (!live.length) { console.error("Blog build failed — no article has publishe
 for (const p of live) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(p.datePublished || "")) {
     console.error(`Blog build failed — ${p.file} is published: true but datePublished is not a real date.`);
+    process.exit(1);
+  }
+}
+for (const p of live) {
+  if (/\[\[EDITORIAL:/.test(p.body)) {
+    console.error(`Blog build failed — ${p.file} is published: true but its body still holds an [[EDITORIAL: ...]] note. Supply the fact or remove the claim before publishing.`);
     process.exit(1);
   }
 }
@@ -498,6 +510,9 @@ function articlePage(p) {
         author: { "@type": "Person", name: AUTHOR, jobTitle: "Owner, Bastiano Landscaping", url: SITE + "/#who-we-are" },
         publisher: {
           "@type": "Organization",
+          // the same identifier as the homepage business node, so every
+          // article resolves to the one Bastiano entity
+          "@id": SITE + "/#business",
           name: "Bastiano Landscaping",
           url: SITE,
           logo: { "@type": "ImageObject", url: SITE + "/assets/logo-turf-and-landscaping.png" },

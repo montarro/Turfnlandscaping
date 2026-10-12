@@ -43,7 +43,7 @@ const all = fs.readdirSync(POSTS_DIR).filter((f) => /^\d+-.*\.md$/.test(f)).map(
     published: String(data.published).trim() === "true",
     datePublished: data.datePublished || "",
     readMinutes: Math.max(3, Math.round(words / 210)),
-    standfirst: (body.split(/\n\s*\n/).find((p) => p.trim() && !/^#/.test(p.trim())) || "").trim(),
+    standfirst: (body.split(/\n\s*\n/).find((p) => p.trim() && !/^#/.test(p.trim()) && !/^\[\[EDITORIAL:/.test(p.trim())) || "").trim(),
   };
 });
 const articles = CONFIG.slugs.map((slug, i) => {
