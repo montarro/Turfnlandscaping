@@ -35,19 +35,19 @@ If the only area you can offer is a narrow side strip, the decision is really ab
 
 **Natural turf** wears along the dog's paths and recovers if it gets light, water and a break from traffic. The running varieties, couch and kikuyu, repair themselves fastest in full sun; soft-leaf buffalo repairs more slowly but copes with more shade. In a small yard with a big dog, the paths can wear faster than the grass can grow back, and that is where mud starts. Digging leaves holes that need filling and re-turfing, which our [turf repair service](/services/turf-repair-patching) does, and our guide to [turf repair versus replacement](/blog/turf-repair-vs-lawn-replacement) explains when a patch is enough.
 
-**Synthetic turf** does not wear into mud, and a dog cannot dig through a properly secured installation on a solid base. It does flatten under constant traffic, so the paths need brushing to lift the pile. Claws and chewing can damage edges and joins, so how the edges are fixed and where the joins fall matter more in a dog's yard than anywhere else.
+**Synthetic turf** does not wear into mud, and a properly secured installation on a solid base is much harder for a dog to dig through. It does flatten under constant traffic, so the paths need brushing to lift the pile. Claws and chewing can damage edges and joins, so how the edges are fixed and where the joins fall matter more in a dog's yard than anywhere else.
 
 ## Urine, drainage and cleaning
 
-**Natural turf** absorbs urine. Concentrated patches burn, especially in dry weather, leaving yellow spots that usually recover with rain or a hose. The soil does the cleaning, and a healthy lawn with decent drainage does not smell.
+**Natural turf** absorbs urine. Concentrated patches burn, especially in dry weather, leaving yellow spots that often recover with rain or a hose. The soil does the cleaning, and a healthy lawn with decent drainage does not smell.
 
-**Synthetic turf** does not absorb anything, so urine either drains through the backing into the base or stays on the surface. A permeable backing and a free-draining crushed-rock base are essential for a dog's yard, and the area still needs regular hosing. In hot, dry weather, urine that is not rinsed through will smell. Pick-up is easy on synthetic turf, but it is a surface that has to be cleaned, not one that cleans itself.
+**Synthetic turf** does not absorb anything, so urine either drains through the backing into the base or stays on the surface. A permeable backing and a free-draining base matter more in a dog's yard than anywhere else, and the area still needs regular hosing. In hot, dry weather, urine that is not rinsed through can smell. Pick-up is easy on synthetic turf, but it is a surface that has to be cleaned, not one that cleans itself.
 
 [[EDITORIAL: Sebastian to confirm the synthetic product or products Bastiano installs for pet yards, and supply the manufacturer's cleaning, infill and drainage instructions so this section can describe the actual product. No pet-safe, antimicrobial or non-toxic claim is to be made without that documentation.]]
 
 ## Heat in summer
 
-This is the one that gets underestimated. Synthetic turf in direct summer sun gets a lot hotter than living grass, because it has no moisture in it to cool it. The RSPCA warns that on hot days the ground itself can be unsafe for dogs, not just concrete or asphalt but bare ground and dry grass, and that in severe cases hot ground can cause skin damage ([RSPCA Knowledgebase, protecting your dog from heatstroke](https://kb.rspca.org.au/knowledge-base/how-can-i-protect-my-dog-from-heatstroke/)). Its advice is to give dogs constant access to a cool, shaded, ventilated area and water, and to avoid hot surfaces and the hottest part of the day.
+This is the one that gets underestimated. Synthetic turf in direct summer sun gets noticeably hotter than living grass, partly because it has no moisture in it to cool it. The RSPCA warns that on hot days the ground itself can be unsafe for dogs, not just concrete or asphalt but bare ground and dry grass, and that in severe cases hot ground can cause skin damage ([RSPCA Knowledgebase, protecting your dog from heatstroke](https://kb.rspca.org.au/knowledge-base/how-can-i-protect-my-dog-from-heatstroke/)). Its advice is to give dogs constant access to a cool, shaded, ventilated area and water, and to avoid hot surfaces and the hottest part of the day.
 
 For a synthetic lawn that means shade matters: a side strip shaded by the house for most of the day is a very different proposition from an open backyard. Lighter-toned products and a quick hose-down help, but they do not turn a sunlit synthetic lawn into a cool one. If the dog will be outside on hot afternoons, keep part of the yard natural or shaded.
 
@@ -61,7 +61,7 @@ Fence lines deserve special attention. Dogs run and dig along them, so a natural
 
 | | Natural turf | Synthetic turf |
 | --- | --- | --- |
-| Mowing | Weekly in the growing season | None |
+| Mowing | Regular in the growing season | None |
 | Watering | Regular, more in summer | None for the turf itself; hosing to clean |
 | Cleaning | Pick up solids; rain and soil deal with the rest | Pick up solids; hose urine through regularly |
 | Wear | Paths thin and may go to mud; recovers with rest | Pile flattens on paths; brush to lift |

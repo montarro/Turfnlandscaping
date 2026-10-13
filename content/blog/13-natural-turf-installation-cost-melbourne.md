@@ -11,7 +11,7 @@ datePublished: ""
 dateReviewed: ""
 heroImage: "proj-naturalturf-progress-1.jpg"
 heroAlt: "Rolls of natural turf laid across raked, levelled soil in a front garden, with the join to the bare ground still visible"
-heroCaption: "Turf going down on the raked and levelled front garden from our natural turf installation project. The ground work before this point is most of the cost."
+heroCaption: "Turf going down on the raked and levelled front garden from our natural turf installation project. Most of the work on a lawn like this happens before this point."
 relatedServices: ["Natural Turf", "Turf Repair and Patching"]
 suggestedInternalLinks: ["/services/natural-turf-installation", "/services/turf-preparation-levelling-drainage", "/projects/natural-turf-installation", "/quote"]
 status: "DRAFT (brief 1) — not publishable until Sebastian supplies recent job figures; see the editorial notes in the body"
@@ -25,7 +25,7 @@ The honest answer is that a new natural lawn is priced on the ground it goes ont
 
 [[EDITORIAL: Sebastian to supply two or three recent, anonymised natural turf jobs or quotes: date, suburb or region, area in square metres, variety, preparation done, access, total price and whether GST is included. The paragraph below is written to hold those figures and must not go live without them. Do not substitute competitor ranges.]]
 
-For a straightforward lawn on prepared ground the turf itself is a smaller share of the bill than most people expect. Removal, soil, levelling and the labour to lay and roll the turf make up the rest. Once the examples are in place, this section will show how the totals on real jobs related to their area, and why the price per square metre drops as the lawn gets larger.
+The turf itself is only one line in an installed price. Removal, soil, levelling and the labour to lay and roll the turf are the others, and how they compare depends on the site. Once the examples are in place, this section will show how the totals on real jobs related to their area, and whether the price per square metre fell as the lawn got larger.
 
 ## Supply only, or supplied and installed
 
@@ -55,7 +55,7 @@ If a quote is noticeably cheaper, check which of these has been left out. [Turf 
 
 **What is there now.** Bare, level soil is the cheapest starting point. An existing lawn has to be removed and treated. Paving, concrete or builders' rubble has to be broken up and carted away.
 
-**Soil condition.** Much of Melbourne's west and north sits on heavy clay. If the soil is thin, compacted or waterlogged, imported topsoil and soil conditioners are part of the job.
+**Soil condition.** Many Melbourne blocks, including much of the west, sit on heavy clay. If the soil is thin, compacted or waterlogged, imported topsoil and soil conditioners become part of the job.
 
 **Access.** If a small machine can get into the yard, soil and spoil move quickly. If everything has to go through the house or a narrow side gate by wheelbarrow, the labour goes up.
 
@@ -69,9 +69,9 @@ If a quote is noticeably cheaper, check which of these has been left out. [Turf 
 
 A small front lawn still needs a site visit, a turf delivery, a soil delivery, the same tools and the same tip run as a big one. Those fixed costs are spread over fewer square metres, so the rate per metre is higher even though the total is lower. That is normal, and it is why a quote for a courtyard lawn will not match a per metre figure quoted for a large backyard.
 
-## What a turf quote usually excludes
+## What to check is included
 
-Unless they are listed, these are separate jobs: irrigation installation or sprinkler repairs, retaining walls or new edging, fence or paving repairs, removing trees or stumps, and ongoing mowing. Ask for them to be quoted at the same time if you want them done together.
+Irrigation installation or sprinkler repairs, retaining walls or new edging, fence or paving repairs, removing trees or stumps, and ongoing mowing are often quoted as separate jobs. Ask whether they are in the price, and ask for them to be quoted at the same time if you want them done together.
 
 ## Repair or replace?
 

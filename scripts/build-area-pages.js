@@ -204,7 +204,7 @@ ${CHROME.HEADER}
             <strong>Draft — not published.</strong> This page is marked noindex, is not linked from the site and is not in the sitemap. It goes live by setting <code>published: true</code> in <code>scripts/areas-data.js</code>, which the build allows only once a confirmed local project is listed and every editorial note below has been replaced with verified facts.
           </p>`}
           <div class="prose">
-            <p class="lead">${esc(a.name)} is one of the ${esc(a.region)} suburbs in our <a href="/#areas">service area</a>. Sebastian and the team build complete landscapes and lay natural and synthetic turf for homes here, with the same free on-site quote and clear fixed price as everywhere we work.</p>
+            <p class="lead">${esc(a.name)} is one of the ${esc(a.region)} suburbs in our <a href="/#areas">service area</a>. Sebastian and the team build complete landscapes and lay natural and synthetic turf for homes across ${esc(a.region)}, including ${esc(a.name)}, with the same free on-site quote and clear fixed price as everywhere they work.</p>
             <h2>What we do in ${esc(a.name)}</h2>
           </div>
           <div class="sp-projects">${PRIORITY.map(([slug, image, label, blurb]) => {

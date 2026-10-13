@@ -49,6 +49,12 @@
 .pj-gallery figure { margin: 0; border-radius: var(--r-md); overflow: hidden; background: var(--sage-100); }
 .pj-gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .4s ease; }
 .pj-gallery figure:hover img { transform: scale(1.03); }
+/* visible captions: the same wording as the alt text, so each photo says what work it shows */
+.pj-gallery figcaption, .pj-sequence figcaption { padding: .55rem .85rem .75rem; font-size: .85rem; line-height: 1.45; color: var(--muted); }
+.pj-sequence { display: grid; gap: .8rem; grid-template-columns: 1fr; margin-bottom: 1.6rem; }
+.pj-sequence figure { margin: 0; border-radius: var(--r-md); overflow: hidden; background: var(--sage-100); }
+.pj-sequence img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.pj-sequence figcaption strong { color: var(--forest-900); display: block; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; margin-bottom: .15rem; }
 .pj-pagenav {
   display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
   margin-top: 2rem; padding-top: 1.4rem; border-top: 1px solid var(--line);
@@ -74,6 +80,7 @@
 @media (min-width: 560px) {
   .pj-grid { grid-template-columns: repeat(2, 1fr); }
   .pj-gallery { grid-template-columns: repeat(2, 1fr); }
+  .pj-sequence { grid-template-columns: repeat(3, 1fr); }
 }
 @media (min-width: 1020px) {
   .pj-grid { grid-template-columns: repeat(3, 1fr); }

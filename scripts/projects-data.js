@@ -28,10 +28,23 @@ module.exports = [
     approach: "The sleeper wall went in first to give the garden a clean, level frame, with galvanised posts set for long-term strength. Fresh topsoil brought the bed up to level before the turf was laid and rolled, and a white pebble border with seasonal flowers finished the front edge. The owner's established magnolia was kept and worked into the new lawn.",
     outcome: "A sharp, level front garden that lifts the whole street presence of the home — with a lawn the owners can actually use and a planter edge that will hold its line for years.",
     completed: "July 2026",
+    /* Snapshot facts: only what the summary, scope and photos already show. */
+    facts: [
+      ["Duration", "Under two weeks"],
+      ["Kept", "The established magnolia"],
+      ["Materials", "Treated-pine sleepers, galvanised steel posts, topsoil, instant turf, white pebbles, seasonal flowers"],
+    ],
+    /* Three stages of the same frontage, captioned with what each photo shows. */
+    sequence: [
+      { label: "Before", img: "proj-planter-before-1", alt: "A bare, weed-covered mound between the driveway and the footpath of the new build, with patchy soil and no defined edge" },
+      { label: "During", img: "proj-planter-progress-2", alt: "The treated-pine sleeper wall built around the retained magnolia and filled with topsoil, with the service pipe standing clear" },
+      { label: "After", img: "proj-planter-after-1", alt: "The finished raised planter: level instant turf, a white pebble border and seasonal flowers in front of the home" },
+    ],
     hero: "proj-planter-after-1",
     gallery: [
       { img: "proj-planter-before-1", alt: "Before: weed-covered mound and patchy soil in the front garden of a new build" },
-      { img: "proj-planter-before-2", alt: "Before: neglected garden bed with exposed irrigation line beside the driveway" },
+      // the letterbox number in this photo is pixelated in the web export (new filename so cached copies of the unblurred one are not reused)
+      { img: "proj-planter-before-2b", alt: "Before: neglected garden bed with exposed irrigation line beside the driveway" },
       { img: "proj-planter-progress-1", alt: "During construction: treated-pine sleeper planter wall with fresh topsoil, ready for turf" },
       { img: "proj-planter-progress-2", alt: "During construction: sleeper wall built around the retained magnolia tree" },
       { img: "proj-planter-after-1", alt: "After: finished raised planter with fresh instant turf, white pebble border and seasonal flowers" },
@@ -40,8 +53,9 @@ module.exports = [
     before: { img: "proj-planter-before-1", alt: "Before: weed-covered mound in front of the house" },
     after: { img: "proj-planter-after-1", alt: "After: raised sleeper planter with fresh turf, pebbles and flowers" },
     relatedServices: [
+      ["/services/complete-landscape-transformations", "Complete Landscape Transformations"],
       ["/services/retaining-walls", "Retaining Walls"],
-      ["/services/turf-installation", "Turf Installation"],
+      ["/services/natural-turf-installation", "Natural Turf"],
       ["/services/garden-planting", "Garden Planting"],
     ],
   },
@@ -234,6 +248,16 @@ module.exports = [
     approach: "The ground was cleared, raked and levelled before any turf arrived, because natural turf creates an immediate, living lawn but its long-term success depends on proper ground preparation and early care. A level, well-prepared soil base helps the turf maintain even contact with the ground and establish healthy roots. The slabs were then laid tight against one another and cut in around the existing picket and paling fences, so the seams close up as the lawn knits together.",
     outcome: "An even, clean lawn across the whole frontage, running right up to the fence lines with no gaps or bare edges. Once installed, the lawn needs consistent watering and limited foot traffic while it settles — the sprinkler was already running the next morning.",
     completed: "June 2026",
+    facts: [
+      ["Site", "Front garden between the house, a paling fence and the picket street fence"],
+      ["Materials", "Natural turf on raked and levelled soil"],
+      ["Aftercare", "Watered in on the day; the sprinkler was running the next morning"],
+    ],
+    sequence: [
+      { label: "Before", img: "proj-naturalturf-before", alt: "Bare, uneven soil across the front garden with timber offcuts and broken pavers left on it" },
+      { label: "During", img: "proj-naturalturf-progress-1", alt: "Turf slabs laid up to the edge of the raked and levelled soil, butted tightly together" },
+      { label: "After", img: "proj-naturalturf-after", alt: "An even natural lawn covering the whole front garden up to the picket fence, with the sprinkler set up" },
+    ],
     hero: "proj-naturalturf-after",
     gallery: [
       { img: "proj-naturalturf-before", alt: "Before: the front garden stripped back to bare, uneven soil with timber offcuts left across it" },

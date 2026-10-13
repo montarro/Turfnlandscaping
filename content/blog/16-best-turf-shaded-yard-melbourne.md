@@ -27,7 +27,7 @@ Shade is not one thing. Before you choose a turf, work out what kind you have:
 
 - **Shade from buildings and fences** moves through the day and is deeper in winter when the sun is lower. A lawn on the south side of a two-storey house or a tall wall can be in full sun in January and full shade in July.
 - **Shade from trees** is lighter and dappled, but trees also take water and nutrients from the soil under them, and their roots compete with the grass.
-- **All-day shade** between a house and a boundary fence, or under a dense evergreen canopy, is where most lawns give up.
+- **All-day shade** between a house and a boundary fence, or under a dense evergreen canopy, is where a lawn is least likely to succeed.
 
 Take a photo of the area at mid-morning, midday and mid-afternoon on a sunny day, and if you can, do the same in winter. Count the hours of direct sun. That number is what you need when you talk to a turf grower, or to us.
 
@@ -43,11 +43,11 @@ Treat these as each variety's best case on a well-prepared site, not a promise. 
 
 Our [natural turf installation](/services/natural-turf-installation) page lists the four types we supply. In shade terms:
 
-**Soft-leaf buffalo** is the usual answer for a Melbourne yard with part shade: a wide leaf that makes the most of limited light, good wear tolerance and a plush feel. It is the family-lawn default for a reason.
+**Soft-leaf buffalo** is the type both sources above point to for part shade: a wide leaf that makes the most of limited light, good wear tolerance and a plush feel.
 
-**Couch** is fine-leafed, hard-wearing and quick to recover in full sun, and it is the wrong choice for shade. It thins out and lets weeds in where it does not get its five to six hours.
+**Couch** is fine-leafed, hard-wearing and quick to recover in full sun, and it is a poor choice for shade. It thins out where it does not get its five to six hours, and thin turf lets weeds in.
 
-**Kikuyu** is vigorous and quick to repair itself, but like couch it wants sun. In shade it goes thin and leggy.
+**Kikuyu** is vigorous and quick to repair itself, but like couch it wants sun. In shade it thins out as well.
 
 **Tall fescue** is a cool-season grass that holds its colour through winter and copes with shade better than the warm-season types. The trade-off is that it does not repair itself from runners, so worn patches have to be over-sown, and it needs more water through a Melbourne summer.
 
@@ -57,7 +57,7 @@ The right choice depends on how the shaded area is used as much as how dark it i
 
 Three things make shade worse:
 
-- **Foot traffic.** Grass in low light grows slowly, so it cannot repair wear. The path the dog takes to the back fence, or the route from the back door to the clothesline, goes bare first.
+- **Foot traffic.** Grass in low light grows slowly, so it repairs wear slowly. The path the dog takes to the back fence, or the route from the back door to the clothesline, goes bare first.
 - **Moisture.** Shaded ground dries slowly. Watering a shaded lawn on the same schedule as a sunny one keeps it wet, and wet shaded turf is where fungal problems start. Both of the sources above recommend watering shaded areas less often and more deeply.
 - **Tree roots.** Under an established tree the grass is competing for water and nutrients, and the roots make it hard to prepare the soil properly without damaging the tree.
 
@@ -68,7 +68,7 @@ Mowing matters too. In shade, leave the grass longer so each blade has more surf
 If an area gets under three hours of sun, stays damp, and carries daily foot traffic, a lawn is likely to disappoint no matter which variety you choose. Options that work in those spots:
 
 - A stepping-stone or paved path where the traffic actually goes, with lawn either side of it.
-- Shade-tolerant ground covers or a mulched bed under the tree, which is also better for the tree.
+- Shade-tolerant ground covers or a mulched bed under the tree, which is often better for the tree as well.
 - [Synthetic turf](/services/synthetic-turf-installation) for a narrow, heavily used strip, with the pros and cons in our [natural versus synthetic comparison](/blog/natural-vs-synthetic-turf-melbourne).
 - A mixed layout: natural lawn in the sunny part of the yard and a different surface in the dark corner. [Garden design](/services/garden-design) is often just this decision made deliberately.
 

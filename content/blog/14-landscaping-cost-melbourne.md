@@ -43,7 +43,7 @@ Both are front garden landscaping. They are not in the same price bracket, and a
 
 ## Where the money goes, stage by stage
 
-**Preparation and removal.** Old lawn, concrete, pavers, stumps and builders' rubble have to be broken up, loaded and tipped. On a construction job this is often the first big line item, and it is the one most likely to be underestimated in a cheap quote.
+**Preparation and removal.** Old lawn, concrete, pavers, stumps and builders' rubble have to be broken up, loaded and tipped. On a construction job this is often a large line item, and it is easy to underestimate in a cheap quote.
 
 **Levels, retaining and drainage.** A sloping or uneven block needs cut and fill, a wall or terracing before it can take a lawn or paving. The wall type matters, timber and concrete sleepers are priced differently, and every wall needs drainage behind it. Our guide on [whether your yard needs a retaining wall](/blog/does-yard-need-retaining-wall-melbourne) covers the signs.
 
@@ -51,7 +51,7 @@ Both are front garden landscaping. They are not in the same price bracket, and a
 
 **Turf.** Natural turf is priced on the ground under it: removal, soil, levelling and drainage, then the turf. Our separate guide to [natural turf installation costs](/blog/natural-turf-installation-cost-melbourne) goes into the detail.
 
-**Beds, planting and mulch.** Plant size is the biggest variable. Advanced plants give an instant result and cost many times more than tubestock that will catch up in a couple of seasons. Soil improvement and mulch are a smaller, steady cost.
+**Beds, planting and mulch.** Plant size is a big variable. Advanced plants give an instant result and cost considerably more than tubestock, which takes a few seasons to catch up. Soil improvement and mulch are usually a smaller part of the bill.
 
 **Access.** Whether a machine can get into the yard, or everything moves by wheelbarrow through a side gate, changes the labour on every one of the stages above.
 
@@ -64,7 +64,7 @@ If any part of the design needs a building permit, that is a cost and a lead tim
 ## How to compare quotes properly
 
 1. Make sure every quote is for the same scope, item by item. If one includes removal and disposal and another does not, they are not comparable.
-2. Check the preparation. Soil depth, base depth under paving, drainage behind walls: the cheapest quote usually saves money here, and it shows later.
+2. Check the preparation. Soil depth, base depth under paving, drainage behind walls: if one quote is much cheaper, this is often where the difference is, and it shows later.
 3. Ask what the materials are: the sleeper type, the paver, the turf variety, the plant sizes.
 4. Confirm who is doing what. If parts of the job are done by other trades, ask who coordinates them and who is responsible for the finished result.
 5. Ask about staging. Structural work now and planting later can spread the cost, as long as each stage is built to suit the next, which is the approach in our [planning guide](/blog/how-to-plan-complete-landscaping-project).

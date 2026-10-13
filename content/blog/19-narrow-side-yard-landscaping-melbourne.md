@@ -19,7 +19,7 @@ status: "DRAFT (brief 7) — the side-yard example is a genuine Bastiano job (be
 
 # How to make a narrow side yard useful
 
-The strip down the side of the house is usually the last part of a block anyone thinks about, and the first to turn into a corridor of bins, weeds and mud. It is also the route everything takes to the backyard: people, dogs, wheelbarrows, the mower and, during any landscaping, the materials. Getting it right is mostly about deciding what has to pass through it, then choosing a surface and planting that can cope. This guide covers those decisions and the site checks to make before you change anything.
+The strip down the side of the house is often the last part of a block anyone thinks about, and the first to turn into a corridor of bins, weeds and mud. It is also the route everything takes to the backyard: people, dogs, wheelbarrows, the mower and, during any landscaping, the materials. Getting it right is mostly about deciding what has to pass through it, then choosing a surface and planting that can cope. This guide covers those decisions and the site checks to make before you change anything.
 
 ## Decide what has to pass through
 
@@ -45,17 +45,17 @@ Before changing levels or laying a new surface, look at where water goes in heav
 
 **Lawn** in a side yard works where the strip gets some sun and is not the main traffic route. A narrow strip in full shade with the dog running up and down it will not stay a lawn. Where there is enough light, natural turf gives a side yard the same green as the backyard, which is what the job at the top of this article shows.
 
-**Synthetic turf** is the usual answer for a dark, narrow, heavily used strip. It needs the same drainage thought as anything else, and it gets hot in direct sun.
+**Synthetic turf** is a common answer for a dark, narrow, heavily used strip. It needs the same drainage thought as anything else, and it gets hot in direct sun.
 
 ## Planting for a narrow space
 
-Side yards are usually shaded on one side by the house and on the other by the fence, with a band of sun that moves across through the day. Choose plants by their mature width, not their size in the pot. A shrub that grows to a metre and a half wide will close a narrow path within a couple of seasons. Narrow, upright plants along the fence, climbers on a trellis, or a raised sleeper bed along one side keep the walkway clear and the green up at eye level. Our [plants, garden beds and mulch](/services/plants-garden-beds-mulch) page covers the planting side.
+Side yards are often shaded on one side by the house and on the other by the fence, with a band of sun that moves across through the day. Choose plants by their mature width, not their size in the pot. A shrub that grows to a metre and a half wide can close a narrow path within a few seasons. Narrow, upright plants along the fence, climbers on a trellis, or a raised sleeper bed along one side keep the walkway clear and the green up at eye level. Our [plants, garden beds and mulch](/services/plants-garden-beds-mulch) page covers the planting side.
 
-A raised bed along the fence also solves another side-yard problem: it lifts the planting above the compacted, rubble-filled ground that most side strips have, and it gives the lawn or path a clean edge.
+A raised bed along the fence also solves another side-yard problem: it lifts the planting above the compacted, rubble-filled ground that many side strips have, and it gives the lawn or path a clean edge.
 
 ## A real side yard: turf and a raised bed
 
-The side yard at the top of this article had been bare, mounded soil beside a timber-edged raised bed along the fence. It was levelled and laid with natural turf between the raised sleeper bed on the fence side and the house on the other, with the bin bay on the house side kept clear.
+The side yard at the top of this article had been bare, mounded soil beside a timber-edged raised bed along the fence. It was levelled and laid with natural turf between the raised sleeper bed on the fence side and the house on the other, leaving the gravel strip and the bin on the house side clear.
 
 [[EDITORIAL: Sebastian to supply the measured width of this side yard, what had to pass through it (bins, mower, dog), how materials were brought in, and the turf variety. No measurements are to be shown until he confirms them. If a layout diagram is added, label it as illustrative.]]
 

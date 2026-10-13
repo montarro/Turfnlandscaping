@@ -19,14 +19,14 @@ status: "DRAFT (brief 6) — permit triggers sourced from the BPC landscaping pa
 
 # Timber or concrete sleepers for a retaining wall?
 
-If you already know your yard needs a retaining wall, the next decision is what to build it from. Timber and concrete sleepers are the two most common choices for residential walls in Melbourne. They go together in much the same way, and they suit different sites and different budgets. This guide compares them on the things that matter in practice: how they look, how they are built, what they need from the site, and how they age. If you are not yet sure a wall is needed at all, start with our guide on [whether your yard needs a retaining wall](/blog/does-yard-need-retaining-wall-melbourne).
+If you already know your yard needs a retaining wall, the next decision is what to build it from. Timber and concrete sleepers are two of the most common choices for residential walls in Melbourne. They go together in much the same way, and they suit different sites and different budgets. This guide compares them on the things that matter in practice: how they look, how they are built, what they need from the site, and how they age. If you are not yet sure a wall is needed at all, start with our guide on [whether your yard needs a retaining wall](/blog/does-yard-need-retaining-wall-melbourne).
 
 ## What is decided before the material
 
 The material is not the first decision. These come first, and they shape what the wall can be:
 
 - **Height and what it holds back.** A wall holding a level lawn is a different structure from one holding a driveway cut or a neighbour's ground.
-- **Drainage.** Water behind a wall is what pushes walls over. Every wall needs a drainage layer and an outlet, whatever it is made of.
+- **Drainage.** Water building up behind a wall is a common reason walls lean. Every wall needs drainage and an outlet, whatever it is made of.
 - **Footings and posts.** The posts take the load. Their depth, spacing and the concrete around them are set by the height and the ground, not by the sleeper material.
 - **Boundaries and permits.** Under the Victorian rules a retaining wall 1 metre or higher, or one on or near a boundary where a neighbouring property could be damaged, needs a building permit. Smaller walls may not, but the [Building and Plumbing Commission](https://www.bpc.vic.gov.au/home-owners/home-renovation-and-building-essentials/landscaping) says to confirm with your council. Retaining structures also count as domestic building work, so a job over $10,000 that includes one needs a registered building practitioner and a major domestic building contract.
 
@@ -50,11 +50,11 @@ Concrete sleepers are precast, reinforced panels, again set between galvanised s
 
 **Appearance.** Concrete reads as solid and modern. Smooth panels suit contemporary homes; the textured finishes imitate stone or timber and are worth seeing in person before you commit.
 
-**Handling and access.** Concrete sleepers are heavy. They are usually delivered by crane truck and need either machine access or a lot of labour to move. On a front garden within reach of the street that is straightforward; down a narrow side path it is not.
+**Handling and access.** Concrete sleepers are heavy. They are often delivered by crane truck and need either machine access or a lot of labour to move. On a front garden within reach of the street that is straightforward; down a narrow side path it is not.
 
 **Maintenance and ageing.** Concrete does not rot or need staining. It can stain from soil and water over time, and a cracked panel is harder to replace than a timber one, but the day-to-day upkeep is close to nothing.
 
-**Cost drivers.** The sleepers cost more, the posts are usually heavier, and the delivery and handling add to the labour. The gap closes on taller walls, where concrete's strength per panel starts to pay for itself.
+**Cost drivers.** The sleepers generally cost more, the posts are often heavier, and the delivery and handling add to the labour. The gap can narrow on taller walls.
 
 ## Side by side
 
@@ -64,7 +64,7 @@ Concrete sleepers are precast, reinforced panels, again set between galvanised s
 | Weight and access | Light, carried by hand, cut on site | Heavy, crane or machine access preferred |
 | Upkeep | Re-stain for colour; timber weathers | Little; may stain over time |
 | Ageing | Depends on treatment, drainage and site | Does not rot |
-| Typical price | Lower material and labour | Higher material and handling |
+| Typical price | Generally lower material and labour | Generally higher material and handling |
 | Best suited to | Garden beds, planters, terraces, tight access | Taller walls, driveways, modern frontages |
 
 [[EDITORIAL: Sebastian to confirm whether Bastiano builds concrete sleeper walls, which supplier and finishes are used, and whether a completed concrete example with photos exists. The service page lists both materials; the examples below are timber only until a concrete job can be shown.]]

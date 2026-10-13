@@ -49,7 +49,7 @@ The [instant turf and feature planter with garden lighting](/projects/garden-lig
 
 Not every frontage needs rebuilding. The [front garden bed refresh](/projects/front-garden-bed-refresh) dealt with one tired pebble bed beside the driveway: the ageing pebbles and untidy growth were cleared, the bed reshaped with curved edging, a white pebble feature laid through dark mulch, and compact shrubs and seasonal plants added around the existing tree, with access to the services kept.
 
-**Why it works.** The entrance is what visitors see first. A defined bed with contrast and tidy edges changes the impression of the whole house for a fraction of the cost of a full rebuild.
+**Why it works.** The entrance is what visitors see first. A defined bed with contrast and tidy edges changes the impression of the whole house with far less work than a full rebuild.
 
 **Upkeep.** Minimal: mulch top-ups and occasional pruning. Our guide to [choosing plants and mulch](/blog/choose-plants-and-mulch-melbourne-garden) covers what to put in a bed like this.
 
@@ -57,7 +57,7 @@ Not every frontage needs rebuilding. The [front garden bed refresh](/projects/fr
 
 The [synthetic turf front lawn](/projects/synthetic-turf-front-lawn) replaced the old surface with a compacted, drained base and dense synthetic turf, finished with timber edging and a river-pebble border against the existing established garden.
 
-**Why it works.** For owners who want a green frontage without weekend mowing or summer watering, and whose front lawn is small enough that the base work is affordable, synthetic turf gives a lawn that looks the same every day of the year.
+**Why it works.** For owners who want a green frontage without weekend mowing or summer watering, and who have weighed up the base work the installation needs, synthetic turf gives a lawn that looks much the same every day of the year.
 
 **Upkeep.** Leaves removed, pile brushed up now and then, edges kept clear of garden growth. Whether it suits your frontage depends on sun, use and how you feel about a surface that is not alive, which our [natural versus synthetic comparison](/blog/natural-vs-synthetic-turf-melbourne) goes through.
 

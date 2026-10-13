@@ -212,6 +212,8 @@ function detailPage(p, prev, next) {
   // photos this page already loads full-size (hero, sliders): the gallery
   // reuses that cached file instead of fetching an 800px copy as well
   const fullSize = new Set([p.hero, ...comparisons.flatMap((c) => [c.before.img, c.after.img])]);
+  // the sequence strip loads its own 800px copies; a photo shown there at full
+  // size (hero or slider) is reused rather than fetched twice
   /* Guides written about this kind of work. Only published articles are
      linked; a slug that is still a draft is skipped until it goes live, and
      a slug that does not exist at all is a typo and fails the build. */
@@ -263,9 +265,14 @@ ${HEADER}
             <p>${p.outcome}</p>
           </div>
 
+          ${(p.sequence || []).length ? `<h2 class="pj-h2">Before, during and after</h2>
+          <div class="pj-sequence">
+            ${p.sequence.map((s) => `<figure><img src="${img(s.img)}"${fullSize.has(s.img) ? "" : CHROME.cardSrcset(img(s.img), "(min-width: 700px) 300px, 92vw")} alt="${s.alt}" loading="lazy" width="1200" height="900" /><figcaption><strong>${s.label}</strong> ${s.alt}</figcaption></figure>`).join("\n            ")}
+          </div>` : ""}
+
           <h2 class="pj-h2">Project gallery</h2>
           <div class="pj-gallery">
-            ${p.gallery.map((g) => `<figure><img src="${img(g.img)}"${fullSize.has(g.img) ? "" : CHROME.cardSrcset(img(g.img), "(min-width: 700px) 380px, 92vw")} alt="${g.alt}" loading="lazy" width="1200" height="900" /></figure>`).join("\n            ")}
+            ${p.gallery.map((g) => `<figure><img src="${img(g.img)}"${fullSize.has(g.img) ? "" : CHROME.cardSrcset(img(g.img), "(min-width: 700px) 380px, 92vw")} alt="${g.alt}" loading="lazy" width="1200" height="900" /><figcaption>${g.alt}</figcaption></figure>`).join("\n            ")}
           </div>
           ${guides.length ? `
           <h2 class="pj-h2">Related guides</h2>
@@ -283,6 +290,7 @@ ${HEADER}
             <ul class="pj-facts">
               <li><span>Services</span><strong>${p.categories.join(", ")}</strong></li>
               ${p.completed ? `<li><span>Completed</span><strong>${p.completed}</strong></li>` : ""}
+              ${(p.facts || []).map(([k, v]) => `<li><span>${k}</span><strong>${v}</strong></li>`).join("\n              ")}
             </ul>
           </div>
           <div class="sp-side__card">

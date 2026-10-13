@@ -962,7 +962,7 @@ module.exports = {
       ],
       process: [
         "On-site visit to measure and talk through what you want to keep and what has to change",
-        "One written quote with the inclusions and exclusions spelt out, staged if that suits your budget",
+        "One written quote covering the whole scope, staged if that suits your budget",
         "Demolition, clearing and disposal",
         "Structure first: retaining walls, edges, levels and drainage",
         "Surfaces next: paths, paving and stepping stones",
@@ -974,7 +974,7 @@ module.exports = {
         ["How much comes out", "Old lawn, concrete, pavers, stumps and rubble all have to be broken up, loaded and tipped before anything new goes in."],
         ["Levels and retaining", "A block that needs walls, cut and fill or terracing before it is usable costs more than a flat one, and the wall type matters."],
         ["Access", "Whether a machine can get into the yard or everything travels by wheelbarrow changes the labour on every stage."],
-        ["Materials and choices", "Sleeper type, paver, turf variety, plant sizes and mulch each have their own price. We quote the options so you can see the difference."],
+        ["Materials and choices", "Sleeper type, paver, turf variety, plant sizes and mulch each have their own price. Ask for the options to be quoted so you can see the difference."],
         ["Soil and drainage", "Heavy clay, builders' fill and wet spots need imported soil, gypsum or drainage before turf and plants will perform."],
         ["Staging", "Doing the structural work now and the planting later can spread the cost, as long as each stage is built to suit the next."],
       ],
