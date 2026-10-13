@@ -19,7 +19,7 @@ status: "DRAFT (brief 4) — sun-hour figures sourced from Lawn Solutions Austra
 
 # Which turf suits a shaded Melbourne yard?
 
-Shade is the most common reason a lawn in Melbourne struggles, and the most common reason a new one fails in the same spot the old one did. The fix is not always a different variety. Sometimes it is a different mowing height, sometimes it is pruning, and sometimes the honest answer is that grass is the wrong surface for that patch. This guide explains how to read the light in your yard, which types of turf cope best, and when to stop fighting it.
+Replacing a struggling lawn without checking the light can leave the new turf with the same problem. The fix is not always a different variety. Sometimes it is a different mowing height, sometimes it is pruning, and sometimes grass is the wrong surface for that patch. This guide explains how to read the light in your yard, compare turf options, and decide whether another surface would suit it better.
 
 ## Start by watching the light
 

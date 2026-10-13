@@ -39,7 +39,7 @@ Before changing levels or laying a new surface, look at where water goes in heav
 
 ## Continuous surface or spaced path?
 
-**A continuous surface**, paving or compacted gravel, suits a side yard that carries bins, barrows and regular foot traffic. It is level, it drains predictably when it is built with a fall, and nothing grows through it. The trade-offs are cost, and the fact that a fully paved strip can look like a corridor.
+**A continuous surface**, such as paving or compacted gravel, is worth considering for bins, barrows and regular foot traffic. Compare how easily your equipment rolls over each finish, how the surface will drain, and what upkeep it needs. Allow for weeding and cleaning rather than assuming a hard surface needs no maintenance. A fully paved strip can also look like a corridor.
 
 **A spaced path**, stepping stones through pebbles, turf or ground cover, suits a side yard that is mainly walked, where you want some green, and where the budget is tighter. Stones through pebbles still drain well and still take a wheelbarrow if the stones are set level and close enough together. Our guide to [pavers versus stepping stones](/blog/pavers-vs-stepping-stones-garden-path) compares the two in more detail, and our [stepping-stone paths](/services/stepping-stone-paths) and [paving](/services/paving) pages cover how each is built.
 

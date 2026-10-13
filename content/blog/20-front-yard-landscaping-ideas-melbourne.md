@@ -27,7 +27,7 @@ Before choosing plants or materials, answer three questions:
 
 1. **Where do people walk?** From the driveway, from the footpath, from the letterbox. The path should follow that line, not a decorative curve nobody uses.
 2. **What should the street see?** The house, usually. Planting that will grow to hide the front windows, or a wall that cuts the house off from the street, rarely improves the look.
-3. **How much time will you give it?** A lawn needs mowing and watering. A mulched bed with the right plants needs an hour or two a season. Be honest about this, because it decides most of the layout.
+3. **How much time will you give it?** Compare the tasks each layout needs: mowing and watering for lawn, or watering, weeding, pruning and mulch top-ups for planted beds. The time involved depends on the size, plants, season and stage of establishment. Choose a layout whose upkeep fits your routine.
 
 ## Idea 1: give a new build a frame
 

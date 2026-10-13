@@ -135,7 +135,8 @@
     tracked.start = true;
     track("quote_start");
   }
-  /* quote_step_complete: a step validated and left, once per step per flow. */
+  /* quote_step_complete: successful step validation, once per step per flow.
+     Step 3 completes before submission; generate_lead requires server success. */
   function trackStep(n) {
     if (tracked.steps[n]) return;
     tracked.steps[n] = true;
@@ -592,6 +593,7 @@
     saveStep3();
     var bad = validateStep3();
     if (bad) { setError(bad); trackError("validation", 3); return; }
+    trackStep(3);
 
     if (!WEBHOOK_URL) {
       setError("Thanks! Our online form isn't connected yet — please call us on " + PHONE_DISPLAY + " and we'll book your free on-site quote straight away. Your answers are kept on this page.");

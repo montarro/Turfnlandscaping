@@ -71,7 +71,7 @@ Concrete sleepers are precast, reinforced panels, again set between galvanised s
 
 ## Drainage is part of the wall, not an extra
 
-Whichever sleeper you choose, the wall is a system: posts in concrete footings, the sleepers, a drainage layer of aggregate behind them with a slotted agricultural pipe at the base running to an outlet, and backfill on top of that. Leaving the drainage out to save money is the most common reason retaining walls lean and fail, and it is invisible until it goes wrong. Our [retaining walls](/services/retaining-walls) page explains how we build them.
+Whichever sleeper you choose, ask how the wall's posts, footings, drainage, outlet and backfill will be designed for your site. Include those details when comparing quotes, rather than comparing the sleepers alone. Our [retaining walls](/services/retaining-walls) page explains the work involved.
 
 ## Two timber walls we built
 

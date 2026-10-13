@@ -93,8 +93,8 @@ async function fillContact(page, { consent = true } = {}) {
       await page.waitForSelector(".qdone", { timeout: 10000 });
       const ev = await events(page);
       ok(count(ev, "quote_start") === 1, "quote_start fired once");
-      ok(count(ev, "quote_step_complete") === 2, "quote_step_complete fired for steps 1 and 2");
-      ok(ev.filter((e) => e.name === "quote_step_complete").map((e) => e.data.step).join(",") === "1,2", "step numbers are 1 then 2");
+      ok(count(ev, "quote_step_complete") === 3, "quote_step_complete fired for all three steps");
+      ok(ev.filter((e) => e.name === "quote_step_complete").map((e) => e.data.step).join(",") === "1,2,3", "step numbers are 1, 2, then 3");
       ok(count(ev, "generate_lead") === 1, "generate_lead fired exactly once");
       ok(count(ev, "quote_error") === 0, "no quote_error on the happy path");
       ok(state.posts.length === 1, "exactly one request reached the worker");
@@ -120,7 +120,13 @@ async function fillContact(page, { consent = true } = {}) {
       await sleep(300);
       ev = await events(page);
       ok(ev.some((e) => e.name === "quote_error" && e.data.category === "validation" && e.data.step === 3), "step 3 validation error recorded as {validation, 3}");
+      ok(!ev.some((e) => e.name === "quote_step_complete" && e.data.step === 3), "no step 3 completion without consent");
       ok(count(ev, "generate_lead") === 0 && state.posts.length === 0, "no lead event and no request without consent");
+      await click(page, "#qf-consent");
+      await click(page, "[data-submit]");
+      await page.waitForSelector(".qdone", { timeout: 10000 });
+      ev = await events(page);
+      ok(ev.filter((e) => e.name === "quote_step_complete" && e.data.step === 3).length === 1, "correcting consent records step 3 once");
       await context.close();
     }
     // ---- 3. a rejected submission (4xx), then a successful retry
@@ -134,12 +140,14 @@ async function fillContact(page, { consent = true } = {}) {
       let ev = await events(page);
       ok(ev.some((e) => e.name === "quote_error" && e.data.category === "rejected" && e.data.step === 3), "4xx recorded as {rejected, 3}");
       ok(count(ev, "generate_lead") === 0, "no lead on a rejected submission");
+      ok(ev.filter((e) => e.name === "quote_step_complete" && e.data.step === 3).length === 1, "step 3 validation recorded even when the server rejects the request");
       ok(await page.$eval(".qerror", (e) => e.textContent.includes("mobile number")), "worker message shown to the visitor");
       state.worker = { status: 200, body: { ok: true } };
       await click(page, "[data-submit]");
       await page.waitForSelector(".qdone", { timeout: 10000 });
       ev = await events(page);
       ok(count(ev, "generate_lead") === 1, "retry produces exactly one lead");
+      ok(ev.filter((e) => e.name === "quote_step_complete" && e.data.step === 3).length === 1, "retry does not repeat step 3 completion");
       ok(state.posts.length === 2, "two requests in total (one rejected, one accepted)");
       await context.close();
     }
@@ -154,6 +162,7 @@ async function fillContact(page, { consent = true } = {}) {
       const ev = await events(page);
       ok(ev.some((e) => e.name === "quote_error" && e.data.category === category), label + " recorded as {" + category + "}");
       ok(count(ev, "generate_lead") === 0, "no lead on " + label + " failure");
+      ok(ev.filter((e) => e.name === "quote_step_complete" && e.data.step === 3).length === 1, "step 3 validation recorded before " + label + " failure");
       ok(await page.$eval("[data-submit]", (b) => !b.disabled), "submit button re-enabled for a retry");
       await context.close();
     }
@@ -169,6 +178,7 @@ async function fillContact(page, { consent = true } = {}) {
       const ev = await events(page);
       ok(state.posts.length === 1, "three clicks, one request");
       ok(count(ev, "generate_lead") === 1, "three clicks, one lead event");
+      ok(ev.filter((e) => e.name === "quote_step_complete" && e.data.step === 3).length === 1, "three clicks, one step 3 completion");
       await context.close();
     }
     // ---- 6. analytics absent or broken: the form still works

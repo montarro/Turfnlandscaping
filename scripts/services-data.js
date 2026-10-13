@@ -116,7 +116,7 @@ module.exports = {
       costFactors: [
         ["Area and shape", "Turf is bought by the square metre, and a lawn with curves, narrow strips or lots of edges takes more cutting and more waste than a plain rectangle of the same size."],
         ["What is there now", "Bare, level soil is the cheapest start. An old lawn, weeds, builders' rubble or compacted ground has to be removed, treated and carted away first."],
-        ["Soil and levelling", "If the existing soil is thin or heavy clay, imported topsoil, gypsum and proper falls are part of the job, not an extra."],
+        ["Soil and levelling", "The condition of the existing soil and the levels affect the preparation needed. Check which soil improvements and levelling work are included in your quote."],
         ["Drainage", "Soggy spots are fixed before the turf goes down. How much work that is depends on where the water is coming from."],
         ["Access", "Soil, turf and spoil move by machine where there is room and by wheelbarrow where there isn't. Hand access is slower and costs more."],
         ["Variety and season", "The growers price each variety differently, and availability changes through the year."],
@@ -989,7 +989,7 @@ module.exports = {
       ],
       projects: ["front-garden-planter-transformation", "garden-lighting-turf-planter"],
       faqs: [
-        ["Can the work be staged?", "Yes. Structural work such as walls, levels and drainage comes first, with paths, turf and planting added when you are ready. Each stage is built so the next one fits without redoing anything."],
+        ["Can the work be staged?", "Staging may suit your site and budget. Discuss the full scope at the quote stage so walls, levels and drainage can be planned alongside later paths, turf and planting. Changes to the design or site conditions may mean earlier work needs adjusting."],
         ["Does any of it need a building permit?", "Under the Victorian rules, planting, paving and driveways do not need a building permit. A retaining wall 1 metre or higher, or one on or near a boundary where a neighbouring property could be damaged, does, and so do decks with a structural subfloor and most fences. If your design includes an element like that, raise it at the quote stage so the permit is sorted before work starts."],
         ["Who coordinates the different trades?", "One team plans and builds the whole job, so the walls, levels, surfaces and lawn are sequenced by the people doing the work rather than by you."],
       ],
