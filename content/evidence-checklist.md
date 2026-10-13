@@ -35,6 +35,7 @@ Please answer in your own words. "I don't know" or "not something we do" are use
 - **D3.** The "Spring Sale: call-out fee normally $150, currently FREE" panel on every service page, alongside "free quote" wording elsewhere. Is the offer genuine, and should there be one quote policy?
 - **D4.** Point Cook: it was removed from the service area in August 2026 and has been put back in this preview on Khaled's confirmation. Please confirm you take Point Cook jobs.
 - **D5.** Which mailbox exists: info@bastianolandscaping.com.au (used on the site) or the old info@turfandlandscaping.com.au?
+- **D6.** The second "before" photo on the front garden planter project page showed the home's street number on the letterbox, readable on the live site. In this preview the number is pixelated and the photo ships under a new filename; the untouched file is kept in the repository history. Please confirm you are happy with the pixelated version, and let Khaled know of any other photos that show house numbers, number plates or people, so they can be checked before the next release.
 
 ## E. Review and process
 
