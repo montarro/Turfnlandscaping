@@ -274,7 +274,7 @@ ${FOOTER}`;
    same seven services, same order, same labels, blurbs and photos. Keep the
    two lists in sync when a card is added or removed. */
 const HOME_SERVICES = [
-  { slug: "natural-turf-installation", label: "Natural Turf", image: "svc-natural-turf", blurb: "Instant natural turf supplied and laid on properly prepared, level ground." },
+  { slug: "natural-turf-installation", label: "Natural Turf", image: "photo-school-turf-crew-laying", blurb: "Instant natural turf supplied and laid on properly prepared, level ground." },
   { slug: "synthetic-turf-installation", label: "Synthetic Turf", image: "svc-synthetic-turf", blurb: "Always-green synthetic lawns with no mowing and no watering." },
   { slug: "complete-landscape-transformations", label: "Custom Landscaping", image: "svc-custom-landscaping", blurb: "Complete yard designs built around your property, from structure to planting." },
   { slug: "paving", label: "Pavers &amp; Stepping Stones", image: "svc-pavers-stepping", blurb: "Paths and paved areas laid dead level on a proper compacted base." },
