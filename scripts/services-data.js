@@ -56,6 +56,27 @@ const BEDREFRESH_BA = {
   link: "/projects/front-garden-bed-refresh",
 };
 
+const LITPATH_BA = {
+  before: { img: "proj-litpath-before-1", alt: "Before: patchy front lawn with scattered pavers and established rose bushes in front of the house" },
+  after: { img: "proj-litpath-after-1", alt: "After: fresh turf, shaped red-mulch beds, new planting, a white-pebble stepping-stone path and a rock feature" },
+  note: "A genuine before and after from a front garden we designed and built — see the full case study on our Projects page.",
+  link: "/projects/garden-lighting-turf-planter",
+};
+
+const ENTRANCE_BA = {
+  before: { img: "proj-litpath-before-2", alt: "Before: tired lawn and an ageing river-pebble strip beside the entrance" },
+  after: { img: "proj-litpath-after-wide", alt: "After: stepping stones set in pebbles with low path lighting, white-pebble borders and red mulch" },
+  note: "A genuine before and after from our stepping-stone entrance path — see the full case study on our Projects page.",
+  link: "/projects/garden-lighting-turf-planter",
+};
+
+const SLEEPER_BA = {
+  before: { img: "proj-sleeperbed-before-1", alt: "Before: sloping corner frontage with ageing lawn, pebble beds and tired shrubs" },
+  after: { img: "proj-sleeperbed-after-1", alt: "After: a dark-stained sleeper wall with flowers, a white-pebble trim and a level new lawn" },
+  note: "A genuine before and after from our stained sleeper garden — see the full case study on our Projects page.",
+  link: "/projects/stained-sleeper-raised-garden",
+};
+
 const PLANTER_BA = {
   before: { img: P.planterBefore, alt: "Before: weed-covered mound in front of a new build" },
   after: { img: P.planterAfter, alt: "After: raised sleeper planter with fresh turf, pebbles and flowers" },
@@ -329,6 +350,7 @@ module.exports = {
         { img: P.litpath, alt: "Exposed-aggregate pads set in a lit pebble path" },
         { img: P.bannerYard, alt: "Front yard with curved paved path, retaining wall and garden beds" },
       ],
+      beforeAfter: ENTRANCE_BA,
       related: ["stepping-stone-paths", "hard-landscaping", "retaining-walls", "natural-turf-installation"],
     },
 
@@ -530,6 +552,7 @@ module.exports = {
         { img: P.bannerYard, alt: "A designed front yard: wall, path, beds and lawn resolved as one composition" },
         { img: P.hero, alt: "Completed front-garden design with stepping stones, rocks and layered planting" },
       ],
+      beforeAfter: LITPATH_BA,
       related: ["hard-landscaping", "soft-landscaping", "retaining-walls", "plants-garden-beds-mulch"],
     },
 
@@ -634,6 +657,7 @@ module.exports = {
         { img: P.litpath, alt: "Garden path lit with low-level landscape lighting at dusk" },
         { img: P.litpath2, alt: "Stepping-stone path with garden lighting and border planting" },
       ],
+      beforeAfter: SLEEPER_BA,
       related: ["garden-design", "timber-decking", "hard-landscaping", "soft-landscaping"],
     },
 
@@ -643,7 +667,7 @@ module.exports = {
       name: "Property Maintenance",
       short: "Maintenance",
       tagline: "Ongoing care that keeps a property looking the way it did the day it was finished.",
-      image: P.hero,
+      image: "photo-tidy-lawn-pebble-beds",
       intro: "Whether it's your home, a rental or a commercial site, regular maintenance protects what the landscaping cost to build. We keep lawns, gardens, hedges and surfaces presentable on a schedule that suits the property.",
       maintenance: {
         oneOff: "One-off tidy-ups suit pre-sale presentation, end-of-lease returns, or simply reclaiming a yard that's got away. We quote the catch-up as a fixed job, and you decide if ongoing care follows.",
@@ -665,8 +689,8 @@ module.exports = {
         ["Can you look after a rental between tenants?", "Yes — one-off returns to presentable condition, or a standing schedule your property manager can rely on."],
       ],
       gallery: [
-        { img: P.hero, alt: "A maintained front garden with healthy lawn and tidy beds" },
-        { img: P.sleeper2, alt: "Well-kept raised garden with fresh turf and clean pebble edges" },
+        { img: "photo-concrete-cleaning", alt: "Pressure cleaning a paved backyard patio" },
+        { img: "photo-tidy-lawn-pebble-beds", alt: "Neat lawn edges and white-pebble garden beds kept tidy beside a home" },
       ],
       related: ["lawn-mowing", "garden-care", "hedge-trimming-pruning", "weed-control-spraying"],
     },
@@ -805,7 +829,7 @@ module.exports = {
         { img: P.planterBefore, alt: "A weed-covered garden before clearing and treatment" },
         { img: P.planterAfter, alt: "The same garden finished after clearing, treatment and landscaping" },
       ],
-      beforeAfter: PLANTER_BA,
+      beforeAfter: COURTYARD_BA,
       related: ["lawn-mowing", "mulching", "garden-care", "garden-improvements"],
     },
 

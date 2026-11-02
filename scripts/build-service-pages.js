@@ -275,8 +275,8 @@ ${FOOTER}`;
    two lists in sync when a card is added or removed. */
 const HOME_SERVICES = [
   { slug: "natural-turf-installation", label: "Natural Turf", image: "photo-school-turf-crew-laying", blurb: "Instant natural turf supplied and laid on properly prepared, level ground." },
-  { slug: "synthetic-turf-installation", label: "Synthetic Turf", image: "svc-synthetic-turf", blurb: "Always-green synthetic lawns with no mowing and no watering." },
-  { slug: "complete-landscape-transformations", label: "Custom Landscaping", image: "svc-custom-landscaping", blurb: "Complete yard designs built around your property, from structure to planting." },
+  { slug: "synthetic-turf-installation", label: "Synthetic Turf", image: "photo-synthetic-lawn-brick-path", blurb: "Always-green synthetic lawns with no mowing and no watering." },
+  { slug: "complete-landscape-transformations", label: "Custom Landscaping", image: "photo-lit-entrance-path-dusk", blurb: "Complete yard designs built around your property, from structure to planting." },
   { slug: "paving", label: "Pavers &amp; Stepping Stones", image: "svc-pavers-stepping", blurb: "Paths and paved areas laid dead level on a proper compacted base." },
   { slug: "retaining-walls", label: "Retaining Walls", image: "svc-retaining-walls", blurb: "Timber and sleeper walls that turn slopes into level, usable ground." },
   { slug: "plants-garden-beds-mulch", label: "Plants &amp; Mulch", image: "ill-plants-mulch", blurb: "Plant selection, quality soil and mulch that keep beds healthy and tidy." },

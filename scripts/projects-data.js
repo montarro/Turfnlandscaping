@@ -78,7 +78,7 @@ module.exports = [
       {
         label: "Entrance path",
         before: { img: "proj-litpath-before-2", alt: "Before: side view of the frontage with tired lawn, an ageing river-pebble strip and declining shrubs" },
-        after: { img: "proj-litpath-after-2", alt: "After: raised lawn edge, illuminated stepping stones, white-pebble detailing, red mulch and feature planting" },
+        after: { img: "proj-litpath-after-wide", alt: "After: the full entrance path at dusk, stepping stones set in pebbles with low path lighting, white-pebble borders and red mulch" },
       },
     ],
     before: { img: "proj-litpath-before-1", alt: "Before: patchy front lawn with scattered pavers and established rose bushes" },
@@ -193,7 +193,7 @@ module.exports = [
     hero: "proj-sleeperbed-1",
     gallery: [
       { img: "proj-sleeperbed-1", alt: "Dark-stained sleeper retaining wall with fresh instant turf and flowering border on a corner block" },
-      { img: "proj-sleeperbed-2", alt: "Finished raised garden showing the stained sleeper wall, pebble strip and new lawn" },
+      { img: "proj-sleeperbed-front", alt: "Front-on view of the finished stained sleeper wall running the full width of the lawn" },
     ],
     before: { img: "proj-sleeperbed-before-1", alt: "Before: sloping corner frontage with ageing lawn, pebble beds and tired shrubs" },
     after: { img: "proj-sleeperbed-after-1", alt: "After: level lawn held by a dark-stained timber sleeper retaining wall with galvanised posts, white-pebble trim, flowers and red mulch" },
