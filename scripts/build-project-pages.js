@@ -245,13 +245,7 @@ ${HEADER}
             <h2>The brief</h2>
             <p>${p.challenge}</p>
             <h2>What we did</h2>
-          </div>
-          <ul class="sp-checklist">
-            ${p.scope.map((s) => `<li>${s}</li>`).join("\n            ")}
-          </ul>
-          <div class="prose">
-            <h2>How we approached it</h2>
-            <p>${p.approach}</p>
+            <p>${p.work}</p>
             <h2>The result</h2>
             <p>${p.outcome}</p>
           </div>

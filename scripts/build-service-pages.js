@@ -172,12 +172,11 @@ function servicePage(s) {
     body += `<div class="prose"><h2>What's included</h2></div>
   <ul class="sp-checklist">${s.included.map((i) => `<li>${i}</li>`).join("")}</ul>`;
   }
-  /* A real project told phase by phase, for pages where a checklist of
-     scope says less than showing how one job actually went. */
+  /* A real project told start to finish in plain prose, for pages where a
+     checklist of scope says less than showing how one job actually went. */
   if (s.story) {
-    body += `<div class="prose"><h2>${s.story.title}</h2></div>
-    <ol class="sp-steps">${s.story.steps.map((p) => `<li>${p}</li>`).join("")}</ol>
-    <div class="prose"><p>${s.story.result}${s.story.link ? ` <a href="${s.story.link}">View the full project</a>.` : ""}</p></div>`;
+    body += `<div class="prose"><h2>${s.story.title}</h2><p>${s.story.text}</p>
+    <p>${s.story.result}${s.story.link ? ` <a href="${s.story.link}">View the full project</a>.` : ""}</p></div>`;
   }
 
   if (s.options) {
@@ -299,8 +298,8 @@ function homeHubCard(c) {
    the hub instead of reachable only through related links. The build fails
    if a service page is missing from it or listed twice. */
 const HUB_GROUPS = [
-  ["Turf", ["natural-turf-installation", "synthetic-turf-installation", "turf-installation", "turf-preparation-levelling-drainage"]],
-  ["Landscape construction", ["complete-landscape-transformations", "garden-design", "hard-landscaping", "paving", "stepping-stone-paths", "retaining-walls", "timber-decking", "landscaping-features"]],
+  ["Turf", ["natural-turf-installation", "synthetic-turf-installation", "turf-preparation-levelling-drainage"]],
+  ["Landscape construction", ["complete-landscape-transformations", "garden-design", "hard-landscaping", "paving", "stepping-stone-paths", "retaining-walls", "landscaping-features"]],
   ["Gardens &amp; planting", ["soft-landscaping", "plants-garden-beds-mulch", "garden-improvements", "mulching", "irrigation-repairs"]],
   ["Property care", ["property-maintenance", "lawn-mowing", "garden-care", "hedge-trimming-pruning", "weed-control-spraying"]],
 ];

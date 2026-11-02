@@ -606,33 +606,6 @@ module.exports = {
   ],
 
   secondary: [
-    /* ================= TIMBER & DECKING ================= */
-    {
-      slug: "timber-decking",
-      name: "Timber & Decking",
-      short: "Timber & Decking",
-      tagline: "Decks, sleeper work and timber structures built square, level and made to last outdoors.",
-      image: P.sleeper,
-      intro: "Timber brings warmth to an outdoor space that stone and concrete can't — but only when it's built properly. We construct decks, sleeper retaining and planter boxes, timber edging and screens with the right footings, fixings and finishes for Melbourne conditions.",
-      included: [
-        "Timber decking construction and repairs",
-        "Sleeper retaining walls and raised planter boxes",
-        "Timber garden edging and borders",
-        "Privacy screens and feature battens",
-        "Staining, oiling and finishing",
-      ],
-      faqs: [
-        ["What timber do you recommend for decking?", "It depends on budget and look — treated pine is economical and reliable, hardwoods like merbau or spotted gum wear beautifully. We'll talk through the trade-offs on site rather than pushing one answer."],
-        ["Do decks need much maintenance?", "A clean and re-oil every year or two keeps timber looking its best. We build so water drains and air circulates, which is most of the battle against rot."],
-        ["Can you repair an existing deck?", "Often, yes — replacing boards, refixing loose sections and refinishing. If the subframe has gone, we'll tell you honestly whether repair or rebuild is the better spend."],
-      ],
-      gallery: [
-        { img: P.sleeper, alt: "Raised timber sleeper planter beds with fresh turf" },
-        { img: P.sleeper2, alt: "Timber sleeper garden bed with clean pebble edging" },
-      ],
-      related: ["retaining-walls", "hard-landscaping", "landscaping-features", "garden-design"],
-    },
-
     /* ================= LANDSCAPING FEATURES ================= */
     {
       slug: "landscaping-features",
@@ -658,7 +631,7 @@ module.exports = {
         { img: P.litpath2, alt: "Stepping-stone path with garden lighting and border planting" },
       ],
       beforeAfter: SLEEPER_BA,
-      related: ["garden-design", "timber-decking", "hard-landscaping", "soft-landscaping"],
+      related: ["garden-design", "retaining-walls", "hard-landscaping", "soft-landscaping"],
     },
 
     /* ================= 11. PROPERTY MAINTENANCE ================= */
@@ -866,23 +839,6 @@ module.exports = {
   /* Pages kept from the earlier set — valid URLs, lighter content. */
   extra: [
     {
-      slug: "turf-installation",
-      name: "Turf Installation",
-      short: "Turf",
-      tagline: "Natural and synthetic lawns supplied and installed on properly prepared ground.",
-      image: "card-turf-installation",
-      intro: "Our umbrella turf service: whether natural or synthetic suits you better usually comes down to sun, traffic and how much upkeep you want. We'll talk it through on-site and recommend what genuinely fits your yard and budget.",
-      included: ["Site clearing and old surface removal", "Soil preparation, grading and levelling", "Natural turf supply and laying", "Synthetic turf installation", "Watering-in and aftercare advice"],
-      gallery: [
-        { img: "photo-backyard-lawn-sprinkler", alt: "Sprinkler watering in a large new natural lawn in a family backyard" },
-        { img: "photo-nature-strip-new-turf", alt: "New natural turf laid on a nature strip in a housing estate" },
-        { img: "svc-synthetic-turf", alt: "Synthetic turf courtyard beside a merbau deck and black balcony railing" },
-        { img: "photo-synthetic-turf-fenced-sideyard", alt: "Synthetic turf filling a fenced side yard wall to wall" },
-      ],
-      beforeAfter: NATURAL_TURF_BA,
-      related: ["natural-turf-installation", "synthetic-turf-installation", "turf-preparation-levelling-drainage", "lawn-mowing"],
-    },
-    {
       slug: "garden-improvements",
       name: "Garden Improvements",
       short: "Improvements",
@@ -934,12 +890,7 @@ module.exports = {
       intro: "Some yards need more than one trade. A complete transformation brings turf, paving, retaining walls, beds and planting together under one team and one plan, so each stage is built in the right order and everything lines up at the end.",
       story: {
         title: "How one recent transformation came together",
-        steps: [
-          "We started by clearing the site of debris and leftover construction materials.",
-          "We built the retaining walls from 75mm timber sleepers on galvanised steel posts set in concrete footings.",
-          "We brought in sandy loam, then laid the turf and built the garden beds, keeping the owners' established magnolia tree.",
-          "We finished with new edging, plants and a letterbox set in concrete.",
-        ],
+        text: "We started by clearing the site of debris and leftover construction materials. Next we built the retaining walls from 75mm timber sleepers on galvanised steel posts set in concrete footings. We then brought in sandy loam, laid the turf and built the garden beds, keeping the owners' established magnolia tree, and finished with new edging, plants and a letterbox set in concrete.",
         result: "The result: a complete front-yard makeover in just one week, and a happy family whose kids now help their dad mow the new lawn.",
         link: "/projects/front-garden-planter-transformation",
       },

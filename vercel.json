@@ -75,6 +75,16 @@
   ],
   "redirects": [
     {
+      "source": "/services/turf-installation",
+      "destination": "/services/natural-turf-installation",
+      "permanent": true
+    },
+    {
+      "source": "/services/timber-decking",
+      "destination": "/services/retaining-walls",
+      "permanent": true
+    },
+    {
       "source": "/services/turf-repair-patching",
       "destination": "/services/garden-improvements",
       "permanent": true
