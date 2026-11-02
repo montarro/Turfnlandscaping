@@ -56,15 +56,6 @@
       ]
     },
     {
-      "source": "/changes",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow"
-        }
-      ]
-    },
-    {
       "source": "/review(/.*)?",
       "headers": [
         {

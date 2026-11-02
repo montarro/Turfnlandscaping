@@ -26,13 +26,13 @@ fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
 
 // Static, hand-written files
-["index.html", "quote.html", "privacy-policy.html", "changes.html", "404.html", "style.css", "service-pages.css", "projects.css", "projects.js", "blog.css", "blog.js", "main.js", "quote.js", "robots.txt", "sitemap.xml"].forEach(copy);
+["index.html", "quote.html", "privacy-policy.html", "404.html", "style.css", "service-pages.css", "projects.css", "projects.js", "blog.css", "blog.js", "main.js", "quote.js", "robots.txt", "sitemap.xml"].forEach(copy);
 
 // The mobile menu and its toggle are written once, in chrome.js; the
 // hand-written pages carry markers that are filled in here so all pages
 // share identical markup. A missing marker fails the build.
 const CHROME = require("./chrome.js");
-for (const rel of ["index.html", "quote.html", "privacy-policy.html", "changes.html", "404.html"]) {
+for (const rel of ["index.html", "quote.html", "privacy-policy.html", "404.html"]) {
   const file = path.join(DIST, rel);
   let html = fs.readFileSync(file, "utf8");
   for (const [marker, markup] of [["@nav-toggle", CHROME.NAV_TOGGLE], ["@mobile-nav", CHROME.MOBILE_NAV]]) {
