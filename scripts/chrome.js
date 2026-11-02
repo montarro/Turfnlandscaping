@@ -17,7 +17,6 @@ const SERVICE_GROUPS = [
     links: [
       ["/services/natural-turf-installation", "Natural Turf"],
       ["/services/synthetic-turf-installation", "Synthetic Turf"],
-      ["/services/turf-repair-patching", "Turf Repair &amp; Patching"],
     ],
   },
   {
@@ -25,7 +24,6 @@ const SERVICE_GROUPS = [
     links: [
       ["/services/paving", "Pavers &amp; Stepping Stones"],
       ["/services/retaining-walls", "Retaining Walls"],
-      ["/services/timber-decking", "Timber &amp; Decking"],
       ["/services/garden-design", "Garden Design"],
       ["/services/landscaping-features", "Landscaping Features"],
     ],

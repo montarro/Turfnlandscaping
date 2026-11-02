@@ -12,7 +12,7 @@ dateReviewed: "2026-08-31"
 heroImage: "curved-synthetic-turf-lawn-rock-border.jpg"
 heroAlt: "Finished curved lawn beside a landscaped rock garden border"
 relatedServices: ["Turf Repair and Patching", "Natural Turf", "Synthetic Turf"]
-suggestedInternalLinks: ["/services/turf-repair-patching", "/services/natural-turf", "/services/synthetic-turf", "/quote"]
+suggestedInternalLinks: ["/services/garden-improvements", "/services/natural-turf", "/services/synthetic-turf", "/quote"]
 status: "Ready after Sebastian's technical review"
 ---
 
@@ -87,5 +87,5 @@ A visibly different replacement section may be difficult to disguise in an older
 
 Repair when the surrounding lawn is healthy and the problem is genuinely local. Consider replacement when the cause affects the whole area or the existing surface no longer suits the way the yard is used.
 
-Sebastian can assess [turf repair and patching](/services/turf-repair-patching) against a new [natural turf](/services/natural-turf) or [synthetic turf](/services/synthetic-turf) installation. [Send wide photos as well as close-ups](/quote), because the surrounding levels and condition are important to the decision.
+Sebastian can assess [repairing the lawn](/services/garden-improvements) against a new [natural turf](/services/natural-turf) or [synthetic turf](/services/synthetic-turf) installation. [Send wide photos as well as close-ups](/quote), because the surrounding levels and condition are important to the decision.
 

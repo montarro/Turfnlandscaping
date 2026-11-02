@@ -39,7 +39,7 @@ module.exports = [
     relatedServices: [
       ["/services/retaining-walls", "Retaining Walls"],
       ["/services/turf-installation", "Turf Installation"],
-      ["/services/garden-planting", "Garden Planting"],
+      ["/services/plants-garden-beds-mulch", "Plants, Garden Beds & Mulch"],
     ],
   },
   {
@@ -86,7 +86,7 @@ module.exports = [
     relatedServices: [
       ["/services/turf-installation", "Turf Installation"],
       ["/services/hard-landscaping", "Hard Landscaping"],
-      ["/services/garden-planting", "Garden Planting"],
+      ["/services/plants-garden-beds-mulch", "Plants, Garden Beds & Mulch"],
     ],
   },
   {
@@ -114,8 +114,8 @@ module.exports = [
     before: { img: "proj-bedrefresh-before-1", alt: "Before: narrow front garden bed with ageing mixed pebbles, sparse planting and no clear structure" },
     after: { img: "proj-bedrefresh-after-1", alt: "After: reshaped bed with curved edging, a central white-pebble feature, dark mulch, compact shrubs and flowering plants" },
     relatedServices: [
-      ["/services/garden-planting", "Garden Planting"],
       ["/services/plants-garden-beds-mulch", "Plants, Garden Beds & Mulch"],
+      ["/services/garden-improvements", "Garden Improvements"],
     ],
   },
   {
@@ -145,7 +145,7 @@ module.exports = [
     relatedServices: [
       ["/services/natural-turf-installation", "Natural Turf"],
       ["/services/plants-garden-beds-mulch", "Plants, Garden Beds & Mulch"],
-      ["/services/garden-planting", "Garden Planting"],
+      ["/services/garden-improvements", "Garden Improvements"],
     ],
   },
   {
@@ -205,7 +205,7 @@ module.exports = [
   },
   {
     slug: "natural-turf-installation",
-    title: "Natural Turf Installation",
+    title: "Front Yard Natural Turf Installation",
     categories: ["Turf", "Garden Transformations"],
     summary: "A bare, debris-strewn front yard cleared back to soil, levelled and laid with natural turf — an even, clean lawn running the full width of the street frontage.",
     challenge: "The whole front garden had been stripped back to bare ground: an open stretch of uneven dirt with timber offcuts and broken pavers left across it, between the house, the paling fence and the painted picket fence along the street.",

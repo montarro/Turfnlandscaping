@@ -15,7 +15,7 @@ const POSTS_DIR = path.join(__dirname, "..", "content", "blog");
 const SERVICE_ROUTE = {
   "Natural Turf": "/services/natural-turf-installation",
   "Synthetic Turf": "/services/synthetic-turf-installation",
-  "Turf Repair and Patching": "/services/turf-repair-patching",
+  "Turf Repair and Patching": "/services/garden-improvements",
   "Custom Landscaping": "/services/complete-landscape-transformations",
   "Garden Design": "/services/garden-design",
   "Hard Landscaping": "/services/hard-landscaping",

@@ -7,6 +7,10 @@
    ===================================================================== */
 
 .sp-layout { display: grid; gap: 2.4rem; align-items: start; }
+/* Every section heading gets the same gap above it, whatever sits before
+   it (galleries, link grids and FAQs carry no bottom margin of their own;
+   after a checklist the two margins collapse to this one). */
+.sp-layout .prose:not(:first-child) > h2:first-child { margin-top: 2rem; }
 
 .sp-checklist {
   list-style: none; margin: 0 0 1.8rem; padding: 0;
@@ -47,8 +51,6 @@
 .sp-side__card h2 { font-size: 1.1rem; margin-bottom: .8rem; }
 .sp-side__card p { color: var(--muted); font-size: .93rem; margin-bottom: 1rem; }
 .sp-side__card .btn { width: 100%; }
-.sp-side__card--promo { background: var(--sage-100); border-color: var(--sage-200); }
-.sp-side__card--promo p { color: var(--ink); margin-bottom: 0; }
 .sp-side__phone {
   display: block; font-family: var(--font-display); font-weight: 800;
   font-size: 1.5rem; color: var(--forest-900); text-decoration: none; margin-bottom: .3rem;

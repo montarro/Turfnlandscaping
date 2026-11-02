@@ -49,6 +49,13 @@ const COURTYARD_BA = {
   link: "/projects/courtyard-garden-turf-refresh",
 };
 
+const BEDREFRESH_BA = {
+  before: { img: "proj-bedrefresh-before-1", alt: "Before: narrow front garden bed with ageing mixed pebbles and sparse planting beside the driveway" },
+  after: { img: "proj-bedrefresh-after-1", alt: "After: reshaped bed with curved edging, a white-pebble feature, fresh dark mulch and compact planting" },
+  note: "A genuine before and after from our front garden bed refresh — see the full case study on our Projects page.",
+  link: "/projects/front-garden-bed-refresh",
+};
+
 const PLANTER_BA = {
   before: { img: P.planterBefore, alt: "Before: weed-covered mound in front of a new build" },
   after: { img: P.planterAfter, alt: "After: raised sleeper planter with fresh turf, pebbles and flowers" },
@@ -65,12 +72,12 @@ module.exports = {
       short: "Natural Turf",
       tagline: "Fresh, hard-wearing natural lawns supplied and laid to suit your soil, sun and lifestyle.",
       image: "photo-natural-turf-flower-border",
-      intro: "Nothing beats real grass underfoot. We supply and lay quality natural turf over properly prepared, graded and drained ground, so your new lawn takes root quickly and stands up to Melbourne summers, kids and pets.",
-      whoFor: "Ideal for family backyards that get real use, front lawns that carry the home's street appeal, and new builds starting from bare soil. If your block gets reasonable sun and you don't mind mowing, natural turf gives the best feel and looks of any surface.",
+      intro: "Nothing beats real grass underfoot. We supply and lay quality natural turf over properly prepared, levelled ground, so your new lawn takes root quickly and stands up to Melbourne summers, kids and pets.",
+      whoForTitle: "Why choose natural turf",
+      whoFor: "A real lawn stays noticeably cooler underfoot than synthetic turf or paving on a hot day, and it cools the air around your home as well. Rain soaks into the soil instead of running off, the grass traps dust and produces oxygen, and a healthy lawn repairs its own wear as it grows. It's soft and safe for kids and pets to play on, costs less to install than synthetic, and a well-kept lawn adds real street appeal and value to a property.",
       problems: [
         "Bare or muddy ground on a new build handover",
         "An old lawn full of weeds, bare patches or invasive grasses",
-        "Lawns that flood or stay soggy after rain",
         "Ground too bumpy or sloped to mow properly",
         "Council nature strips that need finishing",
       ],
@@ -83,19 +90,20 @@ module.exports = {
         "Simple establishment care instructions",
       ],
       options: [
-        ["Soft-leaf buffalo", "Shade-tolerant with a plush feel — the family-lawn favourite for most Melbourne blocks."],
+        ["Buffalo", "Tough and broad-leafed, handles drought and wear, and copes with shade better than most warm-season grasses — the family-lawn favourite for most Melbourne blocks."],
         ["Couch varieties", "Fine-leafed and hard-wearing in full sun; recovers fast from heavy traffic."],
         ["Kikuyu", "Vigorous, budget-friendly and quick to repair itself — best where there's room for it to run."],
-        ["Tall fescue", "Cool-season option that holds colour through winter in shaded, cooler spots."],
+        ["Seeding", "A budget-friendly option for larger areas: we prepare the soil, sow quality seed and set you up to establish it, if you're happy to wait a few weeks for a full lawn."],
       ],
       process: [
         "On-site measure and variety advice",
         "Clear and treat the old surface",
-        "Spread and level quality topsoil with correct falls",
+        "Spread and level quality sandy loam",
         "Lay turf with staggered joints, rolled for soil contact",
         "Water-in and hand over care instructions",
       ],
-      prepDrainage: "A lawn is only as good as what's underneath it. We grade the base so water sheds away from the house, add gypsum or sandy loam where Melbourne's clay soils need it, and sort out soggy spots with drainage before the turf goes down — not after it dies.",
+      prepTitle: "Ground preparation",
+      prepDrainage: "A lawn is only as good as what's underneath it. We clear the old surface, level the ground and spread quality sandy loam so the new roots have something good to grow into, adding gypsum where Melbourne's clay soils need it. The result is a lawn that knits down quickly and mows evenly from day one.",
       resiCom: "For homes we handle everything from a small front lawn to a full backyard. For commercial sites, builders and body corporates we lay larger areas to programme, coordinate with other trades, and can quote supply-and-lay across multiple properties.",
       faqs: [
         ["When is the best time to lay natural turf?", "Turf can be laid almost year-round in Melbourne. Autumn and spring establish fastest; summer laying works with disciplined watering, and winter simply takes a little longer to knit down."],
@@ -112,7 +120,7 @@ module.exports = {
         { img: "photo-frontyard-timber-steps-lawn", alt: "New natural lawn beside merbau steps at the front of a home" },
       ],
       beforeAfter: NATURAL_TURF_BA,
-      related: ["synthetic-turf-installation", "turf-preparation-levelling-drainage", "turf-repair-patching", "lawn-mowing"],
+      related: ["synthetic-turf-installation", "turf-preparation-levelling-drainage", "lawn-mowing", "garden-improvements"],
     },
 
     /* ================= 2. SYNTHETIC TURF ================= */
@@ -123,7 +131,7 @@ module.exports = {
       tagline: "Low-maintenance synthetic lawns that stay green all year — installed on a base built to last.",
       image: P.synthetic,
       intro: "For shaded courtyards, high-traffic areas, rentals, or anyone done with mowing, quality synthetic turf is a genuinely good answer. Installed properly — compacted base, correct drainage, secured edges — it looks sharp year-round with almost no upkeep.",
-      whoFor: "Perfect for heavily shaded yards where real grass struggles, small courtyards and side strips that are awkward to mow, pet runs, and busy households that want a green outlook without weekend maintenance.",
+      whoFor: "Perfect for heavily shaded yards where real grass struggles, small courtyards and side strips that are awkward to mow, and busy households that want a green outlook without weekend maintenance.",
       problems: [
         "Grass that refuses to grow in heavy shade",
         "Mud tracked inside from thin, patchy lawn",
@@ -133,7 +141,7 @@ module.exports = {
       ],
       included: [
         "Excavation and removal of the old surface",
-        "Compacted crushed-rock base with correct falls",
+        "Compacted crushed-rock base",
         "Weed membrane where conditions call for it",
         "Quality synthetic turf, seamed and secured",
         "Sand infill and power brushing for an even, upright pile",
@@ -142,7 +150,6 @@ module.exports = {
       options: [
         ["Pile height and density", "From putting-green short to plush 40mm family lawn — we'll show you samples and be straight about the trade-offs."],
         ["Natural multi-tone blends", "Modern turfs mix green tones with a brown thatch layer so the lawn reads natural, not plastic."],
-        ["Pet-friendly configurations", "Permeable backing and infill choices that drain quickly and rinse clean."],
       ],
       process: [
         "Measure, sample selection and fixed quote",
@@ -155,7 +162,7 @@ module.exports = {
       resiCom: "At home, synthetic suits courtyards, pool surrounds and play spaces. Commercially, we install for childcare centres, display suites, office courtyards and body corporates where an always-presentable, low-water surface earns its keep.",
       faqs: [
         ["How long does synthetic turf last?", "Quality turf, properly installed, typically gives many years of service depending on traffic and sun exposure. The base preparation is what protects that lifespan — it's where we don't cut corners."],
-        ["Is synthetic turf safe for dogs?", "Yes — we install pet-suitable turf with drainage that lets you hose it clean. It's a popular choice for dog runs and side yards."],
+        ["Is synthetic turf good for dogs?", "Honestly, for dog runs we usually recommend natural turf. Even with good drainage and regular hosing, urine can leave synthetic turf smelling, which is why many dog owners choose a real lawn. We'll talk through what suits your pets on-site."],
         ["Does it get hot in summer?", "Synthetic surfaces do run warmer than natural grass on very hot days. Lighter-toned blends and a quick hose-down help; we'll talk honestly about whether it suits your space."],
         ["Can it go over concrete?", "Often, yes — with the right drainage and padding approach. We'll assess the slab and falls on-site before recommending it."],
       ],
@@ -166,7 +173,6 @@ module.exports = {
         { img: "photo-synthetic-turf-covered-deck", alt: "Synthetic turf strip between a covered deck and a sleeper garden bed" },
         { img: "photo-synthetic-turf-front-path", alt: "Curved synthetic front lawn beside a brick path and driveway" },
         { img: P.synthetic2, alt: "Close view of a finished synthetic lawn's natural-looking pile" },
-        { img: "photo-front-yard-natural-turf", alt: "Synthetic front lawn with a river-pebble border, freshly power-brushed" },
       ],
       related: ["natural-turf-installation", "turf-preparation-levelling-drainage", "hard-landscaping", "garden-care"],
     },
@@ -270,7 +276,6 @@ module.exports = {
       gallery: [
         { img: P.sleeper, alt: "Dark-stained sleeper retaining wall with galvanised posts on a corner block" },
         { img: P.planterProgress, alt: "Treated-pine planter wall under construction with fresh topsoil" },
-        { img: P.sleeper2, alt: "Finished raised garden with stained wall, pebble strip and new lawn" },
       ],
       beforeAfter: RETAINING_BA,
       related: ["hard-landscaping", "turf-preparation-levelling-drainage", "paving", "plants-garden-beds-mulch"],
@@ -301,10 +306,8 @@ module.exports = {
         "Joint filling and full site clean-up",
       ],
       options: [
-        ["Concrete pavers", "Huge range of sizes and colours; excellent value with modern large-format looks."],
-        ["Bluestone", "Melbourne's classic — dense, durable and always looks the part."],
-        ["Porcelain", "Ultra-low maintenance, stain-resistant, precise edges for contemporary designs."],
-        ["Clay pavers", "Warm, colourfast tones that suit period homes and garden paths."],
+        ["Concrete pavers", "A huge range of sizes, colours and finishes, from classic to modern large-format looks. Excellent value and easy to repair if a section ever needs relaying."],
+        ["Natural stone", "Bluestone, sandstone and other natural stone for a timeless, premium finish that's dense, durable and suits Melbourne homes of every era."],
       ],
       process: [
         "Measure, discuss materials and set levels",
@@ -572,10 +575,10 @@ module.exports = {
       ],
       gallery: [
         { img: P.planterNight, alt: "Raised bed with flowers, pebble border and fresh mulch at night" },
-        { img: P.softCard, alt: "Freshly mulched bed with layered shrubs" },
+        { img: "proj-bedrefresh-after-1", alt: "Reshaped front garden bed with fresh dark mulch, a white-pebble feature and compact planting" },
         { img: P.sleeper2, alt: "Pebble-edged planting strip along a sleeper wall" },
       ],
-      related: ["soft-landscaping", "garden-care", "mulching", "garden-planting"],
+      related: ["soft-landscaping", "garden-care", "mulching", "garden-improvements"],
     },
   ],
 
@@ -698,7 +701,7 @@ module.exports = {
         { img: "photo-rose-garden-turf", alt: "Neatly cut natural lawn with crisp edges beside a rose border and picket fence" },
         { img: "detail-frontyard-natural-lawn", alt: "Close view of a trimmed natural front lawn" },
       ],
-      related: ["turf-repair-patching", "weed-control-spraying", "garden-care", "property-maintenance"],
+      related: ["garden-improvements", "weed-control-spraying", "garden-care", "property-maintenance"],
     },
 
     /* ================= 13. GARDEN CARE ================= */
@@ -742,7 +745,7 @@ module.exports = {
       name: "Irrigation Installation & Repairs",
       short: "Irrigation",
       tagline: "New irrigation systems installed, and existing ones fixed properly, so water lands where it should.",
-      image: P.turfCard,
+      image: "photo-backyard-lawn-sprinkler",
       intro: "Broken heads, leaking lines, dead zones and controllers nobody remembers how to program — irrigation problems waste water and quietly kill the lawn and garden they were meant to protect. We install new drip and pop-up systems, and find and fix faults in existing ones.",
       maintenance: {
         oneOff: "Most irrigation work is a diagnose-and-repair visit: find the fault, fix or replace the failed parts, reset the controller, test coverage.",
@@ -765,10 +768,10 @@ module.exports = {
         ["Can you set my controller for water restrictions?", "Yes — we'll program compliant schedules and show you how to adjust them seasonally."],
       ],
       gallery: [
-        { img: P.turfCard, alt: "Healthy irrigated lawn" },
+        { img: "photo-backyard-lawn-sprinkler", alt: "Sprinkler watering a large natural lawn in a family backyard" },
         { img: P.planterAfter, alt: "Fresh turf established with correct watering" },
       ],
-      related: ["natural-turf-installation", "turf-repair-patching", "garden-care", "property-maintenance"],
+      related: ["natural-turf-installation", "lawn-mowing", "garden-care", "property-maintenance"],
     },
 
     /* ================= 15. WEED CONTROL ================= */
@@ -803,7 +806,7 @@ module.exports = {
         { img: P.planterAfter, alt: "The same garden finished after clearing, treatment and landscaping" },
       ],
       beforeAfter: PLANTER_BA,
-      related: ["lawn-mowing", "mulching", "garden-care", "turf-repair-patching"],
+      related: ["lawn-mowing", "mulching", "garden-care", "garden-improvements"],
     },
 
     /* ================= 16. HEDGES ================= */
@@ -834,40 +837,6 @@ module.exports = {
       ],
       related: ["garden-care", "property-maintenance", "soft-landscaping", "weed-control-spraying"],
     },
-
-    /* ================= 17. TURF REPAIR ================= */
-    {
-      slug: "turf-repair-patching",
-      name: "Turf Repair & Patching",
-      short: "Turf Repair",
-      tagline: "Bring a tired, patchy lawn back — without paying to replace the whole thing.",
-      image: P.turfCard,
-      intro: "Dead patches, worn tracks, dog damage, or a lawn that never recovered from summer — often the fix is repair, not replacement. We patch, level and re-establish problem areas so the whole lawn reads as one again.",
-      maintenance: {
-        oneOff: "Most repairs are one visit: cut out the failed areas, fix what killed them, patch with matching turf and blend the levels.",
-        recurring: "Lawns under heavy use benefit from a seasonal check — small repairs each spring cost a fraction of periodic full relays.",
-        resi: "Home repairs cover pet damage, play-area wear, shade thinning and post-trade scars from renovations.",
-        com: "Commercial turf gets scheduled patching so high-traffic areas never reach the threadbare stage visitors notice.",
-        custom: "If a lawn is genuinely past saving we'll say so and quote a proper reinstall instead — no throwing patches at a lost cause.",
-      },
-      included: [
-        "Honest assessment of what's killing the lawn",
-        "Removal and replacement of dead sections",
-        "Levelling sunken and worn areas",
-        "Variety matching so patches blend in",
-        "Advice to stop the problem recurring",
-      ],
-      faqs: [
-        ["Patch or replace — how do I know?", "Rule of thumb: if more than half the lawn is failing, replacement usually wins on cost and result. Under that, patching is genuinely effective. We'll assess it straight."],
-        ["Will patches match my existing lawn?", "We match variety and blend edges so repairs disappear as they knit in — usually within weeks in the growing season."],
-        ["Why does the same spot keep dying?", "There's always a cause: shade, compaction, pet traffic, irrigation gaps or soil problems. We fix the cause with the patch, or the patch just dies on schedule."],
-      ],
-      gallery: [
-        { img: P.turfCard, alt: "Healthy, even lawn after repair" },
-        { img: P.planterAfter, alt: "Established lawn in excellent condition" },
-      ],
-      related: ["natural-turf-installation", "turf-preparation-levelling-drainage", "lawn-mowing", "irrigation-repairs"],
-    },
   ],
 
   /* Pages kept from the earlier set — valid URLs, lighter content. */
@@ -877,20 +846,50 @@ module.exports = {
       name: "Turf Installation",
       short: "Turf",
       tagline: "Natural and synthetic lawns supplied and installed on properly prepared ground.",
-      image: P.turfCard,
+      image: "card-turf-installation",
       intro: "Our umbrella turf service: whether natural or synthetic suits you better usually comes down to sun, traffic and how much upkeep you want. We'll talk it through on-site and recommend what genuinely fits your yard and budget.",
       included: ["Site clearing and old surface removal", "Soil preparation, grading and levelling", "Natural turf supply and laying", "Synthetic turf installation", "Watering-in and aftercare advice"],
-      related: ["natural-turf-installation", "synthetic-turf-installation", "turf-preparation-levelling-drainage", "turf-repair-patching"],
+      gallery: [
+        { img: "photo-backyard-lawn-sprinkler", alt: "Sprinkler watering in a large new natural lawn in a family backyard" },
+        { img: "photo-nature-strip-new-turf", alt: "New natural turf laid on a nature strip in a housing estate" },
+        { img: "svc-synthetic-turf", alt: "Synthetic turf courtyard beside a merbau deck and black balcony railing" },
+        { img: "photo-synthetic-turf-fenced-sideyard", alt: "Synthetic turf filling a fenced side yard wall to wall" },
+      ],
+      beforeAfter: NATURAL_TURF_BA,
+      related: ["natural-turf-installation", "synthetic-turf-installation", "turf-preparation-levelling-drainage", "lawn-mowing"],
     },
     {
-      slug: "garden-planting",
-      name: "Garden Planting",
-      short: "Planting",
-      tagline: "The right plants, in the right spots, planted to establish properly.",
-      image: P.bannerYard,
-      intro: "Plants fail when they're wrong for the position. We select and plant for your actual conditions — soil, sun, wind and water — so the garden establishes quickly and keeps looking better each season instead of worse.",
-      included: ["Plant selection for soil, sun and style", "Natives and exotics suited to Melbourne", "Proper soil preparation and planting", "Layout planned for mature size", "Establishment care advice"],
-      related: ["plants-garden-beds-mulch", "soft-landscaping", "garden-care", "mulching"],
+      slug: "garden-improvements",
+      name: "Garden Improvements",
+      short: "Improvements",
+      tagline: "Practical upgrades that bring an existing yard back into shape — without starting from scratch.",
+      image: "proj-courtyard-after-1",
+      intro: "Not every yard needs a full makeover. Often it's a patchy lawn, a tired bed, broken edging or a synthetic lawn that's gone flat that lets the whole garden down. We fix those things properly, one job or several at once, so the yard you already have looks and works the way it should.",
+      problems: [
+        "Patchy, thin or worn-out lawns",
+        "Synthetic turf that has gone flat, dirty or matted",
+        "Garden beds with thin, grey, washed-out mulch",
+        "Weeds coming through lawns, beds and paths",
+        "Old garden edging that is broken, bent or rotting",
+      ],
+      included: [
+        "Patchy lawns repaired, top-dressed or re-turfed",
+        "Small retaining walls and raised veggie patches",
+        "Synthetic turf cleaned and revitalised: debris removed, infill topped up, pile brushed back up",
+        "Re-mulching of tired garden beds",
+        "Weed spraying in lawns, beds and paths",
+        "Old, broken or bent edging replaced",
+      ],
+      faqs: [
+        ["Can you do just one or two of these?", "Yes. Most improvement jobs are a mix of two or three small tasks done in a day or two. Tell us what bothers you about the yard and we'll quote just that."],
+        ["Is it worth fixing my lawn, or should I replace it?", "If most of the lawn is healthy, repairing the patches and fixing what caused them is usually the better spend. If most of it has failed, new turf wins. We'll tell you straight on-site."],
+      ],
+      gallery: [
+        { img: "proj-courtyard-after-1", alt: "Courtyard bed cleared and re-laid with natural turf, white pebbles and flowering plants around the existing tree" },
+        { img: "proj-backyardturf-after-1", alt: "A weedy backyard brought back with a broad, even natural lawn" },
+      ],
+      beforeAfter: BEDREFRESH_BA,
+      related: ["plants-garden-beds-mulch", "weed-control-spraying", "natural-turf-installation", "garden-care"],
     },
     {
       slug: "mulching",
@@ -909,7 +908,17 @@ module.exports = {
       tagline: "Full outdoor makeovers — turf, paving, walls and gardens under one team.",
       image: P.hero,
       intro: "Some yards need more than one trade. A complete transformation brings turf, paving, retaining walls, beds and planting together under one team and one plan, so each stage is built in the right order and everything lines up at the end.",
-      included: ["One plan covering the whole space", "Demolition and site clearing", "Structural work first: walls and surfaces", "Turf, beds and planting to finish", "Staged builds to suit budget"],
+      story: {
+        title: "How one recent transformation came together",
+        steps: [
+          "We started by clearing the site of debris and leftover construction materials.",
+          "We built the retaining walls from 75mm timber sleepers on galvanised steel posts set in concrete footings.",
+          "We brought in sandy loam, then laid the turf and built the garden beds, keeping the owners' established magnolia tree.",
+          "We finished with new edging, plants and a letterbox set in concrete.",
+        ],
+        result: "The result: a complete front-yard makeover in just one week, and a happy family whose kids now help their dad mow the new lawn.",
+        link: "/projects/front-garden-planter-transformation",
+      },
       gallery: [
         { img: P.hero, alt: "A complete front-garden transformation with turf, path, rocks and planting" },
         { img: P.bannerYard, alt: "Front yard rebuilt with wall, path, beds and lawn as one design" },

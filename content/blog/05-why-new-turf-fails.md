@@ -12,7 +12,7 @@ dateReviewed: "2026-10-02"
 heroImage: "natural-turf-rose-garden-installation.jpg"
 heroAlt: "Freshly laid natural turf, roll joins still visible, between new rose beds edged in timber"
 relatedServices: ["Natural Turf", "Turf Repair and Patching"]
-suggestedInternalLinks: ["/services/natural-turf", "/services/turf-repair-patching", "/blog/best-time-to-lay-turf-melbourne"]
+suggestedInternalLinks: ["/services/natural-turf", "/services/garden-improvements", "/blog/best-time-to-lay-turf-melbourne"]
 status: "Published 2 Oct 2026 — Sebastian's technical review not yet recorded"
 ---
 
@@ -92,7 +92,7 @@ Aftercare should then move into a sustainable routine rather than stopping once 
 
 ## Repair or replacement?
 
-Isolated damage may suit [turf repair and patching](/services/turf-repair-patching). Widespread failure caused by levels, drainage or poor preparation usually needs that cause corrected before more turf goes down. Our article on [turf repair versus full lawn replacement](/blog/turf-repair-vs-lawn-replacement) sets out how to decide.
+Isolated damage may only need [patch repairs as part of a garden improvement visit](/services/garden-improvements). Widespread failure caused by levels, drainage or poor preparation usually needs that cause corrected before more turf goes down. Our article on [turf repair versus full lawn replacement](/blog/turf-repair-vs-lawn-replacement) sets out how to decide.
 
 Either way, the important step is diagnosing the cause. Replacing the surface without fixing the reason it failed is likely to repeat the result.
 

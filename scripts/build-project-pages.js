@@ -209,6 +209,9 @@ function detailPage(p, prev, next) {
   // photos this page already loads full-size (hero, sliders): the gallery
   // reuses that cached file instead of fetching an 800px copy as well
   const fullSize = new Set([p.hero, ...comparisons.flatMap((c) => [c.before.img, c.after.img])]);
+  // the gallery never repeats a photo the before/after sliders already show
+  const inSliders = new Set(comparisons.flatMap((c) => [c.before.img, c.after.img]));
+  const gallery = p.gallery.filter((g) => !inSliders.has(g.img));
   return head({
     title: `${p.title} | Bastiano Landscaping`,
     desc: p.metaDescription || p.summary,
@@ -253,10 +256,10 @@ ${HEADER}
             <p>${p.outcome}</p>
           </div>
 
-          <h2 class="pj-h2">Project gallery</h2>
+          ${gallery.length ? `<h2 class="pj-h2">Project gallery</h2>
           <div class="pj-gallery">
-            ${p.gallery.map((g) => `<figure><img src="${img(g.img)}"${fullSize.has(g.img) ? "" : CHROME.cardSrcset(img(g.img), "(min-width: 700px) 380px, 92vw")} alt="${g.alt}" loading="lazy" width="1200" height="900" /></figure>`).join("\n            ")}
-          </div>
+            ${gallery.map((g) => `<figure><img src="${img(g.img)}"${fullSize.has(g.img) ? "" : CHROME.cardSrcset(img(g.img), "(min-width: 700px) 380px, 92vw")} alt="${g.alt}" loading="lazy" width="1200" height="900" /></figure>`).join("\n            ")}
+          </div>` : ""}
 
           <div class="pj-pagenav">
             ${prev ? `<a href="/projects/${prev.slug}">&larr; ${prev.title}</a>` : "<span></span>"}

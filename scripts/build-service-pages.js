@@ -165,10 +165,20 @@ function servicePage(s) {
     });
   }
   body += `<div class="prose">`;
-  if (s.whoFor) body += `<h2>Who this service suits</h2><p>${s.whoFor}</p>`;
+  if (s.whoFor) body += `<h2>${s.whoForTitle || "Who this service suits"}</h2><p>${s.whoFor}</p>`;
   if (s.problems) body += `<h2>Problems we solve</h2><ul>${s.problems.map((p) => `<li>${p}</li>`).join("")}</ul>`;
-  body += `<h2>What's included</h2></div>
-  <ul class="sp-checklist">${(s.included || []).map((i) => `<li>${i}</li>`).join("")}</ul>`;
+  body += `</div>`;
+  if (s.included) {
+    body += `<div class="prose"><h2>What's included</h2></div>
+  <ul class="sp-checklist">${s.included.map((i) => `<li>${i}</li>`).join("")}</ul>`;
+  }
+  /* A real project told phase by phase, for pages where a checklist of
+     scope says less than showing how one job actually went. */
+  if (s.story) {
+    body += `<div class="prose"><h2>${s.story.title}</h2></div>
+    <ol class="sp-steps">${s.story.steps.map((p) => `<li>${p}</li>`).join("")}</ol>
+    <div class="prose"><p>${s.story.result}${s.story.link ? ` <a href="${s.story.link}">View the full project</a>.` : ""}</p></div>`;
+  }
 
   if (s.options) {
     body += `<div class="prose"><h2>Options &amp; materials</h2></div>
@@ -178,7 +188,7 @@ function servicePage(s) {
     body += `<div class="prose"><h2>How the work is completed</h2></div>
     <ol class="sp-steps">${s.process.map((p) => `<li>${p}</li>`).join("")}</ol>`;
   }
-  if (s.prepDrainage) body += `<div class="prose"><h2>Preparation &amp; drainage</h2><p>${s.prepDrainage}</p></div>`;
+  if (s.prepDrainage) body += `<div class="prose"><h2>${s.prepTitle || "Preparation &amp; drainage"}</h2><p>${s.prepDrainage}</p></div>`;
   if (s.resiCom) body += `<div class="prose"><h2>Residential &amp; commercial</h2><p>${s.resiCom}</p></div>`;
 
   if (m) {
@@ -190,11 +200,14 @@ function servicePage(s) {
     <p><strong>A scope built for you.</strong> ${m.custom}</p></div>`;
   }
 
-  if (s.gallery) {
-    // photos already loaded full-size on this page reuse that file
-    const fullSize = new Set([s.image, s.beforeAfter && s.beforeAfter.before.img, s.beforeAfter && s.beforeAfter.after.img]);
+  /* The gallery never repeats a photo the before/after slider already shows,
+     and never shows a branded placeholder graphic — those show no real work. */
+  const inSlider = new Set(s.beforeAfter ? [s.beforeAfter.before.img, s.beforeAfter.after.img] : []);
+  const gallery = (s.gallery || []).filter((g) => !inSlider.has(g.img) && !isPlaceholder(g.img));
+  if (gallery.length) {
+    // the hero photo is already loaded full-size, so reuse that file
     body += `<div class="prose"><h2>From our recent work</h2></div>
-    <div class="pj-gallery">${s.gallery.map((g) => `<figure><img src="${img(g.img)}"${fullSize.has(g.img) ? "" : CHROME.cardSrcset(img(g.img), "(min-width: 700px) 380px, 92vw")} alt="${g.alt}" loading="lazy" width="1200" height="900" /></figure>`).join("")}</div>`;
+    <div class="pj-gallery">${gallery.map((g) => `<figure><img src="${img(g.img)}"${g.img === s.image ? "" : CHROME.cardSrcset(img(g.img), "(min-width: 700px) 380px, 92vw")} alt="${g.alt}" loading="lazy" width="1200" height="900" /></figure>`).join("")}</div>`;
   }
 
   if (s.faqs) {
@@ -203,12 +216,7 @@ function servicePage(s) {
   }
 
   body += `<div class="prose"><h2>Where we work</h2>
-  <p>We provide ${s.name.toLowerCase().replace(/&/g, "and")} across Melbourne's west and selected inner-city, northern, eastern and bayside areas. <a href="/#areas">See our full service area</a>, or get in touch to confirm your suburb.</p>
-  <h2>Related services</h2></div>
-  <div class="sp-related">${(s.related || []).map((slug) => {
-    const r = bySlug[slug];
-    return r ? `<a href="/services/${r.slug}">${r.name.replace(/&/g, "&amp;")} ${arrow}</a>` : "";
-  }).join("")}</div>`;
+  <p>We provide ${s.name.toLowerCase().replace(/&/g, "and")} across Melbourne's west and selected inner-city, northern, eastern and bayside areas. <a href="/#areas">See our full service area</a>, or get in touch to confirm your suburb.</p></div>`;
 
   /* Published articles written about this service — the articles already
      link here, so this closes the loop for readers (and crawlers) arriving
@@ -226,8 +234,8 @@ function servicePage(s) {
     imageAlt: placeholder ? SHARE_CARD.alt : heroAlt, ld }) + `
 ${HEADER}
   <main id="main">
-    <section class="page-hero${s.image ? "" : " page-hero--plain"}">
-      ${s.image ? `<div class="page-hero__media"><img src="${img(s.image)}" alt="${heroAlt}" width="1200" height="900" fetchpriority="high" /></div>` : ""}
+    <section class="page-hero${placeholder ? " page-hero--plain" : ""}">
+      ${placeholder ? "" : `<div class="page-hero__media"><img src="${img(s.image)}" alt="${heroAlt}" width="1200" height="900" fetchpriority="high" /></div>`}
       <div class="wrap page-hero__inner">
         <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/services">Services</a><span>/</span>${s.name.replace(/&/g, "&amp;")}</nav>
         <h1>${s.name.replace(/&/g, "&amp;")}</h1>
@@ -252,10 +260,6 @@ ${HEADER}
             <h2>Prefer to call?</h2>
             <a class="sp-side__phone" href="tel:${PHONE_TEL}">${PHONE_DISPLAY}</a>
             <p>Mon–Fri 7am–9pm · Sat 7am–5pm · Sun closed</p>
-          </div>
-          <div class="sp-side__card sp-side__card--promo">
-            <h2>Spring Sale</h2>
-            <p>Call-out fee normally $150 — currently <strong>FREE</strong>.</p>
           </div>
         </aside>
       </div>
@@ -295,9 +299,9 @@ function homeHubCard(c) {
    the hub instead of reachable only through related links. The build fails
    if a service page is missing from it or listed twice. */
 const HUB_GROUPS = [
-  ["Turf", ["natural-turf-installation", "synthetic-turf-installation", "turf-installation", "turf-preparation-levelling-drainage", "turf-repair-patching"]],
+  ["Turf", ["natural-turf-installation", "synthetic-turf-installation", "turf-installation", "turf-preparation-levelling-drainage"]],
   ["Landscape construction", ["complete-landscape-transformations", "garden-design", "hard-landscaping", "paving", "stepping-stone-paths", "retaining-walls", "timber-decking", "landscaping-features"]],
-  ["Gardens &amp; planting", ["soft-landscaping", "plants-garden-beds-mulch", "garden-planting", "mulching", "irrigation-repairs"]],
+  ["Gardens &amp; planting", ["soft-landscaping", "plants-garden-beds-mulch", "garden-improvements", "mulching", "irrigation-repairs"]],
   ["Property care", ["property-maintenance", "lawn-mowing", "garden-care", "hedge-trimming-pruning", "weed-control-spraying"]],
 ];
 {

@@ -75,6 +75,16 @@
   ],
   "redirects": [
     {
+      "source": "/services/turf-repair-patching",
+      "destination": "/services/garden-improvements",
+      "permanent": true
+    },
+    {
+      "source": "/services/garden-planting",
+      "destination": "/services/plants-garden-beds-mulch",
+      "permanent": true
+    },
+    {
       "source": "/services/natural-turf-solutions",
       "destination": "/services/natural-turf-installation",
       "permanent": true
