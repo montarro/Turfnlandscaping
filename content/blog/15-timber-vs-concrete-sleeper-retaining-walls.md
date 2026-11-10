@@ -14,14 +14,14 @@ heroAlt: "Dark-stained timber sleeper retaining wall with galvanised steel posts
 heroCaption: "A dark-stained timber sleeper wall with galvanised posts, from our stained sleeper raised garden project."
 relatedServices: ["Retaining Walls", "Hard Landscaping"]
 suggestedInternalLinks: ["/services/retaining-walls", "/blog/does-yard-need-retaining-wall-melbourne", "/quote"]
-status: "Ready after Sebastian's technical and compliance review"
+status: "Published 10 Nov 2026 — Sebastian's technical and compliance review not yet recorded"
 ---
 
 # Timber vs Concrete Sleeper Retaining Walls: What Changes the Decision?
 
-Most garden retaining walls on Melbourne homes are sleeper walls: horizontal sleepers slotted between steel posts set in concrete footings. The posts do the structural work either way. The choice most owners face is the sleeper itself, timber or concrete.
+Sleeper walls are among the most common garden retaining walls on Melbourne homes: horizontal sleepers slotted between steel posts set in concrete footings. The posts and footings do most of the structural work either way. The choice most owners face is the sleeper itself, timber or concrete.
 
-Both work well when they are built properly. Timber costs less up front and has a warmer look; concrete lasts longer and asks for less attention. Height, drainage, the style of the house and how long you plan to stay usually decide it. If you are still working out whether you need a wall at all, start with [does your Melbourne yard need a retaining wall?](/blog/does-yard-need-retaining-wall-melbourne)
+Both work well when they are built properly. Height, drainage, the style of the house and how long you plan to stay usually decide it. If you are still working out whether you need a wall at all, start with [does your Melbourne yard need a retaining wall?](/blog/does-yard-need-retaining-wall-melbourne)
 
 ## The short answer
 
@@ -35,32 +35,32 @@ Timber sleepers suit lower walls, raised garden beds and projects where budget a
 | Lifespan | Shorter; depends on treatment, drainage and soil contact | Longer, when well made and well drained |
 | Look | Warm; can be stained or left to weather | Plain grey, or textured finishes such as woodgrain or stone |
 | Upkeep | Check for decay; re-coat if stained | Little beyond keeping the drainage clear |
-| Handling | Light and easy to cut on site | Heavy; site access and machinery matter |
+| Handling | Lighter, easy to cut on site | Heavy; site access and machinery matter |
 | Curves and odd lengths | Easy to cut to suit | Made in set lengths, less flexible |
 
 ## Timber sleepers: the treatment matters
 
-Most timber retaining walls use treated pine. Timber in contact with the ground should carry an in-ground hazard rating, H4 at a minimum, and the treatment class should be confirmed before the sleepers arrive. Hardwood sleepers are another option where a heavier, darker timber suits the design.
+Most timber retaining walls use treated pine. Timber in contact with the ground should carry an in-ground hazard rating, H4 at a minimum and H5 where the wall is structural or the ground stays wet, and the treatment class should be confirmed before the sleepers arrive. Hardwood sleepers are another option where a heavier, darker timber suits the design.
 
 Even well-treated timber eventually breaks down where it stays damp against soil, and the bottom sleeper usually goes first. Good drainage behind the wall extends its life considerably. A stain, like the dark finish on the wall at the top of this article, changes the look and adds a layer of protection, but it needs re-coating over the years.
 
-![Timber sleepers slotted between galvanised steel posts during construction, before backfilling](/assets/images/blog-inline-sleeper-wall-under-construction.webp "Sleepers slotted between galvanised posts during construction, before the wall is backfilled.")
+![Timber sleepers slotted between galvanised steel posts during construction, before backfilling](/assets/images/blog-inline-sleeper-wall-under-construction.webp "Sleepers going into galvanised posts during construction.")
 
 ## Concrete sleepers: quality varies
 
-Concrete sleepers do not rot, are not attractive to termites and do not burn. They are reinforced with steel, and the quality of that reinforcement and of the concrete itself varies between manufacturers. Well-made sleepers stay straight and clean for decades; poorly made ones can chip, crack or show rust staining.
+Concrete sleepers do not rot, are not attractive to termites and do not burn. They are reinforced with steel, and the quality of that reinforcement and of the concrete itself varies between manufacturers. Well-made sleepers stay straight for decades; poorly made ones can chip, crack or show rust staining.
 
 They are also heavy. A long wall down a narrow side yard, where every sleeper goes in by hand, takes more time and labour than the same wall with open access for a small machine.
 
-## The steel posts carry the load
+## Posts and footings matter most
 
-Both systems rely on galvanised steel posts set in concrete footings. Post size, spacing and footing depth depend on the wall height, the soil and anything sitting above the wall, such as a driveway, fence or slope. A wall that leans after a few winters usually has undersized posts or shallow footings rather than the wrong sleepers.
+Both systems rely on galvanised steel posts set in concrete footings. Post size, spacing and footing depth depend on the wall height, the soil and anything sitting above the wall, such as a driveway, fence or slope. A wall that leans after a few winters usually has undersized posts, shallow footings or poor drainage, not the wrong sleepers.
 
 Concrete sleepers are heavier than timber, so the posts and footings must be designed for the product actually being used.
 
 ## Drainage behind the wall
 
-Water is the main enemy of any retaining wall. A properly built sleeper wall has an agricultural drain behind the bottom course, free-draining gravel behind the sleepers and somewhere sensible for that water to go. For timber, good drainage means a longer life. For concrete, it means the wall stays straight.
+Water is the main enemy of any retaining wall. A properly built sleeper wall has an agricultural drain behind the bottom course, free-draining gravel behind the sleepers and somewhere sensible for that water to go. For both, it relieves the water pressure that pushes walls over; for timber it also slows rot.
 
 Runoff from roofs, paving and neighbouring yards should be considered at the same time, so the new wall does not create a wet area somewhere else.
 

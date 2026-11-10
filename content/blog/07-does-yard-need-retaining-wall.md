@@ -59,7 +59,7 @@ Drainage should discharge to an appropriate location rather than creating a new 
 
 Timber sleepers can create a warm, straightforward landscape appearance. Masonry, block or stone systems offer different structural, durability and visual characteristics. The right choice depends on height, loading, soil, access, curves, budget and how the wall relates to the house.
 
-Material appearance should be decided after structural needs are understood. A product suited to a low garden edge may not suit a more demanding retaining situation. For the most common choice on Melbourne homes, see our comparison of [timber vs concrete sleeper retaining walls](/blog/timber-vs-concrete-sleeper-retaining-walls).
+Material appearance should be decided after structural needs are understood. A product suited to a low garden edge may not suit a more demanding retaining situation. If you are weighing up sleeper walls, see our comparison of [timber vs concrete sleeper retaining walls](/blog/timber-vs-concrete-sleeper-retaining-walls).
 
 ## Boundaries, approvals and specialist input
 

@@ -56,8 +56,6 @@ const INLINE = [
   { slug: "buffalo-couch-kikuyu-turf-melbourne", out: "blog-inline-kikuyu-close-up.webp", w: 800, h: 600,
     from: path.join(ROOT, "assets", "images", "turf images web", "Types of grass", "detail-kikuyu-turf-texture.webp") },
   // narrow-side-yard-landscaping-melbourne
-  { slug: "narrow-side-yard-landscaping-melbourne", out: "blog-inline-side-yard-townhouse-before.webp", w: 1200, h: 800,
-    from: path.join(SEB, "1 - Natural turf Solutions", "Commercial", "Project 1", "PXL_20260318_234326645.jpg") },
   { slug: "narrow-side-yard-landscaping-melbourne", out: "blog-inline-side-yard-timber-edge.webp", w: 800, h: 600,
     from: path.join(ROOT, "assets", "images", "turf images web", "proj-covered-deck-sideyard-after-1.webp") },
   { slug: "narrow-side-yard-landscaping-melbourne", out: "blog-inline-side-path-pebble-planting.webp", w: 800, h: 600,
