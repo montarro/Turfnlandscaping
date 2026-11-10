@@ -121,6 +121,36 @@ ${dropColumns}
     ${MOBILE_NAV}
   </header>`;
 
+/* Footer link row: every live service page plus Before & After, so each one
+   is linked from every page (several are not in the mega-menu). index.html,
+   404.html, quote.html and privacy-policy.html carry a pasted copy of the
+   rendered markup — if you change this list, mirror it there. */
+const FOOTER_LINKS = [
+  ["/services/natural-turf-installation", "Natural Turf"],
+  ["/services/synthetic-turf-installation", "Synthetic Turf"],
+  ["/services/turf-preparation-levelling-drainage", "Turf Preparation &amp; Drainage"],
+  ["/services/retaining-walls", "Retaining Walls"],
+  ["/services/paving", "Paving"],
+  ["/services/stepping-stone-paths", "Stepping-Stone Paths"],
+  ["/services/hard-landscaping", "Hard Landscaping"],
+  ["/services/soft-landscaping", "Soft Landscaping"],
+  ["/services/garden-design", "Garden Design"],
+  ["/services/plants-garden-beds-mulch", "Plants, Garden Beds &amp; Mulch"],
+  ["/services/landscaping-features", "Landscaping Features"],
+  ["/services/complete-landscape-transformations", "Complete Landscape Transformations"],
+  ["/services/garden-improvements", "Garden Improvements"],
+  ["/services/property-maintenance", "Property Maintenance"],
+  ["/services/lawn-mowing", "Lawn Mowing"],
+  ["/services/garden-care", "Garden Care"],
+  ["/services/irrigation-repairs", "Irrigation"],
+  ["/services/weed-control-spraying", "Weed Control"],
+  ["/services/hedge-trimming-pruning", "Hedge Trimming"],
+  ["/before-and-after", "Before &amp; After"],
+];
+const FOOTER_LINKS_HTML = `<nav class="footer__links" aria-label="Services">
+        ${FOOTER_LINKS.map(([href, label]) => `<a href="${href}">${label}</a>`).join("\n        ")}
+      </nav>`;
+
 const FOOTER = `
   <footer class="site-footer">
     <div class="wrap">
@@ -149,6 +179,7 @@ const FOOTER = `
           </ul>
         </div>
       </div>
+      ${FOOTER_LINKS_HTML}
       <!-- Montarro credit link (montarro.com) is repeated in the hand-written
            footers: index.html, 404.html, quote.html, privacy-policy.html. -->
       <div class="footer__bottom">
@@ -197,4 +228,4 @@ function cardSrcset(src, sizes = "(min-width: 1020px) 380px, (min-width: 700px) 
   return small === src ? "" : ` srcset="${small} 800w, ${src} 1200w" sizes="${sizes}"`;
 }
 
-module.exports = { HEADER, FOOTER, FOOTER_SCRIPTS, NAV_TOGGLE, MOBILE_NAV, PHONE_DISPLAY, PHONE_TEL, beforeAfterBlock, cardSrcset };
+module.exports = { HEADER, FOOTER, FOOTER_LINKS_HTML, FOOTER_SCRIPTS, NAV_TOGGLE, MOBILE_NAV, PHONE_DISPLAY, PHONE_TEL, beforeAfterBlock, cardSrcset };

@@ -300,7 +300,7 @@ function homeHubCard(c) {
 const HUB_GROUPS = [
   ["Turf", ["natural-turf-installation", "synthetic-turf-installation", "turf-preparation-levelling-drainage"]],
   ["Landscape construction", ["complete-landscape-transformations", "garden-design", "hard-landscaping", "paving", "stepping-stone-paths", "retaining-walls", "landscaping-features"]],
-  ["Gardens &amp; planting", ["soft-landscaping", "plants-garden-beds-mulch", "garden-improvements", "mulching", "irrigation-repairs"]],
+  ["Gardens &amp; planting", ["soft-landscaping", "plants-garden-beds-mulch", "garden-improvements", "irrigation-repairs"]],
   ["Property care", ["property-maintenance", "lawn-mowing", "garden-care", "hedge-trimming-pruning", "weed-control-spraying"]],
 ];
 {

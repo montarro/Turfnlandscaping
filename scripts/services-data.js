@@ -601,7 +601,7 @@ module.exports = {
         { img: "proj-bedrefresh-after-1", alt: "Reshaped front garden bed with fresh dark mulch, a white-pebble feature and compact planting" },
         { img: P.sleeper2, alt: "Pebble-edged planting strip along a sleeper wall" },
       ],
-      related: ["soft-landscaping", "garden-care", "mulching", "garden-improvements"],
+      related: ["soft-landscaping", "garden-care", "weed-control-spraying", "garden-improvements"],
     },
   ],
 
@@ -803,7 +803,7 @@ module.exports = {
         { img: P.planterAfter, alt: "The same garden finished after clearing, treatment and landscaping" },
       ],
       beforeAfter: COURTYARD_BA,
-      related: ["lawn-mowing", "mulching", "garden-care", "garden-improvements"],
+      related: ["lawn-mowing", "plants-garden-beds-mulch", "garden-care", "garden-improvements"],
     },
 
     /* ================= 16. HEDGES ================= */
@@ -870,16 +870,6 @@ module.exports = {
       ],
       beforeAfter: BEDREFRESH_BA,
       related: ["plants-garden-beds-mulch", "weed-control-spraying", "natural-turf-installation", "garden-care"],
-    },
-    {
-      slug: "mulching",
-      name: "Mulching",
-      short: "Mulch",
-      tagline: "Quality mulch, properly laid — better beds, fewer weeds, less watering.",
-      image: P.softCard,
-      intro: "Mulch is the cheapest improvement a garden can get: it holds moisture, suppresses weeds, feeds the soil as it breaks down and instantly tidies every bed. We supply and spread quality mulch at proper depth, with clean edges.",
-      included: ["Supply of organic and decorative mulches", "Bed preparation and weeding first", "Spreading at correct depth", "Clean, defined edges", "Advice on the right mulch per area"],
-      related: ["plants-garden-beds-mulch", "soft-landscaping", "garden-care", "weed-control-spraying"],
     },
     {
       slug: "complete-landscape-transformations",

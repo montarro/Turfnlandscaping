@@ -153,7 +153,7 @@ module.exports = [
     relatedServices: [
       ["/services/retaining-walls", "Retaining Walls"],
       ["/services/natural-turf-installation", "Natural Turf"],
-      ["/services/mulching", "Mulching"],
+      ["/services/plants-garden-beds-mulch", "Plants, Garden Beds & Mulch"],
     ],
   },
   {

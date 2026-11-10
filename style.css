@@ -829,8 +829,16 @@ html:not(.js) .ba__divider, html:not(.js) .ba__handle { display: none; }
 .footer__socials svg { width: 22px; height: 22px; color: #e4ecdf; display: block; transition: color .18s ease; }
 .footer__socials a:hover svg, .footer__socials a:focus-visible svg { color: var(--leaf); }
 .footer__cta { margin-top: 1.4rem; }
+/* Plain text row of every service page — internal links for crawlers, quiet for people. */
+.footer__links {
+  margin-top: 2.2rem; display: flex; flex-wrap: wrap; gap: .45rem 1.2rem;
+  font-size: .82rem; line-height: 1.5;
+}
+.site-footer .footer__links a { color: #b9c9b3; }
+.site-footer .footer__links a:hover { color: #fff; }
+@media (max-width: 699px) { .footer__links { row-gap: .7rem; } }
 .footer__bottom {
-  margin-top: 2.6rem; padding-top: 1.4rem; border-top: 1px solid var(--line-on-dark);
+  margin-top: 2.2rem; padding-top: 1.4rem; border-top: 1px solid var(--line-on-dark);
   display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; justify-content: space-between;
   font-size: .85rem; color: #93a88d;
 }
