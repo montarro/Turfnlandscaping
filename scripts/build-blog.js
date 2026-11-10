@@ -35,6 +35,8 @@ const LINK_MAP = {
   "/services/custom-landscaping": "/services/complete-landscape-transformations",
   "/services/plants-mulch": "/services/plants-garden-beds-mulch",
   "/services/pavers-stepping-stones": "/services/paving",
+  // the thin Mulching page was merged into Plants, Garden Beds & Mulch (301 in vercel.json)
+  "/services/mulching": "/services/plants-garden-beds-mulch",
   // no standalone /commercial page exists; commercial work is covered by the
   // property-maintenance service page
   "/commercial": "/services/property-maintenance",

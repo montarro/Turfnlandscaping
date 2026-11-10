@@ -46,7 +46,7 @@ Layering groundcovers, shrubs and a few feature plants reduces bare soil without
 
 ## Mulch garden beds properly
 
-Mulch helps hold soil moisture, suppresses many weeds and gives beds a finished look. It is not a permanent weed barrier, and it should be kept away from plant stems and building materials rather than piled against them. Top it up as it breaks down; [mulching](/services/mulching) is usually a once-a-year job rather than a constant one.
+Mulch helps hold soil moisture, suppresses many weeds and gives beds a finished look. It is not a permanent weed barrier, and it should be kept away from plant stems and building materials rather than piled against them. Top it up as it breaks down; [mulching](/services/plants-garden-beds-mulch) is usually a once-a-year job rather than a constant one.
 
 Organic mulch gradually breaks down and feeds the soil. Decorative stone and pebbles have a different look and maintenance profile: they do not need topping up as often, but they hold leaf litter, can let weeds through without a suitable base, and become hot in exposed spots. Choose the material as part of the garden, not only for colour.
 

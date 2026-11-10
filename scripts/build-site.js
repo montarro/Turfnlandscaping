@@ -13,6 +13,16 @@ const { execFileSync } = require("child_process");
 const ROOT = path.join(__dirname, "..");
 const DIST = path.join(ROOT, "dist");
 
+// The hand-written pages carry a pasted copy of the footer service links;
+// fail the build if any copy has drifted from scripts/chrome.js.
+const { FOOTER_LINKS_HTML } = require("./chrome.js");
+const drifted = ["index.html", "404.html", "quote.html", "privacy-policy.html"]
+  .filter((f) => !fs.readFileSync(path.join(ROOT, f), "utf8").includes(FOOTER_LINKS_HTML));
+if (drifted.length) {
+  console.error(`Footer service links out of step with scripts/chrome.js in: ${drifted.join(", ")}`);
+  process.exit(1);
+}
+
 function copy(rel) {
   const src = path.join(ROOT, rel);
   const dest = path.join(DIST, rel);

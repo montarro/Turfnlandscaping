@@ -115,6 +115,11 @@
       "permanent": true
     },
     {
+      "source": "/services/mulching",
+      "destination": "/services/plants-garden-beds-mulch",
+      "permanent": true
+    },
+    {
       "source": "/suburbs/werribee",
       "destination": "/",
       "permanent": true
