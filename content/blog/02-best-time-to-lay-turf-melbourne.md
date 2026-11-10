@@ -53,7 +53,7 @@ Winter is not a blanket no. Tall fescue is a cool-season grass that keeps growin
 
 ## Match the variety to the season and the site
 
-The right variety depends on sun, wear and how much water and mowing you are prepared to give. Turf growers treat six hours of direct sun a day as full sun; less than that and the choice narrows.
+The right variety depends on sun, wear and how much water and mowing you are prepared to give. Turf growers treat six hours of direct sun a day as full sun; less than that and the choice narrows. Our guide to [buffalo, couch and kikuyu](/blog/buffalo-couch-kikuyu-turf-melbourne) compares the three warm-season types in more detail.
 
 - **Soft-leaf buffalo:** shade tolerant with a plush leaf, the family-lawn choice on most Melbourne blocks. Best laid in spring or early autumn.
 - **Couch:** fine-leafed and hard-wearing in full sun, recovers fast from heavy traffic, goes brown and dormant in winter. Wants warm soil to establish.

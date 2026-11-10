@@ -34,6 +34,39 @@ const RAW_DIRS = [
   path.join(ROOT, "assets", "photos", "raw-14-sep"),
   // client-supplied WebPs for the turf pages (committed, so these always exist)
   path.join(ROOT, "assets", "images", "turf images web"),
+  // Sebastian's media drop (gitignored, like the folders above)
+  path.join(ROOT, "photos-from-seb", "Bastiano Media ", "1 - Natural turf Solutions", "Residential"),
+  path.join(ROOT, "photos-from-seb", "Bastiano Media ", "1 - Natural turf Solutions", "Commercial", "Project 1"),
+  path.join(ROOT, "photos-from-seb", "Bastiano Media ", "3 - Retaining walls", "Project 1"),
+];
+
+/* Photos used inside an article's text (![alt](/assets/images/…) lines in the
+   draft). Same arrangement as the heroes: the source is a raw photo drop, the
+   committed output is a WebP. `w`/`h` set the shape: 1200x800 for a photo that
+   runs the reading column, 800x600 for one in a row of two or three. `pos` is
+   a crop as in CROP below. Written when missing, or when its article's slug is
+   passed on the command line. */
+const SEB = path.join(ROOT, "photos-from-seb", "Bastiano Media ");
+const INLINE = [
+  // buffalo-couch-kikuyu-turf-melbourne
+  { slug: "buffalo-couch-kikuyu-turf-melbourne", out: "blog-inline-sir-walter-buffalo-close-up.webp", w: 800, h: 600,
+    from: path.join(ROOT, "assets", "images", "turf images web", "Types of grass", "detail-sir-walter-buffalo-turf-texture.webp") },
+  { slug: "buffalo-couch-kikuyu-turf-melbourne", out: "blog-inline-santa-ana-couch-close-up.webp", w: 800, h: 600,
+    from: path.join(ROOT, "assets", "images", "turf images web", "Types of grass", "detail-santa-ana-couch-turf-texture.webp") },
+  { slug: "buffalo-couch-kikuyu-turf-melbourne", out: "blog-inline-kikuyu-close-up.webp", w: 800, h: 600,
+    from: path.join(ROOT, "assets", "images", "turf images web", "Types of grass", "detail-kikuyu-turf-texture.webp") },
+  // narrow-side-yard-landscaping-melbourne
+  { slug: "narrow-side-yard-landscaping-melbourne", out: "blog-inline-side-yard-townhouse-before.webp", w: 1200, h: 800,
+    from: path.join(SEB, "1 - Natural turf Solutions", "Commercial", "Project 1", "PXL_20260318_234326645.jpg") },
+  { slug: "narrow-side-yard-landscaping-melbourne", out: "blog-inline-side-yard-timber-edge.webp", w: 800, h: 600,
+    from: path.join(ROOT, "assets", "images", "turf images web", "proj-covered-deck-sideyard-after-1.webp") },
+  { slug: "narrow-side-yard-landscaping-melbourne", out: "blog-inline-side-path-pebble-planting.webp", w: 800, h: 600,
+    from: path.join(SEB, "5 - Garden Design", "1 job", "PXL_20260630_015759504.jpg") },
+  // timber-vs-concrete-sleeper-retaining-walls
+  { slug: "timber-vs-concrete-sleeper-retaining-walls", out: "blog-inline-sleeper-wall-under-construction.webp", w: 1200, h: 800,
+    from: path.join(SEB, "3 - Retaining walls", "Project 1", "PXL_20260727_033747489.jpg") },
+  { slug: "timber-vs-concrete-sleeper-retaining-walls", out: "blog-inline-stained-sleeper-wall-front.webp", w: 1200, h: 800,
+    from: path.join(SEB, "3 - Retaining walls", "Project 1", "20260820_174415.jpg") },
 ];
 
 const field = (fm, key) => (fm.match(new RegExp(`^${key}:\\s*"(.*)"\\s*$`, "m")) || [])[1];
@@ -55,6 +88,9 @@ const CROP = {
   "commercial-landscaping-scope-checklist-melbourne": { hero: 0.4, card: 0.35 },
   // sprinkler lawn: the head and its flag sit mid-frame; keep the playhouse and fence line above it
   "new-landscape-maintenance-guide": { hero: 0.45, card: 0.45 },
+  // tall phone shot: a crew member and ute stand at the right edge, so keep the
+  // left three-quarters (x/w are shares of the width) and the lawn mid-frame
+  "buffalo-couch-kikuyu-turf-melbourne": { hero: { x: 0, w: 0.76, y: 0.47 }, card: { x: 0, w: 0.76, y: 0.45 } },
 };
 
 const SIZES = {
@@ -65,16 +101,24 @@ const SIZES = {
 };
 
 async function cropTo(src, size, pos) {
-  if (typeof pos !== "number") {
+  const box = pos && typeof pos === "object";
+  if (typeof pos !== "number" && !box) {
     return sharp(src).resize(size.w, size.h, { fit: "cover", position: pos || "centre" });
   }
-  const m = await sharp(src).rotate().metadata();
+  // metadata() reports the stored orientation; work on the upright image
+  const upright = await sharp(src).rotate().toBuffer();
+  const m = await sharp(upright).metadata();
   const ratio = size.w / size.h;
-  let w = m.width, h = Math.round(m.width / ratio);
+  // a box { x, w, y } narrows the frame first: x and w are shares of the width,
+  // y is the share of the spare height cut from the top
+  const frameW = box ? Math.round(m.width * pos.w) : m.width;
+  const frameLeft = box ? Math.round(m.width * pos.x) : 0;
+  const share = box ? pos.y : pos;
+  let w = frameW, h = Math.round(frameW / ratio);
   if (h > m.height) { h = m.height; w = Math.round(m.height * ratio); }
-  const left = Math.round((m.width - w) / 2);
-  const top = Math.round((m.height - h) * pos);
-  return sharp(src).rotate().extract({ left, top, width: w, height: h }).resize(size.w, size.h);
+  const left = frameLeft + Math.round((frameW - w) / 2);
+  const top = Math.round((m.height - h) * share);
+  return sharp(upright).extract({ left, top, width: w, height: h }).resize(size.w, size.h);
 }
 
 (async () => {
@@ -111,5 +155,13 @@ async function cropTo(src, size, pos) {
       await (await cropTo(from, size, pos)).webp({ quality: size.q, effort: 6 }).toFile(path.join(OUT, size.file(slug)));
     }
     console.log(`blog-${slug} (hero, 1200, 800, card)  <-  ${path.relative(ROOT, from)}${crop ? `  [${JSON.stringify(crop)}]` : ""}`);
+  }
+
+  for (const img of INLINE) {
+    const out = path.join(OUT, img.out);
+    if (fs.existsSync(out) && !only.includes(img.slug)) continue;
+    if (!fs.existsSync(img.from)) { console.error("MISSING SOURCE:", path.relative(ROOT, img.from), "for", img.out); continue; }
+    await (await cropTo(img.from, { w: img.w, h: img.h }, img.pos)).webp({ quality: 72, effort: 6 }).toFile(out);
+    console.log(`${img.out}  <-  ${path.relative(ROOT, img.from)}`);
   }
 })();

@@ -158,6 +158,24 @@
   max-width: 44rem;
 }
 
+/* ---------- Article: photos inside the text ----------
+   One photo runs the width of the reading column at 3:2; a row of two or
+   three (consecutive image lines in the draft) sits side by side at 4:3 and
+   stacks on phones. */
+.bl-figure { margin: 1.8rem 0; }
+.bl-figure img {
+  width: 100%; aspect-ratio: 3 / 2; object-fit: cover;
+  border-radius: 16px; background: var(--sage-100);
+}
+.bl-figure figcaption { margin-top: .55rem; color: var(--muted); font-size: .85rem; line-height: 1.5; }
+.bl-figures { display: grid; gap: 1rem; margin: 1.8rem 0; }
+.bl-figures .bl-figure { margin: 0; min-width: 0; }
+.bl-figures .bl-figure img { aspect-ratio: 4 / 3; border-radius: 12px; }
+@media (min-width: 560px) {
+  .bl-figures--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bl-figures--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 /* ---------- Article: layout ---------- */
 .bl-layout { display: grid; gap: 2.4rem; align-items: start; padding-bottom: clamp(3rem, 7vw, 5rem); }
 .bl-body { min-width: 0; }

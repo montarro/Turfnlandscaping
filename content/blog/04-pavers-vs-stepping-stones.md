@@ -43,7 +43,7 @@ The base, the falls and the edge restraint still decide whether it lasts. Pavers
 
 ## When stepping stones work well
 
-Stepping stones suit lower-traffic garden routes and places where a continuous hard strip would feel heavy. They sit happily in turf, gravel, groundcover or mulch and help break up a narrow side yard.
+Stepping stones suit lower-traffic garden routes and places where a continuous hard strip would feel heavy. They sit happily in turf, gravel, groundcover or mulch and help break up a narrow side yard. Our guide to [landscaping a narrow side yard](/blog/narrow-side-yard-landscaping-melbourne) covers the rest of that space.
 
 Spacing has to feel natural. Stones that are too small, too far apart or set at different heights are uncomfortable and can be a trip hazard. For a route used every day, set the stones to a normal walking stride, flush with the surface around them, rather than arranging them for the photograph.
 

@@ -8,8 +8,9 @@
      node scripts/build-blog.js        (run by scripts/build-site.js)
 
    No runtime dependencies — the markdown subset the drafts use (h1-h3,
-   bullet and numbered lists, paragraphs, inline links) is rendered by hand
-   rather than pulling in a parser for four constructs.
+   bullet and numbered lists, paragraphs, inline links, pipe tables and
+   ![alt](/assets/images/…) photo lines) is rendered by hand rather than
+   pulling in a parser for a handful of constructs.
    ===================================================================== */
 const fs = require("fs");
 const path = require("path");
@@ -150,9 +151,30 @@ function renderMarkdown(body, report) {
     table = null;
   };
 
+  // ![alt](/assets/images/x.webp "caption") on its own line. Consecutive image
+  // lines form one row (e.g. three turf close-ups side by side); a blank line
+  // or any other content ends the row.
+  let figs = null;
+  const closeFigs = () => {
+    if (!figs) return;
+    const one = (f) => `<figure class="bl-figure"><img src="${f.src}" alt="${esc(f.alt)}" loading="lazy" decoding="async" />${f.cap ? `<figcaption>${inline(f.cap, report)}</figcaption>` : ""}</figure>`;
+    out.push(figs.length === 1 ? one(figs[0]) : `<div class="bl-figures bl-figures--${figs.length}">${figs.map(one).join("")}</div>`);
+    figs = null;
+  };
+
   for (let raw of lines) {
     const line = raw.trimEnd();
-    if (!line.trim()) { closeList(); closeTable(); continue; }
+    if (!line.trim()) { closeList(); closeTable(); closeFigs(); continue; }
+
+    const img = line.trim().match(/^!\[([^\]]*)\]\((\S+)(?:\s+"([^"]*)")?\)$/);
+    if (img) {
+      closeList(); closeTable();
+      if (!img[1].trim()) throw new Error(`image without alt text: ${img[2]}`);
+      report.images.push(img[2]);
+      (figs = figs || []).push({ alt: img[1], src: img[2], cap: img[3] });
+      continue;
+    }
+    closeFigs();
 
     // | a | b | pipe tables; the |---|---| separator row is skipped
     if (/^\|.*\|$/.test(line.trim())) {
@@ -190,6 +212,7 @@ function renderMarkdown(body, report) {
   }
   closeList();
   closeTable();
+  closeFigs();
   return out.join("\n            ");
 }
 
@@ -199,7 +222,7 @@ const posts = fs.readdirSync(POSTS_DIR)
   .sort()
   .map((file) => {
     const { data, body } = parseFrontmatter(fs.readFileSync(path.join(POSTS_DIR, file), "utf8"));
-    const report = { links: [] };
+    const report = { links: [], images: [] };
     const html = renderMarkdown(body, report);
     const words = body.split(/\s+/).filter(Boolean).length;
     const services = (data.relatedServices || []).filter((s) => SERVICE_ROUTE[s]);
@@ -208,6 +231,7 @@ const posts = fs.readdirSync(POSTS_DIR)
       file, ...data, body, html,
       published: String(data.published).trim() === "true",
       links: report.links,
+      images: report.images,
       services, topics,
       readMinutes: Math.max(3, Math.round(words / 210)),
       // first paragraph of the draft, used as the card standfirst
@@ -262,8 +286,14 @@ for (const p of posts) {
     }
   }
 }
+// in-article photos must be committed files, or the page ships a broken image
+for (const p of posts) {
+  for (const src of p.images) {
+    if (!src.startsWith("/assets/images/") || !fs.existsSync(path.join(ROOT, src))) badLinks.push(`${p.file}: ${src} (no such image)`);
+  }
+}
 if (badLinks.length) {
-  console.error("Blog build failed — internal links point at routes that do not exist:");
+  console.error("Blog build failed — internal links or images point at files that do not exist:");
   badLinks.forEach((b) => console.error("  " + b));
   process.exit(1);
 }
