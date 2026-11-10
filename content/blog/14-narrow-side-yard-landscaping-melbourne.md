@@ -66,7 +66,7 @@ Narrow beds work when the plants suit them. Choose upright, compact plants or cl
 ![Side-yard lawn with a raised timber edge holding a planted hedge bed back along the fence](/assets/images/blog-inline-side-yard-timber-edge.webp "A raised timber edge holds a planted hedge bed back from the lawn along the fence.")
 ![Exposed aggregate path along the house beside a narrow strip of white pebbles and shrubs](/assets/images/blog-inline-side-path-pebble-planting.webp "A narrow planting strip of white pebbles and shrubs beside a path along the house.")
 
-Keep garden beds, mulch and soil well below the weep holes in the brickwork and clear of the slab edge. Building soil up against the house can let moisture and pests in where they should not be.
+Wherever turf, mulch or a garden bed meets the house, keep the finished level below the weep holes in the brickwork and the slab edge visible. Turf can run right up to the wall, as it does at the top of this article, provided the soil underneath is not built up against it. Raising the ground against the house can let moisture and pests in where they should not be.
 
 ## Shade and drainage between buildings
 
